@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
 import Button from '@/Components/Button';
+import Container from '@/Components/Container';
 import Guest from '@/Layouts/Guest';
 import Input from '@/Components/Input';
 import Label from '@/Components/Label';
+import CheckBox from '@/Components/CheckBox';
 import Select from 'react-select';
 import Uploady from "@rpldy/uploady";
 import UploadButton from "@rpldy/upload-button";
 import UploadPreview from "@rpldy/upload-preview";
 import ValidationErrors from '@/Components/ValidationErrors';
 import { Head, Link, useForm } from '@inertiajs/inertia-react';
-import { Container } from 'postcss';
 
 export default function Register() {
     //Reemplazar por opciones en base de datos
@@ -31,6 +32,7 @@ export default function Register() {
         address: '',
         address_detail: '',
         postal_code: '',
+        cellphone: '',
         phone: '',
         document: '',
         t_document: '',
@@ -120,28 +122,108 @@ export default function Register() {
                     </div>
 
                     <div className='col-span-2'>
-                        <Label forInput="picture" value="Foto de Perfil" />
-                        <Uploady
-                            name="picture"
-                            value={data.picture}
-                            className="input mt-1 block w-full"
-                            autoComplete="picture"
-                            handleChange={onHandleChange}
-                            accept= 'image/*'
-                        >
-                        <Button>
-                            <UploadButton
-                            text='Subir Imagen'
-                            className='Button'
-                            />
-                        </Button>
-                        <div>
-                            <UploadPreview
-                            className='w-10'
-                            />
+                        <div className='grid gap-4'>
+                            <Label forInput="picture" value="Foto de Perfil" />
+                            <Uploady
+                                name="picture"
+                                value={data.picture}
+                                className="input mt-1 block w-full"
+                                autoComplete="picture"
+                                accept= 'image/*'
+                            >
+                                <UploadButton >
+                            <Container className='grid grid-cols-2'>
+                            <Container
+                            className='w-20 h-20'>
+                                <UploadPreview/>
+                            </Container>
+                                <Container>Subir Imagen</Container>
+                            </Container>
+                            </UploadButton>
+                            </Uploady>  
                         </div>
-                        </Uploady>  
+                    </div>
 
+                    <div>
+                        <Label forInput="country" value="País" />
+                        <Select
+                            name="country"
+                            options={options}
+                            className="mt-1 block w-full"
+                            autoComplete="country"
+                            isFocused={true}
+                            required
+                            >
+                        </Select>
+                    </div>
+
+                    <div>
+                        <Label forInput="city" value="Ciudad" />
+                        <Select
+                            name="city"
+                            options={options}
+                            className="mt-1 block w-full"
+                            autoComplete="city"
+                            isFocused={true}
+                            required
+                            >
+                        </Select>
+                    </div>
+
+                    <div>
+                        <Label forInput="region" value="Barrio/Localidad" />
+                        <Input
+                            type="text"
+                            name="region"
+                            value={data.region}
+                            className="mt-1 block w-full"
+                            autoComplete="region"
+                            isFocused={true}
+                            handleChange={onHandleChange}
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <Label forInput="address" value="Dirección" />
+                        <Input
+                            type="text"
+                            name="address"
+                            value={data.address}
+                            className="mt-1 block w-full"
+                            autoComplete="address"
+                            isFocused={true}
+                            handleChange={onHandleChange}
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <Label forInput="address_detail" value="Detalles de la Dirección" />
+                        <Input
+                            type="text"
+                            name="address_detail"
+                            value={data.address_detail}
+                            className="mt-1 block w-full"
+                            autoComplete="address_detail"
+                            isFocused={true}
+                            handleChange={onHandleChange}
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <Label forInput="postal_code" value="Código Postal" />
+                        <Input
+                            type="text"
+                            name="postal_code"
+                            value={data.postal_code}
+                            className="mt-1 block w-full"
+                            autoComplete="postal_code"
+                            isFocused={true}
+                            handleChange={onHandleChange}
+                            required
+                        />
                     </div>
 
                     <div className='col-span-2'>
@@ -155,6 +237,61 @@ export default function Register() {
                             handleChange={onHandleChange}
                             required
                         />
+                    </div>
+
+                    <div>
+                        <Label forInput="phone" value="Teléfono" />
+                        <Input
+                            type="text"
+                            name="phone"
+                            value={data.phone}
+                            className="mt-1 block w-full"
+                            autoComplete="phone"
+                            isFocused={true}
+                            handleChange={onHandleChange}
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <Label forInput="cellphone" value="Celular" />
+                        <Input
+                            type="text"
+                            name="cellphone"
+                            value={data.cellphone}
+                            className="mt-1 block w-full"
+                            autoComplete="cellphone"
+                            isFocused={true}
+                            handleChange={onHandleChange}
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <Label forInput="document" value="Documento de Identidad" />
+                        <Input
+                            type="text"
+                            name="document"
+                            value={data.document}
+                            className="mt-1 block w-full"
+                            autoComplete="document"
+                            isFocused={true}
+                            handleChange={onHandleChange}
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <Label forInput="t_document" value="Tipo de Documento" />
+                        <Select
+                            name="t_document"
+                            options={options}
+                            className="mt-1 block w-full"
+                            autoComplete="t_document"
+                            isFocused={true}
+                            required
+                            >
+                        </Select>
                     </div>
 
                     <div>
@@ -184,26 +321,21 @@ export default function Register() {
                         />
                     </div>
 
-                    <div>
-                        <Label forInput="password_confirmation" value="Confirm Password" />
-
-                        <Input
-                            type="password"
-                            name="password_confirmation"
-                            value={data.password_confirmation}
-                            className="mt-1 block w-full"
+                    <div className='col-span-2'>
+                        <CheckBox
+                            name="notifications"
                             handleChange={onHandleChange}
-                            required
                         />
+                        <label for="notifications"> ¿Desea recibir notificaciones sobre nuestras nuevas ofertas para usted?</label>
                     </div>
 
                     <div className="col-span-2 flex items-center justify-end mt-4 ">
                         <Link href={route('login')} className="underline text-sm text-gray-600 hover:text-gray-900">
-                            Already registered?
+                            ¿Ya se ha registrado?
                         </Link>
 
                         <Button className="ml-4" processing={processing}>
-                            Register
+                            Registrarme
                         </Button>
                     </div>
                 </div>
