@@ -65,7 +65,6 @@ export default function Register() {
             <ValidationErrors errors={errors} />
             <form onSubmit={submit}>
                 <div className='grid grid-cols-2 gap-4'>
-                    
                     <div>
                         <Label forInput="name" value="Nombre (s)" />
                         <Input
@@ -131,8 +130,8 @@ export default function Register() {
                                 autoComplete="picture"
                                 accept= 'image/*'
                             >
-                                <UploadButton >
-                            <Container className='grid grid-cols-2'>
+                                <UploadButton>
+                            <Container className='btn grid grid-cols-2'>
                             <Container
                             className='w-20 h-20'>
                                 <UploadPreview/>
