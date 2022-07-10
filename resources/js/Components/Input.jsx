@@ -25,7 +25,7 @@ export default function Input({
                 name={name}
                 value={value}
                 className={
-                    `border-gray-300 focus:border-indigo-600 focus:ring focus:ring-indigo-600 focus:ring-opacity-50 rounded-md shadow-sm h-4` +
+                    `border-gray-300 focus:border-indigo-600 focus:ring focus:ring-indigo-600 focus:ring-opacity-50 rounded-md shadow-sm p-0` +
                     className
                 }
                 ref={input}
