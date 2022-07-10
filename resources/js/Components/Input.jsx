@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 
 export default function Input({
-    type = 'text',
+    type = "text",
     name,
     value,
     className,
@@ -25,8 +25,8 @@ export default function Input({
                 name={name}
                 value={value}
                 className={
-                    `border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm ` +
-                    className
+                    `border-gray-300 focus:border-blue-600 rounded shadow-sm py-1.5 mt-1
+                    transition-colors hover:border-gray-400` + className
                 }
                 ref={input}
                 autoComplete={autoComplete}
