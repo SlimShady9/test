@@ -1,61 +1,66 @@
-import React, { useEffect } from 'react';
-import Button from '@/Components/Button';
-import Container from '@/Components/Container';
-import Guest from '@/Layouts/Guest';
-import Input from '@/Components/Input';
-import Label from '@/Components/Label';
-import CheckBox from '@/Components/CheckBox';
-import Select from 'react-select';
+import React, { useEffect } from "react";
+import Button from "@/Components/Button";
+import Container from "@/Components/Container";
+import Guest from "@/Layouts/Guest";
+import Input from "@/Components/Input";
+import Label from "@/Components/Label";
+import Checkbox from "@/Components/Checkbox";
+import Select from "react-select";
 import Uploady from "@rpldy/uploady";
 import UploadButton from "@rpldy/upload-button";
 import UploadPreview from "@rpldy/upload-preview";
-import ValidationErrors from '@/Components/ValidationErrors';
-import { Head, Link, useForm } from '@inertiajs/inertia-react';
+import ValidationErrors from "@/Components/ValidationErrors";
+import { Head, Link, useForm } from "@inertiajs/inertia-react";
 
 export default function Register() {
     //Reemplazar por opciones en base de datos
     const options = [
-        { value: 'particular', label: 'Particular' },
-        { value: 'empresa', label: 'Empresa' },
-        { value: 'proveedor', label: 'Proveedor' }
-      ]
+        { value: "particular", label: "Particular" },
+        { value: "empresa", label: "Empresa" },
+        { value: "proveedor", label: "Proveedor" },
+    ];
     //Constantes de la página
     const { data, setData, post, processing, errors, reset } = useForm({
-        username: '',
-        name: '',
-        surname: '',
-        t_user: '',
-        picture: '',
-        country: '',
-        city: '',
-        region: '',
-        address: '',
-        address_detail: '',
-        postal_code: '',
-        cellphone: '',
-        phone: '',
-        document: '',
-        t_document: '',
-        email: '',
-        password: '',
-        password_confirmation: '',
-        notifications: ''
+        username: "",
+        name: "",
+        surname: "",
+        t_user: "",
+        picture: "",
+        country: "",
+        city: "",
+        region: "",
+        address: "",
+        address_detail: "",
+        postal_code: "",
+        cellphone: "",
+        phone: "",
+        document: "",
+        t_document: "",
+        email: "",
+        password: "",
+        password_confirmation: "",
+        notifications: "",
     });
 
     useEffect(() => {
         return () => {
-            reset('password', 'password_confirmation', 'notifications');
+            reset("password", "password_confirmation", "notifications");
         };
     }, []);
 
     const onHandleChange = (event) => {
-        setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
+        setData(
+            event.target.name,
+            event.target.type === "checkbox"
+                ? event.target.checked
+                : event.target.value
+        );
     };
 
     const submit = (e) => {
         e.preventDefault();
 
-        post(route('register'));
+        post(route("register"));
     };
 
     return (
@@ -64,7 +69,7 @@ export default function Register() {
 
             <ValidationErrors errors={errors} />
             <form onSubmit={submit}>
-                <div className='grid grid-cols-2 gap-4'>
+                <div className="grid grid-cols-2 gap-4">
                     <div>
                         <Label forInput="name" value="Nombre (s)" />
                         <Input
@@ -116,30 +121,28 @@ export default function Register() {
                             autoComplete="t_user"
                             isFocused={true}
                             required
-                            >
-                        </Select>
+                        ></Select>
                     </div>
 
-                    <div className='col-span-2'>
-                        <div className='grid gap-4'>
+                    <div className="col-span-2">
+                        <div className="grid gap-4">
                             <Label forInput="picture" value="Foto de Perfil" />
                             <Uploady
                                 name="picture"
                                 value={data.picture}
                                 className="input mt-1 block w-full"
                                 autoComplete="picture"
-                                accept= 'image/*'
+                                accept="image/*"
                             >
                                 <UploadButton>
-                            <Container className='btn grid grid-cols-2'>
-                            <Container
-                            className='w-20 h-20'>
-                                <UploadPreview/>
-                            </Container>
-                                <Container>Subir Imagen</Container>
-                            </Container>
-                            </UploadButton>
-                            </Uploady>  
+                                    <Container className="btn grid grid-cols-2">
+                                        <Container className="w-20 h-20">
+                                            <UploadPreview />
+                                        </Container>
+                                        <Container>Subir Imagen</Container>
+                                    </Container>
+                                </UploadButton>
+                            </Uploady>
                         </div>
                     </div>
 
@@ -152,8 +155,7 @@ export default function Register() {
                             autoComplete="country"
                             isFocused={true}
                             required
-                            >
-                        </Select>
+                        ></Select>
                     </div>
 
                     <div>
@@ -165,8 +167,7 @@ export default function Register() {
                             autoComplete="city"
                             isFocused={true}
                             required
-                            >
-                        </Select>
+                        ></Select>
                     </div>
 
                     <div>
@@ -198,7 +199,10 @@ export default function Register() {
                     </div>
 
                     <div>
-                        <Label forInput="address_detail" value="Detalles de la Dirección" />
+                        <Label
+                            forInput="address_detail"
+                            value="Detalles de la Dirección"
+                        />
                         <Input
                             type="text"
                             name="address_detail"
@@ -225,7 +229,7 @@ export default function Register() {
                         />
                     </div>
 
-                    <div className='col-span-2'>
+                    <div className="col-span-2">
                         <Label forInput="email" value="Email" />
                         <Input
                             type="email"
@@ -267,7 +271,10 @@ export default function Register() {
                     </div>
 
                     <div>
-                        <Label forInput="document" value="Documento de Identidad" />
+                        <Label
+                            forInput="document"
+                            value="Documento de Identidad"
+                        />
                         <Input
                             type="text"
                             name="document"
@@ -281,7 +288,10 @@ export default function Register() {
                     </div>
 
                     <div>
-                        <Label forInput="t_document" value="Tipo de Documento" />
+                        <Label
+                            forInput="t_document"
+                            value="Tipo de Documento"
+                        />
                         <Select
                             name="t_document"
                             options={options}
@@ -289,8 +299,7 @@ export default function Register() {
                             autoComplete="t_document"
                             isFocused={true}
                             required
-                            >
-                        </Select>
+                        ></Select>
                     </div>
 
                     <div>
@@ -308,7 +317,10 @@ export default function Register() {
                     </div>
 
                     <div>
-                        <Label forInput="password_confirmation" value="Confirm Password" />
+                        <Label
+                            forInput="password_confirmation"
+                            value="Confirm Password"
+                        />
 
                         <Input
                             type="password"
@@ -320,16 +332,24 @@ export default function Register() {
                         />
                     </div>
 
-                    <div className='col-span-2'>
-                        <CheckBox
+                    <div className="col-span-2 flex gap-x-2">
+                        <Checkbox
                             name="notifications"
                             handleChange={onHandleChange}
                             text="¿Desea recibir notificaciones sobre nuestras nuevas ofertas para usted?"
                         />
+                        <label for="notifications">
+                            {" "}
+                            ¿Desea recibir notificaciones sobre nuestras nuevas
+                            ofertas para usted?
+                        </label>
                     </div>
 
                     <div className="col-span-2 flex items-center justify-end mt-4 ">
-                        <Link href={route('login')} className="underline text-sm text-gray-600 hover:text-gray-900">
+                        <Link
+                            href={route("login")}
+                            className="underline text-sm text-gray-600 hover:text-gray-900"
+                        >
                             ¿Ya se ha registrado?
                         </Link>
 
@@ -338,7 +358,6 @@ export default function Register() {
                         </Button>
                     </div>
                 </div>
-
             </form>
         </Guest>
     );
