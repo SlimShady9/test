@@ -25,8 +25,8 @@ export default function Input({
                 name={name}
                 value={value}
                 className={
-                    `border-gray-300 focus:border-indigo-600 focus:ring focus:ring-indigo-600 focus:ring-opacity-50 rounded-md shadow-sm p-0` +
-                    className
+                    `border-gray-300 focus:border-blue-600 rounded shadow-sm py-1.5 mt-1
+                    transition-colors hover:border-gray-400` + className
                 }
                 ref={input}
                 autoComplete={autoComplete}

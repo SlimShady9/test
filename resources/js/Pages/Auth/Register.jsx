@@ -135,8 +135,8 @@ export default function Register() {
                                 accept="image/*"
                             >
                                 <UploadButton>
-                                    <Container className="btn grid grid-cols-2">
-                                        <Container className="w-20 h-20">
+                                    <Container className="btn grid grid-cols-2 border-gray-200 border-2 ">
+                                        <Container className="max-w-36 max-h-36 overflow-hidden">
                                             <UploadPreview />
                                         </Container>
                                         <Container>Subir Imagen</Container>
@@ -338,11 +338,6 @@ export default function Register() {
                             handleChange={onHandleChange}
                             text="¿Desea recibir notificaciones sobre nuestras nuevas ofertas para usted?"
                         />
-                        <label for="notifications">
-                            {" "}
-                            ¿Desea recibir notificaciones sobre nuestras nuevas
-                            ofertas para usted?
-                        </label>
                     </div>
 
                     <div className="col-span-2 flex items-center justify-end mt-4 ">
