@@ -324,8 +324,8 @@ export default function Register() {
                         <CheckBox
                             name="notifications"
                             handleChange={onHandleChange}
+                            text="¿Desea recibir notificaciones sobre nuestras nuevas ofertas para usted?"
                         />
-                        <label for="notifications"> ¿Desea recibir notificaciones sobre nuestras nuevas ofertas para usted?</label>
                     </div>
 
                     <div className="col-span-2 flex items-center justify-end mt-4 ">
