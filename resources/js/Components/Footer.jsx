@@ -2,40 +2,44 @@ import { Container } from "postcss";
 import React from "react";
 
 function Footer() {
-    return <>
-                <footer>
-                    <div className="Container">
-                        <div className="row">
-                            <div className="col-12 col-lg-10 mx-auto">
-                                <div className="row">
-                                    <div className="col-6 col-lg-3">
-                                        <h2> Links</h2>
-                                        <ul className="col-12 col-md-3 list-unstyled">
-                                            <li className="font-weight-bold mb-2">Registrarse</li>
-                                            <li className="font-weight-bold mb-2">Acerca de nosotros</li>
-                                      </ul>
-                                    </div>
-                                    <div className="col-6 col-lg-3">
-                                        <h2> Otros</h2>
-                                        <ul className="col-12 col-md-3 list-unstyled">
-                                            <li className="font-weight-bold mb-2">Preguntas frecuentes</li>
-                                            <li className="font-weight-bold mb-2">Contactanos</li>
-                                            <li className="font-weight-bold mb-2">Politicas de privacidad</li>
-                                            <li className="font-weight-bold mb-2">Terminos y condiciones</li>
-                                       </ul>
-                                    </div>
-                                    <div className="col-6 col-lg-3">
-                                        <h2> Servicios</h2>
-                                        <ul className="col-12 col-md-3 list-unstyled">
-                                            <li className="font-weight-bold mb-2">Envio</li>
-                                         </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
-    </>;
+    return  <footer className="bg-bg-secondary text-text-primary">
+                <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-6 sm:px-8 px-5 py-16">
+                    <ul>
+                        <h1 className="mb-1 font-semibold">Links</h1>
+                        <li>
+                           <a className="text-text-secondary hover:text-teal-400 duration-300
+                           text-sm cursor-pointer" href="register">registrarse</a> 
+                        </li>
+                        <li>
+                           <a className="text-text-secondary duration-300
+                           text-sm cursor-pointer" >Sobre nosotros</a> 
+                        </li>
+                    </ul>
+                    <ul>
+                        <h1 className="">Otros</h1>
+                        <li>
+                           <a className="text-text-secondary hover:text-teal-400 duration-300
+                           text-sm cursor-pointer" >Contáctanos</a> 
+                        </li>
+                        <li>
+                           <a className="text-text-secondary hover:text-teal-400 duration-300
+                           text-sm cursor-pointer" >Politicas de provacidad</a> 
+                        </li>
+                        <li>
+                           <a className="text-text-secondary hover:text-teal-400 duration-300
+                           text-sm cursor-pointer" >Terminos y condiciones</a> 
+                        </li>
+                    </ul>
+                    <ul>
+                        <h1 className="mb-1 font-semibold">Servicios</h1>
+                        <li>
+                           <a className="text-text-secondary hover:text-teal-400 duration-300
+                           text-sm cursor-pointer" >Envios</a> 
+                        </li>
+                    </ul>
+                </div>
+
+            </footer>;
 }
 
 export default Footer;
