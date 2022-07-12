@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Button from "@/Components/Button";
 import Container from "@/Components/Container";
-import Guest from "@/Layouts/Guest";
+import Base from "@/Layouts/Base";
 import Input from "@/Components/Input";
 import Label from "@/Components/Label";
 import Checkbox from "@/Components/Checkbox";
@@ -64,7 +64,7 @@ export default function Register() {
     };
 
     return (
-        <Guest>
+        <Base>
             <Head title="Register" />
 
             <ValidationErrors errors={errors} />
@@ -354,6 +354,6 @@ export default function Register() {
                     </div>
                 </div>
             </form>
-        </Guest>
+        </Base>
     );
 }

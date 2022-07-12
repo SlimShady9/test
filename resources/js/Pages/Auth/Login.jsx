@@ -6,6 +6,7 @@ import Input from "@/Components/Input";
 import Label from "@/Components/Label";
 import ValidationErrors from "@/Components/ValidationErrors";
 import { Head, Link, useForm } from "@inertiajs/inertia-react";
+import Base from "@/Layouts/Base";
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -36,7 +37,7 @@ export default function Login({ status, canResetPassword }) {
     };
 
     return (
-        <Guest>
+        <Base>
             <Head title="Log in" />
 
             {status && (
@@ -104,6 +105,6 @@ export default function Login({ status, canResetPassword }) {
                     </Button>
                 </div>
             </form>
-        </Guest>
+        </Base>
     );
 }
