@@ -5,10 +5,10 @@ import Card from "@/Components/Card";
 
 export default function Base({ children }) {
     return (
-        <>
-            <Header />
-            <Card>{children}</Card>
-            <Footer />
-        </>
+        <div className="flex flex-col min-h-screen">
+            <Header className="mb-4 z-10" />
+            <Card className="m-auto">{children}</Card>
+            <Footer className="mt-4" />
+        </div>
     );
 }
