@@ -1,14 +1,17 @@
 import React, { useState } from 'react'
 import Button from './Button';
 import {VscThreeBars} from 'react-icons/vsc'
+import React, { useState } from "react";
+import Button from "./Button";
+import { Link } from "@inertiajs/inertia-react";
 
-  function NavBar(){
-    let Links =[
-      {name:"Inicio",link:"/"},
-      {name:"Sobre nosotros",link:"/"},
-      {name:"Contáctenos",link:"/"},
-      {name:"Registrarse",link:"register"},
-      {name:"Ingresar",link:"login"},
+function NavBar({ className }) {
+    let Links = [
+        { name: "Inicio", link: "/" },
+        { name: "Sobre nosotros", link: "/" },
+        { name: "Contáctenos", link: "/" },
+        { name: "Registrarse", link: "register" },
+        { name: "Ingresar", link: "login" },
     ];
     let [open,setOpen]=useState(false);
   return (
@@ -25,7 +28,7 @@ import {VscThreeBars} from 'react-icons/vsc'
         {
           Links.map((link)=>(
             <li key={link.name} className='md:ml-8 text-xl md:my-0 my-7'>
-              <a href={link.link} className='text-gray-800 hover:text-gray-400 duration-500'>{link.name}</a>
+              <Link href={link.link} className='text-gray-800 hover:text-gray-400 duration-500'>{link.name}</Link>
             </li>
           ))
         }
@@ -35,7 +38,4 @@ import {VscThreeBars} from 'react-icons/vsc'
   )
 }
 
-
-export default NavBar
-
-
+export default NavBar;

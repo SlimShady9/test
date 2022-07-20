@@ -1,15 +1,14 @@
 import React from "react";
 import Header from "@/Components/Header";
 import Footer from "@/Components/Footer";
+import Card from "@/Components/Card";
 
 export default function Base({ children }) {
     return (
-        <>
-            <Header />
-            <div className="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">_
-            {children}
-            </div>
-            <Footer />
-        </>
+        <div className="flex flex-col min-h-screen">
+            <Header className="mb-4 z-10" />
+            <Card className="m-auto">{children}</Card>
+            <Footer className="mt-4" />
+        </div>
     );
 }
