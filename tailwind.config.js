@@ -13,8 +13,15 @@ module.exports = {
             sans: ["Rubik", ...defaultTheme.fontFamily.sans],
             lato: ["Lato", ...defaultTheme.fontFamily.sans],
         },
+
+        // https://tailwindcss.com/docs/customizing-colors#customizing-colors-with-variants
+        // Custmizacion de los colores
         colors: {
+            // Para la customizacion  de un color de agrega diferentes variantes de este mismo
+            // Ejemplo para aplicar una de las variantes a un color seria de la siguiente forma:
+            // green-primary, y como prefijo bg, o text, o border, etc
             green: {
+                // Color con identificador y valor hexadecimal de este
                 primary: "#1EE300",
                 light: "#8eff80",
                 dark: "#139f00",
