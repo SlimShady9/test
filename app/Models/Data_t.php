@@ -5,13 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Param_t_service extends Model
+class Data_t extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'data_t_id',
-        't_service_id',
-     
+        'label_data',
+        'name_data',
+        'type_data',
+        'value_data',
+        'required_data',
+        'item_data',
         
     ];
 

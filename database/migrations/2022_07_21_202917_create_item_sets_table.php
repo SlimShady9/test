@@ -13,17 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('services', function (Blueprint $table) {
+        Schema::create('item_sets', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('name_service');
-            $table->string('price_service');
-            $table->bigInteger('t_service_id')->unsigned();
+            $table->bigInteger('data_t_id')->unsigned();
+            $table->bigInteger('item_t_id')->unsigned();
         });
 
-        Schema::table('services', function (Blueprint $table) {
-            $table->foreign('t_service_id')->references('id')->on('t_services');
- 
+        Schema::table('item_sets', function (Blueprint $table) {
+            $table->foreign('data_t_id')->references('id')->on('data_ts');
+            $table->foreign('item_t_id')->references('id')->on('item_t_datas');
+            
         });
     }
 
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('services');
+        Schema::dropIfExists('item_sets');
     }
 };
