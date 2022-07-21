@@ -12,15 +12,13 @@ class Service extends Model
     protected $fillable = [
         'name_service',
         'price_service',
+        't_service_id',
     ];
 
     protected $hidden = [
-        'id',
-        //'t_service_id',
+        'created_at',
+        'updated_at',
     ];
 
-    public function t_service()
-    {
-        return $this->hasMany(T_service::class, 'id', 't_service_id');
-    }
+
 }
