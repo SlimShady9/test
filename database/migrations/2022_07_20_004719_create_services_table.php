@@ -23,6 +23,9 @@ return new class extends Migration
 
         Schema::table('services', function (Blueprint $table) {
             $table->foreign('t_service_id')->references('id')->on('t_services');
+            $table->region_service('region_service')->unsigned();
+            $table->city_service('city_service')->unsigned();
+            $table->address_service('address_service')->unsigned();
         });
     }
 

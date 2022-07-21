@@ -13,6 +13,7 @@ class Service extends Model
         'name_service',
         'price_service',
         't_service_id',
+        
     ];
 
     protected $hidden = [
