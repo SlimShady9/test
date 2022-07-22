@@ -15,15 +15,20 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
+            $table->string('tracking_id');
+            $table->string('name');
+            $table->string('state');
+            $table->bigInteger('id_t_service')->unsigned();
+            $table->timestamp('date')->useCurrent();
+            $table->string('description');
+            $table->unsignedDouble('price');
             $table->timestamps();
-            $table->string('name_service');
-            $table->string('price_service');
-            $table->bigInteger('t_service_id')->unsigned();
+            $table->bigInteger('id_address')->unsigned();
         });
 
         Schema::table('services', function (Blueprint $table) {
-            $table->foreign('t_service_id')->references('id')->on('t_services');
- 
+            $table->foreign('id_t_service')->references('id')->on('t_services');
+            $table->foreign('id_address')->references('id')->on('addresses');
         });
     }
 
