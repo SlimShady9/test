@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('item_t_datas', function (Blueprint $table) {
+        Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('name_item_data');
+            $table->string('name');
         });
     }
 

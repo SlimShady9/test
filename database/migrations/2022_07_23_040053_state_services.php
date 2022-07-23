@@ -13,14 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('parameters', function (Blueprint $table) {
+        Schema::create('state_services', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-            $table->string('label');
             $table->string('name');
-            $table->string('type');
-            $table->string('value');
-            $table->string('required');
         });
     }
 
@@ -31,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('parameters');
+        Schema::dropIfExists('state_services');
     }
 };

@@ -16,13 +16,13 @@ return new class extends Migration
         Schema::create('item_sets', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->bigInteger('data_t_id')->unsigned();
-            $table->bigInteger('item_t_id')->unsigned();
+            $table->bigInteger('id_parameter')->unsigned();
+            $table->bigInteger('id_item')->unsigned();
         });
 
         Schema::table('item_sets', function (Blueprint $table) {
-            $table->foreign('data_t_id')->references('id')->on('data_ts');
-            $table->foreign('item_t_id')->references('id')->on('item_t_datas');
+            $table->foreign('id_parameter')->references('id')->on('parameters');
+            $table->foreign('id_item')->references('id')->on('items');
             
         });
     }

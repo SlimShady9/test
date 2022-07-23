@@ -16,17 +16,14 @@ return new class extends Migration
         Schema::create('param_t_services', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->bigInteger('data_t_id')->unsigned();
-            $table->bigInteger('t_service_id')->unsigned();
+            $table->bigInteger('id_parameter')->unsigned();
+            $table->bigInteger('id_t_service')->unsigned();
 
             });
 
             Schema::table('param_t_services', function (Blueprint $table) {
-                $table->foreign('data_t_id')->references('id')->on('data_ts');
-                $table->foreign('t_service_id')->references('id')->on('t_services');
-
-                
-
+                $table->foreign('id_parameter')->references('id')->on('parameters');
+                $table->foreign('id_t_service')->references('id')->on('t_services');
         });
     }
 
