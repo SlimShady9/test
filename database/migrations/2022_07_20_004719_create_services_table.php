@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('tracking_id');
             $table->string('name');
-            $table->string('state');
+            $table->bigInteger('id_state_service')->unsigned();
             $table->bigInteger('id_t_service')->unsigned();
             $table->timestamp('date')->useCurrent();
             $table->string('description');
@@ -29,6 +29,7 @@ return new class extends Migration
         Schema::table('services', function (Blueprint $table) {
             $table->foreign('id_t_service')->references('id')->on('t_services');
             $table->foreign('id_address')->references('id')->on('addresses');
+            $table->foreign('id_state_service')->references('id')->on('state_services');
         });
     }
 
@@ -39,6 +40,9 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::dropForeign('id_t_service');
+        Schema::dropForeign('id_address');
+        Schema::dropForeign('id_state_service');
         Schema::dropIfExists('services');
     }
 };

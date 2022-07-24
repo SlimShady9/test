@@ -16,13 +16,13 @@ return new class extends Migration
         Schema::create('item_sets', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->bigInteger('data_t_id')->unsigned();
-            $table->bigInteger('item_t_id')->unsigned();
+            $table->bigInteger('id_parameter')->unsigned();
+            $table->bigInteger('id_t_service')->unsigned();
         });
 
         Schema::table('item_sets', function (Blueprint $table) {
-            $table->foreign('data_t_id')->references('id')->on('data_ts');
-            $table->foreign('item_t_id')->references('id')->on('item_t_datas');
+            $table->foreign('id_parameter')->references('id')->on('parameter');
+            $table->foreign('id_t_service')->references('id')->on('services');
             
         });
     }
@@ -34,6 +34,8 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::dropForeign('id_parameter');
+        Schema::dropForeign('id_t_service');
         Schema::dropIfExists('item_sets');
     }
 };

@@ -13,16 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('data_ts', function (Blueprint $table) {
+        Schema::create('state_services', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('label_data');
-            $table->string('name_data');
-            $table->string('type_data');
-            $table->string('value_data');
-            $table->string('required_data');
-            $table->string('item_data');
-
+            $table->string('name');
         });
     }
 
@@ -33,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('data_ts');
+        Schema::dropIfExists('state_services');
     }
 };
