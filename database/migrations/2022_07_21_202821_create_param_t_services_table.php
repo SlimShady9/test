@@ -16,15 +16,15 @@ return new class extends Migration
         Schema::create('param_t_services', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->bigInteger('id_parameter')->unsigned();
+            $table->bigInteger('id_param')->unsigned();
             $table->bigInteger('id_t_service')->unsigned();
 
             });
 
             Schema::table('param_t_services', function (Blueprint $table) {
-                $table->foreign('id_parameter')->references('id')->on('parameters');
+                $table->foreign('id_param')->references('id')->on('parameters');
                 $table->foreign('id_t_service')->references('id')->on('t_services');
-        });
+            });
     }
 
     /**
@@ -34,6 +34,8 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::dropForeign('id_param');
+        Schema::dropForeign('id_t_service');
         Schema::dropIfExists('param_t_services');
     }
 };
