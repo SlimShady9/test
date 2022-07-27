@@ -9,16 +9,8 @@ class Service extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name_service',
-        'price_service',
-        't_service_id',
-    ];
-
     protected $hidden = [
         'created_at',
         'updated_at',
     ];
-
-
 }

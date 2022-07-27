@@ -5,13 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Item_t_data extends Model
+class ParamTypeService extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name_item_data',
-     
-        
+        'id_t_service',
+        'id_param',    
     ];
 
     protected $hidden = [

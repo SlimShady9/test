@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => bcrypt('secret'),
-        ]); */
+        ]); 
         
         \App\Models\T_service::factory(3)->create();
         \App\Models\Service::factory(3)->create([
@@ -28,5 +28,6 @@ class DatabaseSeeder extends Seeder
             'price_service' => fake()->numberBetween(100, 1000),
             't_service_id' => \App\Models\T_service::all()->random()->id,
         ]);
+        */
     }
 }
