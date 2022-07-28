@@ -12,6 +12,7 @@ class ServiceController extends Controller {
     }
 
     public function show($id) {
+
         return Service::find($id);
     }
 
@@ -20,19 +21,27 @@ class ServiceController extends Controller {
         try {
 
             $request->validate([
-                'name_service' => 'required|string|max:30',
-                'price_service' => 'required|numeric|Between:0,9999999999',
-                't_service_id' => 'required|Exists:t_services,id',
+                'name' => 'required|string|max:30',
+                'id_state_service' => 'required|Exists:state_services,id',
+                'id_t_service' => 'required|Exists:t_services,id',
+                'description' => 'required|string|max:255',
+                'price' => 'required|numeric|Between:0,9999999999',
+                'id_address' => 'required|Exists:addresses,id',
+                'data' => 'required|json',
             ]);
             
         } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json(['error' => $e->getMessage()], 422);
+            return response()->json(['error' => $e->getMessage()], 403);
         }
 
         $newService = Service::create([
-            'name_service' => $request->name_service,
-            'price_service' => $request->price_service,
-            't_service_id' => $request->t_service_id,
+            'name' => $request->name,
+            'id_state_service' => 1, // 1 = 'En proceso'
+            'id_t_service' => $request->t_service_id,
+            'description' => $request->description,
+            'price' => $request->price,
+            'id_address' => $request->id_address,
+            'data' => $request->data,
         ]);
         return $newService;
     }

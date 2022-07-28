@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('services', function (Blueprint $table) {
             $table->id();
-            $table->string('tracking_id');
+            // Column name 'tracking_id' as a unique string of 12 characters.
+            $table->string('tracking_id', 12)->unique();
             $table->string('name');
             $table->bigInteger('id_state_service')->unsigned();
             $table->bigInteger('id_t_service')->unsigned();
@@ -24,6 +25,7 @@ return new class extends Migration
             $table->unsignedDouble('price');
             $table->timestamps();
             $table->bigInteger('id_address')->unsigned();
+            $table->json('data');
         });
 
         Schema::table('services', function (Blueprint $table) {
@@ -40,9 +42,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropForeign('id_t_service');
-        Schema::dropForeign('id_address');
-        Schema::dropForeign('id_state_service');
         Schema::dropIfExists('services');
     }
 };

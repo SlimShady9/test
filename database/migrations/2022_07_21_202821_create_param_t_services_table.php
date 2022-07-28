@@ -34,8 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropForeign('id_param');
-        Schema::dropForeign('id_t_service');
         Schema::dropIfExists('param_t_services');
     }
 };

@@ -33,8 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropForeign('id_user');
-        Schema::dropForeign('id_service');
         Schema::dropIfExists('orders');
     }
 };
