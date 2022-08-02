@@ -25,4 +25,7 @@ Route::resource('envios', EnvioController::class);
 Route::resource('services', ServiceController::class)->names([
     'index' => 'services.index',
     'show' => 'services.show',
+    'store' => 'services.store',
+    'update' => 'services.update',
+    'destroy' => 'services.destroy',
 ]);
