@@ -20,9 +20,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::resource('items', ServiceController::class);
+
 Route::resource('envios', EnvioController::class);
 
-Route::resource('services', ServiceController::class)->names([
-    'index' => 'services.index',
-    'show' => 'services.show',
-]);
+Route::resource('services', ServiceController::class);

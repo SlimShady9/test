@@ -30,11 +30,11 @@ export default function Envios(props) {
         <>
             <Authenticated {...props}>
                 <div>{envios.Envios}</div>
-                <form onSubmit={submitEnvio}>
-                    <input type="text" name="estado" />
-                    <input type="text" name="nombre" />
-                    <input type="submit" />
-                </form>
+
+                {}
+                <DataForm 
+                
+                />
                 <table>
                     <thead>
                         <tr>
