@@ -7,8 +7,8 @@ import axios from "axios";
 
 export default function DataForm(title, route, inputs, params) {
     
-    const params = ["Uno", "Dos", "Tres"];
-    const options = [];
+    const parametros = ["Uno", "Dos", "Tres"];
+    const opciones = [];
 
     const inputs = [
         {label: "Nombre", name: "nombre", type: "text", value: "Ingrese texto", required: "True", params}
@@ -17,13 +17,13 @@ export default function DataForm(title, route, inputs, params) {
     const submit = (e) => {
         e.preventDefault();
 
-        post(route("register"));
+        post(route({route}));
     };
     
     function cargarItems(params) {
         const options = [];
         params.forEach(param => {
-            
+            options.push({params, params});
         });
         
         var items = [];
