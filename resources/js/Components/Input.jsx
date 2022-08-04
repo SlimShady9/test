@@ -23,7 +23,6 @@ export default function Input({
             <input
                 type={type}
                 name={name}
-                value={value}
                 className={
                     `border-gray-300 focus:border-blue-600 rounded shadow-sm py-1.5 mt-1
                     transition-colors hover:border-gray-400` + className
