@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name');
-            $table->string('county');
+            $table->string('country');
             $table->string('region');
             $table->string('city');
             $table->string('street');

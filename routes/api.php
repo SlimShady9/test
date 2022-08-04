@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EnvioController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\AddressController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,4 +29,12 @@ Route::resource('services', ServiceController::class)->names([
     'store' => 'services.store',
     'update' => 'services.update',
     'destroy' => 'services.destroy',
+]);
+
+Route::resource('address', AddressController::class)->names([
+    'index' => 'addresses.index',
+    'show' => 'addresses.show',
+    'store' => 'addresses.store',
+    'update' => 'addresses.update',
+    'destroy' => 'addresses.destroy',
 ]);
