@@ -67,31 +67,15 @@ export default function Envios(props) {
     return (
         <>
             <Authenticated {...props}>
-                <div>{envios.Envios}</div>
-                <form onSubmit={submitEnvio}>
-                    <input type="text" name="estado" />
-                    <input type="text" name="nombre" />
-                    <input type="submit" />
-                </form>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>awa</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {/*Funciona como un forEach para llamar a los envíos existentes*/}
-                        {envios.map((envio) => (
-                            <tr key={envio.id}>
-                                <td>{envio.id}</td>
-                                <td>{Object.keys(envio)}</td>
-                                <td>{envio.estado}</td>
-                                <td>{envio.nombre}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-                <DataForm httpMethod={"POST"} dataF={datosEjemplo} />
+                <div className="flex justify-center gap-4 m-4">
+                <DataForm 
+                titleForm={"Envíos"}
+                httpMethod={"POST"} 
+                dataF={datosEjemplo} 
+                cols = {2}
+                buttonText={"Solicitar Envío"}
+                />
+                </div>
             </Authenticated>
         </>
     );

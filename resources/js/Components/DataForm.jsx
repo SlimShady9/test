@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import Label from "@/Components/Label";
 import Input from "@/Components/Input";
+import Button from "@/Components/Button";
 import Select from "react-select";
 import { useForm } from "@inertiajs/inertia-react";
 import Card from "./Card";
 
-export default function DataForm({ dataF = [], httpMethod, url }) {
+export default function DataForm({ dataF = [], httpMethod, url, titleForm, buttonText, cols }) {
     const setDataForm = () => {
         const dataForm = {};
         dataF.forEach((item) => {
@@ -78,8 +79,13 @@ export default function DataForm({ dataF = [], httpMethod, url }) {
     }
 
     return (
-        <Card>
-            <form onSubmit={submit}>
+        
+            <form 
+            onSubmit={submit}>
+                <Card col={cols}>
+                <div className="flex col-span-2 justify-center">
+                <h1>{titleForm}</h1>
+                </div>
                 {dataF.map(({ label, name, type, value, required, items }) => {
                     return createInput({
                         label,
@@ -92,8 +98,13 @@ export default function DataForm({ dataF = [], httpMethod, url }) {
                         key: name,
                     });
                 })}
-                <button type="submit">Submit</button>
+                <div className="flex col-span-2 justify-center">
+                <Button className="justify-center" processing={processing}>
+                    {buttonText}
+                </Button>
+                </div>
+                </Card>
             </form>
-        </Card>
+        
     );
 }
