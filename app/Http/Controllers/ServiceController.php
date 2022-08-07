@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Service;
+use App\Models\Parameter;
+use App\Models\TypeService;
 
 class ServiceController extends Controller {
 
@@ -83,5 +85,37 @@ class ServiceController extends Controller {
 
     public function requestService() {
         
+    }
+
+
+    public function  requestBasicInputFields() {
+        $parameters = [];
+        array_push($parameters, Parameter::find(1));
+        array_push($parameters, Parameter::find(2));
+        array_push($parameters, Parameter::find(3));
+        array_push($parameters, Parameter::find(4));
+
+        $type_services = TypeService::all();
+
+        $options = [
+            'type' => 'select',
+            'label' => 'Tipo de servicio',
+            'name' => 't_service_id',
+            'options' => [],
+        ];
+
+        foreach ($type_services as $type_service) {
+            array_push($options['options'], [
+                'label' => $type_service->name,
+                'value' => $type_service->id,
+            ]);
+
+        }
+
+        array_push($parameters, $options);
+
+        return response()->json([
+            'parameters' => $parameters,
+            ], 200)->header('Content-Type', 'application/json');
     }
 }

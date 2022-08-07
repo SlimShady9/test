@@ -17,13 +17,13 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->bigInteger('id_param')->unsigned();
-            $table->bigInteger('id_t_service')->unsigned();
+            $table->bigInteger('id_type_service')->unsigned();
 
             });
 
             Schema::table('param_t_services', function (Blueprint $table) {
                 $table->foreign('id_param')->references('id')->on('parameters');
-                $table->foreign('id_t_service')->references('id')->on('t_services');
+                $table->foreign('id_type_service')->references('id')->on('type_services');
             });
     }
 
