@@ -12,19 +12,19 @@ function NavBar({ className }) {
     ];
     let [open, setOpen] = useState(false);
     return (
-        <div className="shadow-md w-full sticky top-0 left-0">
+        <div className="shadow-md w-full top-0 left-0 sticky z-10">
             <div className="md:flex items-center justify-between bg-white py-4 md:px-10 px-7">
                 <div
-                    className="font-extrabold text-2xl cursor-pointer flex items-center
+                    className="font-bold text-2xl cursor-pointer flex items-center font-[Poppins] 
       text-gray-800"
                 >
-                    SERVICURRIER
-                    <div
-                        onClick={() => setOpen(!open)}
-                        className="text-3xl cursor-pointer absolute right-8 md:hidden grid self-center"
-                    >
-                        <VscThreeBars name={open ? "close" : "menu"} />
-                    </div>
+                    SERVICURRIER S.A.S
+                </div>
+                <div
+                    onClick={() => setOpen(!open)}
+                    className="text-3xl absolute right-8 top-6 cursor-pointer md:hidden"
+                >
+                    <VscThreeBars name={open ? "close" : "menu"} />
                 </div>
                 <ul
                     className={`md:flex md:items-center md:pb-0 pb-12 absolute md:static bg-white md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${

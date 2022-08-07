@@ -120,6 +120,7 @@ export default function Register() {
                             className="mt-1 block w-full"
                             autoComplete="t_user"
                             isFocused={true}
+                            onChange={onHandleChange}
                             required
                         ></Select>
                     </div>

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EnvioController;
+use App\Http\Controllers\ServiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +20,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
 Route::resource('envios', EnvioController::class);
+
+Route::get('services/parameters', 'App\Http\Controllers\ServiceController@requestBasicInputFields');
+
+Route::resource('services', ServiceController::class);

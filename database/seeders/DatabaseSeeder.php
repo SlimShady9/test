@@ -14,11 +14,36 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        // Tipos de servicios
+        \App\Models\TypeService::create([
+            'name' => 'Envío',
+        ]);
+        \App\Models\TypeService::create([
+            'name' => 'Correspondencia',
+        ]);
+        \App\Models\TypeService::create([
+            'name' => 'Coordinación de mensajería',
+        ]);
+        \App\Models\TypeService::create([
+            'name' => 'Mandado',
+        ]);
+        // Estados de los servicios
+        \App\Models\StateService::create([
+            'name' => 'En proceso',
+        ]);
+        \App\Models\StateService::create([
+            'name' => 'Finalizado',
+        ]);
+        \App\Models\StateService::create([
+            'name' => 'Cancelado',
+        ]);
+        \App\Models\StateService::create([
+            'name' => 'Rechazado',
+        ]);
+        \App\Models\StateService::create([
+            'name' => 'Pendiente',
+        ]);
+        
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
     }
 }
