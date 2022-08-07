@@ -6,7 +6,6 @@ import axios from "axios";
 export default function Envios(props) {
     //Arreglo de envíos
     const [envios, setEnvios] = useState([]);
-    const [serviceParams, setServiceParams] = useState([]);
     //res llama los valores de los campos con método post
     const submitEnvio = async (e) => {
         e.preventDefault();
@@ -26,24 +25,10 @@ export default function Envios(props) {
         });
     }, []);
 
-    useEffect(() => {
-        axios.get("/api/services/parameters").then((res) => {
-            setServiceParams(res.data.parameters);
-        });
-    }, []);
-
     return (
         <>
             <Authenticated {...props}>
-                <div className="flex justify-center gap-4 m-4">
-                    <DataForm
-                        titleForm={"Envíos"}
-                        httpMethod={"POST"}
-                        dataF={serviceParams}
-                        cols={2}
-                        buttonText={"Solicitar Envío"}
-                    />
-                </div>
+                <div className="flex justify-center gap-4 m-4"></div>
             </Authenticated>
         </>
     );

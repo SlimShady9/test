@@ -4,10 +4,10 @@ import Input from "@/Components/Input";
 import Button from "@/Components/Button";
 import Select from "react-select";
 import { useForm } from "@inertiajs/inertia-react";
-import Card from "./Card";
+import axios from "axios";
 
 export default function DataForm({
-    dataF = [],
+    parameters = [],
     httpMethod,
     url,
     titleForm,
@@ -15,13 +15,13 @@ export default function DataForm({
     cols,
     className,
 }) {
-    const { data, setData, post, put, processing, errors, reset } = useForm(
-        dataF.map((item) => ({ ...item, value: "" }))
+    const { data, setData, processing, errors, reset } = useForm(
+        parameters.map((item) => ({ ...item, value: "" }))
     );
 
     const handleChange = (e, setInputData, name) => {
         if (e.label) {
-            setData(name, e.label);
+            setData(name, e.value);
             setInputData(e.value);
         } else {
             setData(e.target.name, e.target.value);
@@ -30,43 +30,45 @@ export default function DataForm({
 
     const submit = (e) => {
         e.preventDefault();
-        console.log(dataF);
+        console.log(data);
 
-        /*
         switch (httpMethod) {
             case "POST": {
-                post(route(url));
+                axios.post(url, data).then((res) => {
+                    reset();
+                });
+                break;
             }
             case "PUT": {
-                put(route(url));
+                axios.put(url, data).then((res) => {
+                    reset();
+                });
+                break;
             }
         }
-        */
     };
 
     return (
         <form onSubmit={submit}>
-            <Card col={cols}>
-                <div className="flex col-span-2 justify-center">
-                    <h1>{titleForm}</h1>
-                </div>
-                {dataF.map(({ label, name, type, required, options }) => (
-                    <AnyInput
-                        label={label}
-                        name={name}
-                        type={type}
-                        required={required}
-                        options={options}
-                        handleChange={handleChange}
-                        key={`${label}_${name}`}
-                    />
-                ))}
-                <div className="flex col-span-2 justify-center">
-                    <Button className="justify-center" processing={processing}>
-                        {buttonText}
-                    </Button>
-                </div>
-            </Card>
+            <div className="flex col-span-2 justify-center">
+                <h1>{titleForm}</h1>
+            </div>
+            {parameters.map(({ label, name, type, required, options }) => (
+                <AnyInput
+                    label={label}
+                    name={name}
+                    type={type}
+                    required={required}
+                    options={options}
+                    handleChange={handleChange}
+                    key={`${label}_${name}`}
+                />
+            ))}
+            <div className="flex col-span-2 justify-center">
+                <Button className="justify-center" processing={processing}>
+                    {buttonText}
+                </Button>
+            </div>
         </form>
     );
 }
@@ -89,6 +91,7 @@ function AnyInput({
                 <Select
                     options={options}
                     autoComplete={name}
+                    defaultValue={value ? value : ""}
                     onChange={(e) => handleChange(e, setInputData, name)}
                     required={required}
                 />
@@ -97,6 +100,7 @@ function AnyInput({
                     type={type}
                     name={name}
                     value={value}
+                    defaultValue={value ? value : ""}
                     autoComplete={name}
                     handleChange={handleChange}
                     required={required}
