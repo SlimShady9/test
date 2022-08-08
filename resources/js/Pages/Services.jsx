@@ -9,7 +9,7 @@ export default function Envios(props) {
     //Antes de que cargue la vista corgamos los datos
 
     useEffect(() => {
-        axios.get("/api/services/parameters").then((res) => {
+        axios.get("/api/services/create").then((res) => {
             setServiceParams(res.data.parameters);
         });
     }, []);
