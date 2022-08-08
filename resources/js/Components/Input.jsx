@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from "react";
 export default function Input({
     type = "text",
     name,
-    value,
+    defaultValue,
     className,
     autoComplete,
     required,
@@ -23,12 +23,12 @@ export default function Input({
             <input
                 type={type}
                 name={name}
-                value={value}
-                className={
-                    `border-gray-300 focus:border-blue-600 rounded shadow-sm py-1.5 mt-1
-                    transition-colors hover:border-gray-400` + className
-                }
+                className={`mt-1 block w-full border-gray-300 focus:border-blue-600 active:border-blue-600 rounded shadow-sm py-1.5 px-3
+                    transition-colors hover:border-gray-400 ${
+                        className ? className : ""
+                    }`}
                 ref={input}
+                defaultValue={defaultValue}
                 autoComplete={autoComplete}
                 required={required}
                 onChange={(e) => handleChange(e)}

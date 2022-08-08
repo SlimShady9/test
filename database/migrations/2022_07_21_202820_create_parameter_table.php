@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('label');
             $table->string('name');
             $table->string('type');
-            $table->string('value');
             $table->boolean('required');
         });
     }

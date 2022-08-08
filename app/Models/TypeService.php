@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class TypeService extends Model
 {
     use HasFactory;
+
+    protected $table = 'type_services';
 }

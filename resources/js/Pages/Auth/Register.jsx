@@ -120,6 +120,7 @@ export default function Register() {
                             className="mt-1 block w-full"
                             autoComplete="t_user"
                             isFocused={true}
+                            onChange={onHandleChange}
                             required
                         ></Select>
                     </div>
@@ -343,7 +344,7 @@ export default function Register() {
                     <div className="col-span-2 flex items-center justify-end mt-4 ">
                         <Link
                             href={route("login")}
-                            className="underline text-sm text-gray-600 hover:text-gray-900"
+                            className="underline text-sm text-gray-600 hover:text-gray"
                         >
                             ¿Ya se ha registrado?
                         </Link>

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('tracking_id', 12)->unique();
             $table->string('name');
             $table->bigInteger('id_state_service')->unsigned();
-            $table->bigInteger('id_t_service')->unsigned();
+            $table->bigInteger('id_type_service')->unsigned();
             $table->timestamp('date')->useCurrent();
             $table->string('description');
             $table->unsignedDouble('price');
@@ -29,7 +29,7 @@ return new class extends Migration
         });
 
         Schema::table('services', function (Blueprint $table) {
-            $table->foreign('id_t_service')->references('id')->on('t_services');
+            $table->foreign('id_type_service')->references('id')->on('type_services');
             $table->foreign('id_address')->references('id')->on('addresses');
             $table->foreign('id_state_service')->references('id')->on('state_services');
         });

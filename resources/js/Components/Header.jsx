@@ -1,6 +1,5 @@
 import { VscThreeBars } from "react-icons/vsc";
 import React, { useState } from "react";
-import Button from "./Button";
 import { Link } from "@inertiajs/inertia-react";
 
 function NavBar({ className }) {

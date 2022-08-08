@@ -20,9 +20,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
 Route::resource('envios', EnvioController::class);
 
-Route::resource('services', ServiceController::class)->names([
-    'index' => 'services.index',
-    'show' => 'services.show',
-]);
+Route::get('services/parameters', 'App\Http\Controllers\ServiceController@requestBasicInputFields');
+
+Route::resource('services', ServiceController::class);
