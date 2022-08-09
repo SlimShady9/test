@@ -5,6 +5,7 @@ import Button from "@/Components/Button";
 import Select from "react-select";
 import { useForm } from "@inertiajs/inertia-react";
 import axios from "axios";
+import Card from "./Card";
 
 export default function DataForm({
     parameters = [],
@@ -86,6 +87,7 @@ function AnyInput({
 
     return (
         <div>
+            <Card>
             <Label forInput={name} value={label} />
             {type === "select" ? (
                 <Select
@@ -106,6 +108,7 @@ function AnyInput({
                     required={required}
                 />
             )}
+            </Card>
         </div>
     );
 }
