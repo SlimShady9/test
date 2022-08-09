@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Address;
+use App\Models\Parameter;
 
 class AddressController extends Controller
 {
@@ -24,7 +25,7 @@ class AddressController extends Controller
      */
     public function create()
     {
-        //
+        return Parameter::where('table', 'addresses')->get();
     }
 
     /**
@@ -45,6 +46,17 @@ class AddressController extends Controller
             'addr_detail' => 'required|string|max:255',
         ]);
 
+        $newAddress = Address::create([
+            'name' => $request->name,
+            'county' => $request->county,
+            'region' => $request->region,
+            'city' => $request->city,
+            'street' => $request->street,
+            'addr' => $request->addr,
+            'addr_detail' => $request->addr_detail,
+        ]);
+
+        return $newAddress;
         
 
     }
@@ -57,7 +69,7 @@ class AddressController extends Controller
      */
     public function show($id)
     {
-        //
+        return Address::find($id);
     }
 
     /**
@@ -68,7 +80,8 @@ class AddressController extends Controller
      */
     public function edit($id)
     {
-        //
+        return Address::find($id);
+
     }
 
     /**
@@ -80,7 +93,25 @@ class AddressController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'string|max:255',
+            'county' => 'required|string',
+            'region' => 'required|string',
+            'city' => 'required|string',
+            'street' => 'required|string',
+            'addr' => 'required|string',
+            'addr_detail' => 'required|string|max:255',
+        ]);
+        $address = Address::find($id);
+        $address->name = $request->name;
+        $address->county = $request->county;
+        $address->region = $request->region;
+        $address->city = $request->city;
+        $address->street = $request->street;
+        $address->addr = $request->addr;
+        $address->addr_detail = $request->addr_detail;
+        $address->save();
+        return $address;
     }
 
     /**
@@ -91,6 +122,12 @@ class AddressController extends Controller
      */
     public function destroy($id)
     {
-        //
+        try {
+            $address = Address::findorfail($id);
+            $address->delete();
+            return response()->json(['message' => 'Address deleted successfully'], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['message' => 'Address not found'], 404);
+        }
     }
 }
