@@ -90,12 +90,7 @@ class ServiceController extends Controller {
     }
 
     public function  create() {
-        $parameters = [];
-        array_push($parameters, Parameter::find(1));
-        array_push($parameters, Parameter::find(2));
-        array_push($parameters, Parameter::find(3));
-        array_push($parameters, Parameter::find(4));
-
+        $parameters = Parameter::where('table', 'services')->get();
         $type_services = TypeService::all();
 
         $options = [
@@ -110,10 +105,9 @@ class ServiceController extends Controller {
                 'label' => $type_service->name,
                 'value' => $type_service->id,
             ]);
-
         }
 
-        array_push($parameters, $options);
+        $parameters->push($options);
 
         return response()->json([
             'parameters' => $parameters,

@@ -39,4 +39,3 @@ Route::resource('address', AddressController::class)->names([
     'update' => 'addresses.update',
     'destroy' => 'addresses.destroy',
 ]);
-
