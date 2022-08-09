@@ -54,9 +54,13 @@ class ServiceController extends Controller {
         try {
 
             $request->validate([
-                'name' => 'required|string|max:30',
-                'price' => 'required|numeric|Between:0,9999999999',
-                'id_type_service' => 'required|Exists:type_services,id',
+                'name_service' => 'string|max:30',
+                'price_service' => 'numeric|Between:0,9999999999',
+                't_service_id' => 'Exists:t_services,id',
+                'state_service_id' => 'Exists:state_services,id',
+                'description_service' => 'string|max:255',
+                'id_address' => 'Exists:addresses,id',
+                'data' => 'json',
             ]);
             
         } catch (\Illuminate\Validation\ValidationException $e) {

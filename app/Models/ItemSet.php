@@ -9,7 +9,7 @@ class ItemSet extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'data_parameter',
+        'id_parameter',
         'id_item',
     ];
 

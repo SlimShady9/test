@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EnvioController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\AddressController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::resource('envios', EnvioController::class);
 
-Route::get('services/parameters', 'App\Http\Controllers\ServiceController@requestBasicInputFields');
+Route::resource('services', ServiceController::class)->names([
+    'index' => 'services.index',
+    'show' => 'services.show',
+    'store' => 'services.store',
+    'update' => 'services.update',
+    'destroy' => 'services.destroy',
+]);
 
-Route::resource('services', ServiceController::class);
+Route::resource('address', AddressController::class)->names([
+    'index' => 'addresses.index',
+    'show' => 'addresses.show',
+    'store' => 'addresses.store',
+    'update' => 'addresses.update',
+    'destroy' => 'addresses.destroy',
+]);
+
