@@ -24,6 +24,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::resource('envios', EnvioController::class);
 
-Route::resource('services', ServiceController::class);
+Route::resource('services', ServiceController::class)->names([
+    'index' => 'services.index',
+    'show' => 'services.show',
+    'store' => 'services.store',
+    'update' => 'services.update',
+    'destroy' => 'services.destroy',
+]);
 
-Route::resource('addresses', AddressController::class);
+Route::resource('address', AddressController::class)->names([
+    'index' => 'addresses.index',
+    'show' => 'addresses.show',
+    'store' => 'addresses.store',
+    'update' => 'addresses.update',
+    'destroy' => 'addresses.destroy',
+]);
