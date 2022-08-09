@@ -13,7 +13,6 @@ class Parameter extends Model
         'label',
         'name',
         'type',
-        'value',
         'required',
     ];
 

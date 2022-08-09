@@ -22,6 +22,10 @@ class AddressController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function create()
+    {
+        //
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -57,6 +61,7 @@ class AddressController extends Controller
             'addr_detail' => $request->addr_detail,
         ]);
         return $newAddress;
+
     }
 
     /**
@@ -68,6 +73,7 @@ class AddressController extends Controller
     public function show($id)
     {
         return Address::find($id);
+
     }
 
     /**
@@ -76,6 +82,7 @@ class AddressController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
 
     /**
      * Update the specified resource in storage.
@@ -115,6 +122,7 @@ class AddressController extends Controller
         $address->addr_detail = $request->addr_detail;
         $address->save();
         return $address;
+
     }
 
     /**
@@ -135,5 +143,6 @@ class AddressController extends Controller
     }
 
     public function requestService() {
+
     }
 }

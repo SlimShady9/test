@@ -17,6 +17,7 @@ class TypeService extends Model
         'created_at',
         'updated_at',
     ];
-    
-    protected $table = 't_services';
+
+
+    protected $table = 'type_services';
 }
