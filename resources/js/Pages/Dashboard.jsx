@@ -8,7 +8,7 @@ export default function Dashboard(props) {
             auth={props.auth}
             errors={props.errors}
             header={
-                <h2 className="font-semibold text-xl text-white leading-tight">
+                <h2 className="font-semibold text-xl leading-tight">
                     Dashboard
                 </h2>
             }
@@ -22,13 +22,13 @@ export default function Dashboard(props) {
                             You're logged in!
                             <Link
                                 href={route("envios")}
-                                className="p-3 bg-blue-400 text-white"
+                                className="p-3 bg-blue-400"
                             >
                                 Ver envios
                             </Link>
                             <Link
                                 href={route("services")}
-                                className="p-3 bg-blue-400 text-white"
+                                className="p-3 bg-blue-400"
                             >
                                 Servicios
                             </Link>

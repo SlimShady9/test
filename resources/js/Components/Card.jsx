@@ -1,6 +1,6 @@
 import React from "react";
 //Para que haya una sola columna no llenar "col"
-function Card({ className, title, children, col }) {
+function Card({ className, title, children, col , footer}) {
     var add = "";
     if (!!col == true) {
         add = "grid grid-cols-${col} gap-4";
@@ -17,6 +17,7 @@ function Card({ className, title, children, col }) {
             >
             {children}
             </div>
+            <div className="flex justify-center">{footer}</div>
         </div>
     );
 }
