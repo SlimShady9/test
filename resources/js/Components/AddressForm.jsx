@@ -39,15 +39,18 @@ function AddressForm({ api_token }) {
         setData({
             ...data,
             region: { label: "", value: "" },
+            city: { label: "", value: "" },
         });
-        axios
-            .get(
-                `https://api.countrystatecity.in/v1/countries/${data.country.value}/states`,
-                axiosConfig
-            )
-            .then((res) => {
-                setRegions(res.data);
-            });
+        if (data.country.value != "") {
+            axios
+                .get(
+                    `https://api.countrystatecity.in/v1/countries/${data.country.value}/states`,
+                    axiosConfig
+                )
+                .then((res) => {
+                    setRegions(res.data);
+                });
+        }
     }, [data.country]);
 
     useEffect(() => {
@@ -55,17 +58,17 @@ function AddressForm({ api_token }) {
             ...data,
             city: { label: "", value: "" },
         });
-        if (data.region.value) {
+        if (!(data.country.value == "" || data.region.value == "")) {
+            axios
+                .get(
+                    `https://api.countrystatecity.in/v1/countries/${data.country.value}/states/${data.region.value}/cities`,
+                    axiosConfig
+                )
+                .then((res) => {
+                    setCities(res.data);
+                });
         }
-        axios
-            .get(
-                `https://api.countrystatecity.in/v1/countries/${data.country.value}/states/${data.region.value}/cities`,
-                axiosConfig
-            )
-            .then((res) => {
-                setCities(res.data);
-            });
-    }, [data.region, data.country]);
+    }, [data.region]);
 
     const handleChange = (e, propName) => {
         let newData = { ...data };
@@ -85,9 +88,8 @@ function AddressForm({ api_token }) {
             region: data.region.label,
             city: data.city.label,
         };
-        console.log(parsedData);
         axios.post("/api/address", parsedData).then((res) => {
-            console.log(res);
+            //Alerta de juanito
         });
     };
 
@@ -96,6 +98,7 @@ function AddressForm({ api_token }) {
             <Select
                 name="country"
                 type="select"
+                value={data.country}
                 onChange={(e) => handleChange(e, "country")}
                 options={countries.map((c) => ({
                     label: c.name,
@@ -105,6 +108,7 @@ function AddressForm({ api_token }) {
             <Select
                 name="region"
                 type="select"
+                value={data.region}
                 onChange={(e) => handleChange(e, "region")}
                 options={regions.map((c) => ({
                     label: c.name,
@@ -114,6 +118,7 @@ function AddressForm({ api_token }) {
             <Select
                 name="city"
                 type="select"
+                value={data.city}
                 onChange={(e) => handleChange(e, "city")}
                 options={cities.map((c) => ({
                     label: c.name,
