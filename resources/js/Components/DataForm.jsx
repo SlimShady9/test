@@ -31,7 +31,6 @@ export default function DataForm({
 
     const submit = (e) => {
         e.preventDefault();
-        console.log(data);
 
         switch (httpMethod) {
             case "POST": {

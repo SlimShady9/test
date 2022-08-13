@@ -33,7 +33,9 @@ Route::get('/envios', function () {
 })->middleware(['auth', 'verified'])->name('envios');
 
 Route::get('/services', function () {
-    return Inertia::render('Services');
+    return Inertia::render('Services', [
+        'api_token' => env('API_KEY_GEO'),
+    ]);
 })->middleware(['auth', 'verified'])->name('services');
 
 require __DIR__.'/auth.php';
