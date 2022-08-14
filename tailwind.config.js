@@ -1,3 +1,4 @@
+const { transform } = require("lodash");
 const defaultTheme = require("tailwindcss/defaultTheme");
 
 /** @type {import('tailwindcss').Config} */
@@ -35,8 +36,62 @@ module.exports = {
                 primary: "#231A49",
                 dark: "#000022",
             },
+            red: {
+                light: "#ffb3b3",
+                primary: "#ff0000",
+                dark: "#b30000",
+            },
             white: "#ffffff",
             black: "#000000",
+        },
+        extend: {
+            keyframes: {
+                "fade-out-modal": {
+                    "0%": {
+                        opacity: 1,
+                    },
+                    "100%": {
+                        opacity: 0,
+                        transform: "translateX(30%)",
+                        display: "none",
+                        visibility: "hidden",
+                    },
+                },
+                "fade-in-modal": {
+                    "0%": {
+                        opacity: 0,
+                        display: "block",
+                        transform: "translateX(30%)",
+                    },
+                    "100%": {
+                        opacity: 1,
+                    },
+                },
+                "opacity-in-modal": {
+                    "0%": {
+                        opacity: 0,
+                    },
+                    "100%": {
+                        opacity: 0.4,
+                    },
+                },
+                "opacity-out-modal": {
+                    "0%": {
+                        opacity: 0.4,
+                    },
+                    "100%": {
+                        opacity: 0,
+                        display: "none",
+                        visibility: "hidden",
+                    },
+                },
+            },
+            animation: {
+                "fade-out-modal": "fade-out-modal .5s ease-in-out forwards",
+                "fade-in-modal": "fade-in-modal .5s ease-in-out forwards",
+                "opacity-in-modal": "opacity-in-modal .5s linear forwards",
+                "opacity-out-modal": "opacity-out-modal .5s linear forwards",
+            },
         },
     },
 
