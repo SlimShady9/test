@@ -93,7 +93,6 @@ function AnyInput({
             {type === "select" ? (
                 <Select
                     menuPlacement="top"
-                    maxMenuHeight={80}
                     placeholder={"Seleccione..."}
                     className={"border rounded"}
                     options={options}
