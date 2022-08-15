@@ -27,8 +27,11 @@ function Modal({ children, show, onHide, title }) {
                 place-items-center ${showAnim.modal}`}
             >
                 <Card className={"relative py-10"}>
+                    <h1 className="absolute top-0 left-0 my-4 mx-6 font-extrabold text-lg text-gray-dark ">
+                        {title}
+                    </h1>
                     <button
-                        className="absolute top-0 right-0 m-2 z-10"
+                        className="absolute top-0 right-0 m-4 z-10"
                         onClick={onHide}
                     >
                         <svg
@@ -44,7 +47,7 @@ function Modal({ children, show, onHide, title }) {
                             />
                         </svg>
                     </button>
-                    {children}
+                    <div className="mt-6">{children}</div>
                 </Card>
             </div>
             <div
