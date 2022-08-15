@@ -6,7 +6,6 @@ import Select from "react-select";
 import { useForm } from "@inertiajs/inertia-react";
 import axios from "axios";
 import Card from "./Card";
-import { zIndex } from "tailwindcss/defaultTheme";
 
 export default function DataForm({
     parameters = [],
