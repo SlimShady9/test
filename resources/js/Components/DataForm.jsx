@@ -9,8 +9,7 @@ import Card from "./Card";
 
 export default function DataForm({
     parameters = [],
-    httpMethod,
-    url,
+    onSubmit,
     titleForm,
     buttonText,
     cols,
@@ -31,22 +30,10 @@ export default function DataForm({
 
     const submit = (e) => {
         e.preventDefault();
-        console.log(data);
 
-        switch (httpMethod) {
-            case "POST": {
-                axios.post(url, data).then((res) => {
-                    reset();
-                });
-                break;
-            }
-            case "PUT": {
-                axios.put(url, data).then((res) => {
-                    reset();
-                });
-                break;
-            }
-        }
+        // Validate form
+
+        onSubmit(data);
     };
 
     return (
@@ -87,7 +74,6 @@ function AnyInput({
 
     return (
         <div>
-            <Card>
             <Label forInput={name} value={label} />
             {type === "select" ? (
                 <Select
@@ -108,7 +94,6 @@ function AnyInput({
                     required={required}
                 />
             )}
-            </Card>
         </div>
     );
 }

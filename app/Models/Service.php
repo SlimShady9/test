@@ -13,7 +13,7 @@ class Service extends Model
         'tracking_id',
         'name',
         'id_state_service',
-        'id_t_service',
+        'id_type_service',
         'date',
         'description',
         'price',
@@ -25,4 +25,21 @@ class Service extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function save(array $options = [])
+    {
+        $this->tracking_id = $this->generateTrackingId();
+        parent::save($options);
+    }
+
+    public function generateTrackingId()
+    {
+        $trackingId = '';
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        for ($i = 0; $i < 12; $i++) {
+            $trackingId .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $trackingId;
+    }
 }

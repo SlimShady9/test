@@ -39,13 +39,13 @@ class AddressController extends Controller
         try {
 
             $request->validate([
-                'name' => 'required|string|max:30',
+                'name' => 'string|max:30',
                 'country' => 'required|string|max:30',
                 'region' => 'required|string|max:30',
                 'city' => 'required|string|max:30',
-                'street' => 'required|string|max:30',
                 'addr' => 'required|string|max:50',
-                'addr_detail' => 'required|string|max:30',
+                'addr_detail' => 'string|max:30',
+                'postal_code' => 'required|string|max:10',
             ]);
             
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -57,9 +57,9 @@ class AddressController extends Controller
             'country' => $request->country,
             'region' => $request->region,
             'city' => $request->city,
-            'street' => $request->street,
             'addr' => $request->addr,
             'addr_detail' => $request->addr_detail,
+            'postal_code' => $request->postal_code,
         ]);
 
         return $newAddress;
@@ -102,12 +102,12 @@ class AddressController extends Controller
         try {
         $request->validate([
             'name' => 'string|max:255',
-            'county' => 'required|string',
+            'country' => 'required|string',
             'region' => 'required|string',
             'city' => 'required|string',
             'street' => 'required|string',
             'addr' => 'required|string',
-            'addr_detail' => 'required|string|max:255',
+            'addr_detail' => 'string|max:255',
         ]);
         $address = Address::find($id);
             
