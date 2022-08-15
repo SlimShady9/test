@@ -43,6 +43,7 @@ module.exports = {
             },
             white: "#ffffff",
             black: "#000000",
+            "input-border": "hsl(0, 0%, 80%)",
         },
         extend: {
             keyframes: {

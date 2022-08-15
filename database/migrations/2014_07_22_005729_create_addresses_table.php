@@ -20,9 +20,9 @@ return new class extends Migration
             $table->string('country');
             $table->string('region');
             $table->string('city');
-            $table->string('street');
             $table->string('addr');
             $table->string('addr_detail');
+            $table->string('postal_code');
         });
     }
 

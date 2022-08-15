@@ -10,7 +10,28 @@ import AddressForm from "@/Components/AddressForm";
 export default function Services(props) {
     const [serviceParams, setServiceParams] = useState([]);
     const [showModal, setShowModal] = useState("");
+    const [idAddress, setIdAddress] = useState(null);
+
     const onHide = () => setShowModal(false);
+
+    const submitService = (data) => {
+        //Load address on data
+        console.log(idAddress);
+        if (idAddress != null) {
+            data.id_address = idAddress;
+            axios.post("/api/services", data).then((res) => {
+                // Modal de juabito
+                alert("Servicio creado");
+            });
+        } else {
+            alert("Seleccione una dirección");
+        }
+    };
+
+    const succesAddressLoad = (data) => {
+        setIdAddress(data.id);
+        setShowModal(false);
+    };
 
     //Antes de que cargue la vista corgamos los datos
 
@@ -26,14 +47,21 @@ export default function Services(props) {
                 <DataForm
                     parameters={serviceParams}
                     buttonText="Cargar servicio"
-                    httpMethod={"POST"}
+                    onSubmit={submitService}
                     url={"/api/services"}
                 />
                 <Button onClick={() => setShowModal(true)}>
                     Cargar dirección
                 </Button>
-                <Modal onHide={onHide} show={showModal}>
-                    <AddressForm api_token={props.api_token} />
+                <Modal
+                    onHide={onHide}
+                    show={showModal}
+                    title={"Ingrese una nueva dirección"}
+                >
+                    <AddressForm
+                        api_token={props.api_token}
+                        onSubmit={succesAddressLoad}
+                    />
                 </Modal>
                 {/* Custom address form due to the fact of dynamism */}
             </Authenticated>
