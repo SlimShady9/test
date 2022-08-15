@@ -34,7 +34,7 @@ export default function Register() {
         postal_code: "",
         cellphone: "",
         phone: "",
-        document: "",
+        doc: "",
         t_document: "",
         email: "",
         password: "",
@@ -273,15 +273,15 @@ export default function Register() {
 
                     <div>
                         <Label
-                            forInput="document"
+                            forInput="doc"
                             value="Documento de Identidad"
                         />
                         <Input
                             type="text"
-                            name="document"
-                            value={data.document}
+                            name="doc"
+                            value={data.doc}
                             className="mt-1 block w-full"
-                            autoComplete="document"
+                            autoComplete="doc"
                             isFocused={true}
                             handleChange={onHandleChange}
                             required

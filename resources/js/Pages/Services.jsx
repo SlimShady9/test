@@ -3,6 +3,7 @@ import Authenticated from "@/Layouts/Authenticated";
 import Label from "@/Components/DataForm";
 import axios from "axios";
 import DataForm from "@/Components/DataForm";
+import Datatable from "@/Components/DataTableService"
 
 export default function Envios(props) {
     const [serviceParams, setServiceParams] = useState([]);
@@ -24,6 +25,7 @@ export default function Envios(props) {
                     url={"/api/services"}
                 ></DataForm>
             </Authenticated>
+            <Datatable/>
         </>
     );
 }

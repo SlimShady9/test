@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EnvioController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,13 @@ Route::resource('services', ServiceController::class)->names([
     'store' => 'services.store',
     'update' => 'services.update',
     'destroy' => 'services.destroy',
+]);
+Route::resource('users', UserController::class)->names([
+    'index' => 'users.index',
+    'show' => 'users.show',
+    'store' => 'users.store',
+    'update' => 'users.update',
+    'destroy' => 'users.destroy',
 ]);
 
 Route::resource('address', AddressController::class)->names([

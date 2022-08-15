@@ -38,12 +38,29 @@ class RegisteredUserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'surname' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
+            'doc' => 'required|string|max:255',
+            'signature' => 'string|max:255',
+            'phone' => 'required|string|max:20',
+            'cellphone' => 'required|string|max:25',
+            'notif' => 'string|max:2',
+            'data' => 'string|max:255',
+
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'surname' => $request->surname,
+            'username' => $request->username,
+            'doc' => $request->doc,
+            'signature' => $request->signature,
+            'phone' => $request->phone,
+            'cellphone' => $request->cellphone,
+            'notif' => $request->notif,
+            'data' => $request->data,
         ]);
 
 

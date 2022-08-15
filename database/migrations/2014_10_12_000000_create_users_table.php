@@ -19,9 +19,22 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('username');
+            $table->string('surname');
+            $table->string('doc');
+            $table->string('signature')->nullable();
+            $table->string('phone');
+            $table->string('cellphone');
+            $table->string('notif')->nullable();
+            $table->string('data')->nullable();
+         /*   $table->bigInteger('id_address')->unsigned();*/
             $table->rememberToken();
             $table->timestamps();
         });
+
+       /* Schema::table('users', function (Blueprint $table) {
+            $table->foreign('id_address')->references('id')->on('addresses');
+        });*/
     }
 
     /**
