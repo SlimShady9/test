@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
-import Label from "@/Components/DataForm";
 import axios from "axios";
 import DataForm from "@/Components/DataForm";
 import AddressForm from "@/Components/AddressForm";
+import Card from "@/Components/Card";
 
 export default function Services(props) {
     const [serviceParams, setServiceParams] = useState([]);
@@ -19,13 +19,13 @@ export default function Services(props) {
         <>
             <Authenticated {...props}>
                 <DataForm
+                    cols={2}
+                    titleForm={"Nuevo Servicio"}
                     parameters={serviceParams}
                     buttonText="Cargar servicio"
                     httpMethod={"POST"}
                     url={"/api/services"}
-                ></DataForm>
-                {/* Custom address form due to the fact of dynamism */}
-                <AddressForm api_token={props.api_token} />
+                ></DataForm>  
             </Authenticated>
         </>
     );
