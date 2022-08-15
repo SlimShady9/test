@@ -18,6 +18,8 @@ export default function Register() {
         { value: "particular", label: "Particular" },
         { value: "empresa", label: "Empresa" },
         { value: "proveedor", label: "Proveedor" },
+        { value: "awa", label: "awa sdas asds asd asd a" },
+        { value: "awa", label: "Prasdas asda sada oveedor" },
     ];
     //Constantes de la página
     const { data, setData, post, processing, errors, reset } = useForm({

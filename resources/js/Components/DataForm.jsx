@@ -38,12 +38,14 @@ export default function DataForm({
 
     return (
         <form onSubmit={submit}>
-            <div className="flex col-span-2 justify-center">
-                <h1>{titleForm}</h1>
-            </div>
-            {parameters.map(({ label, name, type, required, options }) => (
+            <Card 
+            col={cols}
+            title={titleForm}
+            >
+            {parameters.map(({ label, extend, name, type, required, options }) => (
                 <AnyInput
                     label={label}
+                    extend={extend}
                     name={name}
                     type={type}
                     required={required}
@@ -53,16 +55,19 @@ export default function DataForm({
                 />
             ))}
             <div className="flex col-span-2 justify-center">
+                <br />
                 <Button className="justify-center" processing={processing}>
                     {buttonText}
                 </Button>
             </div>
+            </Card>
         </form>
     );
 }
 
 function AnyInput({
     label,
+    extend,
     name,
     type,
     value,
@@ -72,11 +77,23 @@ function AnyInput({
 }) {
     const [inputData, setInputData] = useState("");
 
+    function extended(extend, prop){
+        if (extend) {
+            return prop
+        }
+        else {
+            return null
+        }
+    }
+
     return (
         <div>
             <Label forInput={name} value={label} />
             {type === "select" ? (
                 <Select
+                    menuPlacement="top"
+                    placeholder={"Seleccione..."}
+                    className={"border rounded"}
                     options={options}
                     autoComplete={name}
                     defaultValue={value ? value : ""}

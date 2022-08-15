@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import Label from "@/Components/DataForm";
-import Modal from "@/Components/Modal";
-import Button from "@/Components/Button";
 import axios from "axios";
 import DataForm from "@/Components/DataForm";
 import Datatable from "@/Components/DataTableService"
 import AddressForm from "@/Components/AddressForm";
+import Card from "@/Components/Card";
 
 export default function Services(props) {
     const [serviceParams, setServiceParams] = useState([]);
@@ -46,25 +45,15 @@ export default function Services(props) {
         <>
             <Authenticated {...props}>
                 <DataForm
+                    cols={2}
+                    titleForm={"Nuevo Servicio"}
                     parameters={serviceParams}
                     buttonText="Cargar servicio"
                     onSubmit={submitService}
                     url={"/api/services"}
-                />
-                <Button onClick={() => setShowModal(true)}>
-                    Cargar dirección
-                </Button>
-                <Modal
-                    onHide={onHide}
-                    show={showModal}
-                    title={"Ingrese una nueva dirección"}
-                >
-                    <AddressForm
-                        api_token={props.api_token}
-                        onSubmit={succesAddressLoad}
-                    />
-                </Modal>
+                ></DataForm>
                 {/* Custom address form due to the fact of dynamism */}
+                <AddressForm api_token={props.api_token} />
             </Authenticated>
             <Datatable/>
         </>
