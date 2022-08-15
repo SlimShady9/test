@@ -3,19 +3,17 @@ import React from "react";
 function Card({ className, title, children, col , footer}) {
     var add = "";
     if (!!col == true) {
-        add = `grid-cols-${col}`;
+        add = "grid grid-cols-${col} gap-4";
     }
 
     return (
         <div
-        style={{ flex: "1 50%" }}
-        className={`w-full sm:max-w-md px-6 py-4 bg-white shadow-md overflow-hidden rounded-lg ${className}`}
+        className={`w-full sm:max-w-md px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg ${className}`}
         >
-            <div className="flex justify-center">
-            <h1><b>{title}</b></h1>
-            </div>
+            <h1>{title}</h1>
+            
             <div
-                className={`grid gap-4 ${add}`}
+                className={`${add}`}
             >
             {children}
             </div>

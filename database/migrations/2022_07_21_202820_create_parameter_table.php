@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('label');
-            $table->string('extend');
             $table->string('name');
             $table->string('type');
             $table->boolean('required');
