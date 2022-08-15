@@ -53,7 +53,6 @@ class DatabaseSeeder extends Seeder
         $service = new ServiceSeeder();
         $service->run();
         
-        
 
     }
 }
