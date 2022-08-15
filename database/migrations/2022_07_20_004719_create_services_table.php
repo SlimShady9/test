@@ -25,7 +25,7 @@ return new class extends Migration
             $table->unsignedDouble('price');
             $table->timestamps();
             $table->bigInteger('id_address')->unsigned();
-            $table->json('data');
+            $table->json('data')->nullable();
         });
 
         Schema::table('services', function (Blueprint $table) {

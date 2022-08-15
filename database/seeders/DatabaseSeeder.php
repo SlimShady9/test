@@ -4,6 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Database\Seeders\ServiceSeeder;
+use Database\Seeders\AddressSeeder;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -43,6 +46,12 @@ class DatabaseSeeder extends Seeder
         \App\Models\StateService::create([
             'name' => 'Pendiente',
         ]);
+        
+        // Seeder para crear servicios
+        $addr = new AddressSeeder();
+        $addr->run();
+        $service = new ServiceSeeder();
+        $service->run();
         
 
     }

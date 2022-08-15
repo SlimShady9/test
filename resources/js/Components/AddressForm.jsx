@@ -6,7 +6,7 @@ import Label from "@/Components/Label";
 import axios from "axios";
 import Button from "./Button";
 
-function AddressForm({ api_token }) {
+function AddressForm({ api_token, onSubmit }) {
     const axiosConfig = {
         headers: {
             "X-CSCAPI-KEY": api_token,
@@ -18,9 +18,9 @@ function AddressForm({ api_token }) {
         country: { label: "", value: "" },
         region: { label: "", value: "" },
         city: { label: "", value: "" },
-        street: "",
         addr: "",
         addr_detail: "",
+        postal_code: "",
     });
 
     const [countries, setCountries] = useState([]);
@@ -88,13 +88,20 @@ function AddressForm({ api_token }) {
             region: data.region.label,
             city: data.city.label,
         };
-        axios.post("/api/address", parsedData).then((res) => {
-            //Alerta de juanito
-        });
+        axios
+            .post("/api/address", parsedData)
+            .then((res) => res.data)
+            .then((res) => {
+                onSubmit(res);
+            })
+            .catch((err) => {
+                //Alerta de juanito
+            });
     };
 
     return (
         <form onSubmit={submit}>
+            <Label forInput="country">País</Label>
             <Select
                 name="country"
                 type="select"
@@ -105,6 +112,7 @@ function AddressForm({ api_token }) {
                     value: c.iso2,
                 }))}
             />
+            <Label forInput="region">Región</Label>
             <Select
                 name="region"
                 type="select"
@@ -115,6 +123,7 @@ function AddressForm({ api_token }) {
                     value: c.iso2,
                 }))}
             />
+            <Label forInput="city">Ciudad</Label>
             <Select
                 name="city"
                 type="select"
@@ -125,19 +134,25 @@ function AddressForm({ api_token }) {
                     value: c.id,
                 }))}
             />
-            <Input
-                name="street"
-                handleChange={(e) => handleChange(e, "street")}
-            />
+            <Label forInput="name">Nombre</Label>
             <Input name="name" handleChange={(e) => handleChange(e, "name")} />
+            <Label forInput="addr">Dirección</Label>
             <Input name="addr" handleChange={(e) => handleChange(e, "addr")} />
+            <Label forInput="addr_detail">Detalles</Label>
             <Input
                 name="addr_detail"
                 handleChange={(e) => handleChange(e, "addr_detail")}
             />
-            <Button processing={processing} type="submit">
-                Submit
-            </Button>
+            <Label forInput="postal_code">Código postal</Label>
+            <Input
+                name="postal_code"
+                handleChange={(e) => handleChange(e, "postal_code")}
+            />
+            <div className="flex justify-center">
+                <Button processing={processing} type="submit" className="mt-3">
+                    Agregar dirección
+                </Button>
+            </div>
         </form>
     );
 }

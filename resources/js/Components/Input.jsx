@@ -23,8 +23,10 @@ export default function Input({
             <input
                 type={type}
                 name={name}
-                className={`mt-1 block w-full border focus:border-blue-600 active:border-blue-600 rounded-3xl shadow-md py-1.5 px-3
-                    transition-colors hover:border-white ${className ? className : ""}`}
+                className={`mt-1 block w-full border-gray-300 focus:border-blue-600 active:border-blue-600 rounded shadow-sm py-1.5 px-3
+                    transition-colors hover:border-gray-400 ${
+                        className ? className : ""
+                    }`}
                 ref={input}
                 defaultValue={defaultValue}
                 autoComplete={autoComplete}

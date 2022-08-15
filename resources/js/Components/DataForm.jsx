@@ -10,8 +10,7 @@ import { zIndex } from "tailwindcss/defaultTheme";
 
 export default function DataForm({
     parameters = [],
-    httpMethod,
-    url,
+    onSubmit,
     titleForm,
     buttonText,
     cols,
@@ -33,20 +32,9 @@ export default function DataForm({
     const submit = (e) => {
         e.preventDefault();
 
-        switch (httpMethod) {
-            case "POST": {
-                axios.post(url, data).then((res) => {
-                    reset();
-                });
-                break;
-            }
-            case "PUT": {
-                axios.put(url, data).then((res) => {
-                    reset();
-                });
-                break;
-            }
-        }
+        // Validate form
+
+        onSubmit(data);
     };
 
     return (
@@ -100,9 +88,8 @@ function AnyInput({
     }
 
     return (
-        <div className={"col-span-"+extend}>
+        <div>
             <Label forInput={name} value={label} />
-            {console.log(extend)}
             {type === "select" ? (
                 <Select
                     menuPlacement="top"
