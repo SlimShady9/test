@@ -11,7 +11,6 @@ class Parameter extends Model
 
     protected $fillable = [
         'label',
-        'extend',
         'name',
         'type',
         'required',
