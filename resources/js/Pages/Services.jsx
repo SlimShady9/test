@@ -5,6 +5,7 @@ import Modal from "@/Components/Modal";
 import Button from "@/Components/Button";
 import axios from "axios";
 import DataForm from "@/Components/DataForm";
+import Datatable from "@/Components/DataTableService"
 import AddressForm from "@/Components/AddressForm";
 
 export default function Services(props) {
@@ -65,6 +66,7 @@ export default function Services(props) {
                 </Modal>
                 {/* Custom address form due to the fact of dynamism */}
             </Authenticated>
+            <Datatable/>
         </>
     );
 }

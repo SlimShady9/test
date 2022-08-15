@@ -38,4 +38,8 @@ Route::get('/services', function () {
     ]);
 })->middleware(['auth', 'verified'])->name('services');
 
+Route::get('/users', function () {
+    return Inertia::render('Users');
+})->middleware(['auth', 'verified'])->name('users');
+
 require __DIR__.'/auth.php';

@@ -32,6 +32,12 @@ export default function Dashboard(props) {
                             >
                                 Servicios
                             </Link>
+                            <Link
+                                href={route("users")}
+                                className="p-3 bg-blue-400"
+                            >
+                                Usuarios
+                            </Link>
                         </div>
                     </div>
                 </div>
