@@ -21,20 +21,24 @@ module.exports = {
             // Para la customizacion  de un color de agrega diferentes variantes de este mismo
             // Ejemplo para aplicar una de las variantes a un color seria de la siguiente forma:
             // green-primary, y como prefijo bg, o text, o border, etc
+            
             green: {
                 // Color con identificador y valor hexadecimal de este
                 primary: "#1EE300",
                 light: "#8eff80",
                 dark: "#139f00",
+                servi:"#1EE300"
             },
             gray: {
                 light: "#dcdcdc",
                 dark: "#9a9a9a",
+                servi:"#dcdcdc"
             },
             blue: {
-                light: "#4e4175",
+                light: "#9CBEFF",
                 primary: "#231A49",
                 dark: "#000022",
+                servi:"#0a0231"
             },
             red: {
                 light: "#ffb3b3",
