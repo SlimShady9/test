@@ -6,29 +6,29 @@ import {BsFillFilePersonFill} from 'react-icons/bs'
 const App = () => {
   const [open, setOpen] = useState(true);
   const Menus = [
-    { title: "Perfil",icon: <BsFillFilePersonFill/> },
-    { title: "Ver envíos",icon: <FaShippingFast/>  },
-    { title: "Accounts", gap: true, icon: <AiOutlineLogout/>},
-    { title: "Schedule " ,icon: <AiOutlineLogout/> },
-    { title: "Search",icon:  <AiOutlineLogout/>},
-    { title: "Analytics" ,icon:  <AiOutlineLogout/>},
-    { title: "Files ", gap: true, icon:  <AiOutlineLogout/>},
-    { title: "Cerrar sesión" ,icon: <AiOutlineLogout/> },
+    { title: "Perfil",icon: <BsFillFilePersonFill/>, url: "" },
+    { title: "Ver envíos",icon: <FaShippingFast/>, url: ""  },
+    { title: "Accounts", gap: true, icon: <AiOutlineLogout/>, url: ""},
+    { title: "Schedule " ,icon: <AiOutlineLogout/>, url: "" },
+    { title: "Search",icon:  <AiOutlineLogout/>, url: ""},
+    { title: "Analytics" ,icon:  <AiOutlineLogout/>, url: ""},
+    { title: "Files ", gap: true, icon:  <AiOutlineLogout/>, url: ""},
+    { title: "Cerrar sesión" ,icon: <AiOutlineLogout/>, url: "" },
   ];
 
   return (
-    <div className="flex">
+    <div className="fixed">
       <div
         className={` ${
           open ? "w-72" : "w-20 "
-        } bg-dark-purple h-screen p-5  pt-8 relative duration-300`}
+        } bg-blue-light h-screen p-5  pt-8 relative duration-300`}
       >
         <VscThreeBars className={`absolute cursor-pointer -right-3 top-9 w-7 border-dark-purple
            border-2 rounded-full  ${!open && "rotate-180"}`}
           onClick={() => setOpen(!open)}/>
         <div className="flex gap-x-4 items-center">
           <img
-            src="./src/assets/logo.png"
+            src=""
             className={`cursor-pointer duration-500 ${
               open && "rotate-[360deg]"
             }`}
@@ -38,7 +38,7 @@ const App = () => {
               !open && "scale-0"
             }`}
           >
-            Bienvenido "usuario"
+            "usuario"
           </h1>
         </div>
         <ul className="pt-6">

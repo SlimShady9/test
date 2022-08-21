@@ -77,21 +77,11 @@ function AnyInput({
 }) {
     const [inputData, setInputData] = useState("");
 
-    function extended(extend, prop){
-        if (extend) {
-            return prop
-        }
-        else {
-            return null
-        }
-    }
-
     return (
-        <div>
+        <div className={"col-span-"+extend}>
             <Label forInput={name} value={label} />
             {type === "select" ? (
                 <Select
-                    menuPlacement="top"
                     placeholder={"Seleccione..."}
                     className={"border rounded"}
                     options={options}

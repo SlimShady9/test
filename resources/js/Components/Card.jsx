@@ -9,7 +9,7 @@ function Card({ className, title, children, col , footer}) {
     return (
         <div
         style={{ flex: "1 50%" }}
-        className={`w-full sm:max-w-md px-6 py-4 bg-white shadow-md overflow-hidden rounded-lg ${className}`}
+        className={`w-full sm:max-w-md px-6 py-4 m-5 bg-white shadow-xl shadow-gray-dark overflow-hidden rounded-lg ${className}`}
         >
             <div className="flex justify-center">
             <h1><b>{title}</b></h1>
@@ -19,7 +19,9 @@ function Card({ className, title, children, col , footer}) {
             >
             {children}
             </div>
-            <div className="flex justify-center">{footer}</div>
+            <div className="flex justify-center">
+                {footer}
+            </div>
         </div>
     );
 }
