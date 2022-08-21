@@ -46,6 +46,7 @@ export default function Services(props) {
         <>
             <Authenticated {...props}>
                 <DataForm
+                    titleForm={"Nuevo Servicio"}
                     parameters={serviceParams}
                     buttonText="Cargar servicio"
                     onSubmit={submitService}
