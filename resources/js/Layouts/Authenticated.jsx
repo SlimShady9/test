@@ -3,6 +3,7 @@ import ApplicationLogo from "@/Components/ApplicationLogo";
 import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import Sidebar from "@/Components/SideBar";
+import Footer from "@/Components/Footer";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/inertia-react";
 
@@ -162,8 +163,9 @@ export default function Authenticated({ auth, header, children }) {
                 </header>
             )}
             
-            <main className="grid justify-center">
+            <main className="px-50">
                 {children}
+                <Footer className="mt-4" />
             </main>
         </div>
     );
