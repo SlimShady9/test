@@ -2,10 +2,10 @@ import React from "react";
 
 function Footer({ className }) {
     return (
-        <footer className={`shadow-md bg-gradient-to-r from-white to-blue-light bg-bg-secondary text-text-primary ${className}`}>
+        <footer className={`absolute bottom-0 w-full shadow-md bg-gradient-to-r from-white to-blue-light bg-bg-secondary text-text-primary ${className}`}>
             <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-6 sm:px-8 px-5 py-16">
                 <ul>
-                    <h1 className="mb-1 font-semibold">Links</h1>
+                    <h1 className="mb-1 font-bold">Links</h1>
                     <li>
                         <a
                             className="text-text-secondary hover:text-teal-400 duration-300
@@ -25,7 +25,7 @@ function Footer({ className }) {
                     </li>
                 </ul>
                 <ul>
-                    <h1 className="">Otros</h1>
+                    <h1 className="mb-1 font-bold">Otros</h1>
                     <li>
                         <a
                             className="text-text-secondary hover:text-teal-400 duration-300

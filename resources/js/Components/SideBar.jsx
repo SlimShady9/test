@@ -4,7 +4,7 @@ import {AiOutlineLogout} from 'react-icons/ai'
 import {FaShippingFast} from 'react-icons/fa'
 import {BsFillFilePersonFill} from 'react-icons/bs'
 const App = () => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const Menus = [
     { title: "Perfil",icon: <BsFillFilePersonFill/>, url: "" },
     { title: "Ver envíos",icon: <FaShippingFast/>, url: ""  },
@@ -17,12 +17,12 @@ const App = () => {
   ];
 
   return (
-    <div className="fixed">
-      <div
+      <aside
         className={` ${
           open ? "w-72" : "w-20 "
-        } bg-gradient-to-l from-white to-blue-light h-screen p-5  pt-8 relative duration-300`}
-        onClick={() => setOpen(!open)}
+        } bg-gradient-to-l from-gray-servi to-blue-light h-screen p-5  pt-8 relative duration-300`}
+        onMouseOver={() => setOpen(!open)}
+        onMouseOut={() => setOpen(!open)}
       >
         <div className="flex gap-x-4 items-center">
           <img
@@ -39,7 +39,7 @@ const App = () => {
               className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
               ${Menu.gap ? "mt-9" : "mt-2"} ${
                 index === 0 && "bg-light-white"
-              } hover:bg-gradient-to-r from-blue-servi to-white opacity-80 hover:text-white`}
+              } hover:bg-gradient-to-r from-blue-servi to-white opacity-80 hover:text-white transition ease-in-out duration-300 hover:scale-110`}
             >
               {Menu.icon}
               <span className={`${!open && "hidden"} origin-left duration-200`}>
@@ -48,8 +48,7 @@ const App = () => {
             </li>
           ))}
         </ul>
-      </div>
-    </div>
+      </aside>
   );
 };
 export default App;
