@@ -38,6 +38,8 @@ Route::resource('users', UserController::class)->names([
     'store' => 'users.store',
     'update' => 'users.update',
     'destroy' => 'users.destroy',
+    'create' => 'users.create',
+    'edit' => 'users.edit',
 ]);
 
 Route::resource('address', AddressController::class)->names([

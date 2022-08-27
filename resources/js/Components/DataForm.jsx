@@ -16,7 +16,7 @@ export default function DataForm({
     className,
 }) {
     const { data, setData, processing, errors, reset } = useForm(
-        parameters.map((item) => ({ ...item, value: "" }))
+        parameters.map((item) => ({ ...item, value: item.value || "" }))
     );
 
     const handleChange = (e, setInputData, name) => {
@@ -79,7 +79,7 @@ function AnyInput({
                 <Select
                     options={options}
                     autoComplete={name}
-                    defaultValue={value ? value : ""}
+                    defaultValue={value || ""}
                     onChange={(e) => handleChange(e, setInputData, name)}
                     required={required}
                 />
@@ -88,7 +88,7 @@ function AnyInput({
                     type={type}
                     name={name}
                     value={value}
-                    defaultValue={value ? value : ""}
+                    defaultValue={value || ""}
                     autoComplete={name}
                     handleChange={handleChange}
                     required={required}
