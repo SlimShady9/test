@@ -3,8 +3,11 @@ import {VscThreeBars} from 'react-icons/vsc'
 import {AiOutlineLogout} from 'react-icons/ai'
 import {FaShippingFast} from 'react-icons/fa'
 import {BsFillFilePersonFill} from 'react-icons/bs'
+import ImageUploadForm from "./ImageUploadForm";
+
 const App = () => {
   const [open, setOpen] = useState(false);
+  const [loggedUser, setLoggedUser] = useState(user);
   const Menus = [
     { title: "Perfil",icon: <BsFillFilePersonFill/>, url: "" },
     { title: "Ver envíos",icon: <FaShippingFast/>, url: ""  },
@@ -25,12 +28,7 @@ const App = () => {
         onMouseOut={() => setOpen(!open)}
       >
         <div className="flex gap-x-4 items-center">
-          <img
-            src=""
-            className={`cursor-pointer duration-500 ${
-              open && "rotate-[360deg]"
-            }`}
-          />
+        <ImageUploadForm user={loggedUser} setUser={setLoggedUser} />
         </div>
         <ul className="pt-6">
           {Menus.map((Menu, index) => (
@@ -51,4 +49,4 @@ const App = () => {
       </aside>
   );
 };
-export default App;
+export default SideBar;

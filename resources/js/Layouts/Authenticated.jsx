@@ -13,7 +13,7 @@ export default function Authenticated({ auth, header, children }) {
 
     return (
         <div className="flex min-h-screen bg-gray-light">
-            <Sidebar/>
+            <Sidebar user={auth.user} />
             <main className="flex-1">
             <nav className="bg-gradient-to-r from-white to-blue-light border-b border-gray-light">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -166,6 +166,7 @@ export default function Authenticated({ auth, header, children }) {
                 {children}
                 <Footer className="mt-4" />
             </main>
+
         </div>
     );
 }
