@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Parameter;
-
+use App\Models\User;
 
 class UserSeeder extends Seeder
 {
@@ -70,6 +70,16 @@ class UserSeeder extends Seeder
             'type' => 'text',
             'required' => true,
             'table' => 'users',
+        ]);
+        User::create([
+            'name' => 'Admin',
+            'email' => 'slim.shady99q@gmail.com',
+            'password' => bcrypt('Plumitas122302'),
+            'username' => 'admin',
+            'surname' => 'admin',
+            'doc' => '1019152187',
+            'phone' => '3178874957',
+            'cellphone' => '3178874957',
         ]);
     }
 }

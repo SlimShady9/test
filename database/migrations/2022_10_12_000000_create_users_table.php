@@ -27,11 +27,7 @@ return new class extends Migration
             $table->string('cellphone');
             $table->string('notif')->nullable();
             $table->string('data')->nullable();
-            /*
-            $table->bigInteger('id_address')->unsigned();
-            $table->bigInteger('id_t_doc')->unsigned();
-            $table->bigInteger('id_t_user')->unsigned();
-            */
+         /*   $table->bigInteger('id_address')->unsigned();*/
             $table->rememberToken();
             $table->timestamps();
         });

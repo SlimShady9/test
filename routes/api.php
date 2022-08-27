@@ -6,6 +6,7 @@ use App\Http\Controllers\EnvioController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\File\PhotoUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,29 +24,38 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::resource('envios', EnvioController::class);
+Route::resource('envio', EnvioController::class);
 
-Route::resource('services', ServiceController::class)->names([
-    'index' => 'services.index',
-    'show' => 'services.show',
-    'store' => 'services.store',
-    'update' => 'services.update',
-    'destroy' => 'services.destroy',
+Route::resource('service', ServiceController::class)->names([
+    'index' => 'service.index',
+    'show' => 'service.show',
+    'store' => 'service.store',
+    'update' => 'service.update',
+    'destroy' => 'service.destroy',
 ]);
-Route::resource('users', UserController::class)->names([
-    'index' => 'users.index',
-    'show' => 'users.show',
-    'store' => 'users.store',
-    'update' => 'users.update',
-    'destroy' => 'users.destroy',
-    'create' => 'users.create',
-    'edit' => 'users.edit',
+
+Route::resource('user', UserController::class)->names([
+    'index' => 'user.index',
+    'show' => 'user.show',
+    'store' => 'user.store',
+    'update' => 'user.update',
+    'destroy' => 'user.destroy',
+    'create' => 'user.create',
+    'edit' => 'user.edit',
 ]);
+
 
 Route::resource('address', AddressController::class)->names([
-    'index' => 'addresses.index',
-    'show' => 'addresses.show',
-    'store' => 'addresses.store',
-    'update' => 'addresses.update',
-    'destroy' => 'addresses.destroy',
+    'index' => 'address.index',
+    'show' => 'address.show',
+    'store' => 'address.store',
+    'update' => 'address.update',
+    'destroy' => 'address.destroy',
+    'edit' => 'address.edit',
 ]);
+
+// Tal vez con resource no se deba hacer el get, put, post, delete. Pero no sé
+Route::get('/user/{user_id}/profileimg', [PhotoUserController::class, 'profileimg']);
+Route::post('/user/{user_id}/profileimg', [PhotoUserController::class, 'uploadprofileimg']);
+Route::delete('/user/{user_id}/profileimg', [PhotoUserController::class, 'deleteprofileimg']);
+Route::put('/user/{user_id}/profileimg', [PhotoUserController::class, 'updateprofileimg']);

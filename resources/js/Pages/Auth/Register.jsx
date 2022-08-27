@@ -6,9 +6,6 @@ import Input from "@/Components/Input";
 import Label from "@/Components/Label";
 import Checkbox from "@/Components/Checkbox";
 import Select from "react-select";
-import Uploady from "@rpldy/uploady";
-import UploadButton from "@rpldy/upload-button";
-import UploadPreview from "@rpldy/upload-preview";
 import ValidationErrors from "@/Components/ValidationErrors";
 import { Head, Link, useForm } from "@inertiajs/inertia-react";
 
@@ -123,28 +120,6 @@ export default function Register() {
                             onChange={onHandleChange}
                             required
                         ></Select>
-                    </div>
-
-                    <div className="col-span-2">
-                        <div className="grid gap-4">
-                            <Label forInput="picture" value="Foto de Perfil" />
-                            <Uploady
-                                name="picture"
-                                value={data.picture}
-                                className="input mt-1 block w-full"
-                                autoComplete="picture"
-                                accept="image/*"
-                            >
-                                <UploadButton>
-                                    <Container className="btn grid grid-cols-2 border-gray-200 border-2 ">
-                                        <Container className="max-w-36 max-h-36 overflow-hidden">
-                                            <UploadPreview />
-                                        </Container>
-                                        <Container>Subir Imagen</Container>
-                                    </Container>
-                                </UploadButton>
-                            </Uploady>
-                        </div>
                     </div>
 
                     <div>
@@ -272,10 +247,7 @@ export default function Register() {
                     </div>
 
                     <div>
-                        <Label
-                            forInput="doc"
-                            value="Documento de Identidad"
-                        />
+                        <Label forInput="doc" value="Documento de Identidad" />
                         <Input
                             type="text"
                             name="doc"
