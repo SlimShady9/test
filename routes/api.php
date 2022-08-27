@@ -6,6 +6,7 @@ use App\Http\Controllers\EnvioController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\File\PhotoUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,12 +33,12 @@ Route::resource('services', ServiceController::class)->names([
     'update' => 'services.update',
     'destroy' => 'services.destroy',
 ]);
-Route::resource('users', UserController::class)->names([
-    'index' => 'users.index',
-    'show' => 'users.show',
-    'store' => 'users.store',
-    'update' => 'users.update',
-    'destroy' => 'users.destroy',
+Route::resource('user', UserController::class)->names([
+    'index' => 'user.index',
+    'show' => 'user.show',
+    'store' => 'user.store',
+    'update' => 'user.update',
+    'destroy' => 'user.destroy',
 ]);
 
 Route::resource('address', AddressController::class)->names([
@@ -46,4 +47,11 @@ Route::resource('address', AddressController::class)->names([
     'store' => 'addresses.store',
     'update' => 'addresses.update',
     'destroy' => 'addresses.destroy',
+    'edit' => 'addresses.edit',
 ]);
+
+// Tal vez con resource no se deba hacer el get, put, post, delete. Pero no sé
+Route::get('/user/{user_id}/profileimg', [PhotoUserController::class, 'profileimg']);
+Route::post('/user/{user_id}/profileimg', [PhotoUserController::class, 'uploadprofileimg']);
+Route::delete('/user/{user_id}/profileimg', [PhotoUserController::class, 'deleteprofileimg']);
+Route::put('/user/{user_id}/profileimg', [PhotoUserController::class, 'updateprofileimg']);
