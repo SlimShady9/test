@@ -47,6 +47,29 @@ class DatabaseSeeder extends Seeder
         \App\Models\StateService::create([
             'name' => 'Pendiente',
         ]);
+        //Tipo de usuario
+        \App\Models\T_user::create([
+            'name' => 'Admin',
+        ]);
+        \App\Models\T_user::create([
+            'name' => 'Cliente a',
+        ]);
+        \App\Models\T_user::create([
+            'name' => 'Cliente b',
+        ]);
+        //Tipo de documento
+        \App\Models\T_document::create([
+            'name' => 'Cédula',
+            'leght' => '11'
+        ]);
+        \App\Models\T_document::create([
+            'name' => 'Pasaporte',
+            'leght' => '20'
+        ]);
+        \App\Models\T_document::create([
+            'name' => 'Cédula de extranjeria',
+            'leght' => '11'
+        ]);
         
         // Seeder para crear servicios
         $addr = new AddressSeeder();

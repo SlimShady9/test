@@ -16,7 +16,7 @@ export default function DataForm({
     className,
 }) {
     const { data, setData, processing, errors, reset } = useForm(
-        parameters.map((item) => ({ ...item, value: "" }))
+        parameters.map((item) => ({ ...item, value: item.value || "" }))
     );
 
     const handleChange = (e, setInputData, name) => {
@@ -93,6 +93,7 @@ function AnyInput({
                 <Input
                     type={type}
                     name={name}
+                    value={value}
                     defaultValue={value || ""}
                     autoComplete={name}
                     handleChange={handleChange}

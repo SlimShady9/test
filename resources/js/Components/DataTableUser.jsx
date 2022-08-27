@@ -3,12 +3,30 @@ import {GrEdit} from "react-icons/gr";
 import {RiDeleteBinLine} from "react-icons/ri";
 import react, {useEffect, useState} from "react"
 import DataTable from "react-data-table-component"
-import Button from "./Button";
+import Modal from "@/Components/Modal";
+import Button from "@/Components/Button";
+import DataForm from "@/Components/DataForm";
+import Card from "@/Components/Card";
 
  const Datatable = () => {
     const[search, setSearch] = useState("");
     const[user, setUser] = useState([]);
     const[filteredUser, setFilteredUser] = useState([]);
+    const[idselected, setIdselected] = useState(null);
+
+    const [userParams, setUserParams] = useState([]);
+    const [showModal, setShowModal] = useState("");
+    const onHide = () => setShowModal(false);
+
+    const submitUser = (data) => {
+        console.log(data);
+        axios.put(`/api/users/${idselected}`,data).then((res) => {
+        setUser((prevState) => prevState.map((item) => item.email === res.data.email ? res.data : item));
+        setIdselected(null);
+        console.log(user);
+        setFilteredUser(user);
+        setShowModal(false)
+        })};
 
     const getUser = async () => {
         try {
@@ -23,6 +41,11 @@ import Button from "./Button";
     const columns = [
     {
         name: "Nombre",
+        selector: (row) => row.name,
+        sortable: true,
+    },
+    {
+        name: "Apellido",
         selector: (row) => row.surname,
         sortable: true,
     },
@@ -48,7 +71,7 @@ import Button from "./Button";
     },
     {
         name: "Editar",
-        cell: row => <button className="bg-blue"><GrEdit/></button>
+        cell: row => <button onClick={() => loadUser(row.id)} className="bg-blue"><GrEdit/></button>
 
     },
     {
@@ -60,6 +83,13 @@ import Button from "./Button";
 useEffect(() =>{
     getUser();
 }, []);
+
+const loadUser = (id) => {
+    axios.get(`/api/users/${id}/edit`).then((res) => {
+        setUserParams(res.data.parameters);
+        setShowModal(true)
+        setIdselected(id);
+    })};
 
 useEffect(() => {
     const result = user.filter((users) =>{
@@ -73,25 +103,41 @@ useEffect(() => {
 
     setFilteredUser(result);
 },[search]);
-return <DataTable 
+
+
+return(
+
+        <DataTable 
             title="Usuarios"
             columns={columns} 
             data={filteredUser} 
-            selectableRows
             highlightOnHover
             fixedHeader
             pagination
             subHeader
             subHeaderComponent={
-            <input
-            type="text"
-            placeholder="Buscar"
-            className="w-25 form-control"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            />
+            <><input
+                    type="text"
+                    placeholder="Buscar"
+                    className="w-25 form-control"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)} />
+                    <Modal
+                        onHide={onHide}
+                        show={showModal}
+                        title={"Editar usuario"}
+                    >
+                        <DataForm
+                            parameters={userParams}
+                            buttonText="Editar usuario"
+                            onSubmit={submitUser}
+                        />
+                    </Modal>
+                    </>
+                    
         }
-        />;
+        />
+)
 };
 
  export default Datatable;

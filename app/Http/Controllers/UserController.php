@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\T_user;
+use App\Models\T_document;
+use App\Models\Parameter;
+use Barryvdh\Debugbar\Facade as Debugbar;
 
 class UserController extends Controller
 {
@@ -24,8 +28,45 @@ class UserController extends Controller
      */
     public function create()
     {
-        return Parameter::where('table', 'users')->get();
-    }
+       $parameters = Parameter::where('table', 'users')->get();
+         $typesU = T_user::all();
+         $typeD = T_document::all();
+
+         $options = [
+            'type' => 'select',
+            'label' => 'Tipo de usuario',
+            'name' => 'id_t_user',
+            'options' => [],
+        ];
+
+        foreach ($typesU as $typesU) {
+            array_push($options['options'], [
+                'label' => $typesU->name,
+                'value' => $typesU->id,
+            ]);
+        }
+
+        $optionsD = [
+            'type' => 'select',
+            'label' => 'Tipo de documento',
+            'name' => 'id_t_doc',
+            'options' => [],
+        ];
+
+        foreach ($typeD as $typeD) {
+            array_push($optionsD['options'], [
+                'label' => $typeD->name,
+                'value' => $typeD->id,
+            ]);
+        }
+
+        $parameters->push($options);
+        $parameters->push($optionsD);
+        
+       return response()->json([
+        'parameters' => $parameters,
+        ], 200)->header('Content-Type', 'application/json');
+}
 
     /**
      * Store a newly created resource in storage.
@@ -38,7 +79,7 @@ class UserController extends Controller
         try {
 
             $request->validate([
-                'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'surname' => 'required|string|max:255',
@@ -93,7 +134,97 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        return User::find($id);
+        Debugbar::info($id);
+        $parameter = User::findOrFail($id);
+        $parameters = [
+            [
+                'label' => 'Nombre de usuario',
+                'name' => 'username',
+                'type' => 'text',
+                'required' => true,
+                'table' => 'users',
+                'value' => $parameter->username,
+            ],
+            [
+                'label' => 'Nombre',
+                'name' => 'name',
+                'type' => 'text',
+                'required' => true,
+                'value' => $parameter->name,
+            ],
+            [
+                'label' => 'Apellido',
+                'name' => 'surname',
+                'type' => 'text',
+                'required' => true,
+                'value' => $parameter->surname,
+            ],
+            [
+                'label' => 'Correo electronico',
+                'name' => 'email',
+                'type' => 'text',
+                'required' => true,
+                'value' => $parameter->email,
+            ],
+            [
+                'label' => 'Documento',
+                'name' => 'doc',
+                'type' => 'text',
+                'required' => true,
+                'value' => $parameter->doc,
+            ],
+            [
+                'label' => 'Telefono',
+                'name' => 'phone',
+                'type' => 'text',
+                'required' => true,
+                'value' => $parameter->phone,
+            ],
+            [
+                'label' => 'Celular',
+                'name' => 'cellphone',
+                'type' => 'text',
+                'required' => true,
+                'value' => $parameter->cellphone,
+            ],
+        ];
+        
+        $options = [
+            'type' => 'select',
+            'label' => 'Tipo de usuario',
+            'name' => 'id_t_user',
+            'options' => [],
+            'value' => $parameter->id_t_user,
+        ];
+        $typesU = T_user::all();
+        Debugbar::info($typesU);
+        foreach ($typesU as $typesU) {
+            array_push($options['options'], [
+                'label' => $typesU->name,
+                'value' => $typesU->id,
+            ]);
+        }
+        $typeD = T_document::all();
+        $optionsD = [
+            'type' => 'select',
+            'label' => 'Tipo de documento',
+            'name' => 'id_t_doc',
+            'options' => [],
+            'value' => $parameter->id_t_doc,
+        ];
+        foreach ($typeD as $typeD) {
+            array_push($optionsD['options'], [
+                'label' => $typeD->name,
+                'value' => $typeD->id,
+            ]);
+        }
+
+        array_push($parameters, $options);
+        array_push($parameters, $optionsD);
+
+        return response()->json([
+            'parameters' => $parameters,
+            ], 200)->header('Content-Type', 'application/json');
 
     }
 
@@ -109,8 +240,6 @@ class UserController extends Controller
         try {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'surname' => 'required|string|max:255',
             'username' => 'required|string|max:255',
             'doc' => 'required|string|max:255',
@@ -132,8 +261,6 @@ class UserController extends Controller
         }
        
         $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
         $user->surname = $request->surname;
         $user->username = $request->username;
         $user->doc = $request->doc;

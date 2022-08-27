@@ -27,15 +27,18 @@ return new class extends Migration
             $table->string('cellphone');
             $table->string('notif')->nullable();
             $table->string('data')->nullable();
-            $table->string('picture')->nullable();
          /*   $table->bigInteger('id_address')->unsigned();*/
             $table->rememberToken();
             $table->timestamps();
         });
 
-       /* Schema::table('users', function (Blueprint $table) {
+       Schema::table('users', function (Blueprint $table) {
+        /*
             $table->foreign('id_address')->references('id')->on('addresses');
-        });*/
+            $table->foreign('id_t_user')->references('id')->on('t_users');
+            $table->foreign('id_t_doc')->references('id')->on('t_documents');
+            */
+        });
     }
 
     /**
