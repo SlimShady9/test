@@ -53,6 +53,64 @@ class ServiceController extends Controller {
         return $newService;
     }
 
+    public function edit($id) {
+
+        Parameters::findOrFail($id);
+
+        $parameters = [
+            [
+                'label' => 'Nombre',
+                'name' => 'name',
+                'type' => 'input',
+                'required' => true,
+                'value' => $parameter->name,
+            ],
+            [
+                'label' => 'Descripción',
+                'name' => 'description',
+                'type' => 'input',
+                'required' => true,
+                'value' => $parameter->description,
+            ],
+            [
+                'label' => 'Precio',
+                'name' => 'price',
+                'type' => 'input',
+                'required' => true,
+                'value' => $parameter->price,
+            ],
+            [
+                'label' => 'Fecha',
+                'name' => 'date',
+                'type' => 'date',
+                'required' => true,
+                'value' => $parameter->date,
+            ],
+        ];
+
+        $type_services_options = TypeService::all();
+        $options = [
+            'type' => 'select',
+            'label' => 'Tipo de servicio',
+            'name' => 'id_type_service',
+            'options' => [],
+            'value' => $parameter->id_type_service,
+        ];
+
+        foreach ($type_services as $type_services_options) {
+            array_push($options['options'], [
+                'label' => $type_service->name,
+                'value' => $type_service->id,
+            ]);
+        }
+
+        array_push($parameters, $options);
+
+        return response()->json([
+            'parameters' => $parameters,
+            ], 200)->header('Content-Type', 'application/json');
+    }
+
     public function update(Request $request, $id) {
 
         try {

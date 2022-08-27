@@ -7,11 +7,6 @@ export default function Dashboard(props) {
         <Authenticated
             auth={props.auth}
             errors={props.errors}
-            header={
-                <h2 className="font-semibold text-xl leading-tight">
-                    Dashboard
-                </h2>
-            }
         >
             <Head title="Dashboard" />
 
@@ -19,7 +14,7 @@ export default function Dashboard(props) {
                 <div className="gap-4 max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 bg-white border-b border-gray-200">
-                            You're logged in!
+                            DASHBOARD
                             <Link
                                 href={route("envios")}
                                 className="p-3 bg-blue-400"
