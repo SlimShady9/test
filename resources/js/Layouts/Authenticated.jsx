@@ -3,6 +3,7 @@ import ApplicationLogo from "@/Components/ApplicationLogo";
 import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import Sidebar from "@/Components/SideBar";
+import Footer from "@/Components/Footer";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/inertia-react";
 
@@ -11,10 +12,10 @@ export default function Authenticated({ auth, header, children }) {
         useState(false);
 
     return (
-        <div className="min-h-screen bg-gray-light">
+        <div className="flex min-h-screen bg-gray-light">
             <Sidebar user={auth.user} />
-
-            <nav className="bg-white border-b border-gray-light">
+            <main className="flex-1">
+            <nav className="bg-gradient-to-r from-white to-blue-light border-b border-gray-light">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
                         <div className="flex">
@@ -26,6 +27,7 @@ export default function Authenticated({ auth, header, children }) {
 
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <NavLink
+                                    className={"text-gray-800 hover:text-gray-400 duration-500"}
                                     href={route("dashboard")}
                                     active={route().current("dashboard")}
                                 >
@@ -154,7 +156,6 @@ export default function Authenticated({ auth, header, children }) {
                     </div>
                 </div>
             </nav>
-
             {header && (
                 <header className="bg-white shadow">
                     <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
@@ -162,8 +163,10 @@ export default function Authenticated({ auth, header, children }) {
                     </div>
                 </header>
             )}
+                {children}
+                <Footer className="mt-4" />
+            </main>
 
-            <main className="grid justify-center">{children}</main>
         </div>
     );
 }
