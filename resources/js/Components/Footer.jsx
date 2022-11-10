@@ -2,7 +2,7 @@ import React from "react";
 
 function Footer({ className }) {
     return (
-        <footer className={`absolute bottom-0 w-full shadow-md bg-gradient-to-r from-white to-blue-light bg-bg-secondary text-text-primary ${className}`}>
+        <footer className={`bottom-0 w-full shadow-md bg-gradient-to-r from-white to-blue-light bg-bg-secondary text-text-primary ${className}`}>
             <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-6 sm:px-8 px-5 py-16">
                 <ul>
                     <h1 className="mb-1 font-bold">Links</h1>

@@ -23,7 +23,7 @@ const SideBar = ({ user }) => {
         <aside
             className={` ${
                 open ? "w-72" : "w-20 "
-            } bg-gradient-to-l from-gray-servi to-blue-light h-screen p-5  pt-8 relative duration-300`}
+            } bg-gradient-to-l from-white to-blue-light h-screen p-5  pt-8 relative duration-300`}
             onMouseOver={() => setOpen(!open)}
             onMouseOut={() => setOpen(!open)}
         >

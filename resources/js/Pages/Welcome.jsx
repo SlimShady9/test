@@ -7,11 +7,14 @@ const associates = [{ name: "", icon: "", url: "" }];
 
 export default function Welcome(props) {
     return (
-        <Guest className={"grid grid-cols-1"}>
-            <Container className={"flex justify-center gap-4"}>
+        <Guest className={"grid grid-cols-1 justify-center"}>
+            <Container className={"lg:flex md:grid justify-center"}>
+            <h1 className="text-lg mb-1 font-bold">Welcome Home</h1>
+            </Container>
+            <Container className={"lg:flex md:grid justify-center"}>
                 <Card
                     className={
-                        "grid gap-4 py-4 justify-center scale-100 hover:scale-125 ease-in duration-500"
+                        "grid gap-4 py-4 justify-center scale-100 hover:scale-105 ease-in duration-200"
                     }
                     col={"1"}
                     title={"T-Service 1"}
@@ -29,7 +32,7 @@ export default function Welcome(props) {
                 </Card>
                 <Card
                     className={
-                        "grid gap-4 py-4 justify-center scale-100 hover:scale-125 ease-in duration-500"
+                        "grid gap-4 py-4 justify-center scale-100 hover:scale-105 ease-in duration-200"
                     }
                     col={"1"}
                     title={"T-Service 1"}
@@ -47,25 +50,7 @@ export default function Welcome(props) {
                 </Card>
                 <Card
                     className={
-                        "grid gap-4 py-4 justify-center scale-100 hover:scale-125 ease-in duration-500"
-                    }
-                    col={"1"}
-                    title={"T-Service 1"}
-                >
-                    <Container
-                        className={
-                            "flex w-40 h-40 shadow-xl overflow-hidden shadow-gray-dark bg-gradient-to-t from-white to-gray-servi rounded-full"
-                        }
-                    >
-                        <img src="https://climbea.com/wp-content/uploads/2021/05/control-gestion.png" />
-                    </Container>
-                    <Container className={"justify-center"}>
-                        Este es un ejemplo
-                    </Container>
-                </Card>
-                <Card
-                    className={
-                        "grid gap-4 py-4 justify-center scale-100 hover:scale-125 ease-in duration-500"
+                        "grid gap-4 py-4 justify-center scale-100 hover:scale-105 ease-in duration-200"
                     }
                     col={"1"}
                     title={"T-Service 1"}
@@ -85,7 +70,7 @@ export default function Welcome(props) {
             <Container className={"flex justify-center"}>
                 <Container
                     className={
-                        "flex w-40 h-40 shadow-xl overflow-hidden shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
+                        " sm:scale-75 flex w-40 h-40 shadow-xl overflow-hidden shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
                     }
                 >
                     <img
