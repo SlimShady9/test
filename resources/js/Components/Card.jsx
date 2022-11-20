@@ -10,7 +10,7 @@ function Card({ className, title, children, col, footer }) {
         <div
             className={`w-full sm:max-w-md px-6 py-4 m-4 bg-gradient-to-t from-white to-blue-light shadow-xl shadow-gray-dark overflow-visible rounded-lg ${className}`}
         >
-            <div className="flex justify-center">
+            <div className="flex justify-center hover:scale-110 ease-in duration-200">
                 <h1>
                     <b>{title}</b>
                 </h1>

@@ -1,22 +1,23 @@
 import { useState } from "react";
 import { VscThreeBars } from "react-icons/vsc";
 import { AiOutlineLogout } from "react-icons/ai";
-import { FaShippingFast } from "react-icons/fa";
+import { FaAngular, FaBookOpen, FaClosedCaptioning, FaMicroscope, FaRegPaperPlane, FaServicestack, FaShippingFast, FaShoppingBag, FaShoppingBasket, FaStore, FaStoreAlt, FaStoreAltSlash, FaTable, FaTumblrSquare, FaUser, FaUsers } from "react-icons/fa";
 import { BsFillFilePersonFill } from "react-icons/bs";
 import ImageUploadForm from "./ImageUploadForm";
+import { Head, Link } from "@inertiajs/inertia-react";
+import { fontWeight } from "tailwindcss/defaultTheme";
 
 const SideBar = ({ user }) => {
     const [open, setOpen] = useState(false);
     const [loggedUser, setLoggedUser] = useState(user);
     const Menus = [
-        { title: "Perfil", icon: <BsFillFilePersonFill />, url: "" },
-        { title: "Ver envíos", icon: <FaShippingFast />, url: "" },
-        { title: "Accounts", gap: true, icon: <AiOutlineLogout />, url: "" },
-        { title: "Schedule ", icon: <AiOutlineLogout />, url: "" },
-        { title: "Search", icon: <AiOutlineLogout />, url: "" },
-        { title: "Analytics", icon: <AiOutlineLogout />, url: "" },
-        { title: "Files ", gap: true, icon: <AiOutlineLogout />, url: "" },
-        { title: "Cerrar sesión", icon: <AiOutlineLogout />, url: "" },
+        { title: "Perfil", icon: <BsFillFilePersonFill />, url: "services" },
+        { title: "Servicios", gap: true, icon: <FaBookOpen />, url: "services" },
+        { title: "Ver envíos", icon: <FaShippingFast />, url: "envios" },
+        { title: "Usuarios ", icon: <FaUsers />, url: "users" },
+        { title: "Ventas", icon: <FaStore/>, url: "services" },
+        { title: "Analíticas ", gap: true, icon: <FaMicroscope />, url: "services" },
+        { title: "Cerrar sesión", icon: <FaRegPaperPlane />, url: "services" },
     ];
 
     return (
@@ -32,7 +33,8 @@ const SideBar = ({ user }) => {
             </div>
             <ul className="pt-6">
                 {Menus.map((Menu, index) => (
-                    <li
+                    <Link
+                        href={route(Menu.url)}
                         key={index}
                         className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
               ${Menu.gap ? "mt-9" : "mt-2"} ${
@@ -47,7 +49,7 @@ const SideBar = ({ user }) => {
                         >
                             {Menu.title}
                         </span>
-                    </li>
+                    </Link>
                 ))}
             </ul>
         </aside>

@@ -45,6 +45,11 @@ module.exports = {
                 primary: "#ff0000",
                 dark: "#b30000",
             },
+            yellow:
+            {
+                light: "#ffffeo",
+                cream: "#fceea7",
+            },
             white: "#ffffff",
             black: "#000000",
             "input-border": "hsl(0, 0%, 80%)",

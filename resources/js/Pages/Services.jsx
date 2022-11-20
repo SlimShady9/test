@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
-import Label from "@/Components/DataForm";
+import Card from "@/Components/Card";
 import Modal from "@/Components/Modal";
 import Button from "@/Components/Button";
 import axios from "axios";
@@ -45,6 +45,7 @@ export default function Services(props) {
     return (
         <>
             <Authenticated {...props}>
+                <Card className={""}>
                 <DataForm
                     titleForm={"Nuevo Servicio"}
                     parameters={serviceParams}
@@ -66,6 +67,7 @@ export default function Services(props) {
                     />
                 </Modal>
                 {/* Custom address form due to the fact of dynamism */}
+                </Card>
             </Authenticated>
             <Datatable />
         </>

@@ -4,9 +4,9 @@ export default function Label({ forInput, value, className, children }) {
     return (
         <label
             htmlFor={forInput}
-            className={`block font-medium text-sm text-gray-dark ` + className}
+            className={`block font-medium text-sm text-blue-primary` + className}
         >
-            {value ? value : children}
+            <b>{value ? value : children}</b>
         </label>
     );
 }

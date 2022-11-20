@@ -66,6 +66,9 @@ export default function Register() {
 
             <ValidationErrors errors={errors} />
             <form onSubmit={submit}>
+            <Container className={"justify-center"}>
+            <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">Registro de Usuario</h1>
+            </Container>
                 <div className="grid grid-cols-2 gap-4">
                     <div>
                         <Label forInput="name" value="Nombre (s)" />
@@ -89,7 +92,7 @@ export default function Register() {
                             value={data.surname}
                             className="mt-1 block w-full"
                             autoComplete="name"
-                            isFocused={true}
+                            
                             handleChange={onHandleChange}
                             required
                         />
@@ -103,7 +106,7 @@ export default function Register() {
                             value={data.username}
                             className="mt-1 block w-full"
                             autoComplete="username"
-                            isFocused={true}
+                            
                             handleChange={onHandleChange}
                             required
                         />
@@ -112,12 +115,11 @@ export default function Register() {
                     <div>
                         <Label forInput="t_user" value="Tipo de Usuario" />
                         <Select
-                            name="t_user"
+                            name="country"
                             options={options}
                             className="mt-1 block w-full"
-                            autoComplete="t_user"
-                            isFocused={true}
-                            onChange={onHandleChange}
+                            autoComplete="country"
+                            
                             required
                         ></Select>
                     </div>
@@ -129,7 +131,7 @@ export default function Register() {
                             options={options}
                             className="mt-1 block w-full"
                             autoComplete="country"
-                            isFocused={true}
+                            
                             required
                         ></Select>
                     </div>
@@ -141,7 +143,7 @@ export default function Register() {
                             options={options}
                             className="mt-1 block w-full"
                             autoComplete="city"
-                            isFocused={true}
+                            
                             required
                         ></Select>
                     </div>
@@ -154,7 +156,7 @@ export default function Register() {
                             value={data.region}
                             className="mt-1 block w-full"
                             autoComplete="region"
-                            isFocused={true}
+                            
                             handleChange={onHandleChange}
                             required
                         />
@@ -168,7 +170,7 @@ export default function Register() {
                             value={data.address}
                             className="mt-1 block w-full"
                             autoComplete="address"
-                            isFocused={true}
+                            
                             handleChange={onHandleChange}
                             required
                         />
@@ -185,7 +187,7 @@ export default function Register() {
                             value={data.address_detail}
                             className="mt-1 block w-full"
                             autoComplete="address_detail"
-                            isFocused={true}
+                            
                             handleChange={onHandleChange}
                             required
                         />
@@ -199,7 +201,7 @@ export default function Register() {
                             value={data.postal_code}
                             className="mt-1 block w-full"
                             autoComplete="postal_code"
-                            isFocused={true}
+                            
                             handleChange={onHandleChange}
                             required
                         />
@@ -226,7 +228,7 @@ export default function Register() {
                             value={data.phone}
                             className="mt-1 block w-full"
                             autoComplete="phone"
-                            isFocused={true}
+                            
                             handleChange={onHandleChange}
                             required
                         />
@@ -240,7 +242,7 @@ export default function Register() {
                             value={data.cellphone}
                             className="mt-1 block w-full"
                             autoComplete="cellphone"
-                            isFocused={true}
+                            
                             handleChange={onHandleChange}
                             required
                         />
@@ -254,7 +256,7 @@ export default function Register() {
                             value={data.doc}
                             className="mt-1 block w-full"
                             autoComplete="doc"
-                            isFocused={true}
+                            
                             handleChange={onHandleChange}
                             required
                         />
@@ -270,13 +272,13 @@ export default function Register() {
                             options={options}
                             className="mt-1 block w-full"
                             autoComplete="t_document"
-                            isFocused={true}
+                            
                             required
                         ></Select>
                     </div>
 
                     <div>
-                        <Label forInput="password" value="Password" />
+                        <Label forInput="password" value="Contraseña" />
 
                         <Input
                             type="password"
@@ -292,7 +294,7 @@ export default function Register() {
                     <div>
                         <Label
                             forInput="password_confirmation"
-                            value="Confirm Password"
+                            value="Confirmar Constraseña"
                         />
 
                         <Input
