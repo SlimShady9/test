@@ -119,7 +119,6 @@ export default function Register() {
                             options={options}
                             className="mt-1 block w-full"
                             autoComplete="country"
-                            
                             required
                         ></Select>
                     </div>

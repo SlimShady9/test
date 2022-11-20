@@ -120,7 +120,6 @@ const Datatable = () => {
 
     return (
         <DataTable
-            title="Usuarios"
             columns={columns}
             data={filteredUser}
             highlightOnHover
@@ -132,7 +131,7 @@ const Datatable = () => {
                     <input
                         type="text"
                         placeholder="Buscar"
-                        className="w-25 form-control"
+                        className="w-25 form-control rounded-3xl"
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />

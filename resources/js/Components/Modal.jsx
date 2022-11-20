@@ -23,11 +23,10 @@ function Modal({ children, show, onHide, title }) {
     return (
         <>
             <div
-                className={`fixed w-full h-full top-0 grid z-20
                 place-items-center ${showAnim.modal}`}
             >
                 <Card className={"relative py-10"}>
-                    <h1 className="absolute top-0 left-0 my-4 mx-6 font-extrabold text-lg text-gray-dark ">
+                    <h1 className="absolute top-0 left-0 my-4 mx-6 font-extrabold text-lg">
                         {title}
                     </h1>
                     <button
