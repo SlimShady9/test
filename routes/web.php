@@ -30,8 +30,16 @@ Route::get('/profile', function () {
     ]);
 })->middleware(['auth', 'verified'])->name('profile');
 
+Route::get('/register', function () {
+    return Inertia::render('Register', [
+    'api_token' => env('API_KEY_GEO'),
+    ]);
+})->middleware(['auth', 'verified'])->name('register');
+
 Route::get('/createService', function () {
-    return Inertia::render('CreateService');
+    return Inertia::render('CreateService', [
+    'api_token' => env('API_KEY_GEO'),
+    ]);
 })->middleware(['auth', 'verified'])->name('createService');
 
 Route::get('/dashboard', function () {

@@ -23,6 +23,7 @@ function Modal({ children, show, onHide, title }) {
     return (
         <>
             <div
+                className={`fixed w-full h-full top-0 z-20
                 place-items-center ${showAnim.modal}`}
             >
                 <Card className={"relative py-10"}>

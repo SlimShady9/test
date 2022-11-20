@@ -63,7 +63,6 @@ export default function Register() {
     return (
         <Base>
             <Head title="Register" />
-
             <ValidationErrors errors={errors} />
             <form onSubmit={submit}>
             <Container className={"justify-center"}>
@@ -121,89 +120,6 @@ export default function Register() {
                             autoComplete="country"
                             required
                         ></Select>
-                    </div>
-
-                    <div>
-                        <Label forInput="country" value="País" />
-                        <Select
-                            name="country"
-                            options={options}
-                            className="mt-1 block w-full"
-                            autoComplete="country"
-                            
-                            required
-                        ></Select>
-                    </div>
-
-                    <div>
-                        <Label forInput="city" value="Ciudad" />
-                        <Select
-                            name="city"
-                            options={options}
-                            className="mt-1 block w-full"
-                            autoComplete="city"
-                            
-                            required
-                        ></Select>
-                    </div>
-
-                    <div>
-                        <Label forInput="region" value="Barrio/Localidad" />
-                        <Input
-                            type="text"
-                            name="region"
-                            value={data.region}
-                            className="mt-1 block w-full"
-                            autoComplete="region"
-                            
-                            handleChange={onHandleChange}
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <Label forInput="address" value="Dirección" />
-                        <Input
-                            type="text"
-                            name="address"
-                            value={data.address}
-                            className="mt-1 block w-full"
-                            autoComplete="address"
-                            
-                            handleChange={onHandleChange}
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <Label
-                            forInput="address_detail"
-                            value="Detalles de la Dirección"
-                        />
-                        <Input
-                            type="text"
-                            name="address_detail"
-                            value={data.address_detail}
-                            className="mt-1 block w-full"
-                            autoComplete="address_detail"
-                            
-                            handleChange={onHandleChange}
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <Label forInput="postal_code" value="Código Postal" />
-                        <Input
-                            type="text"
-                            name="postal_code"
-                            value={data.postal_code}
-                            className="mt-1 block w-full"
-                            autoComplete="postal_code"
-                            
-                            handleChange={onHandleChange}
-                            required
-                        />
                     </div>
 
                     <div className="col-span-2">

@@ -52,7 +52,7 @@ export default function DataForm({
                     />
                 )
             )}
-            <div className="flex col-span-2 justify-center">
+            <div className="flex col-span-2 justify-center m-4">
                 <br />
                 <Button className="justify-center" processing={processing}>
                     {buttonText}

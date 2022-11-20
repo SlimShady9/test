@@ -123,7 +123,6 @@ export default function Services(props) {
                                 name="remember"
                                 handleChange={onHandleCheck}
                             />
-
                             <span className="ml-2 text-sm text-gray-600">
                                 Usar última dirección
                             </span>

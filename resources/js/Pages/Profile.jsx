@@ -3,6 +3,7 @@ import Authenticated from "@/Layouts/Authenticated";
 import Card from "@/Components/Card";
 import Modal from "@/Components/Modal";
 import Button from "@/Components/Button";
+import ImageUploadForm from "@/Components/ImageUploadForm";
 import axios from "axios";
 import DataForm from "@/Components/DataForm";
 import Container from "@/Components/Container";
@@ -13,18 +14,47 @@ import Select from "react-select";
 import AddressForm from "@/Components/AddressForm";
 
 export default function Profile(props) {
+
+    const options = [
+        { value: "particular", label: "Particular" },
+        { value: "empresa", label: "Empresa" },
+        { value: "proveedor", label: "Proveedor" },
+    ];
+
+    const [profileParams, setProfileParams] = useState([]);
+    const [showModal, setShowModal] = useState("");
+    const [idAddress, setIdAddress] = useState(null);
+
+    const onHide = () => setShowModal(false);
+
+    const [loggedUser, setLoggedUser] = useState(props.auth.user);
+
+    const succesAddressLoad = (data) => {
+        setIdAddress(data.id);
+        setShowModal(false);
+    };
+
+    const onHandleChange = (event) => {
+    setData(
+        event.target.name,
+        event.target.type === "checkbox"
+            ? event.target.checked
+            : event.target.value
+    );
+    };
+
+
     return (
         <>
             <Authenticated {...props}>
-                <Container className={"justify-center"}>
-                <form onSubmit={submitService}>
-                    <Card className={"justify-center tracking-widest m-auto"} col={1}>
+                <Container>
+                    <Card className={"justify-center tracking-widest m-auto"} col={2}>
                     <Container className={"col-span-2 justify-center"}>
-                    <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">Nuevo Servicio</h1>
+                    <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">Perfil de Usuario</h1>
                     <ImageUploadForm user={loggedUser} setUser={setLoggedUser} />
                     </Container>
-                        <div className="col-span-2">
-                            <Label forInput="name" value="Título del Servicio" />
+                        <div className="col-span-1">
+                            <Label forInput="name" value="Username" />
                             <Input
                                 type="text"
                                 name="title"
@@ -36,82 +66,45 @@ export default function Profile(props) {
                                 required
                             />
                         </div>
-                        <div className="col-span-2">
-                            <Label forInput="t_service" value="Tipo de Servicio" />
-                            <Select
-                                name="t_service"
-                                options={options}
-                                className="mt-1 block w-full"
-                                autoComplete="t_service"
-                                required
-                            ></Select>
-                        </div>
-                        <div className="col-span-2">
-                            <Label forInput="desc" value="Descripción" />
-                            <textarea
-                                type="textarea"
-                                name="desc"
-                                className="mt-1 h-28 block w-full rounded-xl"
-                                autoComplete="desc"
-                                handleChange={onHandleChange}
-                                required
-                            />
-                        </div>
-                        <div className="col-span-2">
-                            <Button className="bg-gray-servi" onClick={() => setShowModal(true)}>
-                            Detalles de dirección de Origen
-                            </Button>
-                        </div>
-                        <div className="col-span-2">
-                            <label className="flex items-center">
-                            <Checkbox
-                                name="remember"
-                                handleChange={onHandleCheck}
-                            />
-
-                            <span className="ml-2 text-sm text-gray-600">
-                                Usar última dirección
-                            </span>
-                            </label>
-                        </div>
-                        <div className="col-span-2">
-                            <Label forInput="date" value="Fecha de Realización" />
+                        <div className="col-span-1">
+                            <Label forInput="name" value="Nombre(s)" />
                             <Input
-                                type="date"
-                                name="value"
+                                type="text"
+                                name="title"
                                 value={""}
                                 className="mt-1 block w-full"
-                                autoComplete="value"
+                                autoComplete="title"
                                 isFocused={true}
                                 handleChange={onHandleChange}
                                 required
                             />
                         </div>
-                        <div className="col-span-2">
-                            <Label forInput="value" value="Valor del Servicio" />
-                            (Pesos Colombianos)
+                        <div className="col-span-1">
+                            <Label forInput="name" value="Apellido(s)" />
                             <Input
-                                type="number"
-                                name="value"
+                                type="text"
+                                name="title"
                                 value={""}
                                 className="mt-1 block w-full"
-                                autoComplete="value"
+                                autoComplete="title"
                                 isFocused={true}
                                 handleChange={onHandleChange}
                                 required
                             />
                         </div>
-                        
-                    <div className="flex items-center justify-start mt-4 ">
-                    <Button className="bg-red-light" type="submit">
-                        Cancelar
-                    </Button>
+                        <div>
+                        <Label forInput="t_user" value="Tipo de Usuario" />
+                        <Select
+                            name="country"
+                            options={options}
+                            className="mt-1 block w-full"
+                            autoComplete="country"
+                            required
+                        ></Select>
                     </div>
-                    <div className="flex items-center justify-end mt-4 ">
-                    <Button className="bg-green-light" type="submit">
-                        Generar
+                    <Button className="bg-gray-servi col-span-2" onClick={() => setShowModal(true)}>
+                        Cambiar Dirección
                     </Button>
-                    </div>
                     <Modal
                         onHide={onHide}
                         show={showModal}
@@ -122,9 +115,10 @@ export default function Profile(props) {
                             onSubmit={succesAddressLoad}
                         />
                     </Modal>
-                    {/* Custom address form due to the fact of dynamism */}
+
+
+                   
                     </Card>
-                </form>
                 </Container>
             </Authenticated>
         </>
