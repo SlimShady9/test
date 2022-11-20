@@ -192,7 +192,7 @@ class UserController extends Controller
             'label' => 'Tipo de usuario',
             'name' => 'id_t_user',
             'options' => [],
-            'value' => $parameter->id_t_user,
+            'value' => T_user::find($parameter->id_t_user)->name,
         ];
         $typesU = T_user::all();
         Debugbar::info($typesU);
@@ -208,7 +208,7 @@ class UserController extends Controller
             'label' => 'Tipo de documento',
             'name' => 'id_t_doc',
             'options' => [],
-            'value' => $parameter->id_t_doc,
+            'value' => T_document::find($parameter->id_t_doc)->name,
         ];
         foreach ($typeD as $typeD) {
             array_push($optionsD['options'], [
