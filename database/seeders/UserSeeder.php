@@ -75,6 +75,8 @@ class UserSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'slim.shady99q@gmail.com',
             'password' => bcrypt('Plumitas122302'),
+            'id_t_user' => 1,
+            'id_t_doc' => 1,
             'username' => 'admin',
             'surname' => 'admin',
             'doc' => '1019152187',
