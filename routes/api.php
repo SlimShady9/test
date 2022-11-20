@@ -7,6 +7,9 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\File\PhotoUserController;
+use App\Http\Controllers\TActionController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ActionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +55,33 @@ Route::resource('address', AddressController::class)->names([
     'update' => 'address.update',
     'destroy' => 'address.destroy',
     'edit' => 'address.edit',
+]);
+
+Route::resource('action', ActionController::class)->names([
+    'index' => 'action.index',
+    'show' => 'action.show',
+    'store' => 'action.store',
+    'update' => 'action.update',
+    'destroy' => 'action.destroy',
+    'edit' => 'action.edit',
+]);
+
+Route::resource('t_action', TActionController::class)->names([
+    'index' => 't_action.index',
+    'show' => 't_action.show',
+    'store' => 't_action.store',
+    'update' => 't_action.update',
+    'destroy' => 't_action.destroy',
+    'edit' => 't_action.edit',
+]);
+
+Route::resource('permission', PermissionController::class)->names([
+    'index' => 'permission.index',
+    'show' => 'permission.show',
+    'store' => 'permission.store',
+    'update' => 'permission.update',
+    'destroy' => 'permission.destroy',
+    'edit' => 'permission.edit',
 ]);
 
 // Tal vez con resource no se deba hacer el get, put, post, delete. Pero no sé

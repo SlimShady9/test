@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\T_action;
+use App\Models\Parameter;
 use Illuminate\Http\Request;
 
 class TActionController extends Controller
@@ -14,7 +15,7 @@ class TActionController extends Controller
      */
     public function index()
     {
-        //
+        return T_action::all();
     }
 
     /**
@@ -24,7 +25,7 @@ class TActionController extends Controller
      */
     public function create()
     {
-        //
+        return Parameter::where('table', 't_actions')->get();
     }
 
     /**
@@ -35,7 +36,21 @@ class TActionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+
+            $request->validate([
+                'name' => 'required|string|max:30',
+
+            ]);
+            
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['error' => $e->getMessage()], 403);
+        }
+        
+        $newTAction = Service::create([
+            'name' => $request->name,
+        ]);
+        return $newTAction;
     }
 
     /**
@@ -44,9 +59,9 @@ class TActionController extends Controller
      * @param  \App\Models\T_action  $t_action
      * @return \Illuminate\Http\Response
      */
-    public function show(T_action $t_action)
+    public function show($id)
     {
-        //
+        return T_action::find($id);
     }
 
     /**
@@ -67,9 +82,26 @@ class TActionController extends Controller
      * @param  \App\Models\T_action  $t_action
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, T_action $t_action)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $request->validate([
+                'name' => 'required|string|max:30',
+            ]);
+            $t_action = T_action::find($id);
+                
+            } catch (\Illuminate\Validation\ValidationException $e) {
+                return response()->json(['error' => $e->getMessage()], 422);
+            }
+            try {
+                $t_action = T_action::findOrFail($id);
+            } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+                return response()->json(['error' => 'User not found'], 404);
+            }
+           
+            $t_action->name = $request->name;
+            $t_action->save();
+            return $t_action;
     }
 
     /**
@@ -78,8 +110,14 @@ class TActionController extends Controller
      * @param  \App\Models\T_action  $t_action
      * @return \Illuminate\Http\Response
      */
-    public function destroy(T_action $t_action)
+    public function destroy($id)
     {
-        //
+        try {
+            $t_action = T_action::findOrFail($id);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json(['error' => 'T_action not found'], 404);
+        }
+        $t_action->delete();
+        return response()->json(['message' => 'T_action deleted'], 200);
     }
 }
