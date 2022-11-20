@@ -52,23 +52,23 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin',
         ]);
         \App\Models\T_user::create([
-            'name' => 'Cliente a',
+            'name' => 'Cliente juridico',
         ]);
         \App\Models\T_user::create([
-            'name' => 'Cliente b',
+            'name' => 'Cliente natural',
         ]);
         //Tipo de documento
         \App\Models\T_document::create([
             'name' => 'Cédula',
-            'leght' => '11'
+            'length' => '11'
         ]);
         \App\Models\T_document::create([
             'name' => 'Pasaporte',
-            'leght' => '20'
+            'length' => '20'
         ]);
         \App\Models\T_document::create([
             'name' => 'Cédula de extranjeria',
-            'leght' => '11'
+            'length' => '11'
         ]);
         
         // Seeder para crear servicios

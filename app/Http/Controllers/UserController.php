@@ -85,7 +85,6 @@ class UserController extends Controller
             'surname' => 'required|string|max:255',
             'username' => 'required|string|max:255',
             'doc' => 'required|string|max:255',
-            'signature' => 'string|max:255',
             'phone' => 'required|string|max:20',
             'cellphone' => 'required|string|max:25',
             'notif' => 'string|max:2',
@@ -103,7 +102,6 @@ class UserController extends Controller
             'surname' => $request->surname,
             'username' => $request->username,
             'doc' => $request->doc,
-            'signature' => $request->signature,
             'phone' => $request->phone,
             'cellphone' => $request->cellphone,
             'notif' => $request->notif,
@@ -243,7 +241,6 @@ class UserController extends Controller
             'surname' => 'required|string|max:255',
             'username' => 'required|string|max:255',
             'doc' => 'required|string|max:255',
-            'signature' => 'string|max:255',
             'phone' => 'required|string|max:20',
             'cellphone' => 'required|string|max:25',
             'notif' => 'string|max:2',
@@ -264,7 +261,6 @@ class UserController extends Controller
         $user->surname = $request->surname;
         $user->username = $request->username;
         $user->doc = $request->doc;
-        $user->signature = $request->signature;
         $user->phone = $request->phone;
         $user->cellphone = $request->cellphone;
         $user->notif = $request->notif;
