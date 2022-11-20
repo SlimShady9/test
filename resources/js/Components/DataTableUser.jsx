@@ -4,9 +4,9 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import react, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import Modal from "@/Components/Modal";
-import Button from "@/Components/Button";
+import Container from "@/Components/Container";
 import DataForm from "@/Components/DataForm";
-import Card from "@/Components/Card";
+import { Link } from '@inertiajs/inertia-react';
 
 const Datatable = () => {
     const [search, setSearch] = useState("");
@@ -128,6 +128,14 @@ const Datatable = () => {
             subHeader
             subHeaderComponent={
                 <>
+                    <Link
+                    href={"regUser"}
+                    className="p-3 bg-blue-400"
+                    >
+                    <Container className="hover:scale-125 shadow-xl rounded-3xl bg-green-light">
+                        Nuevo Usuario
+                    </Container>
+                    </Link>
                     <input
                         type="text"
                         placeholder="Buscar"
@@ -135,6 +143,7 @@ const Datatable = () => {
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
+                    
                     <Modal
                         onHide={onHide}
                         show={showModal}

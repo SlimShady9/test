@@ -105,7 +105,79 @@ export default function Profile(props) {
                         Cambiar Dirección
                     </Button>
 
-                    
+                    <div className="col-span-2">
+                        <Label forInput="email" value="Correo" />
+                        <Input
+                            type="text"
+                            name="email"
+                            value={""}
+                            className="mt-1 block w-full"
+                            autoComplete="email"
+                            isFocused={true}
+                            handleChange={onHandleChange}
+                            required
+                        />
+                    </div>
+                    <div className="col-span-1">
+                        <Label forInput="phone" value="Teléfono" />
+                        <Input
+                            type="number"
+                            name="phone"
+                            value={""}
+                            className="mt-1 block w-full"
+                            autoComplete="phone"
+                            isFocused={true}
+                            handleChange={onHandleChange}
+                            required
+                        />
+                    </div>
+                    <div className="col-span-1">
+                        <Label forInput="cellphone" value="Celular" />
+                        <Input
+                            type="number"
+                            name="cellphone"
+                            value={""}
+                            className="mt-1 block w-full"
+                            autoComplete="cellphone"
+                            isFocused={true}
+                            handleChange={onHandleChange}
+                            required
+                        />
+                    </div>
+                    <div className="col-span-1">
+                        <Label forInput="doc" value="Documento de Identidad" />
+                        <Input
+                            type="number"
+                            name="doc"
+                            value={""}
+                            className="mt-1 block w-full"
+                            autoComplete="doc"
+                            isFocused={true}
+                            handleChange={onHandleChange}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <Label forInput="t_document" value="Tipo de Documento" />
+                        <Select
+                            name="t_document"
+                            options={options}
+                            className="mt-1 block w-full"
+                            autoComplete="t_document"
+                            required
+                        ></Select>
+                    </div>
+                    <div className="flex items-center justify-start mt-4 ">
+                    <Button className="bg-red-light" type="submit">
+                        Cancelar
+                    </Button>
+                    </div>
+                    <div className="flex items-center justify-end mt-4 ">
+                    <Button className="bg-green-light" type="submit">
+                        Generar
+                    </Button>
+                    </div>
+
 
 
                     <Modal
