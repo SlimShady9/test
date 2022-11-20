@@ -13,11 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('t_documents', function (Blueprint $table) {
+        Schema::create('actions', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
             $table->string('name');
-            $table->integer('legth');
+            $table->string('url');
+            $table->bigInteger('type_action')->unsigned();
+            $table->timestamps();
+        });
+
+        Schema::table('actions', function (Blueprint $table) {
+            $table->foreign('type_action')->references('id')->on('t_actions');
         });
     }
 
@@ -28,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_documents');
+        Schema::dropIfExists('actions');
     }
 };

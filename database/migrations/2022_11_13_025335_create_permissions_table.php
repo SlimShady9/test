@@ -13,11 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('envios', function (Blueprint $table) {
+        Schema::create('permissions', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('t_user')->unsigned();
+            $table->bigInteger('t_action')->unsigned();
             $table->timestamps();
-            $table->string('estado');
-            $table->string('nombre');
+        });
+
+        Schema::table('permissions', function (Blueprint $table) {
+            $table->foreign('t_user')->references('id')->on('t_users');
+            $table->foreign('t_action')->references('id')->on('t_actions');
         });
     }
 
@@ -28,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('envios');
+        Schema::dropIfExists('permissions');
     }
 };
