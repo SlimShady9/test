@@ -26,7 +26,7 @@ function Modal({ children, show, onHide, title }) {
                 className={`fixed w-full h-full top-0 z-20
                 place-items-center ${showAnim.modal}`}
             >
-                <Card className={"relative py-10"}>
+                <Card className={"relative mt-10 tracking-widest m-auto"}>
                     <h1 className="absolute top-0 left-0 my-4 mx-6 font-extrabold text-lg">
                         {title}
                     </h1>

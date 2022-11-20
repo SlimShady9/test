@@ -39,12 +39,13 @@ export default function DataForm({
     return (
         <form onSubmit={submit}>
             {parameters.map(
-                ({ label, extend, name, type, required, options }) => (
+                ({ label, extend, name, type, value, required, options }) => (
                     <AnyInput
                         label={label}
                         extend={extend}
                         name={name}
                         type={type}
+                        value={value}
                         required={required}
                         options={options}
                         handleChange={handleChange}
@@ -80,10 +81,11 @@ function AnyInput({
             {type === "select" ? (
                 <Select
                     placeholder={"Seleccione..."}
-                    className={"border rounded"}
-                    options={options}
+                    className={""}
+                    options={options} 
+                    value={value}
                     autoComplete={name}
-                    defaultValue={value || ""}
+                    defaultInputValue={value}
                     onChange={(e) => handleChange(e, setInputData, name)}
                     required={required}
                 />
@@ -92,7 +94,7 @@ function AnyInput({
                     type={type}
                     name={name}
                     value={value}
-                    defaultValue={value || ""}
+                    defaultValue={value}
                     autoComplete={name}
                     handleChange={handleChange}
                     required={required}

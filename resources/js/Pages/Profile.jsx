@@ -43,7 +43,6 @@ export default function Profile(props) {
     );
     };
 
-
     return (
         <>
             <Authenticated {...props}>
@@ -105,6 +104,10 @@ export default function Profile(props) {
                     <Button className="bg-gray-servi col-span-2" onClick={() => setShowModal(true)}>
                         Cambiar Dirección
                     </Button>
+
+                    
+
+
                     <Modal
                         onHide={onHide}
                         show={showModal}
@@ -115,9 +118,6 @@ export default function Profile(props) {
                             onSubmit={succesAddressLoad}
                         />
                     </Modal>
-
-
-                   
                     </Card>
                 </Container>
             </Authenticated>
