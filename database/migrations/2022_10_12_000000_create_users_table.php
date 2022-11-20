@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('signature')->nullable();
             $table->string('phone')->nullable();
             $table->string('cellphone')->nullable();
-            $table->bigInteger('id_address')->unsigned();
+            $table->bigInteger('id_address')->unsigned()->nullable();
             $table->boolean('notif')->default(0);
             $table->string('data')->nullable();
             $table->rememberToken();
