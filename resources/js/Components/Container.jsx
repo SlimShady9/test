@@ -4,12 +4,13 @@ function Container({ className = "", children }) {
     return (
         <div
             className={
-                "px-4 py-2 text-xs tracking-widest gap-3 " +
+                "px-4 py-4 text-xs tracking-widest gap-4 " +
                 className
             }
         >
             {children}
         </div>
+        
     );
 }
 

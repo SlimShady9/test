@@ -23,14 +23,14 @@ function NavBar({ className }) {
                     <VscThreeBars name={open ? "close" : "menu"} />
                 </div>
                 <ul
-                    className={`md:flex md:items-center md:pb-0 pb-12 absolute md:static md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${
+                    className={`bg-white bg-opacity-95 rounded-md lg:bg-opacity-0 md:bg-opacity-0 md:flex md:items-center md:pb-0 pb-12 absolute md:static md:z-auto z-[-1] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${
                         open ? "top-20 " : "top-[-490px]"
                     }`}
                 >
                     {Links.map((link) => (
                         <li
                             key={link.name}
-                            className="md:ml-8 md:my-0 my-7 transition ease-in-out hover:scale-125"
+                            className="md:ml-8 md:my-0 my-7 transition ease-in-out cursor-pointer hover:scale-110 hover:underline"
                         >
                             <Link
                                 href={link.link}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
-import DataForm from "@/Components/DataForm";
+import Container from "@/Components/Container";
+import { Head, Link } from "@inertiajs/inertia-react";
 import axios from "axios";
 
 export default function Envios(props) {
@@ -28,7 +29,121 @@ export default function Envios(props) {
     return (
         <>
             <Authenticated {...props}>
-                <div className="flex justify-center gap-4 m-4"></div>
+                <Container className="grid grid-cols-3 justify-center gap-4 m-4">
+                    <Container className={"justify-center bg-opacity-30 bg-yellow-cream rounded-lg"}>
+                        <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                            Pendientes
+                        </h1>
+                        <Link href={route("envios")} className="p-3 bg-blue-400">
+                            <div className="p-1 bg-white border-spacing-2 bg-gradient-to-t from-white to-gray-servi
+                        border-gray-dark shadow-lg shadow-gray-dark overflow-visible rounded-lg">
+                            <h3 className="text-blue-primary text-lg mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                                Servicio 1
+                            </h3>
+                            <Container 
+                            className="text-md text-center">
+                            Descripción y Detalles
+                            Generales para
+                            Saber de que trata
+                            </Container>
+                            </div>
+                        </Link>
+                        <Link href={route("envios")} className="p-3 bg-blue-400">
+                            <div className="p-1 bg-white border-spacing-2 bg-gradient-to-t from-white to-gray-servi
+                        border-gray-dark shadow-lg shadow-gray-dark overflow-visible rounded-lg">
+                            <h3 className="text-blue-primary text-lg mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                                Servicio 1
+                            </h3>
+                            <Container 
+                            className="text-md text-center">
+                            Descripción y Detalles
+                            Generales para
+                            Saber de que trata
+                            </Container>
+                            </div>
+                        </Link>
+                    </Container>
+                    <Container className={"justify-center  bg-opacity-30 bg-blue-light rounded-lg"}>
+                        <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                            En Proceso
+                        </h1>
+                        <Link href={route("envios")} className="p-3 bg-blue-400">
+                            <div className="p-1 bg-white border-spacing-2 bg-gradient-to-t from-white to-gray-servi
+                        border-gray-dark shadow-lg shadow-gray-dark overflow-visible rounded-lg">
+                            <h3 className="text-blue-primary text-lg mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                                Servicio 1
+                            </h3>
+                            <Container 
+                            className="text-md text-center">
+                            Descripción y Detalles
+                            Generales para
+                            Saber de que trata
+                            </Container>
+                            </div>
+                        </Link>
+                        <Link href={route("envios")} className="p-3 bg-blue-400">
+                            <div className="p-1 bg-white border-spacing-2 bg-gradient-to-t from-white to-gray-servi
+                        border-gray-dark shadow-lg shadow-gray-dark overflow-visible rounded-lg">
+                            <h3 className="text-blue-primary text-lg mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                                Servicio 1
+                            </h3>
+                            <Container 
+                            className="text-md text-center">
+                            Descripción y Detalles
+                            Generales para
+                            Saber de que trata
+                            </Container>
+                            </div>
+                        </Link>
+                        <Link href={route("envios")} className="p-3 bg-blue-400">
+                            <div className="p-1 bg-white border-spacing-2 bg-gradient-to-t from-white to-gray-servi
+                        border-gray-dark shadow-lg shadow-gray-dark overflow-visible rounded-lg">
+                            <h3 className="text-blue-primary text-lg mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                                Servicio 1
+                            </h3>
+                            <Container 
+                            className="text-md text-center">
+                            Descripción y Detalles
+                            Generales para
+                            Saber de que trata
+                            </Container>
+                            </div>
+                        </Link>
+                    </Container>
+                    <Container className={"justify-center bg-opacity-30 bg-green-light rounded-lg"}>
+                        <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                            Realizados
+                        </h1>
+                        <Link href={route("envios")} className="p-3 bg-blue-400">
+                            <div className="p-1 bg-white border-spacing-2 bg-gradient-to-t from-white to-gray-servi
+                        border-gray-dark shadow-lg shadow-gray-dark overflow-visible rounded-lg">
+                            <h3 className="text-blue-primary text-lg mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                                Servicio 1
+                            </h3>
+                            <Container 
+                            className="text-md text-center">
+                            Descripción y Detalles
+                            Generales para
+                            Saber de que trata
+                            </Container>
+                            </div>
+                        </Link>
+                        <Link href={route("envios")} className="p-3 bg-blue-400">
+                            <div className="p-1 bg-white border-spacing-2 bg-gradient-to-t from-white to-gray-servi
+                        border-gray-dark shadow-lg shadow-gray-dark overflow-visible rounded-lg">
+                            <h3 className="text-blue-primary text-lg mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                                Servicio 1
+                            </h3>
+                            <Container 
+                            className="text-md text-center">
+                            Descripción y Detalles
+                            Generales para
+                            Saber de que trata
+                            </Container>
+                            </div>
+                        </Link>
+                    </Container>    
+                </Container>
             </Authenticated>
         </>
     );

@@ -12,7 +12,7 @@ export default function Authenticated({ auth, header, children }) {
         useState(false);
 
     return (
-        <div className="flex min-h-screen bg-gray-light">
+        <div className="flex min-h-screen bg-white">
             <Sidebar user={auth.user} />
             <main className="flex-1">
             <nav className="bg-gradient-to-r from-white to-blue-light border-b border-gray-light">
