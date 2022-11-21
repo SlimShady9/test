@@ -177,9 +177,6 @@ export default function Profile(props) {
                         Generar
                     </Button>
                     </div>
-
-
-
                     <Modal
                         onHide={onHide}
                         show={showModal}
