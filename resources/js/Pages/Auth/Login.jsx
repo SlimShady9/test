@@ -3,6 +3,7 @@ import Button from "@/Components/Button";
 import Checkbox from "@/Components/Checkbox";
 import Input from "@/Components/Input";
 import Label from "@/Components/Label";
+import Container from "@/Components/Container";
 import ValidationErrors from "@/Components/ValidationErrors";
 import { Head, Link, useForm } from "@inertiajs/inertia-react";
 import Base from "@/Layouts/Base";
@@ -48,9 +49,13 @@ export default function Login({ status, canResetPassword }) {
             <ValidationErrors errors={errors} />
 
             <form onSubmit={submit}>
+            <Container className={"justify-center"}>
+            <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                Ingreso de Usuario
+                </h1>
+            </Container>
                 <div>
-                    <Label forInput="email" value="Email" />
-
+                    <Label forInput="email" value="Nombre de Usuario" />
                     <Input
                         type="text"
                         name="email"
@@ -63,7 +68,7 @@ export default function Login({ status, canResetPassword }) {
                 </div>
 
                 <div className="mt-4">
-                    <Label forInput="password" value="Password" />
+                    <Label forInput="password" value="Contraseña" />
 
                     <Input
                         type="password"
@@ -84,7 +89,7 @@ export default function Login({ status, canResetPassword }) {
                         />
 
                         <span className="ml-2 text-sm text-gray-600">
-                            Remember me
+                            Recuérdame
                         </span>
                     </label>
                 </div>
@@ -95,12 +100,12 @@ export default function Login({ status, canResetPassword }) {
                             href={route("password.request")}
                             className="underline text-sm text-gray-600 hover:text-gray-900"
                         >
-                            Forgot your password?
+                            ¿Olvidaste tu contraseña?
                         </Link>
                     )}
 
                     <Button className="ml-4" processing={processing}>
-                        Log in
+                        Ingresar
                     </Button>
                 </div>
             </form>

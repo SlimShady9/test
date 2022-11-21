@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
-import Label from "@/Components/DataForm";
-import Modal from "@/Components/Modal";
-import Button from "@/Components/Button";
+import Container from "@/Components/Container";
 import axios from "axios";
-import DataForm from "@/Components/DataForm";
-import Datatable from "@/Components/DataTableService"
-import AddressForm from "@/Components/AddressForm";
+import Datatable from "@/Components/DataTableService";
 
 export default function Services(props) {
     const [serviceParams, setServiceParams] = useState([]);
@@ -20,7 +16,7 @@ export default function Services(props) {
         console.log(idAddress);
         if (idAddress != null) {
             data.id_address = idAddress;
-            axios.post("/api/services", data).then((res) => {
+            axios.post("/api/service", data).then((res) => {
                 // Modal de juabito
                 alert("Servicio creado");
             });
@@ -37,7 +33,7 @@ export default function Services(props) {
     //Antes de que cargue la vista corgamos los datos
 
     useEffect(() => {
-        axios.get("/api/services/create").then((res) => {
+        axios.get("/api/service/create").then((res) => {
             setServiceParams(res.data.parameters);
         });
     }, []);
@@ -45,28 +41,13 @@ export default function Services(props) {
     return (
         <>
             <Authenticated {...props}>
-                <DataForm
-                    parameters={serviceParams}
-                    buttonText="Cargar servicio"
-                    onSubmit={submitService}
-                    url={"/api/services"}
-                />
-                <Button onClick={() => setShowModal(true)}>
-                    Cargar dirección
-                </Button>
-                <Modal
-                    onHide={onHide}
-                    show={showModal}
-                    title={"Ingrese una nueva dirección"}
-                >
-                    <AddressForm
-                        api_token={props.api_token}
-                        onSubmit={succesAddressLoad}
-                    />
-                </Modal>
-                {/* Custom address form due to the fact of dynamism */}
+                <Container className="m-6 justify-center bg-opacity-30 shadow-xl">
+                    <Container className={"justify-center"}>
+                        <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">Tabla de Servicios</h1>
+                    </Container>
+                    <Datatable/>
+                </Container>
             </Authenticated>
-            <Datatable/>
         </>
     );
 }

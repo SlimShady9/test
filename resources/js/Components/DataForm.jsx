@@ -16,7 +16,7 @@ export default function DataForm({
     className,
 }) {
     const { data, setData, processing, errors, reset } = useForm(
-        parameters.map((item) => ({ ...item, value: "" }))
+        parameters.map((item) => ({ ...item, value: item.value || "" }))
     );
 
     const handleChange = (e, setInputData, name) => {
@@ -38,21 +38,23 @@ export default function DataForm({
 
     return (
         <form onSubmit={submit}>
-            <div className="flex col-span-2 justify-center">
-                <h1>{titleForm}</h1>
-            </div>
-            {parameters.map(({ label, name, type, required, options }) => (
-                <AnyInput
-                    label={label}
-                    name={name}
-                    type={type}
-                    required={required}
-                    options={options}
-                    handleChange={handleChange}
-                    key={`${label}_${name}`}
-                />
-            ))}
-            <div className="flex col-span-2 justify-center">
+            {parameters.map(
+                ({ label, extend, name, type, value, required, options }) => (
+                    <AnyInput
+                        label={label}
+                        extend={extend}
+                        name={name}
+                        type={type}
+                        value={value}
+                        required={required}
+                        options={options}
+                        handleChange={handleChange}
+                        key={`${label}_${name}`}
+                    />
+                )
+            )}
+            <div className="flex col-span-2 justify-center m-4">
+                <br />
                 <Button className="justify-center" processing={processing}>
                     {buttonText}
                 </Button>
@@ -63,6 +65,7 @@ export default function DataForm({
 
 function AnyInput({
     label,
+    extend,
     name,
     type,
     value,
@@ -73,13 +76,16 @@ function AnyInput({
     const [inputData, setInputData] = useState("");
 
     return (
-        <div>
+        <div className={"col-span-" + extend}>
             <Label forInput={name} value={label} />
             {type === "select" ? (
                 <Select
-                    options={options}
+                    placeholder={"Seleccione..."}
+                    className={""}
+                    options={options} 
+                    value={value}
                     autoComplete={name}
-                    defaultValue={value ? value : ""}
+                    defaultInputValue={value}
                     onChange={(e) => handleChange(e, setInputData, name)}
                     required={required}
                 />
@@ -88,7 +94,7 @@ function AnyInput({
                     type={type}
                     name={name}
                     value={value}
-                    defaultValue={value ? value : ""}
+                    defaultValue={value}
                     autoComplete={name}
                     handleChange={handleChange}
                     required={required}

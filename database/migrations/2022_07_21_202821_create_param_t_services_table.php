@@ -21,10 +21,10 @@ return new class extends Migration
 
             });
 
-            Schema::table('param_t_services', function (Blueprint $table) {
-                $table->foreign('id_param')->references('id')->on('parameters');
-                $table->foreign('id_type_service')->references('id')->on('type_services');
-            });
+        Schema::table('param_t_services', function (Blueprint $table) {
+            $table->foreign('id_param')->references('id')->on('parameters');
+            $table->foreign('id_type_service')->references('id')->on('type_services');
+        });
     }
 
     /**

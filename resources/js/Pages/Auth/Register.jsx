@@ -6,9 +6,6 @@ import Input from "@/Components/Input";
 import Label from "@/Components/Label";
 import Checkbox from "@/Components/Checkbox";
 import Select from "react-select";
-import Uploady from "@rpldy/uploady";
-import UploadButton from "@rpldy/upload-button";
-import UploadPreview from "@rpldy/upload-preview";
 import ValidationErrors from "@/Components/ValidationErrors";
 import { Head, Link, useForm } from "@inertiajs/inertia-react";
 
@@ -66,9 +63,11 @@ export default function Register() {
     return (
         <Base>
             <Head title="Register" />
-
             <ValidationErrors errors={errors} />
             <form onSubmit={submit}>
+            <Container className={"justify-center"}>
+            <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">Registro de Usuario</h1>
+            </Container>
                 <div className="grid grid-cols-2 gap-4">
                     <div>
                         <Label forInput="name" value="Nombre (s)" />
@@ -92,13 +91,13 @@ export default function Register() {
                             value={data.surname}
                             className="mt-1 block w-full"
                             autoComplete="name"
-                            isFocused={true}
+                            
                             handleChange={onHandleChange}
                             required
                         />
                     </div>
 
-                    <div>
+                    <div className="col-span-2">
                         <Label forInput="username" value="Nombre de Usuario" />
                         <Input
                             type="text"
@@ -106,125 +105,7 @@ export default function Register() {
                             value={data.username}
                             className="mt-1 block w-full"
                             autoComplete="username"
-                            isFocused={true}
-                            handleChange={onHandleChange}
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <Label forInput="t_user" value="Tipo de Usuario" />
-                        <Select
-                            name="t_user"
-                            options={options}
-                            className="mt-1 block w-full"
-                            autoComplete="t_user"
-                            isFocused={true}
-                            onChange={onHandleChange}
-                            required
-                        ></Select>
-                    </div>
-
-                    <div className="col-span-2">
-                        <div className="grid gap-4">
-                            <Label forInput="picture" value="Foto de Perfil" />
-                            <Uploady
-                                name="picture"
-                                value={data.picture}
-                                className="input mt-1 block w-full"
-                                autoComplete="picture"
-                                accept="image/*"
-                            >
-                                <UploadButton>
-                                    <Container className="btn grid grid-cols-2 border-gray-200 border-2 ">
-                                        <Container className="max-w-36 max-h-36 overflow-hidden">
-                                            <UploadPreview />
-                                        </Container>
-                                        <Container>Subir Imagen</Container>
-                                    </Container>
-                                </UploadButton>
-                            </Uploady>
-                        </div>
-                    </div>
-
-                    <div>
-                        <Label forInput="country" value="País" />
-                        <Select
-                            name="country"
-                            options={options}
-                            className="mt-1 block w-full"
-                            autoComplete="country"
-                            isFocused={true}
-                            required
-                        ></Select>
-                    </div>
-
-                    <div>
-                        <Label forInput="city" value="Ciudad" />
-                        <Select
-                            name="city"
-                            options={options}
-                            className="mt-1 block w-full"
-                            autoComplete="city"
-                            isFocused={true}
-                            required
-                        ></Select>
-                    </div>
-
-                    <div>
-                        <Label forInput="region" value="Barrio/Localidad" />
-                        <Input
-                            type="text"
-                            name="region"
-                            value={data.region}
-                            className="mt-1 block w-full"
-                            autoComplete="region"
-                            isFocused={true}
-                            handleChange={onHandleChange}
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <Label forInput="address" value="Dirección" />
-                        <Input
-                            type="text"
-                            name="address"
-                            value={data.address}
-                            className="mt-1 block w-full"
-                            autoComplete="address"
-                            isFocused={true}
-                            handleChange={onHandleChange}
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <Label
-                            forInput="address_detail"
-                            value="Detalles de la Dirección"
-                        />
-                        <Input
-                            type="text"
-                            name="address_detail"
-                            value={data.address_detail}
-                            className="mt-1 block w-full"
-                            autoComplete="address_detail"
-                            isFocused={true}
-                            handleChange={onHandleChange}
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <Label forInput="postal_code" value="Código Postal" />
-                        <Input
-                            type="text"
-                            name="postal_code"
-                            value={data.postal_code}
-                            className="mt-1 block w-full"
-                            autoComplete="postal_code"
-                            isFocused={true}
+                            
                             handleChange={onHandleChange}
                             required
                         />
@@ -237,7 +118,7 @@ export default function Register() {
                             name="email"
                             value={data.email}
                             className="mt-1 block w-full"
-                            autoComplete="username"
+                            autoComplete="email"
                             handleChange={onHandleChange}
                             required
                         />
@@ -246,12 +127,12 @@ export default function Register() {
                     <div>
                         <Label forInput="phone" value="Teléfono" />
                         <Input
-                            type="text"
+                            type="number"
                             name="phone"
                             value={data.phone}
                             className="mt-1 block w-full"
                             autoComplete="phone"
-                            isFocused={true}
+                            
                             handleChange={onHandleChange}
                             required
                         />
@@ -265,24 +146,21 @@ export default function Register() {
                             value={data.cellphone}
                             className="mt-1 block w-full"
                             autoComplete="cellphone"
-                            isFocused={true}
+                            
                             handleChange={onHandleChange}
                             required
                         />
                     </div>
 
                     <div>
-                        <Label
-                            forInput="doc"
-                            value="Documento de Identidad"
-                        />
+                        <Label forInput="doc" value="Documento de Identidad" />
                         <Input
                             type="text"
                             name="doc"
                             value={data.doc}
                             className="mt-1 block w-full"
                             autoComplete="doc"
-                            isFocused={true}
+                            
                             handleChange={onHandleChange}
                             required
                         />
@@ -298,13 +176,13 @@ export default function Register() {
                             options={options}
                             className="mt-1 block w-full"
                             autoComplete="t_document"
-                            isFocused={true}
+                            
                             required
                         ></Select>
                     </div>
 
                     <div>
-                        <Label forInput="password" value="Password" />
+                        <Label forInput="password" value="Contraseña" />
 
                         <Input
                             type="password"
@@ -320,7 +198,7 @@ export default function Register() {
                     <div>
                         <Label
                             forInput="password_confirmation"
-                            value="Confirm Password"
+                            value="Confirmar Constraseña"
                         />
 
                         <Input

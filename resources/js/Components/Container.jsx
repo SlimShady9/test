@@ -4,12 +4,13 @@ function Container({ className = "", children }) {
     return (
         <div
             className={
-                "inline-flex items-center px-4 py-2 rounded-md font-semibold text-xs uppercase tracking-widest gap-3 " +
+                "px-4 py-4 text-xs tracking-widest gap-4 " +
                 className
             }
         >
             {children}
         </div>
+        
     );
 }
 

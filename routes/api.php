@@ -6,6 +6,10 @@ use App\Http\Controllers\EnvioController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\File\PhotoUserController;
+use App\Http\Controllers\TActionController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ActionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,28 +26,65 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::resource('envio', EnvioController::class);
 
-Route::resource('envios', EnvioController::class);
+Route::resource('service', ServiceController::class)->names([
+    'index' => 'service.index',
+    'show' => 'service.show',
+    'store' => 'service.store',
+    'update' => 'service.update',
+    'destroy' => 'service.destroy',
+]);
 
-Route::resource('services', ServiceController::class)->names([
-    'index' => 'services.index',
-    'show' => 'services.show',
-    'store' => 'services.store',
-    'update' => 'services.update',
-    'destroy' => 'services.destroy',
+Route::resource('user', UserController::class)->names([
+    'index' => 'user.index',
+    'show' => 'user.show',
+    'store' => 'user.store',
+    'update' => 'user.update',
+    'destroy' => 'user.destroy',
+    'create' => 'user.create',
+    'edit' => 'user.edit',
 ]);
-Route::resource('users', UserController::class)->names([
-    'index' => 'users.index',
-    'show' => 'users.show',
-    'store' => 'users.store',
-    'update' => 'users.update',
-    'destroy' => 'users.destroy',
-]);
+
 
 Route::resource('address', AddressController::class)->names([
-    'index' => 'addresses.index',
-    'show' => 'addresses.show',
-    'store' => 'addresses.store',
-    'update' => 'addresses.update',
-    'destroy' => 'addresses.destroy',
+    'index' => 'address.index',
+    'show' => 'address.show',
+    'store' => 'address.store',
+    'update' => 'address.update',
+    'destroy' => 'address.destroy',
+    'edit' => 'address.edit',
 ]);
+
+Route::resource('action', ActionController::class)->names([
+    'index' => 'action.index',
+    'show' => 'action.show',
+    'store' => 'action.store',
+    'update' => 'action.update',
+    'destroy' => 'action.destroy',
+    'edit' => 'action.edit',
+]);
+
+Route::resource('t_action', TActionController::class)->names([
+    'index' => 't_action.index',
+    'show' => 't_action.show',
+    'store' => 't_action.store',
+    'update' => 't_action.update',
+    'destroy' => 't_action.destroy',
+    'edit' => 't_action.edit',
+]);
+
+Route::resource('permission', PermissionController::class)->names([
+    'index' => 'permission.index',
+    'show' => 'permission.show',
+    'store' => 'permission.store',
+    'update' => 'permission.update',
+    'destroy' => 'permission.destroy',
+    'edit' => 'permission.edit',
+]);
+
+// Tal vez con resource no se deba hacer el get, put, post, delete. Pero no sé
+Route::get('/user/{user_id}/profileimg', [PhotoUserController::class, 'profileimg']);
+Route::post('/user/{user_id}/profileimg', [PhotoUserController::class, 'uploadprofileimg']);
+Route::delete('/user/{user_id}/profileimg', [PhotoUserController::class, 'deleteprofileimg']);
+Route::put('/user/{user_id}/profileimg', [PhotoUserController::class, 'updateprofileimg']);

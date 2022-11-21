@@ -2,64 +2,99 @@ import React from "react";
 
 function Footer({ className }) {
     return (
-        <footer className={`bg-bg-secondary text-text-primary ${className}`}>
+        <footer className={`bottom-0 w-full shadow-md bg-gradient-to-r from-white to-blue-light bg-bg-secondary text-text-primary ${className}`}>
             <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-6 sm:px-8 px-5 py-16">
                 <ul>
-                    <h1 className="mb-1 font-semibold">Links</h1>
+                    <h1 className="mb-1 font-bold">Links</h1>
                     <li>
+                        <div className="hover:scale-110 duration-100">
                         <a
-                            className="text-text-secondary hover:text-teal-400 duration-300
+                            className="text-text-secondary hover:underline
                            text-sm cursor-pointer"
                             href="register"
                         >
-                            registrarse
+                            Registrarse
                         </a>
+                        </div>
                     </li>
                     <li>
+                    <div className="hover:scale-110 duration-100">
                         <a
-                            className="text-text-secondary duration-300
+                            className="text-text-secondary hover:underline
                            text-sm cursor-pointer"
+                            href="register"
                         >
-                            Sobre nosotros
+                            Sobre Nosotros
                         </a>
-                    </li>
-                </ul>
-                <ul>
-                    <h1 className="">Otros</h1>
-                    <li>
-                        <a
-                            className="text-text-secondary hover:text-teal-400 duration-300
-                           text-sm cursor-pointer"
-                        >
-                            Contáctanos
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            className="text-text-secondary hover:text-teal-400 duration-300
-                           text-sm cursor-pointer"
-                        >
-                            Politicas de provacidad
-                        </a>
-                    </li>
-                    <li>
-                        <a
-                            className="text-text-secondary hover:text-teal-400 duration-300
-                           text-sm cursor-pointer"
-                        >
-                            Terminos y condiciones
-                        </a>
+                        </div>
                     </li>
                 </ul>
                 <ul>
                     <h1 className="mb-1 font-semibold">Servicios</h1>
                     <li>
+                    <div className="hover:scale-110 duration-100">
                         <a
-                            className="text-text-secondary hover:text-teal-400 duration-300
+                            className="text-text-secondary hover:underline
                            text-sm cursor-pointer"
+                            href="register"
                         >
-                            Envios
+                            Envíos
                         </a>
+                        </div>
+                        <div className="hover:scale-110 duration-100">
+                        <a
+                            className="text-text-secondary hover:underline
+                           text-sm cursor-pointer"
+                            href="register"
+                        >
+                            Correspondencia
+                        </a>
+                        </div>
+                        <div className="hover:scale-110 duration-100">
+                        <a
+                            className="text-text-secondary hover:underline
+                           text-sm cursor-pointer"
+                            href="register"
+                        >
+                            Gestión de Mensajería
+                        </a>
+                        </div>
+                    </li>
+                </ul>
+                <ul>
+                    <h1 className="mb-1 font-bold">Otros</h1>
+                    <li>
+                    <div className="hover:scale-110 duration-100">
+                        <a
+                            className="text-text-secondary hover:underline
+                           text-sm cursor-pointer"
+                            href="register"
+                        >
+                            Contáctanos
+                        </a>
+                        </div>
+                    </li>
+                    <li>
+                    <div className="hover:scale-110 duration-100">
+                        <a
+                            className="text-text-secondary hover:underline
+                           text-sm cursor-pointer"
+                            href="register"
+                        >
+                            Políticas de Privacidad
+                        </a>
+                        </div>
+                    </li>
+                    <li>
+                    <div className="hover:scale-110 duration-100">
+                        <a
+                            className="text-text-secondary hover:underline
+                           text-sm cursor-pointer"
+                            href="register"
+                        >
+                            Términos y Condiciones
+                        </a>
+                        </div>
                     </li>
                 </ul>
             </div>

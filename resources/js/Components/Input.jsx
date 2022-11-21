@@ -23,7 +23,7 @@ export default function Input({
             <input
                 type={type}
                 name={name}
-                className={`mt-1 block w-full border-input-border focus:border-blue-600 active:border-blue-600 rounded shadow-sm py-1.5 px-3
+                className={`mt-1 block w-full border-1 border-gray-dark active:border-blue-600 rounded-3xl py-1.5 px-3
                     transition-colors hover:border-gray-400 ${
                         className ? className : ""
                     }`}
