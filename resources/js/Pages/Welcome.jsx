@@ -104,7 +104,7 @@ export default function Welcome(props) {
             <Container className={"flex justify-center"}>
                 <Container
                     className={
-                        "flex lg:m-10 lg:w-36 lg:h-36 sm:w-20 sm:h-20 shadow-xl overflow-hidden shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
+                        "flex lg:m-10 lg:w-28 lg:h-28 sm:w-20 sm:h-20 shadow-xl overflow-hidden shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
                     }
                 >
                     <img
@@ -114,7 +114,7 @@ export default function Welcome(props) {
                 </Container>
                 <Container
                     className={
-                        "flex lg:m-10 lg:w-36 lg:h-36 sm:w-20 sm:h-20 shadow-xl overflow-hidden shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
+                        "flex lg:m-10 lg:w-28 lg:h-28 sm:w-20 sm:h-20 shadow-xl overflow-hidden shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
                     }
                 >
                     <img
@@ -124,17 +124,7 @@ export default function Welcome(props) {
                 </Container>
                 <Container
                     className={
-                        "flex lg:m-10 lg:w-36 lg:h-36 sm:w-20 sm:h-20 shadow-xl overflow-hidden shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
-                    }
-                >
-                    <img
-                        className="sm:scale-150 scale-125 hover:scale-150 ease-in duration-200"
-                        src="https://static.wixstatic.com/media/d991ba_a9ae7991896e44f4a2388d9a9b2149cf~mv2.png/v1/fill/w_320,h_320,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/Logo-Inter-Rapidisimo-Vh-400x122-1.png"
-                    />
-                </Container>
-                     <Container
-                    className={
-                        "flex lg:m-10 lg:w-36 lg:h-36 sm:w-20 sm:h-20 shadow-xl overflow-hidden shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
+                        "flex lg:m-10 lg:w-28 lg:h-28 sm:w-20 sm:h-20 shadow-xl overflow-hidden shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
                     }
                 >
                     <img
@@ -144,7 +134,7 @@ export default function Welcome(props) {
                 </Container>
                 <Container
                     className={
-                        "flex lg:m-10 lg:w-36 lg:h-36 sm:w-20 sm:h-20 shadow-xl overflow-hidden shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
+                        "flex lg:m-10 lg:w-28 lg:h-28 sm:w-20 sm:h-20 shadow-xl overflow-hidden shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
                     }
                 >
                     <img
@@ -152,6 +142,17 @@ export default function Welcome(props) {
                         src="https://static.wixstatic.com/media/d991ba_a9ae7991896e44f4a2388d9a9b2149cf~mv2.png/v1/fill/w_320,h_320,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/Logo-Inter-Rapidisimo-Vh-400x122-1.png"
                     />
                 </Container>
+                <Container
+                    className={
+                        "flex lg:m-10 lg:w-28 lg:h-28 sm:w-20 sm:h-20 shadow-xl overflow-hidden shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
+                    }
+                >
+                    <img
+                        className="sm:scale-150 scale-125 hover:scale-150 ease-in duration-200"
+                        src="https://static.wixstatic.com/media/d991ba_a9ae7991896e44f4a2388d9a9b2149cf~mv2.png/v1/fill/w_320,h_320,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/Logo-Inter-Rapidisimo-Vh-400x122-1.png"
+                    />
+                </Container>
+
             </Container>
         </Guest>
     );
