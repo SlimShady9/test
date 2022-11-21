@@ -3,6 +3,9 @@ import react, {useEffect, useState} from "react"
 import {GrEdit} from "react-icons/gr";
 import {RiDeleteBinLine} from "react-icons/ri";
 import DataTable from "react-data-table-component"
+import { Link } from '@inertiajs/inertia-react';
+import Container from "@/Components/Container";
+import { container } from "tailwindcss/defaultTheme";
 
  const Datatable = () => {
     const[search, setSearch] = useState("");
@@ -11,7 +14,7 @@ import DataTable from "react-data-table-component"
 
     const getServicios = async () => {
         try {
-            const res = await axios.get("/api/services");
+            const res = await axios.get("/api/service");
             setServicios(res.data);
             setFilteredServices(res.data)
         }catch (error){
@@ -60,7 +63,6 @@ useEffect(() => {
     setFilteredServices(result);
 },[search]);
 return <DataTable 
-            title="Servicios"
             columns={columns} 
             data={filteredServices} 
             selectableRows
@@ -69,13 +71,25 @@ return <DataTable
             pagination
             subHeader
             subHeaderComponent={
-            <input
-            type="text"
-            placeholder="Buscar"
-            className="w-25 form-control"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            />
+            <Container className="flex">
+                <Link
+                href={"createService"}
+                className="p-3 bg-blue-400"
+                >
+                <Container className="hover:scale-125 shadow-xl rounded-3xl bg-green-light">
+                    Nuevo Servicio
+                </Container>
+                </Link>
+                <Container>
+                <input
+                type="text"
+                placeholder="Buscar"
+                className="w-25 form-control rounded-3xl"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                />
+                </Container>
+            </Container>
             }
             />;
  };

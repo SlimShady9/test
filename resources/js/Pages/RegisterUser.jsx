@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import Button from "@/Components/Button";
 import Container from "@/Components/Container";
-import Base from "@/Layouts/Base";
+import Authenticated from "@/Layouts/Authenticated";
+import Card from "@/Components/Card";
 import Input from "@/Components/Input";
 import Label from "@/Components/Label";
 import Checkbox from "@/Components/Checkbox";
@@ -9,7 +10,7 @@ import Select from "react-select";
 import ValidationErrors from "@/Components/ValidationErrors";
 import { Head, Link, useForm } from "@inertiajs/inertia-react";
 
-export default function Register() {
+export default function RegisterUser(props) {
     //Reemplazar por opciones en base de datos
     const options = [
         { value: "particular", label: "Particular" },
@@ -61,9 +62,10 @@ export default function Register() {
     };
 
     return (
-        <Base>
-            <Head title="Register" />
+        <Authenticated {...props}>
+            <Head title="RegisterUser" />
             <ValidationErrors errors={errors} />
+            <Card className={"mx-auto my-10"}>
             <form onSubmit={submit}>
             <Container className={"justify-center"}>
             <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">Registro de Usuario</h1>
@@ -82,7 +84,6 @@ export default function Register() {
                             required
                         />
                     </div>
-
                     <div>
                         <Label forInput="surname" value="Apellido (s)" />
                         <Input
@@ -96,8 +97,7 @@ export default function Register() {
                             required
                         />
                     </div>
-
-                    <div className="col-span-2">
+                    <div>
                         <Label forInput="username" value="Nombre de Usuario" />
                         <Input
                             type="text"
@@ -110,6 +110,16 @@ export default function Register() {
                             required
                         />
                     </div>
+                    <div>
+                        <Label forInput="t_user" value="Tipo de Usuario" />
+                        <Select
+                            name="country"
+                            options={options}
+                            className="mt-1 block w-full"
+                            autoComplete="country"
+                            required
+                        ></Select>
+                    </div>
 
                     <div className="col-span-2">
                         <Label forInput="email" value="Email" />
@@ -118,7 +128,7 @@ export default function Register() {
                             name="email"
                             value={data.email}
                             className="mt-1 block w-full"
-                            autoComplete="email"
+                            autoComplete="username"
                             handleChange={onHandleChange}
                             required
                         />
@@ -180,7 +190,6 @@ export default function Register() {
                             required
                         ></Select>
                     </div>
-
                     <div>
                         <Label forInput="password" value="Contraseña" />
 
@@ -219,20 +228,20 @@ export default function Register() {
                         />
                     </div>
 
-                    <div className="col-span-2 flex items-center justify-end mt-4 ">
-                        <Link
-                            href={route("login")}
-                            className="underline text-sm text-gray-600 hover:text-gray"
-                        >
-                            ¿Ya se ha registrado?
-                        </Link>
-
-                        <Button className="ml-4" processing={processing}>
-                            Registrarme
+                        <div className="flex items-center justify-start mt-4 ">
+                        <Button className="bg-red-light" type="submit">
+                            Cancelar
                         </Button>
-                    </div>
+                        </div>
+                        <div className="flex items-center justify-end mt-4 ">
+                        <Button className="bg-green-light" type="submit">
+                            Generar
+                        </Button>
+                        </div>
+
                 </div>
             </form>
-        </Base>
+            </Card>
+        </Authenticated>
     );
 }
