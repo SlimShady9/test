@@ -234,7 +234,7 @@ export default function RegisterUser(props) {
                         </Button>
                         </div>
                         <div className="flex items-center justify-end mt-4 ">
-                        <Button className="bg-green-light" type="submit">
+                        <Button className="bg-green-light" type="submit" processing={processing}>
                             Generar
                         </Button>
                         </div>
