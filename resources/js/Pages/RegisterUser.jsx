@@ -229,7 +229,7 @@ export default function RegisterUser(props) {
                     </div>
 
                         <div className="flex items-center justify-start mt-4 ">
-                        <Button className="bg-red-light" type="submit">
+                        <Button className="bg-red-light">
                             Cancelar
                         </Button>
                         </div>
