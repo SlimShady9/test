@@ -30,6 +30,7 @@ class User extends Authenticatable
         'notif',
         'data',
         'id_address',
+        'id_t_user',
     ];
 
     /**

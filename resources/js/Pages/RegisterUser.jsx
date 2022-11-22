@@ -17,6 +17,16 @@ export default function RegisterUser(props) {
         { value: "empresa", label: "Empresa" },
         { value: "proveedor", label: "Proveedor" },
     ];
+    const optionsTU = [
+        { value: "1", label: "Admin" },
+        { value: "2", label: "Cliente juridico" },
+        { value: "3", label: "Cliente natural" },
+    ];
+    const optionsTD = [
+        { value: "1", label: "Cédula" },
+        { value: "2", label: "Pasaporte" },
+        { value: "3", label: "Cédula de extranjeria" },
+    ];
     //Constantes de la página
     const { data, setData, post, processing, errors, reset } = useForm({
         username: "",
@@ -114,7 +124,7 @@ export default function RegisterUser(props) {
                         <Label forInput="t_user" value="Tipo de Usuario" />
                         <Select
                             name="country"
-                            options={options}
+                            options={optionsTU}
                             className="mt-1 block w-full"
                             autoComplete="country"
                             required
@@ -183,7 +193,7 @@ export default function RegisterUser(props) {
                         />
                         <Select
                             name="t_document"
-                            options={options}
+                            options={optionsTD}
                             className="mt-1 block w-full"
                             autoComplete="t_document"
                             
@@ -229,12 +239,12 @@ export default function RegisterUser(props) {
                     </div>
 
                         <div className="flex items-center justify-start mt-4 ">
-                        <Button className="bg-red-light" type="submit">
+                        <Button className="bg-red-light">
                             Cancelar
                         </Button>
                         </div>
                         <div className="flex items-center justify-end mt-4 ">
-                        <Button className="bg-green-light" type="submit">
+                        <Button className="bg-green-light" type="submit" processing={processing}>
                             Generar
                         </Button>
                         </div>
