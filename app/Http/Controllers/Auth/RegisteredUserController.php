@@ -45,7 +45,7 @@ class RegisteredUserController extends Controller
             'phone' => 'required|string|max:20',
             'cellphone' => 'required|string|max:25',
             'notif' => 'string|max:2',
-            't_user' => 'integer',
+            'id_t_user' => 'integer',
             'data' => 'string|max:255',
 
         ]);
@@ -61,7 +61,7 @@ class RegisteredUserController extends Controller
             'phone' => $request->phone,
             'cellphone' => $request->cellphone,
             'notif' => $request->notif,
-            't_user' => $request->t_user,
+            'id_t_user' => $request->id_t_user,
             'data' => $request->data,
         ]);
 
