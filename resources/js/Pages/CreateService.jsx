@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import Card from "@/Components/Card";
 import Modal from "@/Components/Modal";
@@ -13,40 +13,44 @@ import AddressForm from "@/Components/AddressForm";
 
 export default function Services(props) {
 
-    const options = [
-        { value: "1", label: "Gestión de Mensajería" },
-        { value: "2", label: "Correspondencia" },
-        { value: "3", label: "Paquetería" },
-    ];
+    const options = {
+        name : "id_type_service",
+        options : [
+            { value: "1", label: "Gestión de Mensajería" },
+            { value: "2", label: "Correspondencia" },
+            { value: "3", label: "Paquetería" },
+        ]
+    }
 
     const [serviceParams, setServiceParams] = useState([]);
+    const [data, setData] = useState({
+        name: "",
+        date: "",
+        id_type_service: "",
+        description: "",
+        price: "",
+        id_address: "",
+    })
     const [showModal, setShowModal] = useState("");
-    const [idAddress, setIdAddress] = useState(null);
+    const addressRef = useRef(null)
 
     const onHide = () => setShowModal(false);
 
-    const onHandleCheck= (event) => {
-        setData(
-            event.target.name,
-            event.target.type === "checkbox"
-                ? event.target.checked
-                : event.target.value
-        );
-    };
-    const onHandleChange = (event) => {
-        setData(
-            event.target.name,
-            event.target.type === "checkbox"
-                ? event.target.checked
-                : event.target.value
-        );
-    };
 
-    const submitService = (data) => {
+    const handleInputChange = (e) => {
+        let target = e.target?.name || options.name;
+        let value = e.target?.value || e.value;
+        setData({
+            ...data,
+            [target]: value
+        });
+    }
+
+    const submitService = (e) => {
         //Load address on data
-        console.log(idAddress);
-        if (idAddress != null) {
-            data.id_address = idAddress;
+        e.preventDefault();
+        console.log(data.id_address);
+        if (data.id_address != null) {
             axios.post("/api/service", data).then((res) => {
                 // Modal de juabito
                 alert("Servicio creado");
@@ -56,8 +60,13 @@ export default function Services(props) {
         }
     };
 
-    const succesAddressLoad = (data) => {
-        setIdAddress(data.id);
+    const succesAddressLoad = (pData) => {
+        setData({
+            ...data,
+            id_address: pData.id
+        });
+        addressRef.current.value = pData.name;
+        
         setShowModal(false);
     };
 
@@ -72,6 +81,16 @@ export default function Services(props) {
     return (
         <>
             <Authenticated {...props}>
+                <Modal
+                    onHide={onHide}
+                    show={showModal}
+                    title={"Ingrese una nueva dirección"}
+                >
+                <AddressForm
+                    api_token={props.api_token}
+                    onSubmit={succesAddressLoad}
+                />
+                    </Modal>
                 <Container className={"justify-center"}>
                 <form onSubmit={submitService}>
                     <Card className={"justify-center tracking-widest m-auto"} col={1}>
@@ -82,62 +101,65 @@ export default function Services(props) {
                             <Label forInput="name" value="Título del Servicio" />
                             <Input
                                 type="text"
-                                name="title"
+                                name="name"
                                 value={""}
                                 className="mt-1 block w-full"
                                 autoComplete="title"
                                 isFocused={true}
-                                handleChange={onHandleChange}
                                 required
+                                handleChange={handleInputChange}
                             />
                         </div>
                         <div className="col-span-2">
                             <Label forInput="t_service" value="Tipo de Servicio" />
                             <Select
                                 name="t_service"
-                                options={options}
+                                options={options.options}
                                 className="mt-1 block w-full"
                                 autoComplete="t_service"
                                 required
+                                onChange={handleInputChange}
                             ></Select>
                         </div>
                         <div className="col-span-2">
                             <Label forInput="desc" value="Descripción" />
                             <textarea
                                 type="textarea"
-                                name="desc"
+                                name="description"
                                 className="mt-1 h-28 block w-full rounded-xl"
                                 autoComplete="desc"
-                                handleChange={onHandleChange}
                                 required
+                                onChange={handleInputChange}
                             />
                         </div>
                         <div className="col-span-2">
-                            <Button className="bg-gray-servi" onClick={() => setShowModal(true)}>
+                            <Button className="bg-gray-servi ml-2" onClick={() => setShowModal(true)}>
                             Detalles de dirección de Origen
                             </Button>
                         </div>
-                        <div className="col-span-2">
-                            <label className="flex items-center">
-                            <Checkbox
-                                name="remember"
-                                handleChange={onHandleCheck}
+                        <div>
+                            <Label forInput="name" value="Dirección" />
+                            <input
+                                type="text"
+                                name="title"
+                                className="mt-1 block w-full"
+                                autoComplete="title"
+                                ref={addressRef}
+                                disabled={true}
                             />
-                            <span className="ml-2 text-sm text-gray-600">
-                                Usar última dirección
-                            </span>
-                            </label>
+                        </div>
+                        <div className="col-span-2">
                         </div>
                         <div className="col-span-2">
                             <Label forInput="date" value="Fecha de Realización" />
                             <Input
                                 type="date"
-                                name="value"
+                                name="date"
                                 value={""}
                                 className="mt-1 block w-full"
                                 autoComplete="value"
-                                handleChange={onHandleChange}
                                 required
+                                handleChange={handleInputChange}
                             />
                         </div>
                         <div className="col-span-2">
@@ -145,12 +167,12 @@ export default function Services(props) {
                             (Pesos Colombianos)
                             <Input
                                 type="number"
-                                name="value"
+                                name="price"
                                 value={""}
                                 className="mt-1 block w-full"
                                 autoComplete="value"
-                                handleChange={onHandleChange}
                                 required
+                                handleChange={handleInputChange}
                             />
                         </div>
                         
@@ -164,16 +186,7 @@ export default function Services(props) {
                         Generar
                     </Button>
                     </div>
-                    <Modal
-                        onHide={onHide}
-                        show={showModal}
-                        title={"Ingrese una nueva dirección"}
-                    >
-                        <AddressForm
-                            api_token={props.api_token}
-                            onSubmit={succesAddressLoad}
-                        />
-                    </Modal>
+                    
                     {/* Custom address form due to the fact of dynamism */}
                     </Card>
                 </form>

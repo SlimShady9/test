@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Service;
 use App\Models\Parameter;
 use App\Models\TypeService;
+use App\Models\StateService;
 
 use Barryvdh\Debugbar\Facade as Debugbar;
 
@@ -27,7 +28,7 @@ class ServiceController extends Controller {
             $request->validate([
                 'name' => 'required|string|max:30',
                 'id_state_service' => 'Exists:state_services,id',
-                'id_type_service' => 'required|Exists:type_services,id',
+                //'id_type_service' => 'required|Exists:type_services,id',
                 'description' => 'required|string|max:255',
                 'price' => 'required|numeric|Between:0,9999999999',
                 'id_address' => 'required|Exists:addresses,id',
@@ -43,8 +44,8 @@ class ServiceController extends Controller {
         
         $newService = Service::create([
             'name' => $request->name,
-            'id_state_service' => 1, // 1 = 'En proceso'
-            'id_type_service' => $request->id_type_service,
+            'id_state_service' => StateService::where('name', 'En proceso')->first()->id,
+            'id_type_service' =>  $request->id_type_service,
             'description' => $request->description,
             'price' => $request->price,
             'id_address' => $request->id_address,
