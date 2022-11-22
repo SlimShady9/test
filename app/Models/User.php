@@ -31,6 +31,7 @@ class User extends Authenticatable
         'data',
         'id_address',
         'id_t_user',
+        'id_t_doc',
     ];
 
     /**

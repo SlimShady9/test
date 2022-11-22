@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('cellphone')->nullable();
             $table->bigInteger('id_address')->unsigned()->nullable();
-            $table->boolean('notif')->default(0);
+            $table->boolean('notif')->nullable();
             $table->string('data')->nullable();
             $table->rememberToken();
             $table->timestamps();
