@@ -8,6 +8,7 @@ use App\Models\T_user;
 use App\Models\T_document;
 use App\Models\Parameter;
 use Barryvdh\Debugbar\Facade as Debugbar;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -81,11 +82,13 @@ class UserController extends Controller
             $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => 'required', 'confirmed',
             'surname' => 'required|string|max:255',
             'username' => 'required|string|max:255',
             'doc' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
+            'id_t_user' => 'required',
+            'id_t_doc' => 'required',
             'cellphone' => 'required|string|max:25',
             'notif' => 'string|max:2',
             'data' => 'string|max:255',
@@ -102,6 +105,8 @@ class UserController extends Controller
             'surname' => $request->surname,
             'username' => $request->username,
             'doc' => $request->doc,
+            'id_t_doc' => $request->id_t_doc,
+            'id_t_user' => $request->id_t_user,
             'phone' => $request->phone,
             'cellphone' => $request->cellphone,
             'notif' => $request->notif,
