@@ -78,7 +78,5 @@ class DatabaseSeeder extends Seeder
         $service->run();
         $user = new UserSeeder();
         $user->run();
-        
-
     }
 }
