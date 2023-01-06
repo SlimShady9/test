@@ -10,6 +10,7 @@ use App\Http\Controllers\File\PhotoUserController;
 use App\Http\Controllers\TActionController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ActionController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,6 +82,16 @@ Route::resource('permission', PermissionController::class)->names([
     'update' => 'permission.update',
     'destroy' => 'permission.destroy',
     'edit' => 'permission.edit',
+]);
+
+
+Route::resource('order', OrderController::class)->names([
+    'index' => 'order.index',
+    'show' => 'order.show',
+    'store' => 'order.store',
+    'update' => 'order.update',
+    'destroy' => 'order.destroy',
+    'edit' => 'order.edit',
 ]);
 
 // Tal vez con resource no se deba hacer el get, put, post, delete. Pero no sé

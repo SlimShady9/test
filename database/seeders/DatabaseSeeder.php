@@ -57,6 +57,9 @@ class DatabaseSeeder extends Seeder
         \App\Models\T_user::create([
             'name' => 'Cliente natural',
         ]);
+        \App\Models\T_user::create([
+            'name' => 'Courier',
+        ]);
         //Tipo de documento
         \App\Models\T_document::create([
             'name' => 'Cédula',
