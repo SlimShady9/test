@@ -11,6 +11,8 @@ use App\Http\Controllers\TActionController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ActionController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\TDocumentController;
+use App\Http\Controllers\TUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,6 +95,9 @@ Route::resource('order', OrderController::class)->names([
     'destroy' => 'order.destroy',
     'edit' => 'order.edit',
 ]);
+
+Route::resource('tdocument', TDocumentController::class);
+Route::resource('tuser', TUserController::class);
 
 // Tal vez con resource no se deba hacer el get, put, post, delete. Pero no sé
 Route::get('/user/{user_id}/profileimg', [PhotoUserController::class, 'profileimg']);
