@@ -117,11 +117,11 @@ class ServiceController extends Controller {
         try {
 
             $request->validate([
-                'name_service' => 'string|max:30',
-                'price_service' => 'numeric|Between:0,9999999999',
-                'id_type_service' => 'Exists:t_services,id',
-                'state_service_id' => 'Exists:state_services,id',
-                'description_service' => 'string|max:255',
+                'name' => 'string|max:30',
+                'price' => 'numeric|Between:0,9999999999',
+                'id_type_service' => 'Exists:type_services,id',
+                'id_state_service' => 'Exists:state_services,id',
+                'description' => 'string|max:255',
                 'id_address' => 'Exists:addresses,id',
                 'data' => 'json',
             ]);
@@ -134,10 +134,10 @@ class ServiceController extends Controller {
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json(['error' => 'Service not found'], 404);
         }
-        $service->name = $request->name_service;
-        $service->price = $request->price_service;
-        $service->id_type_service = $request->id_type_service;
-        $service->id_state_service = 5; // 5 = 'Pendiente'
+        $service->name = $request->name ?? $service->name;
+        $service->price = $request->price_service ?? $service->price;
+        $service->id_type_service = $request->id_type_service ?? $service->id_type_service;
+        $service->id_state_service = $request->id_state_service ?? $service->id_state_service;
         $service->save();
         return $service;
     }
