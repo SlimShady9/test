@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Button from "@/Components/Button";
 import Checkbox from "@/Components/Checkbox";
-import Input from "@/Components/Input";
+import Input from "@/Components/FormUtils/Input";
 import Label from "@/Components/Label";
 import Container from "@/Components/Container";
 import ValidationErrors from "@/Components/ValidationErrors";
@@ -49,11 +49,11 @@ export default function Login({ status, canResetPassword }) {
             <ValidationErrors errors={errors} />
 
             <form onSubmit={submit}>
-            <Container className={"justify-center"}>
-            <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
-                Ingreso de Usuario
-                </h1>
-            </Container>
+                <Container className={"justify-center"}>
+                    <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                        Ingreso de Usuario
+                    </h1>
+                </Container>
                 <div>
                     <Label forInput="email" value="Nombre de Usuario" />
                     <Input

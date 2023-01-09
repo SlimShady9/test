@@ -22,7 +22,7 @@ const StepProgressCircles = ({ currentStep, steps }) => {
         100 - (currentStep / steps.length) * 100
     );
     return (
-        <div className="flex justify-evenly relative">
+        <div className="flex justify-evenly relative md:w-1/2 m-auto">
             <hr className="absolute top-1/2 right-0 left-0 h-1 mx-0 bg-gray-dark border-0 dark"></hr>
             <hr
                 className="z-10 absolute top-1/2 right-0 left-0 h-1 mx-0 bg-green-light border-0 dark"

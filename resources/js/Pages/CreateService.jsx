@@ -5,12 +5,15 @@ import Modal from "@/Components/Modal";
 import Button from "@/Components/Button";
 import axios from "axios";
 import Container from "@/Components/Container";
-import Input from "@/Components/Input";
+import Input from "@/Components/FormUtils/Input";
 import Label from "@/Components/Label";
 import Checkbox from "@/Components/Checkbox";
 import Select from "react-select";
-import StateServiceEnum from "@/Constants/StateServiceConstants";
+import StateServiceEnum from "@/Constants/StateServiceEnum";
 import StepProgressCircles from "@/Components/MultiStepForm/StepProgressCircles";
+import ServiceDataForm from "@/Components/ServiceForms/ServiceDataForm";
+import AddressForm from "@/Components/ServiceForms/AddressForm";
+import UsersForm from "@/Components/ServiceForms/UsersForm";
 
 export default function Services(props) {
     const ServiceAvailable = [
@@ -21,7 +24,7 @@ export default function Services(props) {
 
     // Initial state of current service
     const [stateService, setStateService] = useState(
-        StateServiceEnum.SERVICE_ADDRESS_CONFIRMED
+        StateServiceEnum.SERVICE_STARTED
     );
 
     return (
@@ -36,6 +39,18 @@ export default function Services(props) {
                             currentStep={stateService}
                             steps={ServiceAvailable}
                         ></StepProgressCircles>
+                        <AddressForm
+                            currentStep={stateService}
+                            setNextStep={setStateService}
+                        />
+                        <ServiceDataForm
+                            currentStep={stateService}
+                            setNextStep={setStateService}
+                        />
+                        <UsersForm
+                            currentStep={stateService}
+                            setNextStep={setStateService}
+                        />
                     </Card>
                 </Container>
             </Authenticated>

@@ -12,9 +12,8 @@ export default function Input({
     disabled = false,
     ref,
 }) {
-
     return (
-        <div className="flex flex-col items-start">
+        <div>
             <input
                 type={type}
                 name={name}

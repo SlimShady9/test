@@ -1,9 +1,9 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@/Components/Button";
 import Container from "@/Components/Container";
 import Base from "@/Layouts/Base";
-import axios from "axios"; 
-import Input from "@/Components/Input";
+import axios from "axios";
+import Input from "@/Components/FormUtils/Input";
 import Label from "@/Components/Label";
 import Checkbox from "@/Components/Checkbox";
 import Select from "react-select";
@@ -18,7 +18,7 @@ export default function Register() {
         { value: "3", label: "Cédula de extranjeria" },
     ];
     //Constantes de la página
-    const [ data, setData ]  = useState({
+    const [data, setData] = useState({
         username: "",
         name: "",
         surname: "",
@@ -51,7 +51,7 @@ export default function Register() {
         let value = e.target?.value || e.value;
         setData({
             ...data,
-            [target]: value
+            [target]: value,
         });
         console.log(target);
         console.log(value);
@@ -61,23 +61,24 @@ export default function Register() {
         //Load address on data
         e.preventDefault();
         axios.post("/api/user", data).then((res) => {
-                // Modal de juabito
-            });
-        
-    }; 
+            // Modal de juabito
+        });
+    };
     useEffect(() => {
         axios.get("/api/user/create").then((res) => {
             setUser(res.data.parameters);
         });
-    }, []); 
+    }, []);
 
     return (
         <Base>
             <Head title="Register" />
             <form onSubmit={submitUser}>
-            <Container className={"justify-center"}>
-            <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">Registro de Usuario</h1>
-            </Container>
+                <Container className={"justify-center"}>
+                    <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                        Registro de Usuario
+                    </h1>
+                </Container>
                 <div className="grid grid-cols-2 gap-4">
                     <div>
                         <Label forInput="name" value="Nombre (s)" />
@@ -101,7 +102,6 @@ export default function Register() {
                             value={data.surname}
                             className="mt-1 block w-full"
                             autoComplete="name"
-                            
                             handleChange={onHandleChange}
                             required
                         />
@@ -115,7 +115,6 @@ export default function Register() {
                             value={data.username}
                             className="mt-1 block w-full"
                             autoComplete="username"
-                            
                             handleChange={onHandleChange}
                             required
                         />
@@ -142,7 +141,6 @@ export default function Register() {
                             value={data.phone}
                             className="mt-1 block w-full"
                             autoComplete="phone"
-                            
                             handleChange={onHandleChange}
                             required
                         />
@@ -156,7 +154,6 @@ export default function Register() {
                             value={data.cellphone}
                             className="mt-1 block w-full"
                             autoComplete="cellphone"
-                            
                             handleChange={onHandleChange}
                             required
                         />
@@ -170,23 +167,19 @@ export default function Register() {
                             value={data.doc}
                             className="mt-1 block w-full"
                             autoComplete="doc"
-                            
                             handleChange={onHandleChange}
                             required
                         />
                     </div>
 
                     <div>
-                        <Label
-                            forInput="id_t_doc"
-                            value="Tipo de Documento"
-                        />
+                        <Label forInput="id_t_doc" value="Tipo de Documento" />
                         <Select
                             name="id_t_doc"
                             options={optionsTD}
                             className="mt-1 block w-full"
                             autoComplete="id_t_doc"
-                            onChange={e => onHandleChange(e, "id_t_doc")}
+                            onChange={(e) => onHandleChange(e, "id_t_doc")}
                             required
                         ></Select>
                     </div>
