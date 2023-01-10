@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Label from "@/Components/Label";
+import Label from "./Label";
 import Input from "@/Components/Input";
 import Button from "@/Components/Button";
 import Select from "react-select";
@@ -82,7 +82,7 @@ function AnyInput({
                 <Select
                     placeholder={"Seleccione..."}
                     className={""}
-                    options={options} 
+                    options={options}
                     value={value}
                     autoComplete={name}
                     defaultInputValue={value}

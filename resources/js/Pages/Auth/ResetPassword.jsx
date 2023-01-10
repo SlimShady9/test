@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Button from "@/Components/Button";
 import Guest from "@/Layouts/Guest";
 import Input from "@/Components/FormUtils/Input";
-import Label from "@/Components/Label";
+import Label from "@/Components/FormUtils/Label";
 import ValidationErrors from "@/Components/ValidationErrors";
 import { Head, useForm } from "@inertiajs/inertia-react";
 

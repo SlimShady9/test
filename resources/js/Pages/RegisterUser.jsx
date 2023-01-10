@@ -5,8 +5,8 @@ import Authenticated from "@/Layouts/Authenticated";
 import Card from "@/Components/Card";
 import Input from "@/Components/FormUtils/Input";
 import axios from "axios";
-import Label from "@/Components/Label";
-import Checkbox from "@/Components/Checkbox";
+import Label from "@/Components/FormUtils/Label";
+import Checkbox from "@/Components/FormUtils/Checkbox";
 import Select from "react-select";
 import { Head, Link, useForm } from "@inertiajs/inertia-react";
 

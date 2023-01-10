@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import Button from "@/Components/Button";
-import Checkbox from "@/Components/Checkbox";
+import Checkbox from "@/Components/FormUtils/Checkbox";
 import Input from "@/Components/FormUtils/Input";
-import Label from "@/Components/Label";
+import Label from "@/Components/FormUtils/Label";
 import Container from "@/Components/Container";
 import ValidationErrors from "@/Components/ValidationErrors";
 import { Head, Link, useForm } from "@inertiajs/inertia-react";

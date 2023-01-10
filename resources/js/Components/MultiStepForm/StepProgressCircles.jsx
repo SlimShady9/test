@@ -1,7 +1,7 @@
 const StepCircle = ({ step, currentStep, index }) => {
     const isCompleted = currentStep > index;
 
-    const color = isCompleted ? "bg-green-light" : "bg-gray-dark";
+    const color = isCompleted ? "bg-green-primary" : "bg-gray-dark";
     const textColor = isCompleted ? "text-black" : "text-white";
 
     return (
@@ -25,7 +25,7 @@ const StepProgressCircles = ({ currentStep, steps }) => {
         <div className="flex justify-evenly relative md:w-1/2 m-auto">
             <hr className="absolute top-1/2 right-0 left-0 h-1 mx-0 bg-gray-dark border-0 dark"></hr>
             <hr
-                className="z-10 absolute top-1/2 right-0 left-0 h-1 mx-0 bg-green-light border-0 dark"
+                className="z-10 absolute top-1/2 right-0 left-0 h-1 mx-0 bg-green-primary border-0 dark transition-all"
                 style={{ right: `${percentCompleted}%` }}
             ></hr>
             {steps.map((step, index) => (

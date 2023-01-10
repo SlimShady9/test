@@ -1,12 +1,31 @@
-import React from "react";
-import CurrencyInput from "react-currency-input-field";
+import React, { useEffect, useState } from "react";
 import StateServiceEnum from "@/Constants/StateServiceEnum";
 import { Head } from "@inertiajs/inertia-react";
 import Input from "../FormUtils/Input";
-import Label from "../Label";
+import Select from "react-select";
+import Label from "../FormUtils/Label";
+import CurrencyFormInput from "../FormUtils/CurrencyFormInput";
+import { getOptionsTypeService } from "@/Utils/FetchApi";
+import Button from "../Button";
 
 function ServiceDataForm({ currentStep, setNextStep }) {
     const id = StateServiceEnum.SERVICE_STARTED;
+
+    const [optionsTypeService, setOptionsTypeService] = useState([]);
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = async () => {
+        const options = await getOptionsTypeService();
+        setOptionsTypeService(options);
+    };
+
+    const submitForm = (e) => {
+        e.preventDefault();
+        setNextStep(StateServiceEnum.SERVICE_ADDRESS_CONFIRMED);
+    };
 
     if (currentStep !== id) {
         return <></>;
@@ -14,18 +33,18 @@ function ServiceDataForm({ currentStep, setNextStep }) {
     return (
         <>
             <Head title="Datos del servicio" />
-            <form className="flex flex-col">
+            <form className="flex flex-col" onSubmit={submitForm}>
                 <h1 className="text-xl font-bold text-left mb-3">
                     Datos iniciales
                 </h1>
                 <div className="gap-4 flex">
                     <div className="w-1/2">
-                        <Label>Nombre</Label>
-                        <Input></Input>
+                        <Label>Tipo de servicio</Label>
+                        <Select options={optionsTypeService} />
                     </div>
                     <div className="w-1/2">
                         <Label>Precio</Label>
-                        <CurrencyInput></CurrencyInput>
+                        <CurrencyFormInput />
                     </div>
                 </div>
                 <div className="gap-4 flex">
@@ -48,6 +67,11 @@ function ServiceDataForm({ currentStep, setNextStep }) {
                         cols="30"
                         rows="10"
                     ></textarea>
+                </div>
+                <div className="my-3 m-auto">
+                    <Button className="" type="submit">
+                        Guardar y continuar
+                    </Button>
                 </div>
             </form>
         </>

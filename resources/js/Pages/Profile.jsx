@@ -3,13 +3,13 @@ import Authenticated from "@/Layouts/Authenticated";
 import Card from "@/Components/Card";
 import Modal from "@/Components/Modal";
 import Button from "@/Components/Button";
-import ImageUploadForm from "@/Components/ImageUploadForm";
+import ImageUploadForm from "@/Components/FormUtils/ImageUploadForm";
 import axios from "axios";
 import DataForm from "@/Components/DataForm";
 import Container from "@/Components/Container";
 import Input from "@/Components/FormUtils/Input";
 import Label from "@/Components/Label";
-import Checkbox from "@/Components/Checkbox";
+import Checkbox from "@/Components/FormUtils/Checkbox";
 import Select from "react-select";
 import AddressForm from "@/Components/AddressForm";
 
