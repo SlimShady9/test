@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const getOptionsTypeService = () => {
     return Promise.resolve([
         { label: "Envío", value: 1 },
@@ -7,4 +9,8 @@ const getOptionsTypeService = () => {
     ]);
 };
 
-export { getOptionsTypeService };
+const getUsers = () => {
+    return axios.get("/api/users");
+};
+
+export { getOptionsTypeService, getUsers };

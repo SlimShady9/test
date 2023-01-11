@@ -7,6 +7,7 @@ import Label from "../FormUtils/Label";
 import CurrencyFormInput from "../FormUtils/CurrencyFormInput";
 import { getOptionsTypeService } from "@/Utils/FetchApi";
 import Button from "../Button";
+import SelectInput from "../FormUtils/SelectInput";
 
 function ServiceDataForm({ currentStep, setNextStep }) {
     const id = StateServiceEnum.SERVICE_STARTED;
@@ -40,7 +41,7 @@ function ServiceDataForm({ currentStep, setNextStep }) {
                 <div className="gap-4 flex">
                     <div className="w-1/2">
                         <Label>Tipo de servicio</Label>
-                        <Select options={optionsTypeService} />
+                        <SelectInput options={optionsTypeService} />
                     </div>
                     <div className="w-1/2">
                         <Label>Precio</Label>

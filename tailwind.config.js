@@ -33,12 +33,14 @@ module.exports = {
                 light: "#dcdcdc",
                 dark: "#9a9a9a",
                 servi: "#dcdcdc",
+                border: "hsl(0, 0%, 80%)",
             },
             blue: {
                 light: "#9CBEFF",
                 primary: "#231A49",
                 dark: "#000022",
                 servi: "#0a0231",
+                border: "#2684FF",
             },
             red: {
                 light: "#ffb3b3",

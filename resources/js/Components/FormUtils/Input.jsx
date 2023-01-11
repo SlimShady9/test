@@ -17,8 +17,8 @@ export default function Input({
             <input
                 type={type}
                 name={name}
-                className={`mt-1 block w-full border-1 border-gray-dark active:border-blue-600 rounded-3xl py-1.5 px-3
-                    transition-colors hover:border-gray-400 ${
+                className={`mt-1 block w-full border-1 border-gray-border active:border-blue-border rounded py-1.5 px-3
+                    transition-colors hover:border-gray-400 font-sans tracking-widest text-lg${
                         className ? className : ""
                     } ${disabled ? "bg-gray-light" : ""}`}
                 defaultValue={defaultValue}

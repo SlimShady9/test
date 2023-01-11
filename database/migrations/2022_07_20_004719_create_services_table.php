@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('description');
             $table->unsignedDouble('price');
             $table->timestamps();
-            $table->bigInteger('id_address')->unsigned();
+            $table->bigInteger('id_address')->unsigned()->nullable();
             $table->json('data')->nullable();
         });
 

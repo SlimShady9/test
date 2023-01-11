@@ -28,10 +28,9 @@ class ServiceController extends Controller {
             $request->validate([
                 'name' => 'required|string|max:30',
                 'id_state_service' => 'Exists:state_services,id',
-                //'id_type_service' => 'required|Exists:type_services,id',
+                'id_type_service' => 'required|Exists:type_services,id',
                 'description' => 'required|string|max:255',
                 'price' => 'required|numeric|Between:0,9999999999',
-                'id_address' => 'required|Exists:addresses,id',
                 'data' => 'json',
                 'date' => 'required|date',
             ]);
@@ -122,7 +121,6 @@ class ServiceController extends Controller {
                 'id_type_service' => 'Exists:type_services,id',
                 'id_state_service' => 'Exists:state_services,id',
                 'description' => 'string|max:255',
-                'id_address' => 'Exists:addresses,id',
                 'data' => 'json',
             ]);
             
@@ -138,6 +136,8 @@ class ServiceController extends Controller {
         $service->price = $request->price_service ?? $service->price;
         $service->id_type_service = $request->id_type_service ?? $service->id_type_service;
         $service->id_state_service = $request->id_state_service ?? $service->id_state_service;
+        $service->data = $request->data ?? $service->data;
+        $service->id_address = $request->id_address ?? $service->id_address;
         $service->save();
         return $service;
     }
