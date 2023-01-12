@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import Card from "@/Components/Card";
 import Container from "@/Components/Container";
-import StateServiceEnum from "@/Constants/StateServiceEnum";
+import EstadoServiciosEnum from "@/Constants/EstadoServiciosEnum";
 import StepProgressCircles from "@/Components/MultiStepForm/StepProgressCircles";
 import ServiceDataForm from "@/Components/ServiceForms/ServiceDataForm";
 import AddressForm from "@/Components/ServiceForms/AddressForm";
@@ -10,15 +10,15 @@ import UsersForm from "@/Components/ServiceForms/UsersForm";
 
 export default function Services(props) {
     const ServiceAvailable = [
-        StateServiceEnum.SERVICE_STARTED,
-        StateServiceEnum.SERVICE_ADDRESS_CONFIRMED,
-        StateServiceEnum.SERVICE_USERS_ASSIGNED,
-        StateServiceEnum.SERVICE_DETAIL,
+        EstadoServiciosEnum.SERVICIOS_INCIADO,
+        EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA,
+        EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS,
+        EstadoServiciosEnum.SERVICIO_CON_DETALLE,
     ];
 
     // Initial state of current service
     const [stateService, setStateService] = useState(
-        StateServiceEnum.SERVICE_STARTED
+        EstadoServiciosEnum.SERVICIOS_INCIADO
     );
 
     return (

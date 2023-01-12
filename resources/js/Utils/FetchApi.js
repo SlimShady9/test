@@ -1,6 +1,7 @@
 import axios from "axios";
+import { GLOBALAPI } from "@/Constants/GlobalAPI";
 
-const getOptionsTypeService = () => {
+const getOptionsTypeService = async () => {
     return Promise.resolve([
         { label: "Envío", value: 1 },
         { label: "Correspondencia", value: 2 },
@@ -9,8 +10,25 @@ const getOptionsTypeService = () => {
     ]);
 };
 
-const getUsers = () => {
-    return axios.get("/api/users");
+const getCountries = async (axiosConfig) => {
+    const req = await axios.get("/api/countries", axiosConfig);
+    return req.data;
 };
 
-export { getOptionsTypeService, getUsers };
+const getStates = async (countryId, axiosConfig) => {
+    const req = await axios.get(
+        `${GLOBALAPI}/countries/${countryId}/states`,
+        axiosConfig
+    );
+    return req.data;
+};
+
+const getCities = async (countryId, stateID, axiosConfig) => {
+    const req = await axios.get(
+        `${GLOBALAPI}/countries/${countryId}/states/${stateID}/cities`,
+        axiosConfig
+    );
+    return req.data;
+};
+
+export { getOptionsTypeService, getCountries, getStates, getCities };
