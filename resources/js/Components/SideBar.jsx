@@ -1,9 +1,26 @@
 import { useState } from "react";
 import { VscThreeBars } from "react-icons/vsc";
 import { AiOutlineLogout } from "react-icons/ai";
-import { FaAngular, FaBookOpen, FaClosedCaptioning, FaMicroscope, FaRegPaperPlane, FaServicestack, FaShippingFast, FaShoppingBag, FaShoppingBasket, FaStore, FaStoreAlt, FaStoreAltSlash, FaTable, FaTumblrSquare, FaUser, FaUsers } from "react-icons/fa";
+import {
+    FaAngular,
+    FaBookOpen,
+    FaClosedCaptioning,
+    FaMicroscope,
+    FaRegPaperPlane,
+    FaServicestack,
+    FaShippingFast,
+    FaShoppingBag,
+    FaShoppingBasket,
+    FaStore,
+    FaStoreAlt,
+    FaStoreAltSlash,
+    FaTable,
+    FaTumblrSquare,
+    FaUser,
+    FaUsers,
+} from "react-icons/fa";
 import { BsFillFilePersonFill } from "react-icons/bs";
-import ImageUploadForm from "./ImageUploadForm";
+import ImageUploadForm from "./FormUtils/ImageUploadForm";
 import { Head, Link } from "@inertiajs/inertia-react";
 import { fontWeight } from "tailwindcss/defaultTheme";
 
@@ -12,11 +29,21 @@ const SideBar = ({ user }) => {
     const [loggedUser, setLoggedUser] = useState(user);
     const Menus = [
         { title: "Perfil", icon: <BsFillFilePersonFill />, url: "profile" },
-        { title: "Servicios", gap: true, icon: <FaBookOpen />, url: "services" },
+        {
+            title: "Servicios",
+            gap: true,
+            icon: <FaBookOpen />,
+            url: "services",
+        },
         { title: "Ver envíos", icon: <FaShippingFast />, url: "envios" },
         { title: "Usuarios ", icon: <FaUsers />, url: "users" },
-        { title: "Ventas", icon: <FaStore/>, url: "services" },
-        { title: "Analíticas ", gap: true, icon: <FaMicroscope />, url: "services" },
+        { title: "Ventas", icon: <FaStore />, url: "services" },
+        {
+            title: "Analíticas ",
+            gap: true,
+            icon: <FaMicroscope />,
+            url: "services",
+        },
         { title: "Cerrar sesión", icon: <FaRegPaperPlane />, url: "services" },
     ];
 
@@ -26,12 +53,16 @@ const SideBar = ({ user }) => {
                 open ? "w-72" : "w-20 "
             } bg-gradient-to-l from-white to-blue-light h-auto p-5 pt-8 relative duration-300 `}
             onMouseOver={() => setOpen(!open)}
-            onMouseOut={() => setOpen(!open)}>
+            onMouseOut={() => setOpen(!open)}
+        >
             <div className="flex gap-x-4 items-center ">
-            <div className="shadow-xl overflow-hidden shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30">
-            <img src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745" alt="" />
-            </div>
-            {/*<ImageUploadForm user={loggedUser} setUser={setLoggedUser} />*/}
+                <div className="shadow-xl overflow-hidden shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30">
+                    <img
+                        src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745"
+                        alt=""
+                    />
+                </div>
+                {/*<ImageUploadForm user={loggedUser} setUser={setLoggedUser} />*/}
             </div>
             <ul className="pt-6">
                 {Menus.map((Menu, index) => (

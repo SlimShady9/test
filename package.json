@@ -24,6 +24,7 @@
     },
     "dependencies": {
         "esbuild": "^0.14.49",
+        "react-currency-input-field": "^3.6.9",
         "react-data-table-component": "^7.5.2",
         "react-dropzone": "^14.2.2",
         "react-icons": "^4.4.0",
