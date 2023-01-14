@@ -94,7 +94,7 @@ function AddressForm({ currentStep, setNextStep, api_token }) {
     return (
         <form onSubmit={submit}>
             <h1 className="text-xl font-bold text-left mb-3">
-                Ingresa direccion de servicio
+                Ingresa direccion de origen del servicio
             </h1>
             <div className="flex gap-4">
                 <div className="w-1/2">
