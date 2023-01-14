@@ -44,7 +44,7 @@ class AddressController extends Controller
                 'region' => 'required|string|max:30',
                 'city' => 'required|string|max:30',
                 'addr' => 'required|string|max:50',
-                'addr_detail' => 'string|max:30',
+                'addr_detail' => 'string|max:255',
                 'postal_code' => 'required|string|max:10',
             ]);
             

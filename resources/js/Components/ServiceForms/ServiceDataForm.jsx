@@ -12,6 +12,8 @@ import SelectInput from "../FormUtils/SelectInput";
 function ServiceDataForm({ currentStep, setNextStep }) {
     const id = EstadoServiciosEnum.SERVICIOS_INCIADO;
 
+    const showPrice = true;
+
     const [optionsTypeService, setOptionsTypeService] = useState([]);
 
     useEffect(() => {
@@ -39,15 +41,19 @@ function ServiceDataForm({ currentStep, setNextStep }) {
                     Datos iniciales
                 </h1>
                 <div className="gap-4 flex">
-                    <div className="w-1/2">
-                        <Label>Tipo de servicio</Label>
+                    <div className="w-full">
+                        <Label className="text-center">Tipo de servicio</Label>
                         <SelectInput options={optionsTypeService} />
                     </div>
-                    <div className="w-1/2">
-                        <Label>Precio</Label>
-                        <CurrencyFormInput />
-                    </div>
                 </div>
+                {showPrice && (
+                    <div className="gap-4 flex">
+                        <div className="w-1/2">
+                            <Label>Precio</Label>
+                            <CurrencyFormInput />
+                        </div>
+                    </div>
+                )}
                 <div className="gap-4 flex">
                     <div className="w-1/2">
                         <Label>Nombre</Label>

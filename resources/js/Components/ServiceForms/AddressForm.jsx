@@ -6,6 +6,7 @@ import SelectInput from "../FormUtils/SelectInput";
 import axios from "axios";
 import Input from "../FormUtils/Input";
 import Button from "../Button";
+import { saveAddress } from "@/Utils/PostApi";
 
 function AddressForm({ currentStep, setNextStep, api_token }) {
     const axiosConfig = {
@@ -31,11 +32,16 @@ function AddressForm({ currentStep, setNextStep, api_token }) {
     const [cities, setCities] = useState([]);
 
     useEffect(() => {
-        axios
-            .get("https://api.countrystatecity.in/v1/countries", axiosConfig)
-            .then((res) => {
-                setCountries(res.data);
-            });
+        if (!data.country?.value) {
+            axios
+                .get(
+                    "https://api.countrystatecity.in/v1/countries",
+                    axiosConfig
+                )
+                .then((res) => {
+                    setCountries(res.data);
+                });
+        }
     }, []);
 
     useEffect(() => {
@@ -44,7 +50,7 @@ function AddressForm({ currentStep, setNextStep, api_token }) {
             region: { label: "", value: "" },
             city: { label: "", value: "" },
         });
-        if (data.country.value != "") {
+        if (data.country?.value && data.country.value != "") {
             axios
                 .get(
                     `https://api.countrystatecity.in/v1/countries/${data.country.value}/states`,
@@ -61,7 +67,11 @@ function AddressForm({ currentStep, setNextStep, api_token }) {
             ...data,
             city: { label: "", value: "" },
         });
-        if (!(data.country.value == "" || data.region.value == "")) {
+        if (
+            data.country?.value &&
+            data.region?.value &&
+            !(data.country.value == "" || data.region.value == "")
+        ) {
             axios
                 .get(
                     `https://api.countrystatecity.in/v1/countries/${data.country.value}/states/${data.region.value}/cities`,
@@ -85,7 +95,9 @@ function AddressForm({ currentStep, setNextStep, api_token }) {
 
     const submit = (e) => {
         e.preventDefault();
-        setNextStep(EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS);
+        saveAddress(data).then((res) => {
+            setNextStep(EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS);
+        });
     };
 
     if (currentStep !== id) {
