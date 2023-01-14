@@ -103,4 +103,3 @@ Route::resource('tuser', TUserController::class);
 Route::get('/user/{user_id}/profileimg', [PhotoUserController::class, 'profileimg']);
 Route::post('/user/{user_id}/profileimg', [PhotoUserController::class, 'uploadprofileimg']);
 Route::delete('/user/{user_id}/profileimg', [PhotoUserController::class, 'deleteprofileimg']);
-Route::put('/user/{user_id}/profileimg', [PhotoUserController::class, 'updateprofileimg']);

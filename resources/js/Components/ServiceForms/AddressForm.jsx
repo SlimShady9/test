@@ -1,4 +1,4 @@
-import StateServiceEnum from "@/Constants/StateServiceEnum";
+import EstadoServiciosEnum from "@/Constants/EstadoServiciosEnum";
 import React, { useState, useEffect } from "react";
 import { useForm } from "@inertiajs/inertia-react";
 import Label from "../FormUtils/Label";
@@ -24,7 +24,7 @@ function AddressForm({ currentStep, setNextStep, api_token }) {
         postal_code: "",
     });
 
-    const id = StateServiceEnum.SERVICE_ADDRESS_CONFIRMED;
+    const id = EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA;
 
     const [countries, setCountries] = useState([]);
     const [regions, setRegions] = useState([]);
@@ -85,7 +85,7 @@ function AddressForm({ currentStep, setNextStep, api_token }) {
 
     const submit = (e) => {
         e.preventDefault();
-        setNextStep(StateServiceEnum.SERVICE_USERS_ASSIGNED);
+        setNextStep(EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS);
     };
 
     if (currentStep !== id) {
@@ -96,6 +96,15 @@ function AddressForm({ currentStep, setNextStep, api_token }) {
             <h1 className="text-xl font-bold text-left mb-3">
                 Ingresa direccion de origen del servicio
             </h1>
+            <Label forInput="name">Nombre</Label>
+            <Input name="name" handleChange={(e) => handleChange(e, "name")} />
+            <Label forInput="addr">Dirección</Label>
+            <Input name="addr" handleChange={(e) => handleChange(e, "addr")} />
+            <Label forInput="addr_detail">Detalles</Label>
+            <Input
+                name="addr_detail"
+                handleChange={(e) => handleChange(e, "addr_detail")}
+            />
             <div className="flex gap-4">
                 <div className="w-1/2">
                     <Label forInput="country">País</Label>
@@ -120,31 +129,29 @@ function AddressForm({ currentStep, setNextStep, api_token }) {
                     />
                 </div>
             </div>
-            <Label forInput="city">Ciudad</Label>
-            <SelectInput
-                name="city"
-                type="select"
-                value={data.city}
-                onChange={(e) => handleChange(e, "city")}
-                options={cities.map((c) => ({
-                    label: c.name,
-                    value: c.id,
-                }))}
-            />
-            <Label forInput="name">Nombre</Label>
-            <Input name="name" handleChange={(e) => handleChange(e, "name")} />
-            <Label forInput="addr">Dirección</Label>
-            <Input name="addr" handleChange={(e) => handleChange(e, "addr")} />
-            <Label forInput="addr_detail">Detalles</Label>
-            <Input
-                name="addr_detail"
-                handleChange={(e) => handleChange(e, "addr_detail")}
-            />
-            <Label forInput="postal_code">Código postal</Label>
-            <Input
-                name="postal_code"
-                handleChange={(e) => handleChange(e, "postal_code")}
-            />
+            <div className="flex gap-4">
+                <div className="w-1/2">
+                    <Label forInput="city">Ciudad</Label>
+                    <SelectInput
+                        name="city"
+                        type="select"
+                        value={data.city}
+                        onChange={(e) => handleChange(e, "city")}
+                        options={cities.map((c) => ({
+                            label: c.name,
+                            value: c.id,
+                        }))}
+                    />
+                </div>
+                <div className="w-1/2">
+                    <Label forInput="postal_code">Código postal</Label>
+                    <Input
+                        name="postal_code"
+                        handleChange={(e) => handleChange(e, "postal_code")}
+                    />
+                </div>
+            </div>
+
             <div className="flex justify-center">
                 <Button processing={processing} type="submit" className="mt-3">
                     Siguente paso
