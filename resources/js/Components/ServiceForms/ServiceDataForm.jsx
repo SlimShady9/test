@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import StateServiceEnum from "@/Constants/StateServiceEnum";
+import EstadoServiciosEnum from "@/Constants/EstadoServiciosEnum";
+("@/Constants/EstadoServiciosEnum");
 import { Head } from "@inertiajs/inertia-react";
 import Input from "../FormUtils/Input";
-import Select from "react-select";
 import Label from "../FormUtils/Label";
 import CurrencyFormInput from "../FormUtils/CurrencyFormInput";
 import { getOptionsTypeService } from "@/Utils/FetchApi";
@@ -10,7 +10,7 @@ import Button from "../Button";
 import SelectInput from "../FormUtils/SelectInput";
 
 function ServiceDataForm({ currentStep, setNextStep }) {
-    const id = StateServiceEnum.SERVICE_STARTED;
+    const id = EstadoServiciosEnum.SERVICIOS_INCIADO;
 
     const [optionsTypeService, setOptionsTypeService] = useState([]);
 
@@ -25,7 +25,7 @@ function ServiceDataForm({ currentStep, setNextStep }) {
 
     const submitForm = (e) => {
         e.preventDefault();
-        setNextStep(StateServiceEnum.SERVICE_ADDRESS_CONFIRMED);
+        setNextStep(EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA);
     };
 
     if (currentStep !== id) {
@@ -62,7 +62,7 @@ function ServiceDataForm({ currentStep, setNextStep }) {
                 <div className="flex flex-col">
                     <Label>Descripcion</Label>
                     <textarea
-                        className="m-1 rounded-md"
+                        className="m-1 rounded-md font-sans tracking-widest"
                         name="Descripcion"
                         id=""
                         cols="30"
