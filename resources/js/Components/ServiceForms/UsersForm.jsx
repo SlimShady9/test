@@ -11,8 +11,12 @@ import SelectInput from "../FormUtils/SelectInput";
 
 function UsersForm({ currentStep, setNextStep }) {
 
+    const [userParams, setUserParams] = useState([]);
+
+    console.log(userParams);
+
     const id = StateServiceEnum.SERVICE_USERS_ASSIGNED;
-    
+
     const options = [
         { value: "1", label: "Cliente" },
         { value: "2", label: "Mensajero" },
@@ -31,7 +35,7 @@ function UsersForm({ currentStep, setNextStep }) {
     };
 
     return (<>
-    <Head title="Datos del servicio" />
+        <Head title="Datos del servicio" />
         <form className="flex flex-col gap-4" onSubmit={submitForm}>
             <h1 className="text-xl font-bold text-left mb-3">
                 Asignar Usuarios
@@ -44,7 +48,7 @@ function UsersForm({ currentStep, setNextStep }) {
             </div>
             <div className="w-full">
                 <div className="mb-4">
-                <Label>Usuarios con acceso</Label>
+                    <Label>Usuarios con acceso</Label>
                 </div>
                 <div className="grid gap-3 ">
                     <div className={"flex hover:shadow-lg lg:grid lg:grid-cols-7  bg-gradient-to-t from-white to-gray-servi rounded-xl"}>
@@ -96,7 +100,7 @@ function UsersForm({ currentStep, setNextStep }) {
                 </Button>
             </div>
         </form>
-</>);
+    </>);
 }
 
 export default UsersForm;
