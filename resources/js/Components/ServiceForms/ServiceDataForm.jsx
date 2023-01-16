@@ -12,7 +12,7 @@ import SelectInput from "../FormUtils/SelectInput";
 function ServiceDataForm({ currentStep, setNextStep }) {
     const id = EstadoServiciosEnum.SERVICIOS_INCIADO;
 
-    const showPrice = true;
+    const showDetail = true;
 
     const [optionsTypeService, setOptionsTypeService] = useState([]);
 
@@ -36,49 +36,65 @@ function ServiceDataForm({ currentStep, setNextStep }) {
     return (
         <>
             <Head title="Datos del servicio" />
-            <form className="flex flex-col" onSubmit={submitForm}>
-                <h1 className="text-xl font-bold text-left mb-3">
-                    Datos iniciales
-                </h1>
-                <div className="gap-4 flex">
-                    <div className="w-full">
-                        <Label className="text-center">Tipo de servicio</Label>
-                        <SelectInput options={optionsTypeService} />
-                    </div>
-                </div>
-                {showPrice && (
-                    <div className="gap-4 flex">
-                        <div className="w-1/2">
-                            <Label>Precio</Label>
-                            <CurrencyFormInput />
-                        </div>
-                    </div>
-                )}
-                <div className="gap-4 flex">
-                    <div className="w-1/2">
+            <h1 className="text-xl font-bold text-left mb-3">
+                Datos iniciales
+            </h1>
+            <form className="gap-4" onSubmit={submitForm}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="col-span-1">
                         <Label>Nombre</Label>
                         <Input></Input>
                     </div>
-                    <div className="w-1/2">
+                    <div className="col-span-1">
+                        <Label className="">Tipo de servicio</Label>
+                        <SelectInput options={optionsTypeService} />
+                    </div>
+                    {showDetail && (
+                        <>
+                            <div className="col-span-1">
+                                <Label className="">Transportadora Asociada</Label>
+                                <SelectInput options={optionsTypeService} />
+                            </div>
+                            <div className="col-span-1">
+                                <Label>Número de Seguimiento</Label>
+                                <Input></Input>
+                            </div>
+                        </>
+                    )}
+
+                    <div className="col-span-1">
+                        <Label>Nombre</Label>
+                        <Input></Input>
+                    </div>
+                    <div className="col-span-1">
                         <Label>Fecha inicio</Label>
                         <Input type="date"></Input>
                     </div>
+                    <div className="col-span-1">
+                        <Label>Costo ($COP)</Label>
+                        <CurrencyFormInput />
+                    </div>
+                    <div className="col-span-1">
+                        <Label>Precio  ($COP)</Label>
+                        <CurrencyFormInput />
+                    </div>
                 </div>
-
-                <div className="flex flex-col">
-                    <Label>Descripcion</Label>
+                <div className="flex flex-col w-full gap-4">
+                    <div className="mt-3">
+                        <Label>Descripción</Label>
+                    </div>
                     <textarea
                         className="m-1 rounded-md font-sans tracking-widest"
                         name="Descripcion"
                         id=""
                         cols="30"
-                        rows="10"
+                        rows="4"
                     ></textarea>
-                </div>
-                <div className="my-3 m-auto">
-                    <Button className="" type="submit">
-                        Guardar y continuar
-                    </Button>
+                    <div className="my-3 m-auto">
+                        <Button className="" type="submit">
+                            Guardar y continuar
+                        </Button>
+                    </div>
                 </div>
             </form>
         </>
