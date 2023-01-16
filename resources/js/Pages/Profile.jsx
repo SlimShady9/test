@@ -15,11 +15,30 @@ import AddressForm from "@/Components/AddressForm";
 
 export default function Profile(props) {
 
-    const options = [
-        { value: "particular", label: "Particular" },
-        { value: "empresa", label: "Empresa" },
-        { value: "proveedor", label: "Proveedor" },
+    const optionsTU = [
+        { value: "1", label: "Admin" },
+        { value: "2", label: "Cliente juridico" },
+        { value: "3", label: "Cliente natural" },
     ];
+    const optionsTD = [
+        { value: "1", label: "Cédula" },
+        { value: "2", label: "Pasaporte" },
+        { value: "3", label: "Cédula de extranjeria" },
+    ];
+    const [user, setUser] = useState([]);
+    const getUser = async () => {
+        try {
+            const res = await axios.get("/api/user/"+loggedUser.id);
+            setUser(await res.data);
+            console.log(user);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    useEffect(() => {
+        getUser();
+    }, []);
+
 
     const [profileParams, setProfileParams] = useState([]);
     const [showModal, setShowModal] = useState("");
@@ -53,13 +72,12 @@ export default function Profile(props) {
                     <ImageUploadForm user={loggedUser} setUser={setLoggedUser} />
                     </Container>
                         <div className="col-span-1">
-                            <Label forInput="name" value="Username" />
+                            <Label forInput="username" value="Username" />
                             <Input
                                 type="text"
-                                name="title"
-                                value={""}
+                                name="username"
+                                defaultValue = {user.username}
                                 className="mt-1 block w-full"
-                                autoComplete="title"
                                 isFocused={true}
                                 handleChange={onHandleChange}
                                 required
@@ -70,7 +88,7 @@ export default function Profile(props) {
                             <Input
                                 type="text"
                                 name="title"
-                                value={""}
+                                defaultValue={user.name}
                                 className="mt-1 block w-full"
                                 autoComplete="title"
                                 isFocused={true}
@@ -83,7 +101,7 @@ export default function Profile(props) {
                             <Input
                                 type="text"
                                 name="title"
-                                value={""}
+                                defaultValue={user.surname}
                                 className="mt-1 block w-full"
                                 autoComplete="title"
                                 isFocused={true}
@@ -94,10 +112,11 @@ export default function Profile(props) {
                         <div>
                         <Label forInput="t_user" value="Tipo de Usuario" />
                         <Select
-                            name="country"
-                            options={options}
+                            name="t_user"
+                            options={optionsTU}
+                            defaultValue= {user.id_t_user}
                             className="mt-1 block w-full"
-                            autoComplete="country"
+                            autoComplete="t_user"
                             required
                         ></Select>
                     </div>
@@ -110,7 +129,7 @@ export default function Profile(props) {
                         <Input
                             type="text"
                             name="email"
-                            value={""}
+                            defaultValue={user.email}
                             className="mt-1 block w-full"
                             autoComplete="email"
                             isFocused={true}
@@ -123,7 +142,7 @@ export default function Profile(props) {
                         <Input
                             type="number"
                             name="phone"
-                            value={""}
+                            defaultValue={user.phone}
                             className="mt-1 block w-full"
                             autoComplete="phone"
                             isFocused={true}
@@ -136,7 +155,7 @@ export default function Profile(props) {
                         <Input
                             type="number"
                             name="cellphone"
-                            value={""}
+                            defaultValue={user.cellphone}
                             className="mt-1 block w-full"
                             autoComplete="cellphone"
                             isFocused={true}
@@ -149,7 +168,7 @@ export default function Profile(props) {
                         <Input
                             type="number"
                             name="doc"
-                            value={""}
+                            defaultValue={user.doc}
                             className="mt-1 block w-full"
                             autoComplete="doc"
                             isFocused={true}
@@ -161,7 +180,7 @@ export default function Profile(props) {
                         <Label forInput="t_document" value="Tipo de Documento" />
                         <Select
                             name="t_document"
-                            options={options}
+                            options={optionsTD}
                             className="mt-1 block w-full"
                             autoComplete="t_document"
                             required
