@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\T_user;
@@ -17,9 +18,14 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return User::all();
+        $id_t_user = $request->query('id_t_user');
+
+        return User::query()
+            ->whereIn('id_t_user', $id_t_user == '' ? T_user::all()->pluck('id') : [$id_t_user])
+            ->paginate();
+        
     }
 
     /**

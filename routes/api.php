@@ -13,6 +13,7 @@ use App\Http\Controllers\ActionController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\TDocumentController;
 use App\Http\Controllers\TUserController;
+use App\Http\Controllers\ServiceUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,70 +32,23 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::resource('envio', EnvioController::class);
 
-Route::resource('service', ServiceController::class)->names([
-    'index' => 'service.index',
-    'show' => 'service.show',
-    'store' => 'service.store',
-    'update' => 'service.update',
-    'destroy' => 'service.destroy',
-]);
+Route::resource('service', ServiceController::class);
 
-Route::resource('user', UserController::class)->names([
-    'index' => 'user.index',
-    'show' => 'user.show',
-    'store' => 'user.store',
-    'update' => 'user.update',
-    'destroy' => 'user.destroy',
-    'create' => 'user.create',
-    'edit' => 'user.edit',
-]);
+Route::resource('user', UserController::class);
+
+Route::resource('service.user', ServiceUserController::class);
 
 
-Route::resource('address', AddressController::class)->names([
-    'index' => 'address.index',
-    'show' => 'address.show',
-    'store' => 'address.store',
-    'update' => 'address.update',
-    'destroy' => 'address.destroy',
-    'edit' => 'address.edit',
-]);
+Route::resource('address', AddressController::class);
 
-Route::resource('action', ActionController::class)->names([
-    'index' => 'action.index',
-    'show' => 'action.show',
-    'store' => 'action.store',
-    'update' => 'action.update',
-    'destroy' => 'action.destroy',
-    'edit' => 'action.edit',
-]);
+Route::resource('action', ActionController::class);
 
-Route::resource('t_action', TActionController::class)->names([
-    'index' => 't_action.index',
-    'show' => 't_action.show',
-    'store' => 't_action.store',
-    'update' => 't_action.update',
-    'destroy' => 't_action.destroy',
-    'edit' => 't_action.edit',
-]);
+Route::resource('t_action', TActionController::class);
 
-Route::resource('permission', PermissionController::class)->names([
-    'index' => 'permission.index',
-    'show' => 'permission.show',
-    'store' => 'permission.store',
-    'update' => 'permission.update',
-    'destroy' => 'permission.destroy',
-    'edit' => 'permission.edit',
-]);
+Route::resource('permission', PermissionController::class);
 
 
-Route::resource('order', OrderController::class)->names([
-    'index' => 'order.index',
-    'show' => 'order.show',
-    'store' => 'order.store',
-    'update' => 'order.update',
-    'destroy' => 'order.destroy',
-    'edit' => 'order.edit',
-]);
+Route::resource('order', OrderController::class);
 
 Route::resource('tdocument', TDocumentController::class);
 Route::resource('tuser', TUserController::class);
