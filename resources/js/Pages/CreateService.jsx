@@ -7,10 +7,12 @@ import StepProgressCircles from "@/Components/MultiStepForm/StepProgressCircles"
 import ServiceDataForm from "@/Components/ServiceForms/ServiceDataForm";
 import AddressForm from "@/Components/ServiceForms/AddressForm";
 import UsersForm from "@/Components/ServiceForms/UsersForm";
+import MessagingForm from "@/Components/ServiceForms/MessagingForm";
 
 export default function Services(props) {
     const ServiceAvailable = [
-        EstadoServiciosEnum.SERVICIOS_INCIADO,
+        EstadoServiciosEnum.SERVICIO_INCIADO,
+        EstadoServiciosEnum.SERVICIO_MENSAJERIA,
         EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA,
         EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS,
         EstadoServiciosEnum.SERVICIO_CON_DETALLE,
@@ -18,7 +20,7 @@ export default function Services(props) {
 
     // Initial state of current service
     const [stateService, setStateService] = useState(
-        EstadoServiciosEnum.SERVICIOS_INCIADO
+        EstadoServiciosEnum.SERVICIO_INCIADO
     );
 
     return (
@@ -34,6 +36,10 @@ export default function Services(props) {
                             steps={ServiceAvailable}
                         ></StepProgressCircles>
                         <ServiceDataForm
+                            currentStep={stateService}
+                            setNextStep={setStateService}
+                        />
+                        <MessagingForm
                             currentStep={stateService}
                             setNextStep={setStateService}
                         />

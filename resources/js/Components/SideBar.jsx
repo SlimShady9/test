@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { VscThreeBars } from "react-icons/vsc";
 import { AiOutlineLogout } from "react-icons/ai";
+import ApplicationLogo from "@/Components/ApplicationLogo"
 import {
     FaAngular,
     FaBookOpen,
@@ -85,6 +86,9 @@ const SideBar = ({ user }) => {
                     </Link>
                 ))}
             </ul>
+            <div className="m-2 align-bottom">
+                        <ApplicationLogo></ApplicationLogo>
+                    </div>
         </aside>
     );
 };

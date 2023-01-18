@@ -18,7 +18,7 @@ export default function Input({
                 type={type}
                 name={name}
                 className={`mt-1 block w-full border-1 border-gray-border active:border-blue-border rounded py-1.5 px-3
-                    transition-colors hover:border-gray-400 font-sans tracking-widest text-lg${
+                    transition-colors hover:border-gray-400 font-sans tracking-widest text-sm ${
                         className ? className : ""
                     } ${disabled ? "bg-gray-light" : ""}`}
                 defaultValue={defaultValue}
