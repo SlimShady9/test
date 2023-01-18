@@ -21,9 +21,11 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $id_t_user = $request->query('id_t_user');
+        $name = $request->query('name');
 
         return User::query()
             ->whereIn('id_t_user', $id_t_user == '' ? T_user::all()->pluck('id') : [$id_t_user])
+            ->where('name', 'like', '%' . $name . '%')
             ->paginate();
         
     }

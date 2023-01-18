@@ -7,6 +7,7 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\File\PhotoUserController;
+use App\Http\Controllers\File\FileController;
 use App\Http\Controllers\TActionController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ActionController;
@@ -57,3 +58,6 @@ Route::resource('tuser', TUserController::class);
 Route::get('/user/{user_id}/profileimg', [PhotoUserController::class, 'profileimg']);
 Route::post('/user/{user_id}/profileimg', [PhotoUserController::class, 'uploadprofileimg']);
 Route::delete('/user/{user_id}/profileimg', [PhotoUserController::class, 'deleteprofileimg']);
+
+
+Route::resource('file', FileController::class);

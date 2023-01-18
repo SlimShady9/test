@@ -1,9 +1,9 @@
 import axios from "axios";
-import TipoDeUsuariosEnum from "@/Constants/TipoDeUsuariosEnum";
+import cocatenateParams from "./Functions";
 
 const getUsers = async (params) => {
-    const req = await axios.get(`/api/users/${cocatenateParams(params)}`);
+    const req = await axios.get(`/api/users${cocatenateParams(params)}`);
     return req.data;
 };
 
-export { getOptionsTypeService };
+export { getUsers };
