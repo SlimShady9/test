@@ -51,12 +51,12 @@ function UsersForm({ currentStep, setNextStep }) {
                     <div className="grid gap-3 ">
                         <div
                             className={
-                                "flex hover:shadow-lg lg:grid lg:grid-cols-7  bg-gradient-to-t from-white to-gray-servi rounded-xl"
+                                "grid hover:shadow-lg grid-cols-6  bg-gradient-to-t from-white to-gray-servi rounded-xl"
                             }
                         >
                             <div
                                 className={
-                                    "flex my-auto mx-auto w-8 h-8 shadow-xl shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
+                                    "flex col-span-1 my-auto mx-auto w-8 h-8 shadow-xl shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
                                 }
                             >
                                 <img
@@ -64,71 +64,18 @@ function UsersForm({ currentStep, setNextStep }) {
                                     src=""
                                 />
                             </div>
-                            <div className="justify-center text-center grid col-span-2 mt-2 aling-center">
-                                <Label className="text-lg font-bold text-left mb-3">
+                            <div className="justify-center mx-auto text-center grid col-span-3 mt-2 aling-center">
+                                <Label className="text-lg font-bold text-left mb-3 overflow-hidden">
                                     nomusuario
                                 </Label>
-                                <div className="text-xs mb-3">
+                                <div className="text-xs mb-3 overflow-hidden">
                                     noaamusuario@gmail.com
                                 </div>
                             </div>
-                            <div className="flex justify_left col-span-3 my-auto mx-auto aling-center">
-                                <SelectInput options={options} />
-                            </div>
-                        </div>
-                        <div
-                            className={
-                                "flex hover:shadow-lg lg:grid lg:grid-cols-7  bg-gradient-to-t from-white to-gray-servi rounded-xl"
-                            }
-                        >
-                            <div
-                                className={
-                                    "flex my-auto mx-auto w-8 h-8 shadow-xl shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
-                                }
-                            >
-                                <img
-                                    className="sm:scale-150 scale-125"
-                                    src=""
-                                />
-                            </div>
-                            <div className="justify-center text-center grid col-span-2 mt-2 aling-center">
-                                <Label className="text-lg font-bold text-left mb-3">
-                                    nomusuario
-                                </Label>
-                                <div className="text-xs mb-3">
-                                    noaamusuario@gmail.com
-                                </div>
-                            </div>
-                            <div className="flex justify_left col-span-3 my-auto mx-auto aling-center">
-                                <SelectInput options={options} />
-                            </div>
-                        </div>
-                        <div
-                            className={
-                                "flex hover:shadow-lg lg:grid lg:grid-cols-7  bg-gradient-to-t from-white to-gray-servi rounded-xl"
-                            }
-                        >
-                            <div
-                                className={
-                                    "flex my-auto mx-auto w-8 h-8 shadow-xl shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
-                                }
-                            >
-                                <img
-                                    className="sm:scale-150 scale-125"
-                                    src=""
-                                />
-                            </div>
-                            <div className="justify-center text-center grid col-span-2 mt-2 aling-center">
-                                <Label className="text-lg font-bold text-left mb-3">
-                                    nomusuario
-                                </Label>
-                                <div className="text-xs mb-3">
-                                    noaamusuario@gmail.com
-                                </div>
-                            </div>
-                            <div className="flex justify_left col-span-3 my-auto mx-auto aling-center">
-                                <SelectInput options={options} />
-                            </div>
+                            <Label className='bg-white text-center shadow-lg rounded-full justify_left col-span-1 aling-center my-auto overflow-hidden'>
+                                Administrador
+                            </Label>
+                            <Button className="col-span-1 ml-auto mr-0">X</Button>
                         </div>
                     </div>
                 </div>
