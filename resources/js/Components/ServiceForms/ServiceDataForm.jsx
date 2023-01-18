@@ -10,9 +10,29 @@ import Button from "../Button";
 import SelectInput from "../FormUtils/SelectInput";
 
 function ServiceDataForm({ currentStep, setNextStep }) {
-    const id = EstadoServiciosEnum.SERVICIOS_INCIADO;
+    const [fileList, setFileList] = useState([]);
+
+    const handleChange = event => {
+      setFileList(event.target.files);
+    };
+
+    const files = fileList ? [...fileList] : [];
+
+    console.log(files);
+
+    const inputRef = React.useRef(null);
+
+    const handleClick = event => {
+        inputRef.current.click();
+    };
+
+    const id = EstadoServiciosEnum.SERVICIO_INCIADO;
 
     const showDetail = true;
+
+    const addPermisson = (e) => {
+        showDetail = !showDetail;
+    };
 
     const [optionsTypeService, setOptionsTypeService] = useState([]);
 
@@ -27,7 +47,7 @@ function ServiceDataForm({ currentStep, setNextStep }) {
 
     const submitForm = (e) => {
         e.preventDefault();
-        setNextStep(EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA);
+        setNextStep(EstadoServiciosEnum.SERVICIO_MENSAJERIA);
     };
 
     if (currentStep !== id) {
@@ -42,46 +62,38 @@ function ServiceDataForm({ currentStep, setNextStep }) {
             <form className="gap-4" onSubmit={submitForm}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="col-span-1">
-                        <Label>Nombre</Label>
+                        <Label>Asunto de la Solicitud</Label>
                         <Input></Input>
                     </div>
                     <div className="col-span-1">
                         <Label className="">Tipo de servicio</Label>
                         <SelectInput options={optionsTypeService} />
                     </div>
-                    {showDetail && (
-                        <>
-                            <div className="col-span-1">
-                                <Label className="">Transportadora Asociada</Label>
-                                <SelectInput options={optionsTypeService} />
-                            </div>
-                            <div className="col-span-1">
-                                <Label>Número de Seguimiento</Label>
-                                <Input></Input>
-                            </div>
-                        </>
-                    )}
-
+                    
                     <div className="col-span-1">
-                        <Label>Nombre</Label>
-                        <Input></Input>
-                    </div>
-                    <div className="col-span-1">
-                        <Label>Fecha inicio</Label>
+                        <Label>Fecha de inicio del Servicio</Label>
                         <Input type="date"></Input>
                     </div>
                     <div className="col-span-1">
-                        <Label>Costo ($COP)</Label>
-                        <CurrencyFormInput />
+                        <Label>Hora de inicio del Servicio</Label>
+                        <Input type="time"></Input>
                     </div>
-                    <div className="col-span-1">
-                        <Label>Precio  ($COP)</Label>
-                        <CurrencyFormInput />
-                    </div>
+                    {showDetail && (
+                        <>
+                            <div className="col-span-1">
+                                <Label>Costo ($COP)</Label>
+                                <CurrencyFormInput />
+                            </div>
+                            <div className="col-span-1">
+                                <Label>Precio  ($COP)</Label>
+                                <CurrencyFormInput />
+                            </div>
+                        </>
+                    )}
                 </div>
                 <div className="flex flex-col w-full gap-4">
                     <div className="mt-3">
-                        <Label>Descripción</Label>
+                        <Label>Descripción / Recomendaciones</Label>
                     </div>
                     <textarea
                         className="m-1 rounded-md font-sans tracking-widest"
@@ -90,6 +102,25 @@ function ServiceDataForm({ currentStep, setNextStep }) {
                         cols="30"
                         rows="4"
                     ></textarea>
+                    <div className="justify-center mt-3">
+                        <Label>Archivos Adicionales</Label>
+                        <input 
+                        ref={inputRef}
+                        onChange={handleChange}
+                        style={{ display: 'none' }} 
+                        className="mx-auto my-3 w-full" 
+                        type="file" 
+                        multiple />
+                    </div>
+                    
+                    <Button type="Button" onClick={handleClick}>Selecciona uno o varios Archivos</Button>
+                    <ul>
+                        {files.map((file, i) => (
+                        <li key={i}>
+                            {file.name} - {file.type}
+                        </li>
+                        ))}
+                    </ul>
                     <div className="my-3 m-auto">
                         <Button className="" type="submit">
                             Guardar y continuar

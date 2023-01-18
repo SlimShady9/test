@@ -15,7 +15,9 @@ function NavBar({ className }) {
     return (
         <div className="shadow-md bg-gradient-to-r from-white to-blue-light w-full top-0 left-0 sticky z-10">
             <div className="md:flex items-center justify-between py-6 md:px-10 px-7">
-            <ApplicationLogo/>
+            <div>
+            <ApplicationLogo height='30%' width='30%'></ApplicationLogo>
+            </div>
                 <div
                     onClick={() => setOpen(!open)}
                     className="text-3xl absolute right-8 top-6 cursor-pointer md:hidden"

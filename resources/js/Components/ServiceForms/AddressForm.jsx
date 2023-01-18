@@ -108,11 +108,11 @@ function AddressForm({ currentStep, setNextStep, api_token }) {
             <h1 className="text-xl font-bold text-left mb-3">
                 Ingresa direccion de origen del servicio
             </h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="col-span-1">
-                    <Label forInput="name">Nombre</Label>
+            <div className="col-span-1 my-3">
+                    <Label forInput="name">Nombre del Lugar</Label>
                     <Input name="name" handleChange={(e) => handleChange(e, "name")} />
-                </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="col-span-1">
                     <Label forInput="addr">Dirección</Label>
                     <Input name="addr" handleChange={(e) => handleChange(e, "addr")} />
@@ -156,6 +156,13 @@ function AddressForm({ currentStep, setNextStep, api_token }) {
                                 value: c.id,
                             }))}
                         />
+                </div>
+                <div className="col-span-1">
+                    <Label forInput="postal_code">Localidad / Barrio</Label>
+                    <Input
+                        name="locality"
+                        handleChange={(e) => handleChange(e, "locality")}
+                    />
                 </div>
                 <div className="col-span-1">
                     <Label forInput="postal_code">Código postal</Label>
