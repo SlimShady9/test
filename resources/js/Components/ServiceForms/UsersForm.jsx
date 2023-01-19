@@ -2,15 +2,19 @@ import React, { useEffect, useState } from "react";
 import EstadoServiciosEnum from "@/Constants/EstadoServiciosEnum";
 import { Head } from "@inertiajs/inertia-react";
 import Input from "../FormUtils/Input";
-import Select from "react-select";
 import Label from "../FormUtils/Label";
-import CurrencyFormInput from "../FormUtils/CurrencyFormInput";
-import { getOptionsTypeService } from "@/Utils/FetchApi";
+import { getUsers } from "@/Utils/FetchUsers";
 import Button from "../Button";
 import SelectInput from "../FormUtils/SelectInput";
 
 function UsersForm({ currentStep, setNextStep }) {
     const [userParams, setUserParams] = useState([]);
+
+    const type = "4";
+    const name = "Admin";
+    let users = null;
+    let Users = getUsers({type , name}).then(res =>  users = res);
+    console.log(Users);
 
     const id = EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS;
 
@@ -49,6 +53,9 @@ function UsersForm({ currentStep, setNextStep }) {
                         <Label>Usuarios con acceso</Label>
                     </div>
                     <div className="grid gap-3 ">
+                    {Users.map((user) => (
+                        <div>{user}</div>
+                        ))}
                         <div
                             className={
                                 "grid hover:shadow-lg grid-cols-6  bg-gradient-to-t from-white to-gray-servi rounded-xl"
@@ -66,7 +73,7 @@ function UsersForm({ currentStep, setNextStep }) {
                             </div>
                             <div className="justify-center mx-auto text-center grid col-span-3 mt-2 aling-center">
                                 <Label className="text-lg font-bold text-left mb-3 overflow-hidden">
-                                    nomusuario
+                                    
                                 </Label>
                                 <div className="text-xs mb-3 overflow-hidden">
                                     noaamusuario@gmail.com
@@ -77,6 +84,7 @@ function UsersForm({ currentStep, setNextStep }) {
                             </Label>
                             <Button className="col-span-1 ml-auto mr-0">X</Button>
                         </div>
+                    
                     </div>
                 </div>
 
