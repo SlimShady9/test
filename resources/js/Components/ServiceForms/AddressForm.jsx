@@ -1,4 +1,4 @@
-import EstadoServiciosEnum from "@/Constants/EstadoServiciosEnum";
+import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
 import React, { useState, useEffect } from "react";
 import { useForm } from "@inertiajs/inertia-react";
 import Label from "../FormUtils/Label";
@@ -95,9 +95,13 @@ function AddressForm({ currentStep, setNextStep, api_token }) {
 
     const submit = (e) => {
         e.preventDefault();
+        /* 
         saveAddress(data).then((res) => {
             setNextStep(EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS);
         });
+
+        */
+        setNextStep(EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS);
     };
 
     if (currentStep !== id) {
@@ -109,20 +113,29 @@ function AddressForm({ currentStep, setNextStep, api_token }) {
                 Ingresa direccion de origen del servicio
             </h1>
             <div className="col-span-1 my-3">
-                    <Label forInput="name">Nombre del Lugar</Label>
-                    <Input name="name" handleChange={(e) => handleChange(e, "name")} />
+                <Label forInput="name">Nombre del Lugar</Label>
+                <Input
+                    name="name"
+                    handleChange={(e) => handleChange(e, "name")}
+                />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="col-span-1">
                     <Label forInput="addr">Dirección</Label>
-                    <Input name="addr" handleChange={(e) => handleChange(e, "addr")} />
+                    <Input
+                        name="addr"
+                        handleChange={(e) => handleChange(e, "addr")}
+                    />
                 </div>
                 <div className="col-span-1">
                     <Label forInput="addr_detail">Detalles Dirección</Label>
-                    <Input name="addr_detail" handleChange={(e) => handleChange(e, "addr_detail")}/>
+                    <Input
+                        name="addr_detail"
+                        handleChange={(e) => handleChange(e, "addr_detail")}
+                    />
                 </div>
                 <div className="col-span-1">
-                <Label forInput="country">País</Label>
+                    <Label forInput="country">País</Label>
                     <SelectInput
                         value={data.country}
                         preventDefault
@@ -135,27 +148,27 @@ function AddressForm({ currentStep, setNextStep, api_token }) {
                 </div>
                 <div className="col-span-1">
                     <Label forInput="region">Región</Label>
-                        <SelectInput
-                            value={data.region}
-                            onChange={(e) => handleChange(e, "region")}
-                            options={regions.map((c) => ({
-                                label: c.name,
-                                value: c.iso2,
-                            }))}
-                        />
+                    <SelectInput
+                        value={data.region}
+                        onChange={(e) => handleChange(e, "region")}
+                        options={regions.map((c) => ({
+                            label: c.name,
+                            value: c.iso2,
+                        }))}
+                    />
                 </div>
                 <div className="col-span-1">
                     <Label forInput="city">Ciudad</Label>
-                        <SelectInput
-                            name="city"
-                            type="select"
-                            value={data.city}
-                            onChange={(e) => handleChange(e, "city")}
-                            options={cities.map((c) => ({
-                                label: c.name,
-                                value: c.id,
-                            }))}
-                        />
+                    <SelectInput
+                        name="city"
+                        type="select"
+                        value={data.city}
+                        onChange={(e) => handleChange(e, "city")}
+                        options={cities.map((c) => ({
+                            label: c.name,
+                            value: c.id,
+                        }))}
+                    />
                 </div>
                 <div className="col-span-1">
                     <Label forInput="postal_code">Localidad / Barrio</Label>
@@ -172,7 +185,7 @@ function AddressForm({ currentStep, setNextStep, api_token }) {
                     />
                 </div>
             </div>
-             
+
             <div className="flex justify-center">
                 <Button processing={processing} type="submit" className="mt-3">
                     Siguente paso

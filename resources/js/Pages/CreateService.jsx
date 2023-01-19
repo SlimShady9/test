@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import Card from "@/Components/Card";
 import Container from "@/Components/Container";
-import EstadoServiciosEnum from "@/Constants/EstadoServiciosEnum";
+import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
 import StepProgressCircles from "@/Components/MultiStepForm/StepProgressCircles";
 import ServiceDataForm from "@/Components/ServiceForms/ServiceDataForm";
 import AddressForm from "@/Components/ServiceForms/AddressForm";
@@ -35,23 +35,35 @@ export default function Services(props) {
                             currentStep={stateService}
                             steps={ServiceAvailable}
                         ></StepProgressCircles>
-                        <ServiceDataForm
-                            currentStep={stateService}
-                            setNextStep={setStateService}
-                        />
-                        <MessagingForm
-                            currentStep={stateService}
-                            setNextStep={setStateService}
-                        />
-                        <AddressForm
-                            api_token={props.api_token}
-                            currentStep={stateService}
-                            setNextStep={setStateService}
-                        />
-                        <UsersForm
-                            currentStep={stateService}
-                            setNextStep={setStateService}
-                        />
+                        {stateService ===
+                            EstadoServiciosEnum.SERVICIO_INCIADO && (
+                            <ServiceDataForm
+                                currentStep={stateService}
+                                setNextStep={setStateService}
+                            />
+                        )}
+                        {stateService ===
+                            EstadoServiciosEnum.SERVICIO_MENSAJERIA && (
+                            <MessagingForm
+                                currentStep={stateService}
+                                setNextStep={setStateService}
+                            />
+                        )}
+                        {stateService ===
+                            EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA && (
+                            <AddressForm
+                                api_token={props.api_token}
+                                currentStep={stateService}
+                                setNextStep={setStateService}
+                            />
+                        )}
+                        {stateService ===
+                            EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS && (
+                            <UsersForm
+                                currentStep={stateService}
+                                setNextStep={setStateService}
+                            />
+                        )}
                     </Card>
                 </Container>
             </Authenticated>
