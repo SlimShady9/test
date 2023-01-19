@@ -10,10 +10,11 @@ import SelectInput from "../FormUtils/SelectInput";
 function UsersForm({ currentStep, setNextStep }) {
     const [userParams, setUserParams] = useState([]);
 
-    const type = "4";
+    const id_t_user = "4";
     const name = "Admin";
-    let users = null;
-    let Users = getUsers({type , name}).then(res =>  users = res);
+    let Users = [];
+    getUsers({id_t_user , name}).then(res =>  Users = res.data);
+
     console.log(Users);
 
     const id = EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS;
