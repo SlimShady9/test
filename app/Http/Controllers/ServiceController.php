@@ -30,9 +30,9 @@ class ServiceController extends Controller {
                 'id_state_service' => 'Exists:state_services,id',
                 //'id_type_service' => 'required|Exists:type_services,id',
                 'description' => 'required|string|max:255',
-                'price' => 'required|numeric|Between:0,9999999999',
+                'price' => 'numeric|Between:0,9999999999',
                 'id_address' => 'required|Exists:addresses,id',
-                'data' => 'json',
+                'cost' => 'numeric|Between:0,9999999999',
                 'date' => 'required|date',
             ]);
             
@@ -49,7 +49,7 @@ class ServiceController extends Controller {
             'description' => $request->description,
             'price' => $request->price,
             'id_address' => $request->id_address,
-            'data' => $request->data,
+            'cost' => $request->cost,
         ]);
         return $newService;
     }
@@ -123,7 +123,7 @@ class ServiceController extends Controller {
                 'state_service_id' => 'Exists:state_services,id',
                 'description_service' => 'string|max:255',
                 'id_address' => 'Exists:addresses,id',
-                'data' => 'json',
+                'cost' => 'numeric|Between:0,9999999999',
             ]);
             
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -136,6 +136,7 @@ class ServiceController extends Controller {
         }
         $service->name = $request->name_service;
         $service->price = $request->price_service;
+        $service->cost = $request->cost;
         $service->id_type_service = $request->id_type_service;
         $service->id_state_service = 5; // 5 = 'Pendiente'
         $service->save();
