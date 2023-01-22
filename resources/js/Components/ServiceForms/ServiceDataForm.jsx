@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import EstadoServiciosEnum from "@/Constants/EstadoServiciosEnum";
+import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
 ("@/Constants/EstadoServiciosEnum");
 import { Head } from "@inertiajs/inertia-react";
 import Input from "../FormUtils/Input";
@@ -12,17 +12,15 @@ import SelectInput from "../FormUtils/SelectInput";
 function ServiceDataForm({ currentStep, setNextStep }) {
     const [fileList, setFileList] = useState([]);
 
-    const handleChange = event => {
-      setFileList(event.target.files);
+    const handleChange = (event) => {
+        setFileList(event.target.files);
     };
 
     const files = fileList ? [...fileList] : [];
 
-    console.log(files);
-
     const inputRef = React.useRef(null);
 
-    const handleClick = event => {
+    const handleClick = (event) => {
         inputRef.current.click();
     };
 
@@ -69,7 +67,7 @@ function ServiceDataForm({ currentStep, setNextStep }) {
                         <Label className="">Tipo de servicio</Label>
                         <SelectInput options={optionsTypeService} />
                     </div>
-                    
+
                     <div className="col-span-1">
                         <Label>Fecha de inicio del Servicio</Label>
                         <Input type="date"></Input>
@@ -85,7 +83,7 @@ function ServiceDataForm({ currentStep, setNextStep }) {
                                 <CurrencyFormInput />
                             </div>
                             <div className="col-span-1">
-                                <Label>Precio  ($COP)</Label>
+                                <Label>Precio ($COP)</Label>
                                 <CurrencyFormInput />
                             </div>
                         </>
@@ -104,21 +102,24 @@ function ServiceDataForm({ currentStep, setNextStep }) {
                     ></textarea>
                     <div className="justify-center mt-3">
                         <Label>Archivos Adicionales</Label>
-                        <input 
-                        ref={inputRef}
-                        onChange={handleChange}
-                        style={{ display: 'none' }} 
-                        className="mx-auto my-3 w-full" 
-                        type="file" 
-                        multiple />
+                        <input
+                            ref={inputRef}
+                            onChange={handleChange}
+                            style={{ display: "none" }}
+                            className="mx-auto my-3 w-full"
+                            type="file"
+                            multiple
+                        />
                     </div>
-                    
-                    <Button type="Button" onClick={handleClick}>Selecciona uno o varios Archivos</Button>
+
+                    <Button type="Button" onClick={handleClick}>
+                        Selecciona uno o varios Archivos
+                    </Button>
                     <ul>
                         {files.map((file, i) => (
-                        <li key={i}>
-                            {file.name} - {file.type}
-                        </li>
+                            <li key={i}>
+                                {file.name} - {file.type}
+                            </li>
                         ))}
                     </ul>
                     <div className="my-3 m-auto">

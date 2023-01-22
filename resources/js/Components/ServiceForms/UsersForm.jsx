@@ -1,30 +1,71 @@
 import React, { useEffect, useState } from "react";
-import EstadoServiciosEnum from "@/Constants/EstadoServiciosEnum";
+import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
+import {
+    TipoDeUsuariosEnum,
+    toStringTipoDeUsuariosEnum,
+} from "@/Constants/TipoDeUsuariosEnum";
 import { Head } from "@inertiajs/inertia-react";
-import Input from "../FormUtils/Input";
-import Select from "react-select";
 import Label from "../FormUtils/Label";
-import CurrencyFormInput from "../FormUtils/CurrencyFormInput";
-import { getOptionsTypeService } from "@/Utils/FetchApi";
+import { getUsers } from "@/Utils/FetchUsers";
 import Button from "../Button";
 import SelectInput from "../FormUtils/SelectInput";
 
 function UsersForm({ currentStep, setNextStep }) {
-    const [userParams, setUserParams] = useState([]);
-
     const id = EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS;
+    // As cached data fetched
+    const [visitedUsers, setVisitedUsers] = useState([]);
+    const [usersFiltered, setUsersFiltered] = useState([]);
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [usuariosSeleccionados, setUsuariosSeleccionados] = useState([]);
 
-    const options = [
-        { value: "1", label: "Cliente" },
-        { value: "2", label: "Mensajero" },
-        { value: "3", label: "Coordinador" },
-        { value: "4", label: "Administrador" },
-        { value: "4", label: "Quitar permisos" },
-    ];
+    const tipoUsuarios = Object.keys(TipoDeUsuariosEnum).map((key) => {
+        return {
+            value: TipoDeUsuariosEnum[key],
+            label: toStringTipoDeUsuariosEnum(TipoDeUsuariosEnum[key]),
+        };
+    });
 
-    if (currentStep !== id) {
-        return <></>;
-    }
+    const onTypeUserChange = (e) => {
+        const { value } = e;
+        getUsers({ id_t_user: value }).then((res) => {
+            setUsersFiltered(
+                res.data.map((user) => {
+                    if (
+                        visitedUsers.find((u) => u.id == user.id) === undefined
+                    ) {
+                        setVisitedUsers((prev) => [
+                            ...prev,
+                            { id: user.id, data: user },
+                        ]);
+                    }
+                    return {
+                        value: user.id,
+                        label: `${user.email}`,
+                    };
+                })
+            );
+        });
+        setSelectedUser(null);
+    };
+
+    const onUserSelected = (e) => {
+        const { value } = e;
+        setUsuariosSeleccionados((prev) => {
+            let user = visitedUsers.find((u) => u.id === value);
+            // If user already in prev, return prev
+            if (prev.find((u) => u.id === user.id) !== undefined) {
+                return prev;
+            }
+            return [...prev, user.data];
+        });
+        setSelectedUser(e);
+    };
+
+    const removeFromSelectedList = (user) => {
+        setUsuariosSeleccionados((prev) => {
+            return prev.filter((u) => u.id !== user.id);
+        });
+    };
 
     const submitForm = (e) => {
         e.preventDefault();
@@ -38,46 +79,64 @@ function UsersForm({ currentStep, setNextStep }) {
                 <h1 className="text-xl font-bold text-left mb-3">
                     Asignar Usuarios
                 </h1>
-                <div className="flex gap-4">
-                    <div className="w-full">
+                <div className="md:flex flex-row gap-4">
+                    <div className="md:w-1/2">
+                        <Label>Selecciona el tipo de usuario a agregar</Label>
+                        <SelectInput
+                            options={tipoUsuarios}
+                            onChange={onTypeUserChange}
+                        />
+                    </div>
+                    <div className="md:w-1/2">
                         <Label>Selecciona el usuario a agregar</Label>
-                        <SelectInput />
+                        <SelectInput
+                            options={usersFiltered}
+                            value={selectedUser}
+                            onChange={onUserSelected}
+                        />
                     </div>
                 </div>
                 <div className="w-full">
-                    <div className="mb-4">
-                        <Label>Usuarios con acceso</Label>
-                    </div>
-                    <div className="grid gap-3 ">
-                        <div
-                            className={
-                                "grid hover:shadow-lg grid-cols-6  bg-gradient-to-t from-white to-gray-servi rounded-xl"
-                            }
-                        >
+                    {usuariosSeleccionados.length > 0 && (
+                        <div className="mb-4">
+                            <Label>Usuarios con acceso</Label>
+                        </div>
+                    )}
+                    {usuariosSeleccionados.map((user, key) => (
+                        <div className="grid gap-3" key={key}>
                             <div
                                 className={
-                                    "flex col-span-1 my-auto mx-auto w-8 h-8 shadow-xl shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
+                                    "grid hover:shadow-lg grid-cols-6  bg-gradient-to-t from-white to-gray-servi rounded-xl"
                                 }
                             >
-                                <img
-                                    className="sm:scale-150 scale-125"
-                                    src=""
-                                />
-                            </div>
-                            <div className="justify-center mx-auto text-center grid col-span-3 mt-2 aling-center">
-                                <Label className="text-lg font-bold text-left mb-3 overflow-hidden">
-                                    nomusuario
-                                </Label>
-                                <div className="text-xs mb-3 overflow-hidden">
-                                    noaamusuario@gmail.com
+                                <div
+                                    className={
+                                        "flex col-span-1 my-auto mx-auto w-8 h-8 shadow-xl shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
+                                    }
+                                >
+                                    <img
+                                        className="sm:scale-150 scale-125"
+                                        src=""
+                                    />
                                 </div>
+                                <div className="justify-center mx-auto text-center grid col-span-3 mt-2 aling-center">
+                                    <Label className="text-lg font-bold text-left mb-3 overflow-hidden"></Label>
+                                    <div className="text-xs mb-3 overflow-hidden">
+                                        {user.email}
+                                    </div>
+                                </div>
+                                <Label className="bg-white text-center shadow-lg rounded-full justify_left col-span-1 aling-center my-auto overflow-hidden">
+                                    {user.name}
+                                </Label>
+                                <Button
+                                    className="col-span-1 ml-auto mr-0"
+                                    onClick={() => removeFromSelectedList(user)}
+                                >
+                                    X
+                                </Button>
                             </div>
-                            <Label className='bg-white text-center shadow-lg rounded-full justify_left col-span-1 aling-center my-auto overflow-hidden'>
-                                Administrador
-                            </Label>
-                            <Button className="col-span-1 ml-auto mr-0">X</Button>
                         </div>
-                    </div>
+                    ))}
                 </div>
 
                 <div className="my-3 m-auto">

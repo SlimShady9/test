@@ -5,4 +5,19 @@ const TipoDeUsuariosEnum = Object.freeze({
     COURIER: 4,
 });
 
-export default TipoDeUsuariosEnum;
+const toStringTipoDeUsuariosEnum = (value) => {
+    switch (value) {
+        case TipoDeUsuariosEnum.ADMIN:
+            return "Administrador";
+        case TipoDeUsuariosEnum.CLIENTE_JURIDICO:
+            return "Cliente Jurídico";
+        case TipoDeUsuariosEnum.CLIENTE_NATURAL:
+            return "Cliente Natural";
+        case TipoDeUsuariosEnum.COURIER:
+            return "Courier";
+        default:
+            return "";
+    }
+};
+
+export { TipoDeUsuariosEnum, toStringTipoDeUsuariosEnum };

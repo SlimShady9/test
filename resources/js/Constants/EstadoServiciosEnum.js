@@ -17,4 +17,43 @@ const EstadoServiciosEnum = Object.freeze({
     SERVICIO_ENTREGADO: 12,
 });
 
-export default EstadoServiciosEnum;
+const toStringEstadoServiciosEnum = (value) => {
+    switch (value) {
+        case EstadoServiciosEnum.SERVICIO_INCIADO:
+            return "Iniciado";
+        case EstadoServiciosEnum.SERVICIO_MENSAJERIA:
+            return "Datos de Origen del envío";
+        case EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA:
+            return "Dirección de origen";
+        case EstadoServiciosEnum.SERVICIO_MENSAJERIA_ESPECIAL:
+            return "Selecciona el/los motivos de condicones especiales como en el excel (frágil, confidencial, etc.)";
+        case EstadoServiciosEnum.SERVICIO_CONTENIDO_DECLARADO:
+            return "Datos del contenido para cualquier mensajería";
+        case EstadoServiciosEnum.SERVICIO_LOGISTICA:
+            return "Campos adicionales para solicitud directa";
+        case EstadoServiciosEnum.SERVICIO_GESTION_DOCUMENTAL:
+            return "Campos adicionales para solicitud directa";
+        case EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS:
+            return "Usuarios asignados";
+        case EstadoServiciosEnum.SERVICIO_CON_DETALLE:
+            return "Tareas (task) asignadas";
+        case EstadoServiciosEnum.SERVICIO_PENDIENTE:
+            return "Pendiente";
+        case EstadoServiciosEnum.SERVICIO_APROBADO:
+            return "Aprobado";
+        case EstadoServiciosEnum.SERVICIO_RECHAZADO:
+            return "Rechazado";
+        case EstadoServiciosEnum.SERVICIO_EN_PROCESO:
+            return "En proceso";
+        case EstadoServiciosEnum.SERVICIO_APLAZADO:
+            return "Aplazado";
+        case EstadoServiciosEnum.SERVICIO_REALIZADO:
+            return "Realizado";
+        case EstadoServiciosEnum.SERVICIO_ENTREGADO:
+            return "Entregado";
+        default:
+            return "";
+    }
+};
+
+export { EstadoServiciosEnum, toStringEstadoServiciosEnum };

@@ -69,8 +69,8 @@ class FileController extends Controller
         $file = Storage::disk('public')->get($path.$id);
         return new MultipartResponse([[
             'name' => $id,
+            'filename' => $path.$id,
             'contents' => $file,
-            'filename' => $id,
         ]]);
     }
 

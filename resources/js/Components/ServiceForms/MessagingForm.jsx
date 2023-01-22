@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import EstadoServiciosEnum from "@/Constants/EstadoServiciosEnum";
+import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
 ("@/Constants/EstadoServiciosEnum");
 import { Head } from "@inertiajs/inertia-react";
 import Input from "../FormUtils/Input";
@@ -9,8 +9,7 @@ import { getOptionsTypeService } from "@/Utils/FetchApi";
 import Button from "../Button";
 import SelectInput from "../FormUtils/SelectInput";
 
-function ServiceDataForm({ currentStep, setNextStep }) {
-
+function MessagingForm({ currentStep, setNextStep }) {
     const id = EstadoServiciosEnum.SERVICIO_MENSAJERIA;
 
     const showDetail = true;
@@ -79,7 +78,9 @@ function ServiceDataForm({ currentStep, setNextStep }) {
                     {showDetail && (
                         <>
                             <div className="col-span-1">
-                                <Label className="">Transportadora Asociada</Label>
+                                <Label className="">
+                                    Transportadora Asociada
+                                </Label>
                                 <SelectInput options={optionsTypeService} />
                             </div>
                             <div className="col-span-1">
@@ -104,4 +105,4 @@ function ServiceDataForm({ currentStep, setNextStep }) {
     );
 }
 
-export default ServiceDataForm;
+export default MessagingForm;
