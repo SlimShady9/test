@@ -8,6 +8,9 @@ import ServiceDataForm from "@/Components/ServiceForms/ServiceDataForm";
 import AddressForm from "@/Components/ServiceForms/AddressForm";
 import UsersForm from "@/Components/ServiceForms/UsersForm";
 import MessagingForm from "@/Components/ServiceForms/MessagingForm";
+import TaskForm from "@/Components/ServiceForms/TaskForm";
+import ContentForm from "@/Components/ServiceForms/ContentForm";
+
 
 export default function Services(props) {
     const ServiceAvailable = [
@@ -27,7 +30,7 @@ export default function Services(props) {
         <>
             <Authenticated {...props}>
                 <Container className="flex justify-center">
-                    <Card>
+                    <Card className="sm:w-3/5">
                         <h1 className="text-2xl font-bold text-center">
                             Crear Servicio
                         </h1>
@@ -60,6 +63,20 @@ export default function Services(props) {
                         {stateService ===
                             EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS && (
                             <UsersForm
+                                currentStep={stateService}
+                                setNextStep={setStateService}
+                            />
+                        )}
+                        {stateService ===
+                            EstadoServiciosEnum.SERVICIO_CON_DETALLE && (
+                            <TaskForm
+                                currentStep={stateService}
+                                setNextStep={setStateService}
+                            />
+                        )}
+                        {stateService ===
+                            EstadoServiciosEnum.SERVICIO_PENDIENTE && (
+                            <ContentForm
                                 currentStep={stateService}
                                 setNextStep={setStateService}
                             />

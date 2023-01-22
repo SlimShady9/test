@@ -104,6 +104,11 @@ function AddressForm({ currentStep, setNextStep, api_token }) {
         setNextStep(EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS);
     };
 
+    const previous = (e) => {
+        e.preventDefault();
+        setNextStep(EstadoServiciosEnum.SERVICIO_INCIADO);
+    };
+
     if (currentStep !== id) {
         return <></>;
     }
@@ -186,11 +191,16 @@ function AddressForm({ currentStep, setNextStep, api_token }) {
                 </div>
             </div>
 
-            <div className="flex justify-center">
-                <Button processing={processing} type="submit" className="mt-3">
-                    Siguente paso
-                </Button>
-            </div>
+            <div className="flex flex-col w-full gap-4">
+                    <div className="flex gap-4 my-5 mx-auto">
+                        <Button className="" type="Button" onClick={previous}>
+                            Volver
+                        </Button>
+                        <Button className="" type="submit">
+                            Guardar y continuar
+                        </Button>
+                    </div>
+                </div>
         </form>
     );
 }

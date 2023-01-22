@@ -8,6 +8,7 @@ function SelectInput({
     className,
     disabled,
     defaultInputValue,
+    isMulti,
 }) {
     return (
         <Select
@@ -19,6 +20,7 @@ function SelectInput({
             value={value}
             onChange={onChange}
             options={options}
+            isMulti={isMulti}
         ></Select>
     );
 }

@@ -9,7 +9,7 @@ import { getOptionsTypeService } from "@/Utils/FetchApi";
 import Button from "../Button";
 import SelectInput from "../FormUtils/SelectInput";
 
-function ServiceDataForm({ currentStep, setNextStep }) {
+function MessagingForm({ currentStep, setNextStep }) {
     const id = EstadoServiciosEnum.SERVICIO_MENSAJERIA;
 
     const showDetail = true;
@@ -105,4 +105,4 @@ function ServiceDataForm({ currentStep, setNextStep }) {
     );
 }
 
-export default ServiceDataForm;
+export default MessagingForm;
