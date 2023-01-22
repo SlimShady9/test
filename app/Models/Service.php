@@ -18,7 +18,7 @@ class Service extends Model
         'description',
         'price',
         'id_address',
-        'data',
+        'cost',
     ];
 
     protected $hidden = [

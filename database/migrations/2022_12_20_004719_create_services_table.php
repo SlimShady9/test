@@ -22,10 +22,10 @@ return new class extends Migration
             $table->bigInteger('id_type_service')->unsigned();
             $table->timestamp('date')->useCurrent();
             $table->string('description');
-            $table->unsignedDouble('price');
+            $table->unsignedDouble('price')->nullable();
             $table->timestamps();
-            $table->bigInteger('id_address')->unsigned()->nullable();
-            $table->json('data')->nullable();
+            $table->bigInteger('id_address')->unsigned();
+            $table->unsignedDouble('cost')->nullable();
         });
 
         Schema::table('services', function (Blueprint $table) {
