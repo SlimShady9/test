@@ -12,7 +12,7 @@ class Doc_management extends Model
     protected $fillable = [
         'id_service',
         'doc_type',
-        'avarage_docs',
+        'average_docs',
     ];
 
 

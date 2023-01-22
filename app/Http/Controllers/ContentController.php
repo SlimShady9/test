@@ -3,16 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Content;
+use App\Models\Parameter;
 
 class ContentController extends Controller
 {
     public function index() {
-        return Doc_management::all();
+        return Content::all();
     }
 
     public function show($id) {
 
-        return Doc_management::find($id);
+        return Content::find($id);
     }
 
     public function store(Request $request) {
@@ -20,7 +22,7 @@ class ContentController extends Controller
         try {
 
             $request->validate([
-                'exception' => 'required|Exists:type_exceptions,id',
+                'id_exception' => 'required|Exists:type_exceptions,id',
                 't_carga' => 'required|Exists:type_contents,id',
                 'content' => 'required|string|max:30',
                 'units' => 'required|string|max:30',
@@ -35,9 +37,9 @@ class ContentController extends Controller
             return response()->json(['error' => $e->getMessage()], 403);
         }
         
-        $newDoc_management = Doc_management::create([
+        $newContent = Content::create([
            
-            'exception' =>  $request->exception,
+            'id_exception' =>  $request->id_exception,
             't_carga' => $request->t_carga,
             'content' => $request->content,
             'units' =>  $request->units,
@@ -47,7 +49,7 @@ class ContentController extends Controller
             'height' => $request->height,
             'commercial_value' => $request->commercial_value,
         ]);
-        return $newDoc_management;
+        return $newContent;
     }
 
 
@@ -56,7 +58,7 @@ class ContentController extends Controller
         try {
 
             $request->validate([
-                'exception' => 'Exists:type_exceptions,id',
+                'id_exception' => 'Exists:type_exceptions,id',
                 't_carga' => 'Exists:type_contents,id',
                 'content' => 'string|max:30',
                 'units' => 'string|max:30',
@@ -71,30 +73,30 @@ class ContentController extends Controller
             return response()->json(['error' => $e->getMessage()], 422);
         }
         try {
-            $Doc_management = Doc_management::findOrFail($id);
+            $Content = Content::findOrFail($id);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return response()->json(['error' => 'Doc_management not found'], 404);
+            return response()->json(['error' => 'Content not found'], 404);
         }
-        $Doc_management->content = $request->content;
-        $Doc_management->t_carga = $request->t_carga;
-        $Doc_management->units = $request->units; 
-        $Doc_management->unit_weight = $request->unit_weight;
-        $Doc_management->exception = $request->exception;
-        $Doc_management->length = $request->length; 
-        $Doc_management->width = $request->width;
-        $Doc_management->height = $request->height;
-        $Doc_management->commercial_value = $commercial_value->units; 
-        $Doc_management->save();
-        return $Doc_management;
+        $Content->content = $request->content;
+        $Content->t_carga = $request->t_carga;
+        $Content->units = $request->units; 
+        $Content->unit_weight = $request->unit_weight;
+        $Content->id_exception = $request->id_exception;
+        $Content->length = $request->length; 
+        $Content->width = $request->width;
+        $Content->height = $request->height;
+        $Content->commercial_value = $commercial_value->units; 
+        $Content->save();
+        return $Content;
     }
 
     public function destroy($id) {
         try {
-            $Doc_management = Doc_management::findOrFail($id);
+            $Content = Content::findOrFail($id);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return response()->json(['error' => 'Doc_management not found'], 404);
+            return response()->json(['error' => 'Content not found'], 404);
         }
-        $Doc_management->delete();
-        return response()->json(['message' => 'Doc_management deleted'], 200);
+        $Content->delete();
+        return response()->json(['message' => 'Content deleted'], 200);
     }
 }

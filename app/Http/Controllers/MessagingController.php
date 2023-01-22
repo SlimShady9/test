@@ -40,7 +40,6 @@ class MessagingController extends Controller
             return response()->json(['error' => $e->getMessage()], 403);
         }
 
-        Debugbar::info($request->id_type_service);
         
         $newMessaging = Messaging::create([
             'name' => $request->name,

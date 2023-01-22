@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Type_content;
+use App\Models\State_Task;
 use App\Models\Parameter;
 use Illuminate\Http\Request;
 
-class TypeContentController extends Controller
+class StateTaskController extends Controller
     {
         /**
          * Display a listing of the resource.
@@ -15,7 +15,7 @@ class TypeContentController extends Controller
          */
         public function index()
         {
-            return Type_content::all();
+            return State_Task::all();
         }
     
         /**
@@ -25,7 +25,7 @@ class TypeContentController extends Controller
          */
         public function create()
         {
-            return Parameter::where('table', 'type_content')->get();
+            return Parameter::where('table', 'state_tasks')->get();
         }
     
         /**
@@ -47,7 +47,7 @@ class TypeContentController extends Controller
                 return response()->json(['error' => $e->getMessage()], 403);
             }
             
-            $newTcontent = Type_content::create([
+            $newTcontent = State_Task::create([
                 'name' => $request->name,
             ]);
             return $newTcontent;
@@ -61,7 +61,7 @@ class TypeContentController extends Controller
          */
         public function show($id)
         {
-            return Type_content::find($id);
+            return State_Task::find($id);
         }
     
         /**
@@ -70,7 +70,7 @@ class TypeContentController extends Controller
          * @param  \App\Models\Type_content  $t_action
          * @return \Illuminate\Http\Response
          */
-        public function edit(Type_content $t_action)
+        public function edit(State_Task $t_action)
         {
             //
         }
@@ -113,7 +113,7 @@ class TypeContentController extends Controller
         public function destroy($id)
         {
             try {
-                $Tcontent = Type_content::findOrFail($id);
+                $Tcontent = State_Task::findOrFail($id);
             } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
                 return response()->json(['error' => 'Tcontent not found'], 404);
             }

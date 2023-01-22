@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('contents', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->bigInteger('id_content')->unsigned();
+            $table->string('content');
+            $table->bigInteger('t_carga')->unsigned();
             $table->bigInteger('id_exception')->unsigned();
             $table->string('units');
             $table->string('unit_weight');
@@ -28,7 +29,7 @@ return new class extends Migration
         });
 
         Schema::table('contents', function (Blueprint $table) {
-            $table->foreign('id_content')->references('id')->on('type_contents');
+            $table->foreign('t_carga')->references('id')->on('type_contents');
             $table->foreign('id_exception')->references('id')->on('type_exceptions');
 
         });

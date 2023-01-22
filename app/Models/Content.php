@@ -18,7 +18,7 @@ class Content extends Model
         'width',
         'height',
         'commercial_value',
-        'exception',
+        'id_exception',
     ];
 
 }

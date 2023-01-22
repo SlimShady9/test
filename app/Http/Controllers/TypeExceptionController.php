@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Type_exception;
+use App\Models\Type_Exception;
 use App\Models\Parameter;
 use Illuminate\Http\Request;
 
@@ -15,7 +15,7 @@ class TypeExceptionController extends Controller
      */
     public function index()
     {
-        return Type_exception::all();
+        return Type_Exception::all();
     }
 
     /**
@@ -47,7 +47,7 @@ class TypeExceptionController extends Controller
             return response()->json(['error' => $e->getMessage()], 403);
         }
         
-        $newTexception = Service::create([
+        $newTexception = Type_Exception::create([
             'name' => $request->name,
         ]);
         return $newTexception;
@@ -61,7 +61,7 @@ class TypeExceptionController extends Controller
      */
     public function show($id)
     {
-        return Type_exception::find($id);
+        return Type_Exception::find($id);
     }
 
     /**
@@ -113,7 +113,7 @@ class TypeExceptionController extends Controller
     public function destroy($id)
     {
         try {
-            $Texception = Type_exception::findOrFail($id);
+            $Texception = Type_Exception::findOrFail($id);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json(['error' => 'Type_exception not found'], 404);
         }

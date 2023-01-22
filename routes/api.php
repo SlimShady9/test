@@ -11,6 +11,16 @@ use App\Http\Controllers\TActionController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ActionController;
 
+use App\Http\Controllers\ContentController;
+use App\Http\Controllers\DocManagementController;
+use App\Http\Controllers\LogisticController;
+use App\Http\Controllers\MessagingController;
+use App\Http\Controllers\StateTaskController;
+use App\Http\Controllers\TypeContentController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TypeDocumentController;
+use App\Http\Controllers\TypeExceptionController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -81,6 +91,87 @@ Route::resource('permission', PermissionController::class)->names([
     'update' => 'permission.update',
     'destroy' => 'permission.destroy',
     'edit' => 'permission.edit',
+]);
+
+Route::resource('content', ContentController::class)->names([
+    'index' => 'content.index',
+    'show' => 'content.show',
+    'store' => 'content.store',
+    'update' => 'content.update',
+    'destroy' => 'content.destroy',
+    'edit' => 'content.edit',
+]);
+
+Route::resource('docManagement', DocManagementController::class)->names([
+    'index' => 'docManagement.index',
+    'show' => 'docManagement.show',
+    'store' => 'docManagement.store',
+    'update' => 'docManagement.update',
+    'destroy' => 'docManagement.destroy',
+    'edit' => 'docManagement.edit',
+]);
+
+Route::resource('logistic', LogisticController::class)->names([
+    'index' => 'logistic.index',
+    'show' => 'logistic.show',
+    'store' => 'logistic.store',
+    'update' => 'logistic.update',
+    'destroy' => 'logistic.destroy',
+    'edit' => 'logistic.edit',
+]);
+
+Route::resource('messaging', MessagingController::class)->names([
+    'index' => 'messaging.index',
+    'show' => 'messaging.show',
+    'store' => 'messaging.store',
+    'update' => 'messaging.update',
+    'destroy' => 'messaging.destroy',
+    'edit' => 'messaging.edit',
+]);
+
+Route::resource('stateTask', StateTaskController::class)->names([
+    'index' => 'stateTask.index',
+    'show' => 'stateTask.show',
+    'store' => 'stateTask.store',
+    'update' => 'stateTask.update',
+    'destroy' => 'stateTask.destroy',
+    'edit' => 'stateTask.edit',
+]);
+
+Route::resource('task', TaskController::class)->names([
+    'index' => 'task.index',
+    'show' => 'task.show',
+    'store' => 'task.store',
+    'update' => 'task.update',
+    'destroy' => 'task.destroy',
+    'edit' => 'task.edit',
+]);
+
+Route::resource('typeContent', TypeContentController::class)->names([
+    'index' => 'typeContent.index',
+    'show' => 'typeContent.show',
+    'store' => 'typeContent.store',
+    'update' => 'typeContent.update',
+    'destroy' => 'typeContent.destroy',
+    'edit' => 'typeContent.edit',
+]);
+
+Route::resource('typeDocument', TypeDocumentController::class)->names([
+    'index' => 'typeDocument.index',
+    'show' => 'typeDocument.show',
+    'store' => 'typeDocument.store',
+    'update' => 'typeDocument.update',
+    'destroy' => 'typeDocument.destroy',
+    'edit' => 'typeDocument.edit',
+]);
+
+Route::resource('typeException', TypeExceptionController::class)->names([
+    'index' => 'typeException.index',
+    'show' => 'typeException.show',
+    'store' => 'typeException.store',
+    'update' => 'typeException.update',
+    'destroy' => 'typeException.destroy',
+    'edit' => 'typeException.edit',
 ]);
 
 // Tal vez con resource no se deba hacer el get, put, post, delete. Pero no sé

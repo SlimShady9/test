@@ -27,7 +27,7 @@ class TaskController extends Controller
                 'name' => 'required|string|max:30',
                 'entity' => 'required|string|max:30',
                 'dependency' => 'required|string|max:255',
-                'state' => 'required|Exists:state_taks,id',
+                'id_state' => 'required|Exists:state_tasks,id',
                 'id_address' => 'required|Exists:addresses,id',
                 'id_service' => 'required|Exists:services,id',
                 'desc' => 'required|string|max:255',
@@ -44,7 +44,7 @@ class TaskController extends Controller
             'name' => $request->name,
             'entity' => $request->entity,
             'dependency' => $request->dependency,
-            'state' => State_task::where('name', 'En proceso')->first()->id,
+            'id_state' => $request->id_state,
             'id_address' => $request->id_address,
             'id_service' =>  $request->id_service,
             'desc' => $request->desc,
@@ -64,7 +64,7 @@ class TaskController extends Controller
                 'name' => 'string|max:30',
                 'entity' => 'string|max:30',
                 'dependency' => 'string|max:255',
-                'state' => 'Exists:state_taks,id',
+                'id_state' => 'Exists:state_tasks,id',
                 'id_address' => 'Exists:addresses,id',
                 'id_service' => 'Exists:services,id',
                 'desc' => 'string|max:255',
@@ -88,6 +88,7 @@ class TaskController extends Controller
         $Task->address = $request->address;
         $Task->id_service = $request->id_service;
         $Task->desc = $request->desc;
+        $Task->id_address = $request->id_state;
         $Task->responsible = $request->responsible; 
         $Task->limit_date = $request->limit_date;
         $Task->last_state_date = $request->last_state_date;

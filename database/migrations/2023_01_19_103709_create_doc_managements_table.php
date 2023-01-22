@@ -18,12 +18,8 @@ return new class extends Migration
             $table->timestamps();
             $table->bigInteger('id_service')->unsigned();
             $table->bigInteger('doc_type')->unsigned();
-            $table->string('units');
-            $table->string('unit_weight');
-            $table->string('length');
-            $table->string('width');
-            $table->string('height');
-            $table->string('commercial_value');
+            $table->string('average_docs');
+
 
         });
 
