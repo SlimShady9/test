@@ -3,13 +3,13 @@ import Authenticated from "@/Layouts/Authenticated";
 import Card from "@/Components/Card";
 import Modal from "@/Components/Modal";
 import Button from "@/Components/Button";
-import ImageUploadForm from "@/Components/ImageUploadForm";
+import ImageUploadForm from "@/Components/FormUtils/ImageUploadForm";
 import axios from "axios";
 import DataForm from "@/Components/DataForm";
 import Container from "@/Components/Container";
-import Input from "@/Components/Input";
+import Input from "@/Components/FormUtils/Input";
 import Label from "@/Components/Label";
-import Checkbox from "@/Components/Checkbox";
+import Checkbox from "@/Components/FormUtils/Checkbox";
 import Select from "react-select";
 import AddressForm from "@/Components/AddressForm";
 
@@ -54,23 +54,31 @@ export default function Profile(props) {
     };
 
     const onHandleChange = (event) => {
-    setData(
-        event.target.name,
-        event.target.type === "checkbox"
-            ? event.target.checked
-            : event.target.value
-    );
+        setData(
+            event.target.name,
+            event.target.type === "checkbox"
+                ? event.target.checked
+                : event.target.value
+        );
     };
 
     return (
         <>
             <Authenticated {...props}>
                 <Container>
-                    <Card className={"justify-center tracking-widest m-auto"} col={2}>
-                    <Container className={"col-span-2 justify-center"}>
-                    <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">Perfil de Usuario</h1>
-                    <ImageUploadForm user={loggedUser} setUser={setLoggedUser} />
-                    </Container>
+                    <Card
+                        className={"justify-center tracking-widest m-auto"}
+                        col={2}
+                    >
+                        <Container className={"col-span-2 justify-center"}>
+                            <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                                Perfil de Usuario
+                            </h1>
+                            <ImageUploadForm
+                                user={loggedUser}
+                                setUser={setLoggedUser}
+                            />
+                        </Container>
                         <div className="col-span-1">
                             <Label forInput="username" value="Username" />
                             <Input

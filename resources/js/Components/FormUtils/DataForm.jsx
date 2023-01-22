@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Label from "@/Components/Label";
+import Label from "./Label";
 import Input from "@/Components/Input";
 import Button from "@/Components/Button";
-import Select from "react-select";
+import SelectInput from "./SelectInput";
 import { useForm } from "@inertiajs/inertia-react";
 import axios from "axios";
 import Card from "./Card";
@@ -79,10 +79,10 @@ function AnyInput({
         <div className={"col-span-" + extend}>
             <Label forInput={name} value={label} />
             {type === "select" ? (
-                <Select
+                <SelectInput
                     placeholder={"Seleccione..."}
                     className={""}
-                    options={options} 
+                    options={options}
                     value={value}
                     autoComplete={name}
                     defaultInputValue={value}

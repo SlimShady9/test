@@ -49,13 +49,16 @@ class DatabaseSeeder extends Seeder
         ]);
         //Tipo de usuario
         \App\Models\T_user::create([
-            'name' => 'Admin',
+            'name' => 'Administrador',
         ]);
         \App\Models\T_user::create([
-            'name' => 'Cliente juridico',
+            'name' => 'Coordinador',
         ]);
         \App\Models\T_user::create([
-            'name' => 'Cliente natural',
+            'name' => 'Mensajero',
+        ]);
+        \App\Models\T_user::create([
+            'name' => 'Cliente',
         ]);
         //Tipo de documento
         \App\Models\T_document::create([
@@ -78,7 +81,5 @@ class DatabaseSeeder extends Seeder
         $service->run();
         $user = new UserSeeder();
         $user->run();
-        
-
     }
 }

@@ -18,6 +18,8 @@ return new class extends Migration
             $table->timestamps();
             $table->bigInteger('id_user')->unsigned();
             $table->bigInteger('id_service')->unsigned();
+            $table->string('rol')->nullable();
+            $table->string('status')->nullable();
         });
 
         Schema::table('orders', function (Blueprint $table) {

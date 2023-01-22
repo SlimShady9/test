@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b6265d3920c70632119d5c072a15e794",
+    "content-hash": "1c34f103e416a754eef0134f4b881f17",
     "packages": [
         {
             "name": "brick/math",
@@ -1825,6 +1825,50 @@
                 }
             ],
             "time": "2022-07-24T11:55:47+00:00"
+        },
+        {
+            "name": "mrmadclown/laravel-multipart-response",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MrMadClown/laravel-multipart-response.git",
+                "reference": "dc130c7f1abe1537e446fa4726d021ae4d9e4ad8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MrMadClown/laravel-multipart-response/zipball/dc130c7f1abe1537e446fa4726d021ae4d9e4ad8",
+                "reference": "dc130c7f1abe1537e446fa4726d021ae4d9e4ad8",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.2",
+                "illuminate/routing": "^9.0",
+                "php": "^8.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MrMadClown\\LaravelMultipartResponse\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MrMadClown\\LaravelMultipartResponse\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Package for Multipart Responses.",
+            "support": {
+                "issues": "https://github.com/MrMadClown/laravel-multipart-response/issues",
+                "source": "https://github.com/MrMadClown/laravel-multipart-response/tree/master"
+            },
+            "time": "2022-04-14T08:31:29+00:00"
         },
         {
             "name": "nesbot/carbon",

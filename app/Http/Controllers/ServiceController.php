@@ -28,7 +28,7 @@ class ServiceController extends Controller {
             $request->validate([
                 'name' => 'required|string|max:30',
                 'id_state_service' => 'Exists:state_services,id',
-                //'id_type_service' => 'required|Exists:type_services,id',
+                'id_type_service' => 'required|Exists:type_services,id',
                 'description' => 'required|string|max:255',
                 'price' => 'numeric|Between:0,9999999999',
                 'id_address' => 'required|Exists:addresses,id',
