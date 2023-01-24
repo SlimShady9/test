@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import ServiceContext from "./useServiceContext";
 import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
-("@/Constants/EstadoServiciosEnum");
 import { Head } from "@inertiajs/inertia-react";
 import Input from "../FormUtils/Input";
 import Label from "../FormUtils/Label";
@@ -11,6 +11,15 @@ import SelectInput from "../FormUtils/SelectInput";
 
 function ServiceDataForm({ currentStep, setNextStep }) {
     const [fileList, setFileList] = useState([]);
+    const { service, setService } = useContext(ServiceContext);
+    const [serviceForm, setServiceForm] = useState({
+        name: "",
+        description: "",
+        price: 0,
+        cost: 0,
+        date: "",
+        id_type_service: 0,
+    });
 
     const handleChange = (event) => {
         setFileList(event.target.files);
@@ -61,7 +70,7 @@ function ServiceDataForm({ currentStep, setNextStep }) {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="col-span-1">
                         <Label>Asunto de la Solicitud</Label>
-                        <Input></Input>
+                        <Input name="name" autoComplete="nameService"></Input>
                     </div>
                     <div className="col-span-1">
                         <Label className="">Tipo de servicio</Label>

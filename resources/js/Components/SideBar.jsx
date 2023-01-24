@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { VscThreeBars } from "react-icons/vsc";
 import { AiOutlineLogout } from "react-icons/ai";
-import ApplicationLogo from "@/Components/ApplicationLogo"
+import ApplicationLogo from "@/Components/ApplicationLogo";
 import {
     FaAngular,
     FaBookOpen,
@@ -57,13 +57,7 @@ const SideBar = ({ user }) => {
             onMouseOut={() => setOpen(!open)}
         >
             <div className="flex gap-x-4 items-center ">
-                <div className="shadow-xl overflow-hidden shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30">
-                    <img
-                        src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745"
-                        alt=""
-                    />
-                </div>
-                {/*<ImageUploadForm user={loggedUser} setUser={setLoggedUser} />*/}
+                <ApplicationLogo />
             </div>
             <ul className="pt-6">
                 {Menus.map((Menu, index) => (
@@ -86,9 +80,6 @@ const SideBar = ({ user }) => {
                     </Link>
                 ))}
             </ul>
-            <div className="m-2 align-bottom">
-                        <ApplicationLogo></ApplicationLogo>
-                    </div>
         </aside>
     );
 };

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import ServiceContext from "@/Components/ServiceForms/useServiceContext";
 import Authenticated from "@/Layouts/Authenticated";
 import Card from "@/Components/Card";
 import Container from "@/Components/Container";
@@ -10,7 +11,6 @@ import UsersForm from "@/Components/ServiceForms/UsersForm";
 import MessagingForm from "@/Components/ServiceForms/MessagingForm";
 import TaskForm from "@/Components/ServiceForms/TaskForm";
 import ContentForm from "@/Components/ServiceForms/ContentForm";
-
 
 export default function Services(props) {
     const ServiceAvailable = [
@@ -26,6 +26,15 @@ export default function Services(props) {
         EstadoServiciosEnum.SERVICIO_INCIADO
     );
 
+    // State of the progress of service creation using context api
+    const [serviceDTO, setServiceDTO] = useState({
+        service: {},
+        address: {},
+        orders: [],
+        tasks: [],
+        messaging: {},
+    });
+
     return (
         <>
             <Authenticated {...props}>
@@ -38,49 +47,54 @@ export default function Services(props) {
                             currentStep={stateService}
                             steps={ServiceAvailable}
                         ></StepProgressCircles>
-                        {stateService ===
-                            EstadoServiciosEnum.SERVICIO_INCIADO && (
-                            <ServiceDataForm
-                                currentStep={stateService}
-                                setNextStep={setStateService}
-                            />
-                        )}
-                        {stateService ===
-                            EstadoServiciosEnum.SERVICIO_MENSAJERIA && (
-                            <MessagingForm
-                                currentStep={stateService}
-                                setNextStep={setStateService}
-                            />
-                        )}
-                        {stateService ===
-                            EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA && (
-                            <AddressForm
-                                api_token={props.api_token}
-                                currentStep={stateService}
-                                setNextStep={setStateService}
-                            />
-                        )}
-                        {stateService ===
-                            EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS && (
-                            <UsersForm
-                                currentStep={stateService}
-                                setNextStep={setStateService}
-                            />
-                        )}
-                        {stateService ===
-                            EstadoServiciosEnum.SERVICIO_CON_DETALLE && (
-                            <TaskForm
-                                currentStep={stateService}
-                                setNextStep={setStateService}
-                            />
-                        )}
-                        {stateService ===
-                            EstadoServiciosEnum.SERVICIO_PENDIENTE && (
-                            <ContentForm
-                                currentStep={stateService}
-                                setNextStep={setStateService}
-                            />
-                        )}
+                        <></>
+                        <ServiceContext.Provider
+                            value={{ serviceDTO, setServiceDTO }}
+                        >
+                            {stateService ===
+                                EstadoServiciosEnum.SERVICIO_INCIADO && (
+                                <ServiceDataForm
+                                    currentStep={stateService}
+                                    setNextStep={setStateService}
+                                />
+                            )}
+                            {stateService ===
+                                EstadoServiciosEnum.SERVICIO_MENSAJERIA && (
+                                <MessagingForm
+                                    currentStep={stateService}
+                                    setNextStep={setStateService}
+                                />
+                            )}
+                            {stateService ===
+                                EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA && (
+                                <AddressForm
+                                    api_token={props.api_token}
+                                    currentStep={stateService}
+                                    setNextStep={setStateService}
+                                />
+                            )}
+                            {stateService ===
+                                EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS && (
+                                <UsersForm
+                                    currentStep={stateService}
+                                    setNextStep={setStateService}
+                                />
+                            )}
+                            {stateService ===
+                                EstadoServiciosEnum.SERVICIO_CON_DETALLE && (
+                                <TaskForm
+                                    currentStep={stateService}
+                                    setNextStep={setStateService}
+                                />
+                            )}
+                            {stateService ===
+                                EstadoServiciosEnum.SERVICIO_PENDIENTE && (
+                                <ContentForm
+                                    currentStep={stateService}
+                                    setNextStep={setStateService}
+                                />
+                            )}
+                        </ServiceContext.Provider>
                     </Card>
                 </Container>
             </Authenticated>

@@ -1,6 +1,6 @@
 import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
 import React, { useState, useEffect } from "react";
-import { useForm } from "@inertiajs/inertia-react";
+import { useForm } from "react-hook-form";
 import Label from "../FormUtils/Label";
 import SelectInput from "../FormUtils/SelectInput";
 import axios from "axios";
@@ -192,15 +192,15 @@ function AddressForm({ currentStep, setNextStep, api_token }) {
             </div>
 
             <div className="flex flex-col w-full gap-4">
-                    <div className="flex gap-4 my-5 mx-auto">
-                        <Button className="" type="Button" onClick={previous}>
-                            Volver
-                        </Button>
-                        <Button className="" type="submit">
-                            Guardar y continuar
-                        </Button>
-                    </div>
+                <div className="flex gap-4 my-5 mx-auto">
+                    <Button className="" type="Button" onClick={previous}>
+                        Volver
+                    </Button>
+                    <Button className="" type="submit">
+                        Guardar y continuar
+                    </Button>
                 </div>
+            </div>
         </form>
     );
 }
