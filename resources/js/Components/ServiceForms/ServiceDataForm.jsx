@@ -14,11 +14,11 @@ function ServiceDataForm({ currentStep, setNextStep }) {
     const { service, setService } = useContext(ServiceContext);
     const [serviceForm, setServiceForm] = useState({
         name: "",
+        id_type_service: 0,
         description: "",
         price: 0,
         cost: 0,
         date: "",
-        id_type_service: 0,
     });
 
     const handleChange = (event) => {
