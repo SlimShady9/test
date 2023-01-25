@@ -26,7 +26,7 @@ function ServiceDataForm({ currentStep, setNextStep }) {
 
     const id = EstadoServiciosEnum.SERVICIO_INCIADO;
 
-    const showDetail = true;
+    var showDetail = true;
 
     const addPermisson = (e) => {
         showDetail = !showDetail;

@@ -12,7 +12,7 @@ import SelectInput from "../FormUtils/SelectInput";
 function TaskForm({ currentStep, setNextStep }) {
     const id = EstadoServiciosEnum.SERVICIO_CON_DETALLE;
 
-    const showDetail = true;
+    var showDetail = true;
 
     const addPermisson = (e) => {
         showDetail = !showDetail;
