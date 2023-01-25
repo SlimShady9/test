@@ -1,15 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import Card from "@/Components/Card";
 import Modal from "@/Components/Modal";
-import Button from "@/Components/Button";
+import Button from "@/Components/FormUtils/Button";
 import ImageUploadForm from "@/Components/FormUtils/ImageUploadForm";
-import axios from "axios";
-import DataForm from "@/Components/DataForm";
 import Container from "@/Components/Container";
 import Input from "@/Components/FormUtils/Input";
-import Label from "@/Components/Label";
-import Checkbox from "@/Components/FormUtils/Checkbox";
+import Label from "@/Components/FormUtils/Label";
 import Select from "react-select";
 import AddressForm from "@/Components/AddressForm";
 

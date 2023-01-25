@@ -6,17 +6,13 @@ import Input from "../FormUtils/Input";
 import Label from "../FormUtils/Label";
 import CurrencyFormInput from "../FormUtils/CurrencyFormInput";
 import { getOptionsTypeService } from "@/Utils/FetchApi";
-import Button from "../Button";
+import Button from "../FormUtils/Button";
 import SelectInput from "../FormUtils/SelectInput";
 
 function TaskForm({ currentStep, setNextStep }) {
     const id = EstadoServiciosEnum.SERVICIO_CON_DETALLE;
 
     const showDetail = true;
-
-    const addPermisson = (e) => {
-        showDetail = !showDetail;
-    };
 
     const [optionsTypeService, setOptionsTypeService] = useState([]);
 
@@ -48,6 +44,7 @@ function TaskForm({ currentStep, setNextStep }) {
             <h1 className="text-xl font-bold text-left mb-3">
                 Agregar Tareas
             </h1>
+
             <form className="gap-4" onSubmit={submitForm}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="col-span-1">

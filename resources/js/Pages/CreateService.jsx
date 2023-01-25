@@ -5,7 +5,7 @@ import Container from "@/Components/Container";
 import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
 import StepProgressCircles from "@/Components/MultiStepForm/StepProgressCircles";
 import ServiceDataForm from "@/Components/ServiceForms/ServiceDataForm";
-import AddressForm from "@/Components/ServiceForms/AddressForm";
+import AddressForm from "@/Components/AddressForm";
 import UsersForm from "@/Components/ServiceForms/UsersForm";
 import MessagingForm from "@/Components/ServiceForms/MessagingForm";
 import TaskForm from "@/Components/ServiceForms/TaskForm";

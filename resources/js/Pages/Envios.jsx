@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import Container from "@/Components/Container";
-import Button from "@/Components/Button";
+import Button from "@/Components/FormUtils/Button";
 import { Head, Link } from "@inertiajs/inertia-react";
 import axios from "axios";
 import { BsFillFilePersonFill } from "react-icons/bs";

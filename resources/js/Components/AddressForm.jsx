@@ -1,11 +1,11 @@
 import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
 import React, { useState, useEffect } from "react";
 import { useForm } from "@inertiajs/inertia-react";
-import Label from "../FormUtils/Label";
-import SelectInput from "../FormUtils/SelectInput";
+import Label from "./FormUtils/Label";
+import SelectInput from "./FormUtils/SelectInput";
 import axios from "axios";
-import Input from "../FormUtils/Input";
-import Button from "../Button";
+import Input from "./FormUtils/Input";
+import Button from "./FormUtils/Button";
 import { saveAddress } from "@/Utils/PostApi";
 
 function AddressForm({ currentStep, setNextStep, api_token }) {

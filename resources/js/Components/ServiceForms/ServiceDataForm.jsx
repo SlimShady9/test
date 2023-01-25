@@ -6,7 +6,7 @@ import Input from "../FormUtils/Input";
 import Label from "../FormUtils/Label";
 import CurrencyFormInput from "../FormUtils/CurrencyFormInput";
 import { getOptionsTypeService } from "@/Utils/FetchApi";
-import Button from "../Button";
+import Button from "../FormUtils/Button";
 import SelectInput from "../FormUtils/SelectInput";
 
 function ServiceDataForm({ currentStep, setNextStep }) {
@@ -26,10 +26,10 @@ function ServiceDataForm({ currentStep, setNextStep }) {
 
     const id = EstadoServiciosEnum.SERVICIO_INCIADO;
 
-    const showDetail = true;
+    const [showDetail, setShowDetail] = useState(false);
 
     const addPermisson = (e) => {
-        showDetail = !showDetail;
+        setShowDetail(!showDetail);
     };
 
     const [optionsTypeService, setOptionsTypeService] = useState([]);
