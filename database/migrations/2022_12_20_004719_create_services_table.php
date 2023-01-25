@@ -20,9 +20,9 @@ return new class extends Migration
             $table->string('tracking_id', 12)->unique();
             $table->bigInteger('id_state_service')->unsigned();
             $table->bigInteger('id_type_service')->unsigned();
-            $table->timestamp('created_date');
-            $table->timestamp('start_date');
-            $table->string('description');
+            $table->timestamp('created_date')->useCurrent();
+            $table->timestamp('start_date')->useCurrent();
+            $table->string('description')->nullable();
             $table->unsignedDouble('price')->nullable();
             $table->unsignedDouble('cost')->nullable();
             $table->string('archive')->nullable();

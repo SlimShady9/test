@@ -9,9 +9,11 @@ function CurrencyFormInput({
     disabled = false,
     id,
     decimalsLimit = 2,
+    name,
 }) {
     return (
         <CurrencyInput
+            name={name}
             onValueChange={onValueChange}
             disabled={disabled}
             id={id}

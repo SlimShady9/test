@@ -1,13 +1,11 @@
-const TipoDeServiciosEnum =
-    Object -
-    freeze({
-        CORRESPONDENCIA: 1,
-        MENSAJERIA_ESPECIALIZADA: 2,
-        MENSAJERIA_MASIVA: 3,
-        MENSAJERIA_INTERNACIONAL: 4,
-        LOGISTICA_DE_MENSJERIA: 5,
-        GESTION_DOCUMENTAL: 6,
-    });
+const TipoDeServiciosEnum = Object.freeze({
+    CORRESPONDENCIA: 1,
+    MENSAJERIA_ESPECIALIZADA: 2,
+    MENSAJERIA_MASIVA: 3,
+    MENSAJERIA_INTERNACIONAL: 4,
+    LOGISTICA_DE_MENSJERIA: 5,
+    GESTION_DOCUMENTAL: 6,
+});
 
 const toStringTipoDeServiciosEnum = (value) => {
     switch (value) {

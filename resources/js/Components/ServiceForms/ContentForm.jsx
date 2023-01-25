@@ -12,10 +12,10 @@ import SelectInput from "../FormUtils/SelectInput";
 function ServiceDataForm({ currentStep, setNextStep }) {
     const id = EstadoServiciosEnum.SERVICIO_PENDIENTE;
 
-    const showDetail = true;
+    const [showDetail, setShowDetail] = useState(false);
 
     const addPermisson = (e) => {
-        showDetail = !showDetail;
+        setShowDetail(!showDetail);
     };
 
     const [optionsTypeService, setOptionsTypeService] = useState([]);
@@ -67,23 +67,25 @@ function ServiceDataForm({ currentStep, setNextStep }) {
                         <Input type="number"></Input>
                     </div>
                 </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 col-span-1 gap-4 my-3">
-                        <div className="col-span-1">
-                            <Label>Largo (m)</Label>
-                            <Input type="number"></Input>
-                        </div>
-                        <div className="col-span-1">
-                            <Label>Ancho (m)</Label>
-                            <Input type="number"></Input>
-                        </div>
-                        <div className="col-span-1">
-                            <Label>Alto (m)</Label>
-                            <Input type="number"></Input>
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 col-span-1 gap-4 my-3">
                     <div className="col-span-1">
-                        <Label>Valor Comercial del Contenido (Por Unidad)</Label>
+                        <Label>Largo (m)</Label>
+                        <Input type="number"></Input>
+                    </div>
+                    <div className="col-span-1">
+                        <Label>Ancho (m)</Label>
+                        <Input type="number"></Input>
+                    </div>
+                    <div className="col-span-1">
+                        <Label>Alto (m)</Label>
+                        <Input type="number"></Input>
+                    </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="col-span-1">
+                        <Label>
+                            Valor Comercial del Contenido (Por Unidad)
+                        </Label>
                         <CurrencyFormInput />
                     </div>
                     <div className="col-span-1">

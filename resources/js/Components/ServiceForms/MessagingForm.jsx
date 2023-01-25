@@ -12,10 +12,10 @@ import SelectInput from "../FormUtils/SelectInput";
 function MessagingForm({ currentStep, setNextStep }) {
     const id = EstadoServiciosEnum.SERVICIO_MENSAJERIA;
 
-    const showDetail = true;
+    const [showDetail, setShowDetail] = useState(false);
 
     const addPermisson = (e) => {
-        showDetail = !showDetail;
+        setShowDetail(!showDetail);
     };
 
     const [optionsTypeService, setOptionsTypeService] = useState([]);
