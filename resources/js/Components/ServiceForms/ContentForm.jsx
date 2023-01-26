@@ -12,7 +12,7 @@ import SelectInput from "../FormUtils/SelectInput";
 function ServiceDataForm({ currentStep, setNextStep }) {
     const id = EstadoServiciosEnum.SERVICIO_PENDIENTE;
 
-    const showDetail = true;
+    var showDetail = true;
 
     const addPermisson = (e) => {
         showDetail = !showDetail;

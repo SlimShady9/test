@@ -12,7 +12,7 @@ import AddressForm from "../AddressForm";
 function TaskForm({ currentStep, setNextStep }) {
     const id = EstadoServiciosEnum.SERVICIO_CON_DETALLE;
 
-    const showDetail = true;
+    var showDetail = true;
 
     const [optionsTypeService, setOptionsTypeService] = useState([]);
 
