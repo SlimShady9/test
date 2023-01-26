@@ -82,6 +82,8 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
 
     const submitForm = async (e) => {
         e.preventDefault();
+        finalizeServiceForm();
+        return;
 
         if (serviceForm.start_date === "") {
             alert("La fecha de inicio no puede estar vacía");
@@ -122,7 +124,7 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
             return;
         }
         const service = await responseService.data;
-        setService((prev) => {
+        setServiceForm((prev) => {
             return {
                 ...prev,
                 service: service,

@@ -13,13 +13,16 @@ import TaskForm from "@/Components/ServiceForms/TaskForm";
 import ContentForm from "@/Components/ServiceForms/ContentForm";
 
 export default function Services(props) {
-    const [servicesAvailable, setServicesAvailable] = useState([
+    const initialStateServicesAvailable = [
         EstadoServiciosEnum.SERVICIO_INCIADO,
         EstadoServiciosEnum.SERVICIO_MENSAJERIA,
         EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA,
         EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS,
         EstadoServiciosEnum.SERVICIO_CON_DETALLE,
-    ]);
+    ];
+    const [servicesAvailable, setServicesAvailable] = useState(
+        initialStateServicesAvailable
+    );
 
     // Initial state of current service
     const [stateService, setStateService] = useState(
@@ -34,6 +37,11 @@ export default function Services(props) {
         tasks: [],
         messaging: {},
     });
+
+    const restoreInitialState = () => {
+        setServicesAvailable(initialStateServicesAvailable);
+        setStateService(EstadoServiciosEnum.SERVICIO_INCIADO);
+    };
 
     return (
         <>
