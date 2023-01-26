@@ -1,15 +1,15 @@
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { GrEdit } from "react-icons/gr";
 import { RiDeleteBinLine } from "react-icons/ri";
-import React, { useEffect, useState } from "react";
 
 import Modal from "@/Components/Modal";
 import Container from "@/Components/Container";
 import DataForm from "@/Components/FormUtils/DataForm";
-import { Link } from '@inertiajs/inertia-react';
+import { Link } from "@inertiajs/inertia-react";
 import DataTable from "react-data-table-component";
 
-const Datatable = () => {
+const DatatableUser = () => {
     const [search, setSearch] = useState("");
     const [user, setUser] = useState([]);
     const [filteredUser, setFilteredUser] = useState([]);
@@ -130,13 +130,10 @@ const Datatable = () => {
             subHeader
             subHeaderComponent={
                 <>
-                    <Link
-                    href={"regUser"}
-                    className="p-3 bg-blue-400"
-                    >
-                    <Container className="hover:scale-125 shadow-xl rounded-3xl bg-green-light">
-                        Nuevo Usuario
-                    </Container>
+                    <Link href={"regUser"} className="p-3 bg-blue-400">
+                        <Container className="hover:scale-125 shadow-xl rounded-3xl bg-green-light">
+                            Nuevo Usuario
+                        </Container>
                     </Link>
                     <input
                         type="text"
@@ -145,7 +142,7 @@ const Datatable = () => {
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
-                    
+
                     <Modal
                         onHide={onHide}
                         show={showModal}
@@ -163,4 +160,4 @@ const Datatable = () => {
     );
 };
 
-export default Datatable;
+export default DatatableUser;

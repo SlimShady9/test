@@ -22,19 +22,12 @@ function Modal({ children, show, onHide, title }) {
 
     return (
         <>
-            <div
-                className={`fixed overflow-auto w-full h-full top-0 bottom-0 right-0 left-0 z-20
-                place-items-center ${showAnim.modal}`}
-            >
-                <Card className={"sticky mx-auto mt-20 w-3/4 sm:w-1/2"}>
-                    <h1 className="absolute top-0 left-0 my-4 mx-6 font-extrabold text-lg">
-                        {title}
-                    </h1>
-                    <button
-                        className="absolute top-0 right-0 m-4 z-10"
-                        onClick={onHide}
+            {show && (
+                <>
+                    <div
+                        className={`fixed w-screen h-screen top-0 bottom-0 right-0 left-0 z-20 overflow-scroll grid self-center ${showAnim.modal}`}
                     >
-                        <Card className={"relative mx-auto my-0 sm:my-4"}>
+                        <Card className={"relative m-auto sm:w-1/2 "}>
                             <h1 className="absolute top-0 left-0 my-4 mx-6 font-extrabold text-lg">
                                 {title}
                             </h1>

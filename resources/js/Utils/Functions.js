@@ -8,4 +8,4 @@ const cocatenateParams = (params) => {
     return paramsString;
 };
 
-export default cocatenateParams;
+export { cocatenateParams };

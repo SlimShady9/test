@@ -8,9 +8,14 @@ import Input from "./FormUtils/Input";
 import Button from "./FormUtils/Button";
 import { saveAddress } from "@/Utils/PostApi";
 
-function AddressForm() {
+function AddressForm({ api_token }) {
+    const axiosConfig = {
+        headers: {
+            "X-CSCAPI-KEY": api_token,
+        },
+    };
 
-    const { data, setData, processing, errors, reset } = useForm({
+    const [data, setData] = useState({
         name: "",
         country: { label: "", value: "" },
         region: { label: "", value: "" },
@@ -90,95 +95,94 @@ function AddressForm() {
         e.preventDefault();
     };
 
-
     return (
         <div>
-        <form onSubmit={submit}>
-            <h1 className="text-xl font-bold text-left mb-3">
-                Ingresa la Dirección
-            </h1>
-            <div className="col-span-1 my-3">
-                <Label forInput="name">Nombre del Lugar</Label>
-                <Input
-                    name="name"
-                    handleChange={(e) => handleChange(e, "name")}
-                />
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="col-span-1">
-                    <Label forInput="addr">Dirección</Label>
+            <form onSubmit={submit}>
+                <h1 className="text-xl font-bold text-left mb-3">
+                    Ingresa la Dirección
+                </h1>
+                <div className="col-span-1 my-3">
+                    <Label forInput="name">Nombre del Lugar</Label>
                     <Input
-                        name="addr"
-                        handleChange={(e) => handleChange(e, "addr")}
+                        name="name"
+                        handleChange={(e) => handleChange(e, "name")}
                     />
                 </div>
-                <div className="col-span-1">
-                    <Label forInput="addr_detail">Detalles Dirección</Label>
-                    <Input
-                        name="addr_detail"
-                        handleChange={(e) => handleChange(e, "addr_detail")}
-                    />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="col-span-1">
+                        <Label forInput="addr">Dirección</Label>
+                        <Input
+                            name="addr"
+                            handleChange={(e) => handleChange(e, "addr")}
+                        />
+                    </div>
+                    <div className="col-span-1">
+                        <Label forInput="addr_detail">Detalles Dirección</Label>
+                        <Input
+                            name="addr_detail"
+                            handleChange={(e) => handleChange(e, "addr_detail")}
+                        />
+                    </div>
+                    <div className="col-span-1">
+                        <Label forInput="country">País</Label>
+                        <SelectInput
+                            value={data.country}
+                            preventDefault
+                            onChange={(e) => handleChange(e, "country")}
+                            options={countries.map((c) => ({
+                                label: c.name,
+                                value: c.iso2,
+                            }))}
+                        />
+                    </div>
+                    <div className="col-span-1">
+                        <Label forInput="region">Región</Label>
+                        <SelectInput
+                            value={data.region}
+                            onChange={(e) => handleChange(e, "region")}
+                            options={regions.map((c) => ({
+                                label: c.name,
+                                value: c.iso2,
+                            }))}
+                        />
+                    </div>
+                    <div className="col-span-1">
+                        <Label forInput="city">Ciudad</Label>
+                        <SelectInput
+                            name="city"
+                            type="select"
+                            value={data.city}
+                            onChange={(e) => handleChange(e, "city")}
+                            options={cities.map((c) => ({
+                                label: c.name,
+                                value: c.id,
+                            }))}
+                        />
+                    </div>
+                    <div className="col-span-1">
+                        <Label forInput="postal_code">Localidad / Barrio</Label>
+                        <Input
+                            name="locality"
+                            handleChange={(e) => handleChange(e, "locality")}
+                        />
+                    </div>
+                    <div className="col-span-1">
+                        <Label forInput="postal_code">Código postal</Label>
+                        <Input
+                            name="postal_code"
+                            handleChange={(e) => handleChange(e, "postal_code")}
+                        />
+                    </div>
                 </div>
-                <div className="col-span-1">
-                    <Label forInput="country">País</Label>
-                    <SelectInput
-                        value={data.country}
-                        preventDefault
-                        onChange={(e) => handleChange(e, "country")}
-                        options={countries.map((c) => ({
-                            label: c.name,
-                            value: c.iso2,
-                        }))}
-                    />
-                </div>
-                <div className="col-span-1">
-                    <Label forInput="region">Región</Label>
-                    <SelectInput
-                        value={data.region}
-                        onChange={(e) => handleChange(e, "region")}
-                        options={regions.map((c) => ({
-                            label: c.name,
-                            value: c.iso2,
-                        }))}
-                    />
-                </div>
-                <div className="col-span-1">
-                    <Label forInput="city">Ciudad</Label>
-                    <SelectInput
-                        name="city"
-                        type="select"
-                        value={data.city}
-                        onChange={(e) => handleChange(e, "city")}
-                        options={cities.map((c) => ({
-                            label: c.name,
-                            value: c.id,
-                        }))}
-                    />
-                </div>
-                <div className="col-span-1">
-                    <Label forInput="postal_code">Localidad / Barrio</Label>
-                    <Input
-                        name="locality"
-                        handleChange={(e) => handleChange(e, "locality")}
-                    />
-                </div>
-                <div className="col-span-1">
-                    <Label forInput="postal_code">Código postal</Label>
-                    <Input
-                        name="postal_code"
-                        handleChange={(e) => handleChange(e, "postal_code")}
-                    />
-                </div>
-            </div>
 
-            <div className="flex flex-col w-full gap-4">
+                <div className="flex flex-col w-full gap-4">
                     <div className="flex gap-4 my-5 mx-auto">
                         <Button className="" type="submit">
                             Guardar y continuar
                         </Button>
                     </div>
                 </div>
-        </form>
+            </form>
         </div>
     );
 }
