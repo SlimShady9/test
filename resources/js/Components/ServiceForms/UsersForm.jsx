@@ -7,7 +7,7 @@ import {
 import { Head } from "@inertiajs/inertia-react";
 import Label from "../FormUtils/Label";
 import { getUsers } from "@/Utils/FetchUsers";
-import Button from "../Button";
+import Button from "../FormUtils/Button";
 import SelectInput from "../FormUtils/SelectInput";
 
 function UsersForm({ currentStep, setNextStep }) {

@@ -4,7 +4,7 @@ import { Head } from "@inertiajs/inertia-react";
 import Input from "../FormUtils/Input";
 import Label from "../FormUtils/Label";
 import CurrencyFormInput from "../FormUtils/CurrencyFormInput";
-import Button from "../Button";
+import Button from "../FormUtils/Button";
 import SelectInput from "../FormUtils/SelectInput";
 import {
     TipoDeServiciosEnum,
@@ -80,6 +80,10 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
         }
     };
 
+    const addPermisson = (e) => {
+        setShowDetail(!showDetail);
+    };
+
     const submitForm = async (e) => {
         e.preventDefault();
         finalizeServiceForm();
@@ -134,6 +138,12 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
     };
     // Sync data
     useEffect(() => {}, []);
+
+    const onHideAdd = () => setShowModalAdd(false);
+
+    const addAddress = (id) => {
+        setShowModalAdd(true);
+    };
 
     if (currentStep !== id) {
         return <></>;

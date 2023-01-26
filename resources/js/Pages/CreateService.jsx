@@ -6,7 +6,7 @@ import Container from "@/Components/Container";
 import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
 import StepProgressCircles from "@/Components/MultiStepForm/StepProgressCircles";
 import ServiceDataForm from "@/Components/ServiceForms/ServiceDataForm";
-import AddressForm from "@/Components/ServiceForms/AddressForm";
+import AddressForm from "@/Components/AddressForm";
 import UsersForm from "@/Components/ServiceForms/UsersForm";
 import MessagingForm from "@/Components/ServiceForms/MessagingForm";
 import TaskForm from "@/Components/ServiceForms/TaskForm";
@@ -16,7 +16,6 @@ export default function Services(props) {
     const initialStateServicesAvailable = [
         EstadoServiciosEnum.SERVICIO_INCIADO,
         EstadoServiciosEnum.SERVICIO_MENSAJERIA,
-        EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA,
         EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS,
         EstadoServiciosEnum.SERVICIO_CON_DETALLE,
     ];
@@ -92,6 +91,7 @@ export default function Services(props) {
                             {stateService ===
                                 EstadoServiciosEnum.SERVICIO_CON_DETALLE && (
                                 <TaskForm
+                                    api_token={props.api_token}
                                     currentStep={stateService}
                                     setNextStep={setStateService}
                                 />

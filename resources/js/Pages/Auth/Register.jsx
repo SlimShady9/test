@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Button from "@/Components/Button";
+import Button from "@/Components/FormUtils/Button";
 import Container from "@/Components/Container";
 import Base from "@/Layouts/Base";
 import axios from "axios";
@@ -136,7 +136,7 @@ export default function Register() {
                     <div>
                         <Label forInput="phone" value="Teléfono" />
                         <Input
-                            type="number"
+                            type="text"
                             name="phone"
                             value={data.phone}
                             className="mt-1 block w-full"
