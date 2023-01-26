@@ -4,19 +4,15 @@ import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
 import { Head } from "@inertiajs/inertia-react";
 import Input from "../FormUtils/Input";
 import Label from "../FormUtils/Label";
-import CurrencyFormInput from "../FormUtils/CurrencyFormInput";
-import { getOptionsTypeService } from "@/Utils/FetchApi";
-import Button from "../Button";
+import Modal from "@/Components/Modal";import { getOptionsTypeService } from "@/Utils/FetchApi";
+import Button from "../FormUtils/Button";
 import SelectInput from "../FormUtils/SelectInput";
+import AddressForm from "../AddressForm";
 
 function TaskForm({ currentStep, setNextStep }) {
     const id = EstadoServiciosEnum.SERVICIO_CON_DETALLE;
 
     var showDetail = true;
-
-    const addPermisson = (e) => {
-        showDetail = !showDetail;
-    };
 
     const [optionsTypeService, setOptionsTypeService] = useState([]);
 
@@ -39,12 +35,28 @@ function TaskForm({ currentStep, setNextStep }) {
         setNextStep(EstadoServiciosEnum.SERVICIO_PENDIENTE);
     };
 
+    const [showModal, setShowModal] = useState("");
+    const [showModalAdd, setShowModalAdd] = useState("");
+
+    const onHide = () => setShowModal(false);
+
+    const addTask = (id) => {
+        setShowModal(true);
+    };
+
+    const onHideAdd = () => setShowModalAdd(false);
+
+    const addAddress = (id) => {
+        setShowModalAdd(true);
+    };
+
     if (currentStep !== id) {
         return <></>;
     }
+
     return (
         <>
-            <Head title="Datos del servicio" />
+            <div className="mt-0">
             <h1 className="text-xl font-bold text-left mb-3">
                 Agregar Tareas
             </h1>
@@ -79,7 +91,12 @@ function TaskForm({ currentStep, setNextStep }) {
                     <div className="mt-3">
                         <Label>Destino de la Tarea (en caso de que la requiera)</Label>
                     </div>
-                    <Button>Agregar Dirección</Button>
+                    <Button
+                    type="button"
+                    onClick={() => addAddress()}
+                    >
+                        Agregar Dirección
+                    </Button>
                     <div className="mt-3">
                         <Label>Descripción / Instrucciones</Label>
                     </div>
@@ -93,15 +110,32 @@ function TaskForm({ currentStep, setNextStep }) {
                 </div>
                 <div className="flex flex-col w-full gap-4">
                     <div className="flex gap-4 my-5 mx-auto">
-                        <Button className="" type="Button" onClick={previous}>
-                            Volver
-                        </Button>
                         <Button className="" type="submit">
-                            Guardar y continuar
+                            Agregar
                         </Button>
                     </div>
                 </div>
             </form>
+
+            <div className="flex flex-col w-full gap-4">
+            <div className="flex gap-4 my-5 mx-auto">
+                <Button className="" type="Button" onClick={previous}>
+                    Volver
+                </Button>
+                <Button className="" type="submit">
+                    Guardar y Continuar
+                </Button>
+            </div>
+            </div>
+            <Modal
+                onHide={onHideAdd}
+                show={showModalAdd}
+                title={"Agregar Dirección de Destino"}
+            >
+            <AddressForm></AddressForm>
+            </Modal>
+            <Head title="Datos del servicio" />
+            </div>
         </>
     );
 }

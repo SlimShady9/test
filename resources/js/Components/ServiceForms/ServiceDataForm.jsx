@@ -6,8 +6,9 @@ import Input from "../FormUtils/Input";
 import Label from "../FormUtils/Label";
 import CurrencyFormInput from "../FormUtils/CurrencyFormInput";
 import { getOptionsTypeService } from "@/Utils/FetchApi";
-import Button from "../Button";
+import Button from "../FormUtils/Button";
 import SelectInput from "../FormUtils/SelectInput";
+import AddressForm from "../AddressForm";
 
 function ServiceDataForm({ currentStep, setNextStep }) {
     const [fileList, setFileList] = useState([]);
@@ -26,10 +27,10 @@ function ServiceDataForm({ currentStep, setNextStep }) {
 
     const id = EstadoServiciosEnum.SERVICIO_INCIADO;
 
-    var showDetail = true;
+    const [showDetail, setShowDetail] = useState(false);
 
     const addPermisson = (e) => {
-        showDetail = !showDetail;
+        setShowDetail(!showDetail);
     };
 
     const [optionsTypeService, setOptionsTypeService] = useState([]);
@@ -47,6 +48,13 @@ function ServiceDataForm({ currentStep, setNextStep }) {
         e.preventDefault();
         setNextStep(EstadoServiciosEnum.SERVICIO_MENSAJERIA);
     };
+
+    const onHideAdd = () => setShowModalAdd(false);
+
+    const addAddress = (id) => {
+        setShowModalAdd(true);
+    };
+
 
     if (currentStep !== id) {
         return <></>;

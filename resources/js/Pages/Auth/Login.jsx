@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Button from "@/Components/Button";
+import Button from "@/Components/FormUtils/Button";
 import Checkbox from "@/Components/FormUtils/Checkbox";
 import Input from "@/Components/FormUtils/Input";
 import Label from "@/Components/FormUtils/Label";

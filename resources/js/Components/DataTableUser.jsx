@@ -1,12 +1,13 @@
 import axios from "axios";
 import { GrEdit } from "react-icons/gr";
 import { RiDeleteBinLine } from "react-icons/ri";
-import react, { useEffect, useState } from "react";
-import DataTable from "react-data-table-component";
+import React, { useEffect, useState } from "react";
+
 import Modal from "@/Components/Modal";
 import Container from "@/Components/Container";
-import DataForm from "@/Components/DataForm";
+import DataForm from "@/Components/FormUtils/DataForm";
 import { Link } from '@inertiajs/inertia-react';
+import DataTable from "react-data-table-component";
 
 const Datatable = () => {
     const [search, setSearch] = useState("");
@@ -36,8 +37,8 @@ const Datatable = () => {
     const getUser = async () => {
         try {
             const res = await axios.get("/api/user");
-            setUser(res.data);
-            setFilteredUser(res.data);
+            setUser(res.data.data);
+            setFilteredUser(res.data.data);
         } catch (error) {
             console.log(error);
         }
@@ -122,6 +123,7 @@ const Datatable = () => {
         <DataTable
             columns={columns}
             data={filteredUser}
+            selectableRows
             highlightOnHover
             fixedHeader
             pagination

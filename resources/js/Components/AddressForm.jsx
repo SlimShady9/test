@@ -1,19 +1,14 @@
 import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
 import React, { useState, useEffect } from "react";
 import { useForm } from "@inertiajs/inertia-react";
-import Label from "../FormUtils/Label";
-import SelectInput from "../FormUtils/SelectInput";
+import Label from "./FormUtils/Label";
+import SelectInput from "./FormUtils/SelectInput";
 import axios from "axios";
-import Input from "../FormUtils/Input";
-import Button from "../Button";
+import Input from "./FormUtils/Input";
+import Button from "./FormUtils/Button";
 import { saveAddress } from "@/Utils/PostApi";
 
-function AddressForm({ currentStep, setNextStep, api_token }) {
-    const axiosConfig = {
-        headers: {
-            "X-CSCAPI-KEY": api_token,
-        },
-    };
+function AddressForm() {
 
     const { data, setData, processing, errors, reset } = useForm({
         name: "",
@@ -24,8 +19,6 @@ function AddressForm({ currentStep, setNextStep, api_token }) {
         addr_detail: "",
         postal_code: "",
     });
-
-    const id = EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA;
 
     const [countries, setCountries] = useState([]);
     const [regions, setRegions] = useState([]);
@@ -95,27 +88,14 @@ function AddressForm({ currentStep, setNextStep, api_token }) {
 
     const submit = (e) => {
         e.preventDefault();
-        /* 
-        saveAddress(data).then((res) => {
-            setNextStep(EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS);
-        });
-
-        */
-        setNextStep(EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS);
     };
 
-    const previous = (e) => {
-        e.preventDefault();
-        setNextStep(EstadoServiciosEnum.SERVICIO_INCIADO);
-    };
 
-    if (currentStep !== id) {
-        return <></>;
-    }
     return (
+        <div>
         <form onSubmit={submit}>
             <h1 className="text-xl font-bold text-left mb-3">
-                Ingresa direccion de origen del servicio
+                Ingresa la Dirección
             </h1>
             <div className="col-span-1 my-3">
                 <Label forInput="name">Nombre del Lugar</Label>
@@ -193,15 +173,13 @@ function AddressForm({ currentStep, setNextStep, api_token }) {
 
             <div className="flex flex-col w-full gap-4">
                     <div className="flex gap-4 my-5 mx-auto">
-                        <Button className="" type="Button" onClick={previous}>
-                            Volver
-                        </Button>
                         <Button className="" type="submit">
                             Guardar y continuar
                         </Button>
                     </div>
                 </div>
         </form>
+        </div>
     );
 }
 
