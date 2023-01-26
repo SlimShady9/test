@@ -15,7 +15,7 @@ function AddressForm({ currentStep, setNextStep, api_token }) {
         },
     };
 
-    const { data, setData, processing, errors, reset } = useForm({
+    const [data, setData] = useState({
         name: "",
         country: { label: "", value: "" },
         region: { label: "", value: "" },

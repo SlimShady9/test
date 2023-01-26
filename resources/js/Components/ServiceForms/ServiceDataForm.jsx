@@ -14,7 +14,7 @@ import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
 import { uploadFile, uploadService } from "@/Utils/FetchService";
 import moment from "moment";
 
-function ServiceDataForm({ currentStep, setNextStep }) {
+function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
     const id = EstadoServiciosEnum.SERVICIO_INCIADO;
 
     const typeServices = Object.keys(TipoDeServiciosEnum).map((key) => {
@@ -60,6 +60,26 @@ function ServiceDataForm({ currentStep, setNextStep }) {
         });
     };
 
+    const finalizeServiceForm = () => {
+        if (
+            serviceForm.id_type_service ===
+                TipoDeServiciosEnum.LOGISTICA_DE_MENSJERIA ||
+            serviceForm.id_type_service ===
+                TipoDeServiciosEnum.GESTION_DOCUMENTAL
+        ) {
+            setServicesAvailable((prev) => {
+                prev.splice(
+                    prev.indexOf(EstadoServiciosEnum.SERVICIO_MENSAJERIA),
+                    1
+                );
+                return prev;
+            });
+            setNextStep(EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA);
+        } else {
+            setNextStep(EstadoServiciosEnum.SERVICIO_MENSAJERIA);
+        }
+    };
+
     const submitForm = async (e) => {
         e.preventDefault();
 
@@ -85,10 +105,12 @@ function ServiceDataForm({ currentStep, setNextStep }) {
 
         if (!files[0]) {
             alert("No se ha seleccionado ningún archivo");
+            return;
         }
         const response = await uploadFile(files[0]);
         if (response.data === null) {
             alert("Error al subir el archivo");
+            return;
         }
         const file = await response.data.name;
         console.log(file);
@@ -106,7 +128,7 @@ function ServiceDataForm({ currentStep, setNextStep }) {
                 service: service,
             };
         });
-        setNextStep(EstadoServiciosEnum.SERVICIO_MENSAJERIA);
+        finalizeServiceForm();
     };
     // Sync data
     useEffect(() => {}, []);

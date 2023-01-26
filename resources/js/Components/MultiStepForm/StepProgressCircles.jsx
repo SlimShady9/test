@@ -1,5 +1,5 @@
-const StepCircle = ({ step, currentStep, index }) => {
-    const isCompleted = currentStep > step;
+const StepCircle = ({ currentStep, index }) => {
+    const isCompleted = index <= currentStep;
 
     const color = isCompleted ? "bg-green-light" : "bg-gray-dark";
     const textColor = isCompleted ? "text-black" : "text-white";
@@ -10,7 +10,7 @@ const StepCircle = ({ step, currentStep, index }) => {
                 <div
                     className={`z-20 w-12 h-12 ${color} rounded-full grid place-items-center ${textColor} text-xl font-bold`}
                 >
-                    {step}
+                    {index}
                 </div>
             </div>
         </>
@@ -19,7 +19,7 @@ const StepCircle = ({ step, currentStep, index }) => {
 
 const StepProgressCircles = ({ currentStep, steps }) => {
     const percentCompleted = Math.floor(
-        ((currentStep - 1) / steps.length) * 100
+        (steps.indexOf(currentStep) / steps.length) * 100
     );
     return (
         <div className="flex justify-evenly relative md:w-1/2 m-auto">
@@ -30,10 +30,10 @@ const StepProgressCircles = ({ currentStep, steps }) => {
             ></hr>
             {steps.map((step, index) => (
                 <StepCircle
-                    key={index}
                     step={step}
-                    currentStep={currentStep}
-                    index={index}
+                    currentStep={steps.indexOf(currentStep)}
+                    key={index}
+                    index={index + 1}
                 />
             ))}
         </div>

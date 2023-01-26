@@ -13,13 +13,13 @@ import TaskForm from "@/Components/ServiceForms/TaskForm";
 import ContentForm from "@/Components/ServiceForms/ContentForm";
 
 export default function Services(props) {
-    const ServiceAvailable = [
+    const [servicesAvailable, setServicesAvailable] = useState([
         EstadoServiciosEnum.SERVICIO_INCIADO,
         EstadoServiciosEnum.SERVICIO_MENSAJERIA,
         EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA,
         EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS,
         EstadoServiciosEnum.SERVICIO_CON_DETALLE,
-    ];
+    ]);
 
     // Initial state of current service
     const [stateService, setStateService] = useState(
@@ -45,7 +45,7 @@ export default function Services(props) {
                         </h1>
                         <StepProgressCircles
                             currentStep={stateService}
-                            steps={ServiceAvailable}
+                            steps={servicesAvailable}
                         ></StepProgressCircles>
                         <></>
                         <ServiceContext.Provider
@@ -56,6 +56,7 @@ export default function Services(props) {
                                 <ServiceDataForm
                                     currentStep={stateService}
                                     setNextStep={setStateService}
+                                    setServicesAvailable={setServicesAvailable}
                                 />
                             )}
                             {stateService ===

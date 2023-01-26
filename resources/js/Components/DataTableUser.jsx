@@ -1,14 +1,14 @@
+import react, { useEffect, useState } from "react";
 import axios from "axios";
 import { GrEdit } from "react-icons/gr";
 import { RiDeleteBinLine } from "react-icons/ri";
-import react, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import Modal from "@/Components/Modal";
-import Container from "@/Components/Container";
-import DataForm from "@/Components/DataForm";
-import { Link } from '@inertiajs/inertia-react';
+import Modal from "./Modal";
+import Container from "./Container";
+import DataForm from "./FormUtils/DataForm";
+import { Link } from "@inertiajs/inertia-react";
 
-const Datatable = () => {
+const DatatableUser = () => {
     const [search, setSearch] = useState("");
     const [user, setUser] = useState([]);
     const [filteredUser, setFilteredUser] = useState([]);
@@ -36,8 +36,9 @@ const Datatable = () => {
     const getUser = async () => {
         try {
             const res = await axios.get("/api/user");
-            setUser(res.data);
-            setFilteredUser(res.data);
+            console.log(res.data.data);
+            setUser(res.data.data);
+            setFilteredUser(res.data.data);
         } catch (error) {
             console.log(error);
         }
@@ -128,13 +129,10 @@ const Datatable = () => {
             subHeader
             subHeaderComponent={
                 <>
-                    <Link
-                    href={"regUser"}
-                    className="p-3 bg-blue-400"
-                    >
-                    <Container className="hover:scale-125 shadow-xl rounded-3xl bg-green-light">
-                        Nuevo Usuario
-                    </Container>
+                    <Link href={"regUser"} className="p-3 bg-blue-400">
+                        <Container className="hover:scale-125 shadow-xl rounded-3xl bg-green-light">
+                            Nuevo Usuario
+                        </Container>
                     </Link>
                     <input
                         type="text"
@@ -143,7 +141,7 @@ const Datatable = () => {
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
-                    
+
                     <Modal
                         onHide={onHide}
                         show={showModal}
@@ -161,4 +159,4 @@ const Datatable = () => {
     );
 };
 
-export default Datatable;
+export default DatatableUser;
