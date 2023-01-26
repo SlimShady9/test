@@ -16,7 +16,6 @@ export default function Services(props) {
     const ServiceAvailable = [
         EstadoServiciosEnum.SERVICIO_INCIADO,
         EstadoServiciosEnum.SERVICIO_MENSAJERIA,
-        EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA,
         EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS,
         EstadoServiciosEnum.SERVICIO_CON_DETALLE,
     ];
@@ -48,14 +47,6 @@ export default function Services(props) {
                         {stateService ===
                             EstadoServiciosEnum.SERVICIO_MENSAJERIA && (
                             <MessagingForm
-                                currentStep={stateService}
-                                setNextStep={setStateService}
-                            />
-                        )}
-                        {stateService ===
-                            EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA && (
-                            <AddressForm
-                                api_token={props.api_token}
                                 currentStep={stateService}
                                 setNextStep={setStateService}
                             />

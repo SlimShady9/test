@@ -36,7 +36,7 @@ function MessagingForm({ currentStep, setNextStep }) {
 
     const submitForm = (e) => {
         e.preventDefault();
-        setNextStep(EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA);
+        setNextStep(EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS);
     };
 
     if (currentStep !== id) {

@@ -8,6 +8,7 @@ import CurrencyFormInput from "../FormUtils/CurrencyFormInput";
 import { getOptionsTypeService } from "@/Utils/FetchApi";
 import Button from "../FormUtils/Button";
 import SelectInput from "../FormUtils/SelectInput";
+import AddressForm from "../AddressForm";
 
 function ServiceDataForm({ currentStep, setNextStep }) {
     const [fileList, setFileList] = useState([]);
@@ -47,6 +48,13 @@ function ServiceDataForm({ currentStep, setNextStep }) {
         e.preventDefault();
         setNextStep(EstadoServiciosEnum.SERVICIO_MENSAJERIA);
     };
+
+    const onHideAdd = () => setShowModalAdd(false);
+
+    const addAddress = (id) => {
+        setShowModalAdd(true);
+    };
+
 
     if (currentStep !== id) {
         return <></>;

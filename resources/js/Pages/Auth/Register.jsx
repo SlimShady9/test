@@ -136,7 +136,7 @@ export default function Register() {
                     <div>
                         <Label forInput="phone" value="Teléfono" />
                         <Input
-                            type="number"
+                            type="text"
                             name="phone"
                             value={data.phone}
                             className="mt-1 block w-full"

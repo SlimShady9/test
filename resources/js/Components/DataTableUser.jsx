@@ -37,8 +37,8 @@ const Datatable = () => {
     const getUser = async () => {
         try {
             const res = await axios.get("/api/user");
-            setUser(res.data);
-            setFilteredUser(res.data);
+            setUser(res.data.data);
+            setFilteredUser(res.data.data);
         } catch (error) {
             console.log(error);
         }

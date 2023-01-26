@@ -23,10 +23,10 @@ function Modal({ children, show, onHide, title }) {
     return (
         <>
             <div
-                className={`absolute w-full h-full top-0 bottom-0 right-0 left-0 z-20
+                className={`fixed overflow-auto w-full h-full top-0 bottom-0 right-0 left-0 z-20
                 place-items-center ${showAnim.modal}`}
             >
-                <Card className={"relative translate-y-1/3 tracking-widest m-auto"}>
+                <Card className={"sticky mx-auto mt-20 w-3/4 sm:w-1/2"}>
                     <h1 className="absolute top-0 left-0 my-4 mx-6 font-extrabold text-lg">
                         {title}
                     </h1>
