@@ -30,7 +30,7 @@ export default function Services(props) {
 
     // State of the progress of service creation using context api
     const [serviceDTO, setServiceDTO] = useState({
-        service: {},
+        service: { id: 5 },
         address: {},
         orders: [],
         tasks: [],

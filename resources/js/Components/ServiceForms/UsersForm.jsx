@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import ServiceContext from "./useServiceContext";
+
 import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
 import {
     TipoDeUsuariosEnum,
@@ -9,9 +11,11 @@ import Label from "../FormUtils/Label";
 import { getUsers } from "@/Utils/FetchUsers";
 import Button from "../FormUtils/Button";
 import SelectInput from "../FormUtils/SelectInput";
+import { createOrders } from "@/Utils/FetchOrder";
 
 function UsersForm({ currentStep, setNextStep }) {
     const id = EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS;
+    const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
     // As cached data fetched
     const [visitedUsers, setVisitedUsers] = useState([]);
     const [usersFiltered, setUsersFiltered] = useState([]);
@@ -69,7 +73,21 @@ function UsersForm({ currentStep, setNextStep }) {
 
     const submitForm = (e) => {
         e.preventDefault();
-        setNextStep(EstadoServiciosEnum.SERVICIO_CON_DETALLE);
+
+        createOrders({
+            orders: usuariosSeleccionados.map((user) => ({
+                id_user: user.id,
+                id_service: serviceDTO.service.id,
+            })),
+        }).then((res) => {
+            if (res.error) {
+                alert(res.data);
+                return;
+            }
+            alert("Usuarios agregados");
+            setServiceDTO((prev) => ({ ...prev, orders: res.data }));
+            setNextStep(EstadoServiciosEnum.SERVICIO_CON_DETALLE);
+        });
     };
 
     return (

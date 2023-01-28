@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Parameter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
@@ -26,6 +27,34 @@ class OrderController extends Controller
     public function create()
     {
         return [];
+    }
+
+    /**
+     * Show the form for creating multiple resources.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createMultiple(Request $request)
+    {
+        try {
+            $request->validate([
+                'orders' => 'required|array',
+                'orders.*.id_user' => 'required|exists:users,id',
+                'orders.*.id_service' => 'required|exists:services,id',
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 403);
+        }
+
+        $orders = [];
+        foreach ($request->orders as $order) {
+            array_push($orders, Order::create([
+                'id_user' => $order['id_user'],
+                'id_service' => $order['id_service'],
+            ]));
+        }
+
+        return $orders;
     }
 
     /**
