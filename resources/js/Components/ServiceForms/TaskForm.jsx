@@ -1,19 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
 ("@/Constants/EstadoServiciosEnum");
 import { Head } from "@inertiajs/inertia-react";
 import Input from "../FormUtils/Input";
 import Label from "../FormUtils/Label";
 import Modal from "@/Components/Modal";
-import { getOptionsTypeService } from "@/Utils/FetchApi";
 import Button from "../FormUtils/Button";
 import SelectInput from "../FormUtils/SelectInput";
 import AddressForm from "../AddressForm";
+import { getOptionsTypeService } from "@/Utils/FetchApi";
+import { getUsers } from "@/Utils/FetchUsers";
+import { TipoDeUsuariosEnum } from "@/Constants/TipoDeUsuariosEnum";
+import ServiceContext from "./useServiceContext";
+import { deleteAddress as dAddress } from "@/Utils/FetchAddress";
 
-function TaskForm({ currentStep, setNextStep, api_token }) {
-    const id = EstadoServiciosEnum.SERVICIO_CON_DETALLE;
-
+function TaskForm({ setNextStep, api_token }) {
     const [showDetail, setShowDetail] = useState(false);
+    const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
+
+    const [tasks, setTasks] = useState([]);
+
+    const [usersResponsibleAvailable, setusersResponsibleAvailable] = useState(
+        []
+    );
+    const [showModalAdd, setShowModalAdd] = useState("");
 
     const addPermisson = (e) => {
         setShowDetail(!showDetail);
@@ -28,6 +38,15 @@ function TaskForm({ currentStep, setNextStep, api_token }) {
     const fetchData = async () => {
         const options = await getOptionsTypeService();
         setOptionsTypeService(options);
+        const usersAvailable = await getUsers({
+            id_t_user: TipoDeUsuariosEnum.ADMIN,
+        });
+        setusersResponsibleAvailable(
+            usersAvailable.data.map((user) => ({
+                label: user.email,
+                value: user.id,
+            }))
+        );
     };
 
     const previous = (e) => {
@@ -40,24 +59,21 @@ function TaskForm({ currentStep, setNextStep, api_token }) {
         setNextStep(EstadoServiciosEnum.SERVICIO_PENDIENTE);
     };
 
-    const [showModal, setShowModal] = useState("");
-    const [showModalAdd, setShowModalAdd] = useState("");
-
-    const onHide = () => setShowModal(false);
-
-    const addTask = (id) => {
-        setShowModal(true);
-    };
-
     const onHideAdd = () => setShowModalAdd(false);
 
     const addAddress = (id) => {
         setShowModalAdd(true);
     };
 
-    if (currentStep !== id) {
-        return <></>;
-    }
+    const storeAddress = (address) => {
+        setServiceDTO((prev) => ({ ...prev, address: address }));
+        onHideAdd();
+    };
+
+    const deleteAddress = () => {
+        dAddress(serviceDTO.address.id);
+        setServiceDTO((prev) => ({ ...prev, address: null }));
+    };
 
     return (
         <>
@@ -69,30 +85,30 @@ function TaskForm({ currentStep, setNextStep, api_token }) {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="col-span-1">
                             <Label>Nombre Destinatario</Label>
-                            <Input></Input>
+                            <Input name="name" />
                         </div>
                         <div className="col-span-1">
                             <Label>Empresa / Entidad Asociada</Label>
-                            <Input></Input>
+                            <Input name="entity" />
                         </div>
                         <div className="col-span-1">
                             <Label className="">Dependencia</Label>
-                            <Input></Input>
+                            <Input name="dependency" />
                         </div>
-                        <div className="col-span-1">
+                        {/*<div className="col-span-1">
                             <Label>Excepciones (condiciones especiales)</Label>
                             <SelectInput isMulti={true} />
-                        </div>
+                        </div>*/}
                         <div className="col-span-1">
                             <Label>Responsable</Label>
-                            <SelectInput />
+                            <SelectInput options={usersResponsibleAvailable} />
                         </div>
-                        <div className="grid grid-cols-2 col-span-1">
+                        <div className="grid grid-cols-2 col-span-1 justify-center">
                             <Label className="col-span-2">
                                 Fecha y Hora Límite
                             </Label>
-                            <Input className="col-span-1" type="date" />
-                            <Input className="col-span-1" type="time" />
+                            <Input className="dateLimit" type="date" />
+                            <Input className="hourLimit" type="time" />
                         </div>
                     </div>
                     <div className="flex flex-col w-full gap-4">
@@ -101,9 +117,31 @@ function TaskForm({ currentStep, setNextStep, api_token }) {
                                 Destino de la Tarea (en caso de que la requiera)
                             </Label>
                         </div>
-                        <Button type="button" onClick={() => addAddress()}>
-                            Agregar Dirección
-                        </Button>
+                        {!serviceDTO.address?.id && (
+                            <Button
+                                className="mx-4"
+                                type="button"
+                                onClick={addAddress}
+                            >
+                                Agregar Dirección
+                            </Button>
+                        )}
+                        {serviceDTO.address?.id && (
+                            <div className="flex gap-4">
+                                <div className="w-3/4">
+                                    <Input
+                                        defaultValue={serviceDTO.address?.name}
+                                        disabled={true}
+                                    />
+                                </div>
+                                <Button
+                                    className="w-1/4"
+                                    onClick={deleteAddress}
+                                >
+                                    Limpiar
+                                </Button>
+                            </div>
+                        )}
                         <div className="mt-3">
                             <Label>Descripción / Instrucciones</Label>
                         </div>
@@ -124,6 +162,12 @@ function TaskForm({ currentStep, setNextStep, api_token }) {
                     </div>
                 </form>
 
+                {/* Tareas agregadas*/}
+                {tasks.length > 0 &&
+                    tasks.map((task, index) => (
+                        <TaskBox task={task} key={index} />
+                    ))}
+
                 <div className="flex flex-col w-full gap-4">
                     <div className="flex gap-4 my-5 mx-auto">
                         <Button className="" type="Button" onClick={previous}>
@@ -139,7 +183,10 @@ function TaskForm({ currentStep, setNextStep, api_token }) {
                     show={showModalAdd}
                     title={"Agregar Dirección de Destino"}
                 >
-                    <AddressForm api_token={api_token} />
+                    <AddressForm
+                        api_token={api_token}
+                        onSubmit={storeAddress}
+                    />
                 </Modal>
                 <Head title="Datos del servicio" />
             </div>

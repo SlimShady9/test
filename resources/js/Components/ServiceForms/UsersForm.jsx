@@ -73,6 +73,8 @@ function UsersForm({ currentStep, setNextStep }) {
 
     const submitForm = (e) => {
         e.preventDefault();
+        setNextStep(EstadoServiciosEnum.SERVICIO_CON_DETALLE);
+        return;
 
         createOrders({
             orders: usuariosSeleccionados.map((user) => ({

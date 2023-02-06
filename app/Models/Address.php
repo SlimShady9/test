@@ -18,6 +18,7 @@ class Address extends Model
         'addr',
         'addr_detail',
         'postal_code',
+        'neighborhood',
     ];
 
     protected $hidden = [
