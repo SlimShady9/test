@@ -11,14 +11,30 @@ import AddressForm from "../AddressForm";
 import { getOptionsTypeService } from "@/Utils/FetchApi";
 import { getUsers } from "@/Utils/FetchUsers";
 import { TipoDeUsuariosEnum } from "@/Constants/TipoDeUsuariosEnum";
+import { EstadoDeTareaEnum } from "@/Constants/EstadoDeTareaEnum";
 import ServiceContext from "./useServiceContext";
 import { deleteAddress as dAddress } from "@/Utils/FetchAddress";
+import moment from "moment/moment";
+import TaskBox from "../FormUtils/TaskBox";
 
 function TaskForm({ setNextStep, api_token }) {
     const [showDetail, setShowDetail] = useState(false);
     const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
 
     const [tasks, setTasks] = useState([]);
+    const [currentTask, setCurrentTask] = useState({
+        name: "Juanda Florez",
+        entity: "Banco de la República",
+        dependency: "Banco de la República 2",
+        id_state: EstadoDeTareaEnum.CREADO,
+        id_address: -1,
+        id_service: serviceDTO.service.id,
+        desc: "Tarea de prueba",
+        responsible: 1,
+        dateLimit: "2021-05-05",
+        hourLimit: "12:00",
+        last_state_date: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
+    });
 
     const [usersResponsibleAvailable, setusersResponsibleAvailable] = useState(
         []
@@ -56,7 +72,32 @@ function TaskForm({ setNextStep, api_token }) {
 
     const submitForm = (e) => {
         e.preventDefault();
-        setNextStep(EstadoServiciosEnum.SERVICIO_PENDIENTE);
+        console.log(currentTask);
+        var task = {
+            ...currentTask,
+            limit_date: moment(
+                currentTask.dateLimit + " " + currentTask.hourLimit
+            ).format("YYYY-MM-DD HH:mm:ss"),
+            last_state_date: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
+        };
+        delete task.dateLimit;
+        delete task.hourLimit;
+        setTasks((prev) => [...prev, task]);
+        setCurrentTask({
+            name: "Juanda Florez",
+            entity: "Banco de la República",
+            dependency: "Banco de la República 2",
+            id_state: EstadoDeTareaEnum.CREADO,
+            id_address: -1,
+            id_service: serviceDTO.service.id,
+            desc: "Tarea de prueba",
+            responsible: 1,
+            dateLimit: "2021-05-05",
+            hourLimit: "12:00",
+            last_state_date: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
+        });
+
+        //setNextStep(EstadoServiciosEnum.SERVICIO_PENDIENTE);
     };
 
     const onHideAdd = () => setShowModalAdd(false);
@@ -67,12 +108,20 @@ function TaskForm({ setNextStep, api_token }) {
 
     const storeAddress = (address) => {
         setServiceDTO((prev) => ({ ...prev, address: address }));
+        setCurrentTask((prev) => ({ ...prev, id_address: address.id }));
         onHideAdd();
     };
 
     const deleteAddress = () => {
         dAddress(serviceDTO.address.id);
-        setServiceDTO((prev) => ({ ...prev, address: null }));
+        setServiceDTO((prev) => ({ ...prev, address: {} }));
+    };
+
+    const onChange = (e) => {
+        setCurrentTask((prev) => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+        }));
     };
 
     return (
@@ -85,15 +134,27 @@ function TaskForm({ setNextStep, api_token }) {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="col-span-1">
                             <Label>Nombre Destinatario</Label>
-                            <Input name="name" />
+                            <Input
+                                name="name"
+                                handleChange={onChange}
+                                defaultValue={currentTask.name}
+                            />
                         </div>
                         <div className="col-span-1">
                             <Label>Empresa / Entidad Asociada</Label>
-                            <Input name="entity" />
+                            <Input
+                                name="entity"
+                                handleChange={onChange}
+                                defaultValue={currentTask.entity}
+                            />
                         </div>
                         <div className="col-span-1">
                             <Label className="">Dependencia</Label>
-                            <Input name="dependency" />
+                            <Input
+                                name="dependency"
+                                handleChange={onChange}
+                                defaultValue={currentTask.dependency}
+                            />
                         </div>
                         {/*<div className="col-span-1">
                             <Label>Excepciones (condiciones especiales)</Label>
@@ -101,14 +162,38 @@ function TaskForm({ setNextStep, api_token }) {
                         </div>*/}
                         <div className="col-span-1">
                             <Label>Responsable</Label>
-                            <SelectInput options={usersResponsibleAvailable} />
+                            <SelectInput
+                                options={usersResponsibleAvailable}
+                                onChange={(e) =>
+                                    onChange({
+                                        target: "responsible",
+                                        value: e.value,
+                                    })
+                                }
+                            />
                         </div>
-                        <div className="grid grid-cols-2 col-span-1 justify-center">
+                        <div className="grid grid-cols-2 col-span-2 justify-center">
                             <Label className="col-span-2">
                                 Fecha y Hora Límite
                             </Label>
-                            <Input className="dateLimit" type="date" />
-                            <Input className="hourLimit" type="time" />
+                            <div className="flex gap-4 col-span-2">
+                                <div className="w-2/3">
+                                    <Input
+                                        name="dateLimit"
+                                        type="date"
+                                        handleChange={onChange}
+                                        defaultValue={currentTask.dateLimit}
+                                    />
+                                </div>
+                                <div className="w-1/3">
+                                    <Input
+                                        name="hourLimit"
+                                        type="time"
+                                        handleChange={onChange}
+                                        defaultValue={currentTask.hourLimit}
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div className="flex flex-col w-full gap-4">
@@ -147,10 +232,12 @@ function TaskForm({ setNextStep, api_token }) {
                         </div>
                         <textarea
                             className="m-1 rounded-md font-sans tracking-widest"
-                            name="Descripcion"
+                            name="desc"
                             id=""
                             cols="30"
                             rows="4"
+                            onChange={onChange}
+                            defaultValue={currentTask.desc}
                         ></textarea>
                     </div>
                     <div className="flex flex-col w-full gap-4">
