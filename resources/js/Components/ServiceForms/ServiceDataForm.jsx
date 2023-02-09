@@ -61,6 +61,7 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
     };
 
     const finalizeServiceForm = () => {
+        console.log(serviceForm.id_type_service);
         if (
             serviceForm.id_type_service ===
                 TipoDeServiciosEnum.LOGISTICA_DE_MENSJERIA ||
@@ -70,6 +71,14 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
             setServicesAvailable((prev) => {
                 prev.splice(
                     prev.indexOf(EstadoServiciosEnum.SERVICIO_MENSAJERIA),
+                    1
+                );
+
+                return prev;
+            });
+            setServicesAvailable((prev) => {
+                prev.splice(
+                    prev.indexOf(EstadoServiciosEnum.SERVICIO_CON_CONTENIDO),
                     1
                 );
                 return prev;

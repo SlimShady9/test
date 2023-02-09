@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->bigInteger('id_state')->unsigned();
-            $table->bigInteger('id_address')->unsigned();
+            $table->bigInteger('id_address')->unsigned()->nullable();
             $table->bigInteger('id_service')->unsigned();
             $table->bigInteger('responsible')->unsigned();
             $table->string('entity');

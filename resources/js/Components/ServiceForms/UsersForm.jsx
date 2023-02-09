@@ -73,7 +73,7 @@ function UsersForm({ currentStep, setNextStep }) {
 
     const submitForm = (e) => {
         e.preventDefault();
-        setNextStep(EstadoServiciosEnum.SERVICIO_CON_DETALLE);
+        setNextStep(EstadoServiciosEnum.SERVICIO_CON_CONTENIDO);
         return;
 
         createOrders({

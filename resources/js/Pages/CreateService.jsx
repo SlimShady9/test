@@ -16,8 +16,10 @@ export default function Services(props) {
     const initialStateServicesAvailable = [
         EstadoServiciosEnum.SERVICIO_INCIADO,
         EstadoServiciosEnum.SERVICIO_MENSAJERIA,
+        EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA,
         EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS,
-        EstadoServiciosEnum.SERVICIO_CON_DETALLE,
+        EstadoServiciosEnum.SERVICIO_CON_CONTENIDO,
+        EstadoServiciosEnum.SERVICIO_CON_TAREAS,
     ];
     const [servicesAvailable, setServicesAvailable] = useState(
         initialStateServicesAvailable
@@ -30,7 +32,7 @@ export default function Services(props) {
 
     // State of the progress of service creation using context api
     const [serviceDTO, setServiceDTO] = useState({
-        service: { id: 5 },
+        service: { id: 1 },
         address: {},
         orders: [],
         tasks: [],
@@ -77,8 +79,11 @@ export default function Services(props) {
                                 EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA && (
                                 <AddressForm
                                     api_token={props.api_token}
-                                    currentStep={stateService}
-                                    setNextStep={setStateService}
+                                    onSubmit={() =>
+                                        setStateService(
+                                            EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS
+                                        )
+                                    }
                                 />
                             )}
                             {stateService ===
@@ -89,16 +94,16 @@ export default function Services(props) {
                                 />
                             )}
                             {stateService ===
-                                EstadoServiciosEnum.SERVICIO_CON_DETALLE && (
-                                <TaskForm
-                                    api_token={props.api_token}
+                                EstadoServiciosEnum.SERVICIO_CON_CONTENIDO && (
+                                <ContentForm
                                     currentStep={stateService}
                                     setNextStep={setStateService}
                                 />
                             )}
                             {stateService ===
-                                EstadoServiciosEnum.SERVICIO_PENDIENTE && (
-                                <ContentForm
+                                EstadoServiciosEnum.SERVICIO_CON_TAREAS && (
+                                <TaskForm
+                                    api_token={props.api_token}
                                     currentStep={stateService}
                                     setNextStep={setStateService}
                                 />

@@ -16,6 +16,8 @@ import ServiceContext from "./useServiceContext";
 import { deleteAddress as dAddress } from "@/Utils/FetchAddress";
 import moment from "moment/moment";
 import TaskBox from "../FormUtils/TaskBox";
+import { toast } from "react-toastify";
+import { storeTask, deleteTask as dTaks } from "@/Utils/FetchTask";
 
 function TaskForm({ setNextStep, api_token }) {
     const [showDetail, setShowDetail] = useState(false);
@@ -72,7 +74,7 @@ function TaskForm({ setNextStep, api_token }) {
 
     const submitForm = (e) => {
         e.preventDefault();
-        console.log(currentTask);
+
         var task = {
             ...currentTask,
             limit_date: moment(
@@ -82,7 +84,19 @@ function TaskForm({ setNextStep, api_token }) {
         };
         delete task.dateLimit;
         delete task.hourLimit;
-        setTasks((prev) => [...prev, task]);
+        delete task.undefined;
+        if (task.id_address === -1) delete task.id_address;
+        storeTask(task).then((res) => {
+            if (res.error) {
+                toast.error(res.error);
+                return;
+            }
+            setTasks((prev) => [...prev, res.data]);
+            setServiceDTO((prev) => ({
+                ...prev,
+                tasks: [...prev.tasks, res.data],
+            }));
+        });
         setCurrentTask({
             name: "Juanda Florez",
             entity: "Banco de la República",
@@ -96,8 +110,6 @@ function TaskForm({ setNextStep, api_token }) {
             hourLimit: "12:00",
             last_state_date: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
         });
-
-        //setNextStep(EstadoServiciosEnum.SERVICIO_PENDIENTE);
     };
 
     const onHideAdd = () => setShowModalAdd(false);
@@ -117,11 +129,30 @@ function TaskForm({ setNextStep, api_token }) {
         setServiceDTO((prev) => ({ ...prev, address: {} }));
     };
 
+    const deleteTask = (index) => {
+        dTaks(index).then((res) => {
+            if (res.error) {
+                toast.error(res.error);
+                return;
+            }
+            setTasks((prev) => prev.filter((task) => task.id !== index));
+            setServiceDTO((prev) => ({
+                ...prev,
+                tasks: prev.tasks.filter((task) => task.id !== index),
+            }));
+            toast.info("Tarea eliminada");
+        });
+    };
+
     const onChange = (e) => {
         setCurrentTask((prev) => ({
             ...prev,
             [e.target.name]: e.target.value,
         }));
+    };
+
+    const finalizar = () => {
+        setNextStep(EstadoServiciosEnum.SERVICIO_PENDIENTE);
     };
 
     return (
@@ -252,7 +283,11 @@ function TaskForm({ setNextStep, api_token }) {
                 {/* Tareas agregadas*/}
                 {tasks.length > 0 &&
                     tasks.map((task, index) => (
-                        <TaskBox task={task} key={index} />
+                        <TaskBox
+                            task={task}
+                            key={index}
+                            onDelete={deleteTask}
+                        />
                     ))}
 
                 <div className="flex flex-col w-full gap-4">
@@ -260,7 +295,7 @@ function TaskForm({ setNextStep, api_token }) {
                         <Button className="" type="Button" onClick={previous}>
                             Volver
                         </Button>
-                        <Button className="" type="submit">
+                        <Button className="" onClick={finalizar}>
                             Guardar y Continuar
                         </Button>
                     </div>
