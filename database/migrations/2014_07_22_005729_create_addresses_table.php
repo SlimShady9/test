@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('addr');
             $table->string('addr_detail');
             $table->string('postal_code');
+            $table->string('neighborhood');
         });
     }
 

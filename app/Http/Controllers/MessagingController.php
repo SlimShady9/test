@@ -25,7 +25,6 @@ class MessagingController extends Controller
                 'name' => 'required|string|max:30',
                 'entity' => 'required|string|max:30',
                 'charge' => 'required|string|max:50',
-                'id_content' => 'required|Exists:contents,id',
                 'id_address' => 'required|Exists:addresses,id',
                 'id_service' => 'required|Exists:services,id',
                 'cost_center' => 'required|string|max:255',
@@ -51,7 +50,6 @@ class MessagingController extends Controller
             'charge' => $request->charge,
             'cost_center' => $request->cost_center,
             'intern_order' => $request->intern_order,
-            'id_content' => $request->id_content,
             'transporter' => $request->transporter,
             'id_transporter_tracking' => $request->id_transporter_tracking,
         ]);
@@ -67,7 +65,6 @@ class MessagingController extends Controller
                 'name' => 'string|max:30',
                 'entity' => 'string|max:30',
                 'charge' => 'string|max:50',
-                'id_content' => 'Exists:contents,id',
                 'id_address' => 'Exists:addresses,id',
                 'id_service' => 'Exists:services,id',
                 'cost_center' => 'string|max:255',
@@ -95,7 +92,6 @@ class MessagingController extends Controller
         $Messaging->charge = $request->charge;
         $Messaging->cost_center = $request->cost_center;
         $Messaging->intern_order = $request->intern_order;
-        $Messaging->id_content = $request->id_content; 
         $Messaging->transporter = $request->transporter;
         $Messaging->id_transporter_tracking = $request->id_transporter_tracking;
         $Messaging->save();

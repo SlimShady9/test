@@ -46,6 +46,7 @@ class AddressController extends Controller
                 'addr' => 'required|string|max:50',
                 'addr_detail' => 'string|max:255',
                 'postal_code' => 'required|string|max:10',
+                'neighborhood' => 'required|string|max:30',
             ]);
             
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -60,6 +61,7 @@ class AddressController extends Controller
             'addr' => $request->addr,
             'addr_detail' => $request->addr_detail,
             'postal_code' => $request->postal_code,
+            'neighborhood' => $request->neighborhood,
         ]);
 
         return $newAddress;
@@ -108,6 +110,7 @@ class AddressController extends Controller
             'street' => 'required|string',
             'addr' => 'required|string',
             'addr_detail' => 'string|max:255',
+            'neighborhood' => 'required|string|max:255',
         ]);
         $address = Address::find($id);
             
@@ -126,6 +129,7 @@ class AddressController extends Controller
         $address->street = $request->street;
         $address->addr = $request->addr;
         $address->addr_detail = $request->addr_detail;
+        $address->neighborhood = $request->neighborhood;
         $address->save();
         return $address;
     }

@@ -22,8 +22,8 @@ class ContentController extends Controller
         try {
 
             $request->validate([
-                'id_exception' => 'required|Exists:type_exceptions,id',
-                't_carga' => 'required|Exists:type_contents,id',
+                'id_exception' => 'required',
+                't_carga' => 'required',
                 'content' => 'required|string|max:30',
                 'units' => 'required|string|max:30',
                 'unit_weight' => 'required|string|max:30',
@@ -58,8 +58,8 @@ class ContentController extends Controller
         try {
 
             $request->validate([
-                'id_exception' => 'Exists:type_exceptions,id',
-                't_carga' => 'Exists:type_contents,id',
+                'id_exception' => 'required',
+                't_carga' => 'required',
                 'content' => 'string|max:30',
                 'units' => 'string|max:30',
                 'unit_weight' => 'string|max:30',

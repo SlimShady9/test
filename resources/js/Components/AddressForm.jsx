@@ -6,23 +6,24 @@ import SelectInput from "./FormUtils/SelectInput";
 import axios from "axios";
 import Input from "./FormUtils/Input";
 import Button from "./FormUtils/Button";
-import { saveAddress } from "@/Utils/PostApi";
+import {
+    getCities,
+    getCountries,
+    getRegions,
+    saveAddress,
+} from "@/Utils/FetchAddress";
+import { toast } from "react-toastify";
 
-function AddressForm({ api_token }) {
-    const axiosConfig = {
-        headers: {
-            "X-CSCAPI-KEY": api_token,
-        },
-    };
-
+function AddressForm({ api_token, onSubmit }) {
     const [data, setData] = useState({
-        name: "",
-        country: { label: "", value: "" },
-        region: { label: "", value: "" },
-        city: { label: "", value: "" },
-        addr: "",
-        addr_detail: "",
-        postal_code: "",
+        name: "Mi casa pro jacker",
+        country: { label: "Colombia", value: "48" },
+        region: { label: "Bogotá D.C.", value: "DC" },
+        city: { label: "Bogotá D.C.", value: "DC" },
+        addr: "Calle 152b #55-45",
+        addr_detail: "Portal de versalles, torre 3 apto 904",
+        postal_code: "11101",
+        neighborhood: "Bosa",
     });
 
     const [countries, setCountries] = useState([]);
@@ -31,14 +32,7 @@ function AddressForm({ api_token }) {
 
     useEffect(() => {
         if (!data.country?.value) {
-            axios
-                .get(
-                    "https://api.countrystatecity.in/v1/countries",
-                    axiosConfig
-                )
-                .then((res) => {
-                    setCountries(res.data);
-                });
+            getCountries(api_token).then((res) => setCountries(res));
         }
     }, []);
 
@@ -49,14 +43,9 @@ function AddressForm({ api_token }) {
             city: { label: "", value: "" },
         });
         if (data.country?.value && data.country.value != "") {
-            axios
-                .get(
-                    `https://api.countrystatecity.in/v1/countries/${data.country.value}/states`,
-                    axiosConfig
-                )
-                .then((res) => {
-                    setRegions(res.data);
-                });
+            getRegions(api_token, data.country.value).then((res) =>
+                setRegions(res)
+            );
         }
     }, [data.country]);
 
@@ -70,14 +59,9 @@ function AddressForm({ api_token }) {
             data.region?.value &&
             !(data.country.value == "" || data.region.value == "")
         ) {
-            axios
-                .get(
-                    `https://api.countrystatecity.in/v1/countries/${data.country.value}/states/${data.region.value}/cities`,
-                    axiosConfig
-                )
-                .then((res) => {
-                    setCities(res.data);
-                });
+            getCities(api_token, data.country.value, data.region.value).then(
+                (res) => setCities(res)
+            );
         }
     }, [data.region]);
 
@@ -93,19 +77,21 @@ function AddressForm({ api_token }) {
 
     const submit = (e) => {
         e.preventDefault();
+        toast.success("Dirección guardada correctamente");
+        saveAddress(data).then((res) => {
+            onSubmit(res);
+        });
     };
 
     return (
         <div>
             <form onSubmit={submit}>
-                <h1 className="text-xl font-bold text-left mb-3">
-                    Ingresa la Dirección
-                </h1>
                 <div className="col-span-1 my-3">
                     <Label forInput="name">Nombre del Lugar</Label>
                     <Input
                         name="name"
                         handleChange={(e) => handleChange(e, "name")}
+                        defaultValue={data.name}
                     />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -114,20 +100,22 @@ function AddressForm({ api_token }) {
                         <Input
                             name="addr"
                             handleChange={(e) => handleChange(e, "addr")}
+                            defaultValue={data.addr}
                         />
                     </div>
                     <div className="col-span-1">
-                        <Label forInput="addr_detail">Detalles Dirección</Label>
+                        <Label forInput="postal_code">Código postal</Label>
                         <Input
-                            name="addr_detail"
-                            handleChange={(e) => handleChange(e, "addr_detail")}
+                            name="postal_code"
+                            handleChange={(e) => handleChange(e, "postal_code")}
+                            defaultValue={data.postal_code}
                         />
                     </div>
+
                     <div className="col-span-1">
                         <Label forInput="country">País</Label>
                         <SelectInput
                             value={data.country}
-                            preventDefault
                             onChange={(e) => handleChange(e, "country")}
                             options={countries.map((c) => ({
                                 label: c.name,
@@ -149,8 +137,6 @@ function AddressForm({ api_token }) {
                     <div className="col-span-1">
                         <Label forInput="city">Ciudad</Label>
                         <SelectInput
-                            name="city"
-                            type="select"
                             value={data.city}
                             onChange={(e) => handleChange(e, "city")}
                             options={cities.map((c) => ({
@@ -162,15 +148,19 @@ function AddressForm({ api_token }) {
                     <div className="col-span-1">
                         <Label forInput="postal_code">Localidad / Barrio</Label>
                         <Input
-                            name="locality"
-                            handleChange={(e) => handleChange(e, "locality")}
+                            name="neighborhood"
+                            handleChange={(e) =>
+                                handleChange(e, "neighborhood")
+                            }
+                            defaultValue={data.neighborhood}
                         />
                     </div>
-                    <div className="col-span-1">
-                        <Label forInput="postal_code">Código postal</Label>
+                    <div className="col-span-2">
+                        <Label forInput="addr_detail">Detalles Dirección</Label>
                         <Input
-                            name="postal_code"
-                            handleChange={(e) => handleChange(e, "postal_code")}
+                            name="addr_detail"
+                            handleChange={(e) => handleChange(e, "addr_detail")}
+                            defaultValue={data.addr_detail}
                         />
                     </div>
                 </div>

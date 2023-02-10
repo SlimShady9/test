@@ -13,11 +13,14 @@ import TaskForm from "@/Components/ServiceForms/TaskForm";
 import ContentForm from "@/Components/ServiceForms/ContentForm";
 
 export default function Services(props) {
+    console.log(props);
     const initialStateServicesAvailable = [
         EstadoServiciosEnum.SERVICIO_INCIADO,
+        EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA,
         EstadoServiciosEnum.SERVICIO_MENSAJERIA,
         EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS,
-        EstadoServiciosEnum.SERVICIO_CON_DETALLE,
+        EstadoServiciosEnum.SERVICIO_CON_CONTENIDO,
+        EstadoServiciosEnum.SERVICIO_CON_TAREAS,
     ];
     const [servicesAvailable, setServicesAvailable] = useState(
         initialStateServicesAvailable
@@ -30,7 +33,7 @@ export default function Services(props) {
 
     // State of the progress of service creation using context api
     const [serviceDTO, setServiceDTO] = useState({
-        service: {},
+        service: { id: 1 },
         address: {},
         orders: [],
         tasks: [],
@@ -71,14 +74,25 @@ export default function Services(props) {
                                 <MessagingForm
                                     currentStep={stateService}
                                     setNextStep={setStateService}
+                                    user={props.auth.user.id}
                                 />
                             )}
                             {stateService ===
                                 EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA && (
                                 <AddressForm
                                     api_token={props.api_token}
-                                    currentStep={stateService}
-                                    setNextStep={setStateService}
+                                    onSubmit={(res) =>{
+                                        setServiceDTO( function(prev){
+                                                return{
+                                                    ...prev,
+                                                    address:res
+                                                } 
+
+                                            }
+                                        ) 
+                                        setStateService(EstadoServiciosEnum.SERVICIO_MENSAJERIA)
+                                    }
+                                }
                                 />
                             )}
                             {stateService ===
@@ -89,16 +103,16 @@ export default function Services(props) {
                                 />
                             )}
                             {stateService ===
-                                EstadoServiciosEnum.SERVICIO_CON_DETALLE && (
-                                <TaskForm
-                                    api_token={props.api_token}
+                                EstadoServiciosEnum.SERVICIO_CON_CONTENIDO && (
+                                <ContentForm
                                     currentStep={stateService}
                                     setNextStep={setStateService}
                                 />
                             )}
                             {stateService ===
-                                EstadoServiciosEnum.SERVICIO_PENDIENTE && (
-                                <ContentForm
+                                EstadoServiciosEnum.SERVICIO_CON_TAREAS && (
+                                <TaskForm
+                                    api_token={props.api_token}
                                     currentStep={stateService}
                                     setNextStep={setStateService}
                                 />

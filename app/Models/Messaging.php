@@ -19,7 +19,6 @@ class Messaging extends Model
         'cost_center',
         'dependency',
         'intern_order',
-        'id_content',
         'transporter',
         'id_transporter_tracking',
         

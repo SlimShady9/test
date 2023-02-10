@@ -79,6 +79,19 @@ class DatabaseSeeder extends Seeder
             'name' => 'Cédula de extranjeria',
             'length' => '11'
         ]);
+
+        \App\Models\State_task::create([
+            'name' => 'Creado',
+        ]);
+        \App\Models\State_task::create([
+            'name' => 'Hecho',
+        ]);
+        \App\Models\State_task::create([
+            'name' => 'Pendiente',
+        ]);
+        \App\Models\State_task::create([
+            'name' => 'Aplazado',
+        ]);
         
         // Seeder para crear servicios
         $addr = new AddressSeeder();

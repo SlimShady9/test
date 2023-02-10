@@ -25,7 +25,6 @@ return new class extends Migration
             $table->bigInteger('id_address')->unsigned();
             $table->string('dependency');
             $table->string('intern_order');
-            $table->bigInteger('id_content')->unsigned();
             $table->string('transporter');
             $table->string('cost_center');
             $table->string('id_transporter_tracking');
@@ -35,7 +34,6 @@ return new class extends Migration
             $table->foreign('id_service')->references('id')->on('services');
             $table->foreign('id_address')->references('id')->on('addresses');
             $table->foreign('id_user')->references('id')->on('users');
-            $table->foreign('id_content')->references('id')->on('contents');
         });
     }
 

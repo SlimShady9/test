@@ -61,6 +61,7 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
     };
 
     const finalizeServiceForm = () => {
+        console.log(serviceForm.id_type_service);
         if (
             serviceForm.id_type_service ===
                 TipoDeServiciosEnum.LOGISTICA_DE_MENSJERIA ||
@@ -72,22 +73,26 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
                     prev.indexOf(EstadoServiciosEnum.SERVICIO_MENSAJERIA),
                     1
                 );
+
+                return prev;
+            });
+            setServicesAvailable((prev) => {
+                prev.splice(
+                    prev.indexOf(EstadoServiciosEnum.SERVICIO_CON_CONTENIDO),
+                    1
+                );
                 return prev;
             });
             setNextStep(EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA);
         } else {
-            setNextStep(EstadoServiciosEnum.SERVICIO_MENSAJERIA);
+            setNextStep(EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA);
         }
-    };
-
-    const addPermisson = (e) => {
-        setShowDetail(!showDetail);
     };
 
     const submitForm = async (e) => {
         e.preventDefault();
-        finalizeServiceForm();
-        return;
+        /*finalizeServiceForm();
+        return;*/
 
         if (serviceForm.start_date === "") {
             alert("La fecha de inicio no puede estar vacía");

@@ -28,7 +28,7 @@ class TaskController extends Controller
                 'entity' => 'required|string|max:30',
                 'dependency' => 'required|string|max:255',
                 'id_state' => 'required|Exists:state_tasks,id',
-                'id_address' => 'required|Exists:addresses,id',
+                'id_address' => 'Exists:addresses,id',
                 'id_service' => 'required|Exists:services,id',
                 'desc' => 'required|string|max:255',
                 'responsible' => 'required|Exists:users,id',
