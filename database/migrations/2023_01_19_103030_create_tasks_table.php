@@ -24,8 +24,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('dependency');
             $table->string('desc');
-            $table->timestamp('limit_date');
-            $table->timestamp('last_state_date');
+            $table->dateTime('limit_date');
+            $table->dateTime('last_state_date');
 
         });
 

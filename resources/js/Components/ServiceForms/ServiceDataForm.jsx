@@ -85,18 +85,14 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
             });
             setNextStep(EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA);
         } else {
-            setNextStep(EstadoServiciosEnum.SERVICIO_MENSAJERIA);
+            setNextStep(EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA);
         }
-    };
-
-    const addPermisson = (e) => {
-        setShowDetail(!showDetail);
     };
 
     const submitForm = async (e) => {
         e.preventDefault();
-        finalizeServiceForm();
-        return;
+        /*finalizeServiceForm();
+        return;*/
 
         if (serviceForm.start_date === "") {
             alert("La fecha de inicio no puede estar vacía");

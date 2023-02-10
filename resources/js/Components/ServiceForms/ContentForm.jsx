@@ -31,8 +31,6 @@ function ServiceDataForm({ setNextStep }) {
             value: ExcepcionesEnum[key],
         })
     );
-
-    const [showDetail, setShowDetail] = useState(false);
     const [content, setContent] = useState({
         id_exception: -1,
         t_carga: -1,
@@ -44,10 +42,6 @@ function ServiceDataForm({ setNextStep }) {
         height: 54,
         commercial_value: 20000.0,
     });
-
-    const addPermisson = (e) => {
-        setShowDetail(!showDetail);
-    };
 
     const [optionsTypeService, setOptionsTypeService] = useState([]);
 

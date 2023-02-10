@@ -13,10 +13,11 @@ import TaskForm from "@/Components/ServiceForms/TaskForm";
 import ContentForm from "@/Components/ServiceForms/ContentForm";
 
 export default function Services(props) {
+    console.log(props);
     const initialStateServicesAvailable = [
         EstadoServiciosEnum.SERVICIO_INCIADO,
-        EstadoServiciosEnum.SERVICIO_MENSAJERIA,
         EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA,
+        EstadoServiciosEnum.SERVICIO_MENSAJERIA,
         EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS,
         EstadoServiciosEnum.SERVICIO_CON_CONTENIDO,
         EstadoServiciosEnum.SERVICIO_CON_TAREAS,
@@ -73,17 +74,25 @@ export default function Services(props) {
                                 <MessagingForm
                                     currentStep={stateService}
                                     setNextStep={setStateService}
+                                    user={props.auth.user.id}
                                 />
                             )}
                             {stateService ===
                                 EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA && (
                                 <AddressForm
                                     api_token={props.api_token}
-                                    onSubmit={() =>
-                                        setStateService(
-                                            EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS
-                                        )
+                                    onSubmit={(res) =>{
+                                        setServiceDTO( function(prev){
+                                                return{
+                                                    ...prev,
+                                                    address:res
+                                                } 
+
+                                            }
+                                        ) 
+                                        setStateService(EstadoServiciosEnum.SERVICIO_MENSAJERIA)
                                     }
+                                }
                                 />
                             )}
                             {stateService ===
