@@ -25,6 +25,7 @@ use App\Http\Controllers\TypeContentController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TypeDocumentController;
 use App\Http\Controllers\TypeExceptionController;
+use App\Http\Controllers\EmailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -149,6 +150,8 @@ Route::resource('typeException', TypeExceptionController::class)->names([
 Route::get('/user/{user_id}/profileimg', [PhotoUserController::class, 'profileimg']);
 Route::post('/user/{user_id}/profileimg', [PhotoUserController::class, 'uploadprofileimg']);
 Route::delete('/user/{user_id}/profileimg', [PhotoUserController::class, 'deleteprofileimg']);
+Route::get('/service/{user_id}/serviceByUser', [serviceController::class, 'serviceByUser']);
 
+Route::post('/email{cuerpo}/{servicio}', [EmailController::class, 'emailPqrs']);
 
-Route::resource('file', FileController::class);
+Route::resource('file', EmailController::class);
