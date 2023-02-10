@@ -1,6 +1,7 @@
 import axios from "axios";
 import react, { useEffect, useState } from "react";
 import { GrEdit } from "react-icons/gr";
+import { GrArchive } from "react-icons/gr";
 import { RiDeleteBinLine } from "react-icons/ri";
 import DataTable from "react-data-table-component";
 import { Link } from "@inertiajs/inertia-react";
@@ -38,6 +39,14 @@ const Datatable = () => {
         {
             name: "Precio",
             selector: (row) => row.price,
+        },
+        {
+            name: "Ver",
+            cell: (row) => (
+                <button className="bg-yellow">
+                    <GrArchive />
+                </button>
+            ),
         },
         {
             name: "Editar",
@@ -87,6 +96,11 @@ const Datatable = () => {
                     <Link href={"createService"} className="p-3 bg-blue-400">
                         <Container className="hover:scale-125 shadow-xl rounded-3xl bg-green-light">
                             Nuevo Servicio
+                        </Container>
+                    </Link>
+                    <Link href={"deliveryProof"} className="p-3 bg-blue-400">
+                        <Container className="hover:scale-125 shadow-xl rounded-3xl bg-green-light">
+                            Prueba de Entrega
                         </Container>
                     </Link>
                     <Container>

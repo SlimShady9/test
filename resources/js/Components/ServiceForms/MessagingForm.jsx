@@ -92,9 +92,6 @@ function MessagingForm({ currentStep, setNextStep }) {
                 </div>
                 <div className="flex flex-col w-full gap-4">
                     <div className="flex gap-4 my-5 mx-auto">
-                        <Button className="" type="Button" onClick={previous}>
-                            Volver
-                        </Button>
                         <Button className="" type="submit">
                             Guardar y continuar
                         </Button>

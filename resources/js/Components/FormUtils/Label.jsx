@@ -5,7 +5,7 @@ export default function Label({ forInput, value, className, children }) {
         <label
             htmlFor={forInput}
             className={
-                `block font-medium text-sm text-blue-primary ` + className
+                `font-medium text-md text-blue-primary ` + className
             }
         >
             <b>{value ? value : children}</b>

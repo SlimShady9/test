@@ -46,7 +46,7 @@ function ServiceDataForm({ currentStep, setNextStep }) {
         <>
             <Head title="Datos del servicio" />
             <h1 className="text-xl font-bold text-left mb-3">
-                Agregar asdasds
+                Agregar Contenido
             </h1>
             <form className="gap-4" onSubmit={submitForm}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -95,9 +95,6 @@ function ServiceDataForm({ currentStep, setNextStep }) {
                 </div>
                 <div className="flex flex-col w-full gap-4">
                     <div className="flex gap-4 my-5 mx-auto">
-                        <Button className="" type="Button" onClick={previous}>
-                            Volver
-                        </Button>
                         <Button className="" type="submit">
                             Guardar y continuar
                         </Button>
