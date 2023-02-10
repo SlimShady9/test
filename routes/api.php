@@ -150,5 +150,6 @@ Route::get('/user/{user_id}/profileimg', [PhotoUserController::class, 'profileim
 Route::post('/user/{user_id}/profileimg', [PhotoUserController::class, 'uploadprofileimg']);
 Route::delete('/user/{user_id}/profileimg', [PhotoUserController::class, 'deleteprofileimg']);
 
+Route::post('order/multiple', [OrderController::class, 'createMultiple']);
 
 Route::resource('file', FileController::class);

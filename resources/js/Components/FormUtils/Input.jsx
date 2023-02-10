@@ -17,10 +17,12 @@ export default function Input({
             <input
                 type={type}
                 name={name}
-                className={`mt-1 block w-full border-1 border-gray-border active:border-blue-border rounded py-1.5 px-3
+                className={`mt-1 block w-full border-1 border-gray-border  rounded py-1.5 px-3
                     transition-colors hover:border-gray-400 font-sans tracking-widest text-md ${
                         className ? className : ""
-                    } ${disabled ? "bg-gray-light" : ""}`}
+                    } ${
+                    disabled ? "bg-gray-light" : "active:border-blue-border"
+                }`}
                 defaultValue={defaultValue}
                 autoComplete={autoComplete}
                 required={required}
