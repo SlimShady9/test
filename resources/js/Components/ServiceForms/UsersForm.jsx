@@ -8,7 +8,7 @@ import {
 } from "@/Constants/TipoDeUsuariosEnum";
 import { Head } from "@inertiajs/inertia-react";
 import Label from "../FormUtils/Label";
-import { getUsers } from "@/Utils/FetchUsers";
+import { getUsers, loadImageUser } from "@/Utils/FetchUsers";
 import Button from "../FormUtils/Button";
 import SelectInput from "../FormUtils/SelectInput";
 import { createOrders } from "@/Utils/FetchOrder";
@@ -131,22 +131,21 @@ function UsersForm({ currentStep, setNextStep }) {
                             >
                                 <div
                                     className={
-                                        "flex col-span-1 my-auto mx-auto w-8 h-8 shadow-xl shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
+                                        "flex overflow-hidden col-span-1 my-auto mx-auto w-8 h-8 shadow-xl shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
                                     }
                                 >
                                     <img
-                                        className="sm:scale-150 scale-125"
-                                        src=""
+                                        src={loadImageUser(user.id)}
                                     />
                                 </div>
                                 <div className="justify-center mx-auto text-center grid col-span-3 mt-2 aling-center">
-                                    <Label className="text-lg font-bold text-left mb-3 overflow-hidden"></Label>
+                                    <Label className="text-lg font-bold text-left mb-3 overflow-hidden">{user.name}</Label>
                                     <div className="text-xs mb-3 overflow-hidden">
                                         {user.email}
                                     </div>
                                 </div>
                                 <Label className="bg-white text-center shadow-lg rounded-full justify_left col-span-1 aling-center my-auto overflow-hidden">
-                                    {user.name}
+                                    {toStringTipoDeUsuariosEnum(user.id)}
                                 </Label>
                                 <Button
                                     className="col-span-1 ml-auto mr-0"

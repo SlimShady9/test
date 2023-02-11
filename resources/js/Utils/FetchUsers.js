@@ -6,4 +6,10 @@ const getUsers = async (params) => {
     return req.data;
 };
 
-export { getUsers };
+const loadImageUser = (user) => {
+
+        return 'api/user/'+user+'/profileimg';
+
+};
+
+export { getUsers, loadImageUser };
