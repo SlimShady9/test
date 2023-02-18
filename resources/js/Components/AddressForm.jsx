@@ -92,6 +92,8 @@ function AddressForm({ api_token, onSubmit }) {
                         name="name"
                         handleChange={(e) => handleChange(e, "name")}
                         defaultValue={data.name}
+                        required
+                        onlyLetters
                     />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -101,6 +103,7 @@ function AddressForm({ api_token, onSubmit }) {
                             name="addr"
                             handleChange={(e) => handleChange(e, "addr")}
                             defaultValue={data.addr}
+                            required
                         />
                     </div>
                     <div className="col-span-1">

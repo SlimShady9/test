@@ -13,6 +13,8 @@ import {
 import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
 import { uploadFile, uploadService } from "@/Utils/FetchService";
 import moment from "moment";
+import { toast } from "react-toastify";
+
 
 function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
     const id = EstadoServiciosEnum.SERVICIO_INCIADO;
@@ -46,7 +48,6 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
 
     const handleChangeFile = (event) => {
         setFileList(event.target.files);
-        console.log(event.target.files);
     };
 
     const handleChangeFileButton = (event) => {
@@ -61,7 +62,6 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
     };
 
     const finalizeServiceForm = () => {
-        console.log(serviceForm.id_type_service);
         if (
             serviceForm.id_type_service ===
                 TipoDeServiciosEnum.LOGISTICA_DE_MENSJERIA ||
@@ -95,11 +95,11 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
         return;*/
 
         if (serviceForm.start_date === "") {
-            alert("La fecha de inicio no puede estar vacía");
+            toast.warning("La fecha de inicio no puede estar vacía");
             return;
         }
         if (serviceForm.start_date_hours === "") {
-            alert("La hora de inicio no puede estar vacía");
+            toast.warning("La hora de inicio no puede estar vacía");
             return;
         }
 
@@ -114,22 +114,13 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
             };
         });
 
-        if (!files[0]) {
-            alert("No se ha seleccionado ningún archivo");
-            return;
+        if (files.length !== 0) {
+            await addAddress();
         }
-        const response = await uploadFile(files[0]);
-        if (response.data === null) {
-            alert("Error al subir el archivo");
-            return;
-        }
-        const file = await response.data.name;
-        console.log(file);
-        setServiceForm({ ...serviceForm, archive: file });
-        console.log(serviceForm);
+        
         const responseService = await uploadService(serviceForm);
-        if (responseService.data === null) {
-            alert("Error al subir el servicio");
+        if (responseService.error) {
+            toast.error("Error al subir el servicio");
             return;
         }
         const service = await responseService.data;
@@ -144,11 +135,17 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
     // Sync data
     useEffect(() => {}, []);
 
-    const onHideAdd = () => setShowModalAdd(false);
+    const addAddress = async () => {
+        const response = await uploadFile(files[0]);
+        if (response.data === null) {
 
-    const addAddress = (id) => {
-        setShowModalAdd(true);
-    };
+            toast.error("Error al subir el archivo");
+            return;
+        }
+        const file = await response.data.name;
+        setServiceForm({ ...serviceForm, archive: file });
+
+    }
 
     if (currentStep !== id) {
         return <></>;
@@ -167,6 +164,9 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
                             name="name"
                             autoComplete="nameService"
                             handleChange={handleChange}
+                            required
+                            onlyLetters
+                            max={30}
                         />
                     </div>
                     <div className="col-span-1">
@@ -182,6 +182,7 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
                                     },
                                 })
                             }
+                            required={true}
                         />
                     </div>
 
@@ -191,6 +192,7 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
                             type="date"
                             name="start_date"
                             handleChange={handleChange}
+                            required={true}
                         />
                     </div>
                     <div className="col-span-1">
@@ -199,6 +201,7 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
                             type="time"
                             name="start_date_hours"
                             handleChange={handleChange}
+                            required={true}
                         />
                     </div>
                     {showDetail && (
@@ -252,9 +255,15 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
                         />
                     </div>
 
-                    <Button type="Button" onClick={handleChangeFileButton}>
-                        Selecciona uno o varios Archivos
-                    </Button>
+                    <div className="flex">
+
+                        <Button className="mx-3 w-2/3" type="Button" onClick={handleChangeFileButton}>
+                            Selecciona uno o varios Archivos
+                        </Button>
+                        <Button className="mx-3 w-1/3" type="Button" onClick={() => setFileList([])}>
+                            Limpiar
+                        </Button>
+                    </div>
                     <ul>
                         {files.map((file, i) => (
                             <li key={i}>
