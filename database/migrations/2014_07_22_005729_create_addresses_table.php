@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('region');
             $table->string('city');
             $table->string('addr');
-            $table->string('addr_detail');
+            $table->string('addr_detail')->nullable();
             $table->string('postal_code');
             $table->string('neighborhood');
         });

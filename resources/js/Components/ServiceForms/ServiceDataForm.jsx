@@ -165,7 +165,6 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
                             autoComplete="nameService"
                             handleChange={handleChange}
                             required
-                            onlyLetters
                             max={30}
                         />
                     </div>
@@ -251,7 +250,6 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
                             style={{ display: "none" }}
                             className="mx-auto my-3 w-full"
                             type="file"
-                            multiple
                         />
                     </div>
 

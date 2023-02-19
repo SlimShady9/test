@@ -16,7 +16,7 @@ export default function Input({
     onlyLetters=false, // including spaces
     alpaNumeric=false, // ecxluding spaces
 }) {
-    var pattern = "/.*/";
+    var pattern = null;
     if (alpaNumeric) {
         pattern = "[a-zA-Z0-9]*";
     } else if (onlyLetters) {
