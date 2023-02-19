@@ -152,6 +152,6 @@ Route::post('/user/{user_id}/profileimg', [PhotoUserController::class, 'uploadpr
 Route::delete('/user/{user_id}/profileimg', [PhotoUserController::class, 'deleteprofileimg']);
 Route::get('/service/{user_id}/serviceByUser', [serviceController::class, 'serviceByUser']);
 
-Route::post('/email{cuerpo}/{servicio}', [EmailController::class, 'emailPqrs']);
+Route::post('/email', [EmailController::class, 'emailPqrs']);
 
 Route::resource('file', EmailController::class);
