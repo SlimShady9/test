@@ -3,7 +3,6 @@ import Authenticated from "@/Layouts/Authenticated";
 import Container from "@/Components/Container";
 import axios from "axios";
 import Datatable from "@/Components/DataTableService";
-
 export default function Services(props) {
     const [serviceParams, setServiceParams] = useState([]);
     const [showModal, setShowModal] = useState("");

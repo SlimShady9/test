@@ -48,6 +48,12 @@ Route::get('/createService', function () {
     ]);
 })->middleware(['auth', 'verified'])->name('createService');
 
+Route::get('/deliveryProof', function () {
+    return Inertia::render('DeliveryProof', [
+        'api_token' => env('API_KEY_GEO'),
+        ]);
+})->middleware(['auth', 'verified'])->name('deliveryProof');
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

@@ -10,25 +10,4 @@ const getOptionsTypeService = async () => {
     ]);
 };
 
-const getCountries = async (axiosConfig) => {
-    const req = await axios.get("/api/countries", axiosConfig);
-    return req.data;
-};
-
-const getStates = async (countryId, axiosConfig) => {
-    const req = await axios.get(
-        `${GLOBALAPI}/countries/${countryId}/states`,
-        axiosConfig
-    );
-    return req.data;
-};
-
-const getCities = async (countryId, stateID, axiosConfig) => {
-    const req = await axios.get(
-        `${GLOBALAPI}/countries/${countryId}/states/${stateID}/cities`,
-        axiosConfig
-    );
-    return req.data;
-};
-
-export { getOptionsTypeService, getCountries, getStates, getCities };
+export { getOptionsTypeService };

@@ -10,15 +10,16 @@ class Service extends Model
     use HasFactory;
 
     protected $fillable = [
-        'tracking_id',
         'name',
+        'tracking_id',
         'id_state_service',
         'id_type_service',
-        'date',
+        'created_date',
+        'start_date',
         'description',
         'price',
-        'id_address',
         'cost',
+        'archive',
     ];
 
     protected $hidden = [

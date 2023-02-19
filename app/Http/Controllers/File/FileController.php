@@ -67,11 +67,8 @@ class FileController extends Controller
             return response()->json(['message' => 'File not found'], 404);
         }
         $file = Storage::disk('public')->get($path.$id);
-        return new MultipartResponse([[
-            'name' => $id,
-            'filename' => $path.$id,
-            'contents' => $file,
-        ]]);
+        // Return the file as octect stream
+        return response($file, 200)->header('Content-Type', 'application/octet-stream');
     }
 
     /**

@@ -20,16 +20,22 @@ class DatabaseSeeder extends Seeder
     {
         // Tipos de servicios
         \App\Models\TypeService::create([
-            'name' => 'Envío',
-        ]);
-        \App\Models\TypeService::create([
             'name' => 'Correspondencia',
         ]);
         \App\Models\TypeService::create([
-            'name' => 'Coordinación de mensajería',
+            'name' => 'Mensajería especializada',
         ]);
         \App\Models\TypeService::create([
-            'name' => 'Mandado',
+            'name' => 'Mensajería masiva',
+        ]);
+        \App\Models\TypeService::create([
+            'name' => 'Mensajería internacional',
+        ]);
+        \App\Models\TypeService::create([
+            'name' => 'Logística de mensajería',
+        ]);
+        \App\Models\TypeService::create([
+            'name' => 'Gestión documental',
         ]);
         // Estados de los servicios
         \App\Models\StateService::create([
@@ -72,6 +78,19 @@ class DatabaseSeeder extends Seeder
         \App\Models\T_document::create([
             'name' => 'Cédula de extranjeria',
             'length' => '11'
+        ]);
+
+        \App\Models\State_task::create([
+            'name' => 'Creado',
+        ]);
+        \App\Models\State_task::create([
+            'name' => 'Hecho',
+        ]);
+        \App\Models\State_task::create([
+            'name' => 'Pendiente',
+        ]);
+        \App\Models\State_task::create([
+            'name' => 'Aplazado',
         ]);
         
         // Seeder para crear servicios

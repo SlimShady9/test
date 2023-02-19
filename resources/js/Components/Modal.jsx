@@ -25,9 +25,9 @@ function Modal({ children, show, onHide, title }) {
             {show && (
                 <>
                     <div
-                        className={`fixed w-screen h-screen top-0 bottom-0 right-0 left-0 z-20 overflow-scroll ${showAnim.modal}`}
+                        className={`fixed w-screen h-screen top-0 bottom-0 right-0 left-0 z-20 overflow-scroll grid self-center ${showAnim.modal}`}
                     >
-                        <Card className={"relative mx-auto my-0 sm:my-4"}>
+                        <Card className={"relative m-auto sm:w-1/2 "}>
                             <h1 className="absolute top-0 left-0 my-4 mx-6 font-extrabold text-lg">
                                 {title}
                             </h1>

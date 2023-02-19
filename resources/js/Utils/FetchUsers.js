@@ -1,9 +1,15 @@
 import axios from "axios";
-import cocatenateParams from "./Functions";
+import { cocatenateParams } from "./Functions";
 
 const getUsers = async (params) => {
     const req = await axios.get(`/api/user?${cocatenateParams(params)}`);
     return req.data;
 };
 
-export { getUsers };
+const loadImageUser = (user) => {
+
+        return 'api/user/'+user+'/profileimg';
+
+};
+
+export { getUsers, loadImageUser };

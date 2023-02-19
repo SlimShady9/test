@@ -29,28 +29,27 @@ class ServiceController extends Controller {
             $request->validate([
                 'name' => 'required|string|max:30',
                 'id_state_service' => 'Exists:state_services,id',
-                'id_type_service' => 'required|Exists:type_services,id',
-                'description' => 'required|string|max:255',
+                'id_type_service' => 'Exists:type_services,id',
+                'description' => 'max:255',
+                'start_date' => 'required|date',
                 'price' => 'numeric|Between:0,9999999999',
-                'id_address' => 'required|Exists:addresses,id',
                 'cost' => 'numeric|Between:0,9999999999',
-                'date' => 'required|date',
+                'archive' => 'max:255',
             ]);
             
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json(['error' => $e->getMessage()], 403);
         }
-
-        Debugbar::info($request->id_type_service);
         
         $newService = Service::create([
             'name' => $request->name,
-            'id_state_service' => StateService::where('name', 'En proceso')->first()->id,
-            'id_type_service' =>  $request->id_type_service,
+            'id_state_service' => $request->id_state_service,
+            'id_type_service' => $request->id_type_service,
+            'start_date' => $request->start_date,
             'description' => $request->description,
             'price' => $request->price,
-            'id_address' => $request->id_address,
             'cost' => $request->cost,
+            'archive' => $request->archive,
         ]);
         return $newService;
     }
@@ -118,12 +117,13 @@ class ServiceController extends Controller {
         try {
 
             $request->validate([
-                'name_service' => 'string|max:30',
-                'price_service' => 'numeric|Between:0,9999999999',
-                'id_type_service' => 'Exists:t_services,id',
-                'state_service_id' => 'Exists:state_services,id',
-                'description_service' => 'string|max:255',
-                'id_address' => 'Exists:addresses,id',
+                'name' => 'required|string|max:30',
+                'id_state_service' => 'Exists:state_services,id',
+                'id_type_service' => 'Exists:type_services,id',
+                'description' => 'required|string|max:255',
+                'created_date' => 'required|date',
+                'start_date' => 'required|date',
+                'price' => 'numeric|Between:0,9999999999',
                 'cost' => 'numeric|Between:0,9999999999',
             ]);
             
@@ -136,10 +136,13 @@ class ServiceController extends Controller {
             return response()->json(['error' => 'Service not found'], 404);
         }
         $service->name = $request->name_service;
+        $service->id_state_service = $request->id_state_service;
+        $service->id_type_service = $request->id_type_service;
+        $service->description = $request->description;
+        $service->created_date = $request->created_date;
+        $service->start_date = $request->start_date;
         $service->price = $request->price_service;
         $service->cost = $request->cost;
-        $service->id_type_service = $request->id_type_service;
-        $service->id_state_service = 5; // 5 = 'Pendiente'
         $service->save();
         return $service;
     }

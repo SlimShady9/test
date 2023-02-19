@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Button from "@/Components/Button";
+import Button from "@/Components/FormUtils/Button";
 import Container from "@/Components/Container";
 import Authenticated from "@/Layouts/Authenticated";
 import Card from "@/Components/Card";
@@ -79,6 +79,7 @@ export default function RegisterUser(props) {
     return (
         <Authenticated {...props}>
             <Head title="RegisterUser" />
+            <div>
             <Card className={"mx-auto my-10"}>
                 <form onSubmit={submitUser}>
                     <Container className={"justify-center"}>
@@ -158,7 +159,7 @@ export default function RegisterUser(props) {
                         <div>
                             <Label forInput="phone" value="Teléfono" />
                             <Input
-                                type="number"
+                                type="text"
                                 name="phone"
                                 value={data.phone}
                                 className="mt-1 block w-full"
@@ -259,6 +260,7 @@ export default function RegisterUser(props) {
                     </div>
                 </form>
             </Card>
+            </div>
         </Authenticated>
     );
 }

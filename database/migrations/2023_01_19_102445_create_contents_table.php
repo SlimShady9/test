@@ -19,12 +19,12 @@ return new class extends Migration
             $table->string('content');
             $table->bigInteger('t_carga')->unsigned();
             $table->bigInteger('id_exception')->unsigned();
-            $table->string('units');
-            $table->string('unit_weight');
-            $table->string('length');
-            $table->string('width');
-            $table->string('height');
-            $table->string('commercial_value');
+            $table->integer('units');
+            $table->integer('unit_weight');
+            $table->integer('length');
+            $table->integer('width');
+            $table->integer('height');
+            $table->double('commercial_value');
 
         });
 

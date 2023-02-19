@@ -1,22 +1,57 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
 ("@/Constants/EstadoServiciosEnum");
 import { Head } from "@inertiajs/inertia-react";
 import Input from "../FormUtils/Input";
 import Label from "../FormUtils/Label";
-import CurrencyFormInput from "../FormUtils/CurrencyFormInput";
 import { getOptionsTypeService } from "@/Utils/FetchApi";
-import Button from "../Button";
+import Button from "../FormUtils/Button";
 import SelectInput from "../FormUtils/SelectInput";
+import ServiceContext from "./useServiceContext";
+import { storeMessaging } from "@/Utils/FetchMessaging";
 
-function MessagingForm({ currentStep, setNextStep }) {
+import {
+    TransportadoraEnum,
+    toStringTransportadorasEnum,
+} from "@/Constants/TransportadorEnum";
+
+function MessagingForm({ currentStep, setNextStep , user}) {
+
+    const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
+    const transportadorasSelect = Object.keys(TransportadoraEnum).map(
+        (key) => ({
+            label: toStringTransportadorasEnum(TransportadoraEnum[key]),
+            value: TransportadoraEnum[key],
+        })
+    );
+    const submitForm = (e) => {
+        e.preventDefault();
+        storeMessaging({
+            ...messaging,
+        }).then((res) => {
+            if (res.error) {
+                toast.error(res.error);
+                return;
+            }
+            setNextStep(EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS);
+        });
+    };
+    const [showDetail, setShowDetail] = useState(true);
+    const [messaging, setMessaging] = useState({
+        name: null,
+        id_user: user,
+        id_service: serviceDTO.service.id,
+        entity: null,
+        charge: null,
+        id_address: serviceDTO.address.id,
+        dependency: null,
+        intern_order: null,
+        transporter:null,
+        cost_center: null,
+        id_transporter_tracking: null,
+    });
     const id = EstadoServiciosEnum.SERVICIO_MENSAJERIA;
 
-    var showDetail = true;
-
-    const addPermisson = (e) => {
-        showDetail = !showDetail;
-    };
 
     const [optionsTypeService, setOptionsTypeService] = useState([]);
 
@@ -29,14 +64,8 @@ function MessagingForm({ currentStep, setNextStep }) {
         setOptionsTypeService(options);
     };
 
-    const previous = (e) => {
-        e.preventDefault();
-        setNextStep(EstadoServiciosEnum.SERVICIO_INCIADO);
-    };
-
-    const submitForm = (e) => {
-        e.preventDefault();
-        setNextStep(EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA);
+    const onChange = (e) => {
+        setMessaging({ ...messaging, [e.target.name]: e.target.value });
     };
 
     if (currentStep !== id) {
@@ -52,27 +81,51 @@ function MessagingForm({ currentStep, setNextStep }) {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="col-span-1">
                         <Label>Nombre Remitente</Label>
-                        <Input></Input>
+                        <Input
+                            name="name"
+                            defaultValue={messaging.name}
+                            handleChange={onChange}
+                        />
                     </div>
                     <div className="col-span-1">
                         <Label>Empresa / Entidad Asociada</Label>
-                        <Input></Input>
+                        <Input
+                            name="entity"
+                            defaultValue={messaging.entity}
+                            handleChange={onChange}
+                        ></Input>
                     </div>
                     <div className="col-span-1">
                         <Label className="">Cargo del Remitente</Label>
-                        <Input></Input>
+                        <Input
+                        name="charge"
+                        defaultValue={messaging.charge}
+                        handleChange={onChange}
+                        />
                     </div>
                     <div className="col-span-1">
                         <Label>Centro de Costos</Label>
-                        <Input></Input>
+                        <Input
+                            name="cost_center"
+                            defaultValue={messaging.cost_center}
+                            handleChange={onChange}
+                        />
                     </div>
                     <div className="col-span-1">
                         <Label>Dependencia</Label>
-                        <Input></Input>
+                        <Input
+                            name="dependency"
+                            defaultValue={messaging.dependency}
+                            handleChange={onChange}
+                        />
                     </div>
                     <div className="col-span-1">
                         <Label>Orden interna</Label>
-                        <Input></Input>
+                        <Input
+                            name="intern_order"
+                            defaultValue={messaging.intern_order}
+                            handleChange={onChange}
+                        />
                     </div>
 
                     {showDetail && (
@@ -81,20 +134,27 @@ function MessagingForm({ currentStep, setNextStep }) {
                                 <Label className="">
                                     Transportadora Asociada
                                 </Label>
-                                <SelectInput options={optionsTypeService} />
+                                <SelectInput 
+                            options={transportadorasSelect}
+                            onChange={(e) => {
+                                onChange({
+                                    target: { name: "transporter", value: e.label },
+                                });
+                            }}/>
                             </div>
                             <div className="col-span-1">
                                 <Label>Número de Seguimiento</Label>
-                                <Input></Input>
+                                <Input
+                                    name="id_transporter_tracking"
+                                    defaultValue={messaging.id_transporter_tracking}
+                                    handleChange={onChange}
+                                />
                             </div>
                         </>
                     )}
                 </div>
                 <div className="flex flex-col w-full gap-4">
                     <div className="flex gap-4 my-5 mx-auto">
-                        <Button className="" type="Button" onClick={previous}>
-                            Volver
-                        </Button>
                         <Button className="" type="submit">
                             Guardar y continuar
                         </Button>

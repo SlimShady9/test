@@ -9,9 +9,11 @@ function SelectInput({
     disabled,
     defaultInputValue,
     isMulti,
+    name,
 }) {
     return (
         <Select
+            name={name}
             defaultInputValue={defaultInputValue}
             className={`mt-1 block w-full border-1 border-gray-border active:border-blue-border rounded
             transition-colors hover:border-gray-400 font-sans tracking-widest text-[16px] ${
