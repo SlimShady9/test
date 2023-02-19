@@ -39,6 +39,7 @@ const SideBar = ({ user }) => {
         { title: "Ver envíos", icon: <FaShippingFast />, url: "envios" },
         { title: "Usuarios ", icon: <FaUsers />, url: "users" },
         { title: "Ventas", icon: <FaStore />, url: "services" },
+        { title: "PQRS", icon: <FaStore />, url: "pqrs" },
         {
             title: "Analíticas ",
             gap: true,

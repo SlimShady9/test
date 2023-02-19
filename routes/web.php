@@ -72,4 +72,8 @@ Route::get('/users', function () {
     return Inertia::render('Users');
 })->middleware(['auth', 'verified'])->name('users');
 
+Route::get('/pqrs', function () {
+    return Inertia::render('Pqrs');
+})->middleware(['auth', 'verified'])->name('pqrs');
+
 require __DIR__.'/auth.php';

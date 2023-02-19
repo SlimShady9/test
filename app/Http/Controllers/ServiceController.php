@@ -7,6 +7,7 @@ use App\Models\Service;
 use App\Models\Parameter;
 use App\Models\TypeService;
 use App\Models\StateService;
+use Illuminate\Support\Facades\DB;
 
 use Barryvdh\Debugbar\Facade as Debugbar;
 
@@ -180,4 +181,14 @@ class ServiceController extends Controller {
             'parameters' => $parameters,
             ], 200)->header('Content-Type', 'application/json');
     }
+
+    public function serviceByUser($id_user)
+{ 
+    $sql = 'SELECT s.tracking_id FROM services s 
+    inner join orders o on s.id = o.id_service 
+    inner join users u on u.id = o.id_user 
+    where u.id = ' . $id_user;
+    $products = DB::select($sql);
+    return $products;
+}
 }
