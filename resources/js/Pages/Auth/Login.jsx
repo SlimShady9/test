@@ -57,7 +57,7 @@ export default function Login({ status, canResetPassword }) {
                 <div>
                     <Label forInput="email" value="Nombre de Usuario" />
                     <Input
-                        type="text"
+                        type="email"
                         name="email"
                         value={data.email}
                         className="mt-1 block w-full"

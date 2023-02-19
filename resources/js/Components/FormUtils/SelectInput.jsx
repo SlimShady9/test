@@ -10,6 +10,7 @@ function SelectInput({
     defaultInputValue,
     isMulti,
     name,
+    required=false,
 }) {
     return (
         <Select
@@ -23,7 +24,8 @@ function SelectInput({
             onChange={onChange}
             options={options}
             isMulti={isMulti}
-        ></Select>
+            required={required}
+        />
     );
 }
 

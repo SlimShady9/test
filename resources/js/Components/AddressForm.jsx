@@ -15,16 +15,7 @@ import {
 import { toast } from "react-toastify";
 
 function AddressForm({ api_token, onSubmit }) {
-    const [data, setData] = useState({
-        name: "Mi casa pro jacker",
-        country: { label: "Colombia", value: "48" },
-        region: { label: "Bogotá D.C.", value: "DC" },
-        city: { label: "Bogotá D.C.", value: "DC" },
-        addr: "Calle 152b #55-45",
-        addr_detail: "Portal de versalles, torre 3 apto 904",
-        postal_code: "11101",
-        neighborhood: "Bosa",
-    });
+    const [data, setData] = useState({});
 
     const [countries, setCountries] = useState([]);
     const [regions, setRegions] = useState([]);
@@ -92,6 +83,7 @@ function AddressForm({ api_token, onSubmit }) {
                         name="name"
                         handleChange={(e) => handleChange(e, "name")}
                         defaultValue={data.name}
+                        required
                     />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -101,6 +93,7 @@ function AddressForm({ api_token, onSubmit }) {
                             name="addr"
                             handleChange={(e) => handleChange(e, "addr")}
                             defaultValue={data.addr}
+                            required
                         />
                     </div>
                     <div className="col-span-1">

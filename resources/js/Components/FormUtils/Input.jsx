@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 
 export default function Input({
     type = "text",
@@ -11,7 +11,17 @@ export default function Input({
     handleChange,
     disabled = false,
     ref,
+    min,
+    max,
+    onlyLetters=false, // including spaces
+    alpaNumeric=false, // ecxluding spaces
 }) {
+    var pattern = null;
+    if (alpaNumeric) {
+        pattern = "[a-zA-Z0-9]*";
+    } else if (onlyLetters) {
+        pattern ="[a-zA-Z ]*";
+    }
     return (
         <div>
             <input
@@ -29,6 +39,9 @@ export default function Input({
                 onChange={(e) => handleChange(e)}
                 disabled={disabled}
                 ref={ref}
+                pattern={ onlyLetters == true ? "[a-zA-Z ]*" : pattern}
+                min={min}
+                max={max}
             />
         </div>
     );

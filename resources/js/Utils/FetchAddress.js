@@ -28,6 +28,7 @@ const getCities = async (apiKey, countryId, stateId) => {
 };
 
 const saveAddress = async (address) => {
+    console.log(address);
     address["country"] = address["country"]["label"];
     address["region"] = address["region"]["label"];
     address["city"] = address["city"]["label"];
