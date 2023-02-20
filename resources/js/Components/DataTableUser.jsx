@@ -3,9 +3,9 @@ import axios from "axios";
 import { GrEdit } from "react-icons/gr";
 import { RiDeleteBinLine } from "react-icons/ri";
 
-import Modal from "@/Components/Modal";
-import Container from "@/Components/Container";
-import DataForm from "@/Components/FormUtils/DataForm";
+import Modal from "./Modal";
+import Container from "./Container";
+import DataForm from "./FormUtils/DataForm";
 import { Link } from "@inertiajs/inertia-react";
 import DataTable from "react-data-table-component";
 
