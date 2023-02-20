@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Label from "./Label";
 import Input from "./Input";
-import Button from "@/Components/Button";
+import Button from "./Button";
 import SelectInput from "./SelectInput";
 import { useForm } from "@inertiajs/inertia-react";
 import axios from "axios";
