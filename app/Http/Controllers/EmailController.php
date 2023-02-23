@@ -16,12 +16,13 @@ class EmailController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function emailPqrs($servicio, $comentario, $usuario)
+    public function emailPqrs(Request  $request)
     {   
-        Mail::raw("El servicio ". $servicio." tuvo dificultades para el usuario, por favor contactar con el /n"
-        ." El usuario ". $usuario . " ha tenido el siguiente comentario /n ". $comentario, function ($message) {
-            $message->to('juandaflorez11@gmail.com')
-              ->subject("Tiquet para el servicio ". $servicio);
-          });
+        Mail::send([], [], function (Message $message) {
+            $message
+            ->to('gortega2001@gmail.com')
+            ->subject('Order Shipped')
+            ->html('<h1>HTML</h1>');
+        });
     }
 }
