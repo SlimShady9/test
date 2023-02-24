@@ -14,7 +14,7 @@ class ContentController extends Controller
 
     public function show($id) {
 
-        return Content::find($id);
+        return Content::where('service', $id)->get();
     }
 
     public function store(Request $request) {

@@ -19,7 +19,7 @@ import {
 import { storeContent } from "@/Utils/FetchContent";
 import { toast } from "react-toastify";
 
-function ServiceDataForm({ setNextStep }) {
+function ContentForm({ setNextStep }) {
     const tiposDeCargaSelect = Object.keys(TipoDeCargaEnum).map((key) => ({
         label: toStringTipoDeCargaEnum(TipoDeCargaEnum[key]),
         value: TipoDeCargaEnum[key],
@@ -199,4 +199,4 @@ function ServiceDataForm({ setNextStep }) {
     );
 }
 
-export default ServiceDataForm;
+export default ContentForm;

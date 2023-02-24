@@ -1,19 +1,16 @@
-import React, { useEffect, useState, useRef } from "react";
-import ServiceContext from "@/Components/ServiceForms/useServiceContext";
-import Authenticated from "@/Layouts/Authenticated";
-import Card from "@/Components/Card";
-import Container from "@/Components/Container";
-import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
-import StepProgressCircles from "@/Components/MultiStepForm/StepProgressCircles";
-import ServiceDataForm from "@/Components/ServiceForms/ServiceDataForm";
 import AddressForm from "@/Components/AddressForm";
-import UsersForm from "@/Components/ServiceForms/UsersForm";
-import MessagingForm from "@/Components/ServiceForms/MessagingForm";
-import TaskForm from "@/Components/ServiceForms/TaskForm";
 import ContentForm from "@/Components/ServiceForms/ContentForm";
+import TaskForm from "@/Components/ServiceForms/TaskForm";
+import UsersForm from "@/Components/ServiceForms/UsersForm";
+import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
+import { TipoDeServiciosEnum } from "@/Constants/TipoDeServiciosEnum";
+import { getAddress } from "@/Utils/FetchAddress";
+import { getContent } from "@/Utils/FetchContent";
+import { getMessaging } from "@/Utils/FetchMessaging";
+import { getService } from "@/Utils/FetchService";
+import React, { useEffect, useState } from "react";
 
-export default function Services(props) {
-    console.log(props);
+function EditService({ auth, serviceId }) {
     const initialStateServicesAvailable = [
         EstadoServiciosEnum.SERVICIO_INCIADO,
         EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA,
@@ -22,27 +19,65 @@ export default function Services(props) {
         EstadoServiciosEnum.SERVICIO_CON_CONTENIDO,
         EstadoServiciosEnum.SERVICIO_CON_TAREAS,
     ];
+
     const [servicesAvailable, setServicesAvailable] = useState(
         initialStateServicesAvailable
-    );
-
-    // Initial state of current service
-    const [stateService, setStateService] = useState(
-        EstadoServiciosEnum.SERVICIO_CON_CONTENIDO
     );
 
     // State of the progress of service creation using context api
     const [serviceDTO, setServiceDTO] = useState({
         service: {},
         address: {},
+        messaging: {},
+        content: {},
         orders: [],
         tasks: [],
-        messaging: {},
     });
 
-    const restoreInitialState = () => {
-        setServicesAvailable(initialStateServicesAvailable);
-        setStateService(EstadoServiciosEnum.SERVICIO_INCIADO);
+    useEffect(() => {
+        fetchDTO();
+    }, []);
+
+    const fetchDTO = async () => {
+        var dataMessaging = {};
+        var dataContent = {};
+        const [dataService, errorService] = await getService(serviceId);
+        if (errorService != null) {
+        }
+        const [dataAddr, errorAddr] = await getAddress(dataService.address);
+        if (errorAddr != null) {
+        }
+        if (
+            serviceDTO.service.id_type_service !==
+                TipoDeServiciosEnum.LOGISTICA_DE_MENSJERIA &&
+            serviceDTO.service.id_type_service !==
+                TipoDeServiciosEnum.GESTION_DOCUMENTAL
+        ) {
+            // messaging
+            var [dataMessaging, errorMessaging] = await getMessaging(
+                dataService.id
+            );
+            if (errorMessaging != null) {
+            }
+            // content
+            var [dataContent, errorContent] = await getContent(dataService.id);
+            if (errorContent != null) {
+            }
+        }
+        const [dataOrders, errorOrders] = await getOrders(dataService.id);
+        if (errorOrders != null) {
+        }
+        const [dataTasks, errorTasks] = await getTasks(dataService.id);
+        if (errorTasks != null) {
+        }
+        setServiceDTO({
+            service: dataService,
+            address: dataAddr,
+            messaging: dataMessaging,
+            content: dataContent,
+            orders: dataOrders,
+            tasks: dataTasks,
+        });
     };
 
     return (
@@ -67,6 +102,7 @@ export default function Services(props) {
                                     currentStep={stateService}
                                     setNextStep={setStateService}
                                     setServicesAvailable={setServicesAvailable}
+                                    service={serviceDTO.service}
                                 />
                             )}
                             {stateService ===
@@ -75,24 +111,25 @@ export default function Services(props) {
                                     currentStep={stateService}
                                     setNextStep={setStateService}
                                     user={props.auth.user.id}
+                                    messaging={serviceDTO.messaging}
                                 />
                             )}
                             {stateService ===
                                 EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA && (
                                 <AddressForm
                                     api_token={props.api_token}
-                                    onSubmit={(res) =>{
-                                        setServiceDTO( function(prev){
-                                                return{
-                                                    ...prev,
-                                                    address:res
-                                                } 
-
-                                            }
-                                        ) 
-                                        setStateService(EstadoServiciosEnum.SERVICIO_MENSAJERIA)
-                                    }
-                                }
+                                    address={serviceDTO.address}
+                                    onSubmit={(res) => {
+                                        setServiceDTO(function (prev) {
+                                            return {
+                                                ...prev,
+                                                address: res,
+                                            };
+                                        });
+                                        setStateService(
+                                            EstadoServiciosEnum.SERVICIO_MENSAJERIA
+                                        );
+                                    }}
                                 />
                             )}
                             {stateService ===
@@ -100,6 +137,7 @@ export default function Services(props) {
                                 <UsersForm
                                     currentStep={stateService}
                                     setNextStep={setStateService}
+                                    users={serviceDTO.orders}
                                 />
                             )}
                             {stateService ===
@@ -107,6 +145,7 @@ export default function Services(props) {
                                 <ContentForm
                                     currentStep={stateService}
                                     setNextStep={setStateService}
+                                    content={serviceDTO.content}
                                 />
                             )}
                             {stateService ===
@@ -115,6 +154,7 @@ export default function Services(props) {
                                     api_token={props.api_token}
                                     currentStep={stateService}
                                     setNextStep={setStateService}
+                                    tasks={serviceDTO.tasks}
                                 />
                             )}
                         </ServiceContext.Provider>
@@ -124,3 +164,5 @@ export default function Services(props) {
         </>
     );
 }
+
+export default EditService;

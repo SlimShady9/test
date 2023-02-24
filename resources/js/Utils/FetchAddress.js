@@ -45,4 +45,30 @@ const deleteAddress = async (addressId) => {
     }
 };
 
-export { getCountries, getRegions, getCities, saveAddress, deleteAddress };
+const getAddress = async (addressId) => {
+    try {
+        const req = await axios.get(`/api/address/${addressId}`);
+        return [req.data, null];
+    } catch (error) {
+        return [null, error];
+    }
+};
+
+const getAddressByService = async (serviceId) => {
+    try {
+        const req = await axios.get(`/api/service/${serviceId}/address/`);
+        return [req.data, null];
+    } catch (error) {
+        return [null, error];
+    }
+};
+
+export {
+    getCountries,
+    getRegions,
+    getCities,
+    saveAddress,
+    deleteAddress,
+    getAddress,
+    getAddressByService,
+};

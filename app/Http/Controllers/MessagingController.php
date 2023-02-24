@@ -14,7 +14,7 @@ class MessagingController extends Controller
 
     public function show($id) {
 
-        return Messaging::find($id);
+        return Messaging::where('id_service', $id)->get();
     }
 
     public function store(Request $request) {

@@ -30,4 +30,13 @@ const deleteService = async (id) => {
     }
 };
 
-export { uploadFile, uploadService, deleteService };
+
+const getService = async (idService) => {
+    try {
+        return  [await axios.get(`/api/service/${idService}`), null];
+    } catch (error) {
+        return [null, error];
+    }
+} 
+
+export { uploadFile, uploadService, deleteService, getService };

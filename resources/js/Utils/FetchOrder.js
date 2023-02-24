@@ -8,4 +8,13 @@ const createOrders = async (orders) => {
     }
 };
 
-export { createOrders };
+const getOrders = async (idService) => {
+    try {
+        const req = await axios.get(`/api/order/${idService}`);
+        return [req.data, null];
+    } catch (error) {
+        return [null, error];
+    }
+};
+
+export { createOrders, getOrders };

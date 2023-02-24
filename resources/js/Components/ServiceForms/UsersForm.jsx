@@ -73,8 +73,6 @@ function UsersForm({ currentStep, setNextStep }) {
 
     const submitForm = (e) => {
         e.preventDefault();
-        setNextStep(EstadoServiciosEnum.SERVICIO_CON_CONTENIDO);
-        return;
 
         createOrders({
             orders: usuariosSeleccionados.map((user) => ({
@@ -134,12 +132,12 @@ function UsersForm({ currentStep, setNextStep }) {
                                         "flex overflow-hidden col-span-1 my-auto mx-auto w-8 h-8 shadow-xl shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
                                     }
                                 >
-                                    <img
-                                        src={loadImageUser(user.id)}
-                                    />
+                                    <img src={loadImageUser(user.id)} />
                                 </div>
                                 <div className="justify-center mx-auto text-center grid col-span-3 mt-2 aling-center">
-                                    <Label className="text-lg font-bold text-left mb-3 overflow-hidden">{user.name}</Label>
+                                    <Label className="text-lg font-bold text-left mb-3 overflow-hidden">
+                                        {user.name}
+                                    </Label>
                                     <div className="text-xs mb-3 overflow-hidden">
                                         {user.email}
                                     </div>

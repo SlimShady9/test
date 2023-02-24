@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Service;
+use App\Models\Address;
 use App\Models\Parameter;
 use App\Models\TypeService;
 use App\Models\StateService;
@@ -182,13 +183,17 @@ class ServiceController extends Controller {
             ], 200)->header('Content-Type', 'application/json');
     }
 
+    public function addressByService($id_service) {
+        Address::where('id_service', $id_service)->get();
+    }
+
     public function serviceByUser($id_user)
-{ 
-    $sql = 'SELECT s.tracking_id FROM services s 
-    inner join orders o on s.id = o.id_service 
-    inner join users u on u.id = o.id_user 
-    where u.id = ' . $id_user;
-    $products = DB::select($sql);
-    return $products;
-}
+    { 
+        $sql = 'SELECT s.tracking_id FROM services s 
+        inner join orders o on s.id = o.id_service 
+        inner join users u on u.id = o.id_user 
+        where u.id = ' . $id_user;
+        $products = DB::select($sql);
+        return $products;
+    }
 }

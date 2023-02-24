@@ -25,12 +25,14 @@ return new class extends Migration
             $table->integer('width');
             $table->integer('height');
             $table->double('commercial_value');
+            $table->bigInteger('service');
 
         });
 
         Schema::table('contents', function (Blueprint $table) {
             $table->foreign('t_carga')->references('id')->on('type_contents');
             $table->foreign('id_exception')->references('id')->on('type_exceptions');
+            $table->foreign('service')->references('id')->on('services');
 
         });
     }
