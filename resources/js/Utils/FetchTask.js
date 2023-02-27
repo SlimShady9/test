@@ -18,4 +18,8 @@ const deleteTask = async (id) => {
     }
 };
 
-export { storeTask, deleteTask };
+const changeTaskState = async (id) => {
+    
+};
+
+export { storeTask, deleteTask, changeTaskState };

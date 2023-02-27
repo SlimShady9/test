@@ -150,7 +150,10 @@ Route::resource('typeException', TypeExceptionController::class)->names([
 Route::get('/user/{user_id}/profileimg', [PhotoUserController::class, 'profileimg']);
 Route::post('/user/{user_id}/profileimg', [PhotoUserController::class, 'uploadprofileimg']);
 Route::delete('/user/{user_id}/profileimg', [PhotoUserController::class, 'deleteprofileimg']);
-Route::get('/service/{user_id}/serviceByUser', [serviceController::class, 'serviceByUser']);
+Route::get('/service/{user_id}/serviceByUser', [ServiceController::class, 'serviceByUser']);
+Route::get('/messaging/{service_id}/messageByService', [MessagingController::class, 'messageByService']);
+
+Route::get('/service/{service_id}/messageByService', [MessagingController::class, 'messageByService']);
 
 Route::post('/email', [EmailController::class, 'emailPqrs']);
 

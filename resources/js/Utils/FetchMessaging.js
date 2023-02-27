@@ -18,4 +18,9 @@ const deleteMessaging = async (id) => {
     }
 };
 
-export { storeMessaging, deleteMessaging };
+const getMessaging = async (params) => {
+    const req = await axios.get(`/api/messaging?${cocatenateParams(params)}`);
+    return req.data;
+};
+
+export { storeMessaging, deleteMessaging, getMessaging };
