@@ -126,6 +126,7 @@ class ServiceController extends Controller {
                 'start_date' => 'required|date',
                 'price' => 'numeric|Between:0,9999999999',
                 'cost' => 'numeric|Between:0,9999999999',
+                'address' => 'Exists:addresses,id',
             ]);
             
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -136,7 +137,7 @@ class ServiceController extends Controller {
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json(['error' => 'Service not found'], 404);
         }
-        $service->name = $request->name_service;
+        $service->name = $request->name;
         $service->id_state_service = $request->id_state_service;
         $service->id_type_service = $request->id_type_service;
         $service->description = $request->description;
@@ -144,6 +145,7 @@ class ServiceController extends Controller {
         $service->start_date = $request->start_date;
         $service->price = $request->price_service;
         $service->cost = $request->cost;
+        $service->address = $request->address;
         $service->save();
         return $service;
     }

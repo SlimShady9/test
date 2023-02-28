@@ -20,6 +20,7 @@ class Service extends Model
         'price',
         'cost',
         'archive',
+        'address',
     ];
 
     protected $hidden = [

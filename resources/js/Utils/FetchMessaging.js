@@ -21,7 +21,7 @@ const deleteMessaging = async (id) => {
 const getMessaging = async (idService) => {
     try {
         const req = axios.get(`/api/messaging/${idService}`);
-        return [req.data, null];
+        return [req.data[0], null];
     } catch (error) {
         return [null, error];
     }

@@ -12,7 +12,6 @@ export default function Services(props) {
 
     const submitService = (data) => {
         //Load address on data
-        console.log(idAddress);
         if (idAddress != null) {
             data.id_address = idAddress;
             axios.post("/api/service", data).then((res) => {
@@ -42,9 +41,11 @@ export default function Services(props) {
             <Authenticated {...props}>
                 <Container className="m-6 justify-center bg-opacity-30 shadow-xl">
                     <Container className={"justify-center"}>
-                        <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">Tabla de Servicios</h1>
+                        <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                            Tabla de Servicios
+                        </h1>
                     </Container>
-                    <DataTableService/>
+                    <DataTableService />
                 </Container>
             </Authenticated>
         </>

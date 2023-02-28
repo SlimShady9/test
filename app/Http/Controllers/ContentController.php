@@ -31,6 +31,7 @@ class ContentController extends Controller
                 'width' => 'required|string|max:30',
                 'height' => 'required|string|max:30',
                 'commercial_value' => 'required|string|max:30',
+                'service' => 'required|Exists:services,id',
             ]);
             
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -48,6 +49,7 @@ class ContentController extends Controller
             'width' =>  $request->width,
             'height' => $request->height,
             'commercial_value' => $request->commercial_value,
+            'service' => $request->service,
         ]);
         return $newContent;
     }

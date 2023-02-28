@@ -30,13 +30,22 @@ const deleteService = async (id) => {
     }
 };
 
-
 const getService = async (idService) => {
     try {
-        return  [await axios.get(`/api/service/${idService}`), null];
+        return [(await axios.get(`/api/service/${idService}`)).data, null];
     } catch (error) {
         return [null, error];
     }
-} 
+};
 
-export { uploadFile, uploadService, deleteService, getService };
+const updateService = async (service) => {
+    try {
+        const req = (await axios.put(`/api/service/${service.id}`, service))
+            .data;
+        return [req, null];
+    } catch (error) {
+        return [null, error];
+    }
+};
+
+export { uploadFile, uploadService, deleteService, getService, updateService };

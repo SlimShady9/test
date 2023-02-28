@@ -53,8 +53,6 @@ export default function Register() {
             ...data,
             [target]: value,
         });
-        console.log(target);
-        console.log(value);
     };
 
     const submitUser = (e) => {

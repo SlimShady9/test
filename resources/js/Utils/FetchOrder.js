@@ -8,7 +8,7 @@ const createOrders = async (orders) => {
     }
 };
 
-const getOrders = async (idService) => {
+const getOrder = async (idService) => {
     try {
         const req = await axios.get(`/api/order/${idService}`);
         return [req.data, null];
@@ -17,4 +17,4 @@ const getOrders = async (idService) => {
     }
 };
 
-export { createOrders, getOrders };
+export { createOrders, getOrder };

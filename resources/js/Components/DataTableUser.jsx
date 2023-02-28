@@ -20,7 +20,6 @@ const DatatableUser = () => {
     const onHide = () => setShowModal(false);
 
     const submitUser = (data) => {
-        console.log(data);
         axios.put(`/api/user/${idselected}`, data).then((res) => {
             setUser((prevState) =>
                 prevState.map((item) =>
@@ -28,7 +27,6 @@ const DatatableUser = () => {
                 )
             );
             setIdselected(null);
-            console.log(user);
             setFilteredUser(user);
             setShowModal(false);
         });
