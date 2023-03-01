@@ -41,6 +41,7 @@ function ServiceDataForm({
     const [showDetail, setShowDetail] = useState(true);
 
     const [serviceForm, setServiceForm] = useState({
+        id: serviceDTO.service.id,
         name: serviceDTO.service.name,
         id_type_service: serviceDTO.service.id_type_service,
         id_state_service: EstadoServiciosEnum.SERVICIO_INCIADO,
@@ -63,11 +64,11 @@ function ServiceDataForm({
     };
 
     const handleChange = (event) => {
+        console.log(event.target.name, event.target.value);
         setServiceForm({
             ...serviceForm,
             [event.target.name]: event.target.value,
         });
-        console.log(serviceForm);
     };
 
     const finalizeServiceForm = () => {
@@ -102,7 +103,6 @@ function ServiceDataForm({
         e.preventDefault();
         /*finalizeServiceForm();
         return;*/
-        console.log(serviceForm);
 
         if (serviceForm.start_date === "") {
             toast.warning("La fecha de inicio no puede estar vacía");
@@ -122,7 +122,6 @@ function ServiceDataForm({
                 start_date_hours: undefined,
             };
         });
-        console.log(serviceForm);
 
         if (files.length !== 0) {
             await addAddress();

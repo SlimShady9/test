@@ -124,7 +124,6 @@ class ServiceController extends Controller {
                 'id_state_service' => 'Exists:state_services,id',
                 'id_type_service' => 'Exists:type_services,id',
                 'description' => 'required|string|max:255',
-                'created_date' => 'required|date',
                 'start_date' => 'required|date',
                 'price' => 'numeric|Between:0,9999999999',
                 'cost' => 'numeric|Between:0,9999999999',
@@ -143,7 +142,6 @@ class ServiceController extends Controller {
         $service->id_state_service = $request->id_state_service;
         $service->id_type_service = $request->id_type_service;
         $service->description = $request->description;
-        $service->created_date = $request->created_date;
         $service->start_date = $request->start_date;
         $service->price = $request->price_service;
         $service->cost = $request->cost;
