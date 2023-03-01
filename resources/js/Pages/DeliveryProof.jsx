@@ -11,6 +11,7 @@ import {
     TipoDeServiciosEnum,
     toStringTipoDeServiciosEnum,
 } from "@/Constants/TipoDeServiciosEnum";
+import { ExcepcionesEnum } from "@/Constants/ExcepcionesEnum";
 import axios from "axios";
 
 export default function DeliveryProof(props) {
@@ -19,7 +20,16 @@ export default function DeliveryProof(props) {
     const [pri, setPri] = useState(); 
     const [service, setService] = useState([]);
     const [message, setMessage] = useState([]);
+    const [task, setTask] = useState([]);
     const [id, setId] = useState(2);
+
+    const print = () => {
+            let printContents = document.getElementById('divcontents').innerHTML;
+            let originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents; 
+    }
 
     const clear = () => {
         this.sigPad.clear()
@@ -28,8 +38,7 @@ export default function DeliveryProof(props) {
     const getService = (id) => {
         try {
             axios.get(`/api/service/${id}`).then((res) => {
-            setService(res.data)
-            console.log(service.data);
+            setService(res.data);
         })
         } catch (error) {
             console.log(error);
@@ -39,7 +48,17 @@ export default function DeliveryProof(props) {
     const getMessaging = (id) => {
         try {
             axios.get(`/api/messaging/${id}/messageByService`).then((res) => {
-            setService(res.data)
+            setMessage(res.data[0])
+        })
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getTask = (id) => {
+        try {
+            axios.get(`/api/task/${id}/taskByService`).then((res) => {
+            setTask(res.data[0])
         })
         } catch (error) {
             console.log(error);
@@ -56,6 +75,8 @@ export default function DeliveryProof(props) {
         console.log(service);
         getMessaging(id);
         console.log(message);
+        getTask(id);
+        console.log(task);
     }, []);
 
     const fechaActual = (separator) => {
@@ -65,12 +86,11 @@ export default function DeliveryProof(props) {
     let year = newDate.getFullYear();
     return `${date}${separator}${month<10?`0${month}`:`${month}`}${separator}${year}`
 }
-    
     return (
         <>
             <Authenticated {...props}>
                 <div className="overflow-scroll">
-                <div className="mt-5 w-full text-center text-3xl grid grid-rows-2">
+                <div id="" className="mt-5 w-full text-center text-3xl grid grid-rows-2">
                         <Label>Prueba de Entrega de: </Label>
                         {service.name}
                     </div>
@@ -94,7 +114,7 @@ export default function DeliveryProof(props) {
                             </div>
                             <div className="mt-3">
                                 <div className="ml-2">
-                                    Codensa Emgesa
+                                    {message.entity}
                                 </div>
                                 <div className="ml-2">
                                     Pepe Andrés Cruz Godoy, Coordinador
@@ -322,13 +342,15 @@ export default function DeliveryProof(props) {
                             </div>
                         </div>
                     </div>
-                    <div className="flex w-full mb-10">
+                    <div onClick={() => print()} className="flex w-full mb-10">
                         <Button className="m-auto">
                             Imprimir
                         </Button>
                     </div>
                 </div>
                 <div id="ifmcontentstoprint"></div>
+                <iframe id="ifmcontentstoprint"></iframe>
+                
             </Authenticated>
         </>
     );

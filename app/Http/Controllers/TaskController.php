@@ -19,6 +19,10 @@ class TaskController extends Controller
         return Task::find($id);
     }
 
+    public function taskByService($id_service){
+        return Task::where('id_service',$id_service)->get();
+    }
+
     public function store(Request $request) {
 
         try {
