@@ -12,6 +12,7 @@ import MessagingForm from "@/Components/ServiceForms/MessagingForm";
 import TaskForm from "@/Components/ServiceForms/TaskForm";
 import ContentForm from "@/Components/ServiceForms/ContentForm";
 import { updateService } from "@/Utils/FetchService";
+import { Link } from "@inertiajs/inertia-react";
 
 export default function Services(props) {
     const initialStateServicesAvailable = [
@@ -28,7 +29,7 @@ export default function Services(props) {
 
     // Initial state of current service
     const [stateService, setStateService] = useState(
-        EstadoServiciosEnum.SERVICIO_MENSAJERIA
+        EstadoServiciosEnum.SERVICIO_CON_TAREAS
     );
 
     // State of the progress of service creation using context api

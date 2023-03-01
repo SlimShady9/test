@@ -152,7 +152,7 @@ function TaskForm({ setNextStep, api_token }) {
     };
 
     const finalizar = () => {
-        setNextStep(EstadoServiciosEnum.SERVICIO_PENDIENTE);
+        window.location.href = "/services";
     };
 
     return (
