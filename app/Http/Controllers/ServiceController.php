@@ -14,6 +14,8 @@ use Barryvdh\Debugbar\Facade as Debugbar;
 
 class ServiceController extends Controller {
 
+    private $path = 'profileimg/';
+
     public function index() {
         return Service::all();
     }
@@ -197,5 +199,44 @@ class ServiceController extends Controller {
         where u.id = ' . $id_user;
         $products = DB::select($sql);
         return $products;
+    }
+
+    public function storeFile($serviceId, Request $request) {
+        $service = Service::find($serviceId);
+        if (!$service) {
+            return response()->json(['message' => 'Service not found'], 404);
+        }
+
+        $name = $path. $user_id . '.' . $extension;
+
+        $path = $this->path;
+        $file = $request->file('file');
+        $extension = $file->getClientOriginalExtension();
+        // Change file name to avoid duplicates
+
+        if ($service->archive) {
+            Storage::disk('public')->delete($service->archive);
+        }
+
+        Storage::disk('public')->put($name, file_get_contents($file));
+        $service->archive = $name;
+        $service->save();
+        return response()->json(['success' => 'File uploaded successfuly'], 200);
+
+
+
+    }
+    /**
+     * Generate a random string
+     * Of 30 characters
+     */
+    private function generateRandomString() {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < 30; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 }

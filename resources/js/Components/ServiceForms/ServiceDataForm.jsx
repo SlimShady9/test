@@ -48,11 +48,13 @@ function ServiceDataForm({
         description: serviceDTO.service.description,
         price: serviceDTO.service.price,
         cost: serviceDTO.service.cost,
+        archive: serviceDTO.service.archive,
     });
 
     // Closure fuctions
 
     const handleChangeFile = (event) => {
+        console.log(event.target.files);
         setFileList(event.target.files);
     };
 
@@ -116,9 +118,7 @@ function ServiceDataForm({
             console.log(prev);
             return {
                 ...prev,
-                start_date: moment(date)
-                    .format("YYYY-MM-DD HH:mm:ss")
-                    .toString(),
+                start_date: date,
                 start_date_hours: undefined,
             };
         });
@@ -151,6 +151,7 @@ function ServiceDataForm({
         }
     };
     // Sync data
+    useEffect(() => {}, []);
 
     const addAddress = async () => {
         const response = await uploadFile(files[0]);
