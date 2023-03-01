@@ -91,9 +91,9 @@ function ServiceDataForm({
                 );
                 return prev;
             });
-            //setNextStep(EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA);
+            setNextStep(EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA);
         } else {
-            //setNextStep(EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA);
+            setNextStep(EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA);
         }
     };
 
@@ -127,6 +127,9 @@ function ServiceDataForm({
             }
             const service = await response.data;
             setServiceForm(service);
+            setServiceDTO((prev) => {
+                return { ...prev, service: service };
+            });
             finalizeServiceForm();
             return;
         } else {
@@ -137,6 +140,9 @@ function ServiceDataForm({
             }
             const service = await response.data;
             setServiceForm(service);
+            setServiceDTO((prev) => {
+                return { ...prev, service: service };
+            });
             finalizeServiceForm();
             return;
         }

@@ -35,7 +35,7 @@ function EditService(props) {
     );
 
     const [stateService, setStateService] = useState(
-        EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA
+        EstadoServiciosEnum.SERVICIO_MENSAJERIA
     );
 
     const [dataLoaded, setDataLoaded] = useState(false);
