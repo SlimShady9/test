@@ -43,6 +43,9 @@ class AddressController extends Controller
                 'country' => 'required|string|max:30',
                 'region' => 'required|string|max:30',
                 'city' => 'required|string|max:30',
+                'country_iso' => 'required|string|max:30',
+                'region_iso' => 'required|string|max:30',
+                'city_id' => 'required|string|max:30',
                 'addr' => 'required|string|max:50',
                 'addr_detail' => 'string|max:255',
                 'postal_code' => 'required|string|max:10',
@@ -58,6 +61,9 @@ class AddressController extends Controller
             'country' => $request->country,
             'region' => $request->region,
             'city' => $request->city,
+            'country_iso' => $request->country_iso,
+            'region_iso' => $request->region_iso,
+            'city_id' => $request->city_id,
             'addr' => $request->addr,
             'addr_detail' => $request->addr_detail,
             'postal_code' => $request->postal_code,
@@ -107,6 +113,9 @@ class AddressController extends Controller
             'country' => 'required|string',
             'region' => 'required|string',
             'city' => 'required|string',
+            'country_iso' => 'required|string',
+            'region_iso' => 'required|string',
+            'city_id' => 'required|string',
             'street' => 'required|string',
             'addr' => 'required|string',
             'addr_detail' => 'string|max:255',
@@ -126,6 +135,9 @@ class AddressController extends Controller
         $address->country = $request->country;
         $address->region = $request->region;
         $address->city = $request->city;
+        $address->country = $request->country_iso;
+        $address->region = $request->region_iso;
+        $address->city = $request->city_id;
         $address->street = $request->street;
         $address->addr = $request->addr;
         $address->addr_detail = $request->addr_detail;
