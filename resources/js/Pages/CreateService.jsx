@@ -14,7 +14,6 @@ import ContentForm from "@/Components/ServiceForms/ContentForm";
 import { updateService } from "@/Utils/FetchService";
 
 export default function Services(props) {
-    console.log(props);
     const initialStateServicesAvailable = [
         EstadoServiciosEnum.SERVICIO_INCIADO,
         EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA,
@@ -29,7 +28,7 @@ export default function Services(props) {
 
     // Initial state of current service
     const [stateService, setStateService] = useState(
-        EstadoServiciosEnum.SERVICIO_INCIADO
+        EstadoServiciosEnum.SERVICIO_MENSAJERIA
     );
 
     // State of the progress of service creation using context api
@@ -84,6 +83,7 @@ export default function Services(props) {
                                     api_token={props.api_token}
                                     onSubmit={async (res) => {
                                         setServiceDTO(function (prev) {
+                                            console.log(prev);
                                             prev.service.address_id = res.id;
                                             var service = {
                                                 ...prev.service,
@@ -94,7 +94,7 @@ export default function Services(props) {
                                                 service,
                                             };
                                         });
-                                        await updateService(prev.service);
+                                        await updateService(serviceDTO.service);
                                         setStateService(
                                             EstadoServiciosEnum.SERVICIO_MENSAJERIA
                                         );
