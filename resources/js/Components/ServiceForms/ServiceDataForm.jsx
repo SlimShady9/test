@@ -111,16 +111,10 @@ function ServiceDataForm({
             return;
         }
 
-        const date = `${serviceForm.start_date} ${serviceForm.start_date_hours}`;
-        setServiceForm((prev) => {
-            console.log(prev);
-            return {
-                ...prev,
-                start_date: date,
-                start_date_hours: undefined,
-            };
-        });
-
+        const date = serviceForm.start_date +' '+ serviceForm.start_date_hours;
+        console.log(date);
+        serviceForm.start_date = date,
+        console.log(serviceForm);
         if (files.length !== 0) {
             await addAddress();
         }
