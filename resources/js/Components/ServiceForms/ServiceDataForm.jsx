@@ -55,7 +55,6 @@ function ServiceDataForm({
     // Closure fuctions
 
     const handleChangeFile = (event) => {
-        console.log(event.target.files);
         setFileList(event.target.files);
     };
 
@@ -64,7 +63,6 @@ function ServiceDataForm({
     };
 
     const handleChange = (event) => {
-        console.log(event.target.name, event.target.value);
         setServiceForm({
             ...serviceForm,
             [event.target.name]: event.target.value,

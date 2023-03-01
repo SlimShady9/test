@@ -35,6 +35,14 @@ const saveAddress = async (address) => {
     return req.data;
 };
 
+const updateAddress = async (address) => {
+    address["country"] = address["country"]["label"];
+    address["region"] = address["region"]["label"];
+    address["city"] = address["city"]["label"];
+    const req = await axios.put(`/api/address/${address.id}`, address);
+    return req.data;
+};
+
 const deleteAddress = async (addressId) => {
     try {
         const req = await axios.delete(`/api/address/${addressId}`);
@@ -70,4 +78,5 @@ export {
     deleteAddress,
     getAddress,
     getAddressByService,
+    updateAddress,
 };

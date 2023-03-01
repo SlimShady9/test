@@ -11,12 +11,33 @@ import {
     getCountries,
     getRegions,
     saveAddress,
+    updateAddress,
 } from "@/Utils/FetchAddress";
 import { toast } from "react-toastify";
 import ServiceContext from "./ServiceForms/useServiceContext";
 
-function AddressForm({ api_token, onSubmit }) {
-    const [data, setData] = useState({});
+function AddressForm({ api_token, onSubmit, isEdit = false }) {
+    const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
+    console.log(serviceDTO);
+    const [data, setData] = useState({
+        name: serviceDTO.address.name,
+        addr: serviceDTO.address.addr,
+        country: {
+            label: serviceDTO.address.country,
+            value: serviceDTO.address.country_iso,
+        },
+        region: {
+            label: serviceDTO.address.region,
+            value: serviceDTO.address.region_iso,
+        },
+        city: {
+            label: serviceDTO.address.city,
+            value: serviceDTO.address.city_id,
+        },
+        postal_code: serviceDTO.address.postal_code,
+        addr_detail: serviceDTO.address.addr_detail,
+        neighborhood: serviceDTO.address.neighborhood,
+    });
 
     const [countries, setCountries] = useState([]);
     const [regions, setRegions] = useState([]);
@@ -69,10 +90,17 @@ function AddressForm({ api_token, onSubmit }) {
 
     const submit = (e) => {
         e.preventDefault();
-        toast.success("Dirección guardada correctamente");
-        saveAddress(data).then((res) => {
-            onSubmit(res);
-        });
+        if (isEdit) {
+            toast.success("Dirección guardada correctamente");
+            saveAddress(data).then((res) => {
+                onSubmit(res);
+            });
+        } else {
+            toast.success("Dirección actualizada correctamente");
+            updateAddress(data).then((res) => {
+                onSubmit(res);
+            });
+        }
     };
 
     return (

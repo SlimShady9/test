@@ -11,11 +11,10 @@ import ServiceContext from "@/Components/ServiceForms/useServiceContext";
 import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
 import { TipoDeServiciosEnum } from "@/Constants/TipoDeServiciosEnum";
 import Authenticated from "@/Layouts/Authenticated";
-import { getAddress } from "@/Utils/FetchAddress";
 import { getContent } from "@/Utils/FetchContent";
 import { getMessaging } from "@/Utils/FetchMessaging";
 import { getOrder } from "@/Utils/FetchOrder";
-import { getService } from "@/Utils/FetchService";
+import { getAddressByService, getService } from "@/Utils/FetchService";
 import { getTask } from "@/Utils/FetchTask";
 import React, { useEffect, useState } from "react";
 
@@ -36,7 +35,7 @@ function EditService(props) {
     );
 
     const [stateService, setStateService] = useState(
-        EstadoServiciosEnum.SERVICIO_INCIADO
+        EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA
     );
 
     const [dataLoaded, setDataLoaded] = useState(false);
@@ -67,7 +66,9 @@ function EditService(props) {
                 service: dataService,
             };
         });
-        const [dataAddr, errorAddr] = await getAddress(serviceId);
+        const [dataAddr, errorAddr] = await getAddressByService(
+            dataService.address
+        );
         if (errorAddr != null) {
         }
         if (
@@ -99,6 +100,7 @@ function EditService(props) {
             orders: dataOrders,
             tasks: dataTasks,
         });
+        console.log(serviceDTO, dataAddr);
         setDataLoaded(true);
     };
 

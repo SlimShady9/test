@@ -48,4 +48,22 @@ const updateService = async (service) => {
     }
 };
 
-export { uploadFile, uploadService, deleteService, getService, updateService };
+const getAddressByService = async (idService) => {
+    try {
+        return [
+            (await axios.get(`/api/service/${idService}/address`)).data,
+            null,
+        ];
+    } catch (error) {
+        return [null, error];
+    }
+};
+
+export {
+    uploadFile,
+    uploadService,
+    deleteService,
+    getService,
+    updateService,
+    getAddressByService,
+};

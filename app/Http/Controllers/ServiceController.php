@@ -186,7 +186,7 @@ class ServiceController extends Controller {
     }
 
     public function addressByService($id_service) {
-        Address::where('id_service', $id_service)->get();
+        return Address::find($id_service);
     }
 
     public function serviceByUser($id_user)
