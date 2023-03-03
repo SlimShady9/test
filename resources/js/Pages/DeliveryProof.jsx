@@ -21,7 +21,7 @@ export default function DeliveryProof(props) {
     const [service, setService] = useState([]);
     const [message, setMessage] = useState([]);
     const [task, setTask] = useState([]);
-    const [id, setId] = useState(2);
+    const [id, setId] = useState(3);
 
     const print = () => {
             let printContents = document.getElementById('divcontents').innerHTML;
