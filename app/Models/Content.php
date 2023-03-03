@@ -19,6 +19,7 @@ class Content extends Model
         'height',
         'commercial_value',
         'id_exception',
+        'service',
     ];
 
 }

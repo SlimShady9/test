@@ -78,6 +78,13 @@ Route::get('/pqrs/{id}', function ($id) {
     ]);
 })->middleware(['auth', 'verified'])->name('pqrs');
 
+Route::get('/editService/{id}', function ($id) {
+    return Inertia::render('EditService', [
+        'serviceId' => $id,
+        'api_token' => env('API_KEY_GEO'),
+    ]);
+})->middleware(['auth', 'verified'])->name('editService');
+
 Route::get('/envios', function () {
     return Inertia::render('Envios');
 })->middleware(['auth', 'verified'])->name('envios');

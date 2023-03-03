@@ -18,4 +18,13 @@ const deleteMessaging = async (id) => {
     }
 };
 
-export { storeMessaging, deleteMessaging };
+const getMessaging = async (idService) => {
+    try {
+        const req = axios.get(`/api/messaging/${idService}`);
+        return [req.data[0], null];
+    } catch (error) {
+        return [null, error];
+    }
+};
+
+export { storeMessaging, deleteMessaging, getMessaging };

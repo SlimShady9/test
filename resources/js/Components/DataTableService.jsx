@@ -10,8 +10,7 @@ import Container from "@/Components/Container";
 import { container } from "tailwindcss/defaultTheme";
 import Button from "./FormUtils/Button";
 
-
-const Datatable = () => {
+const DataTableService = () => {
     const [search, setSearch] = useState("");
     const [servicios, setServicios] = useState([]);
     const [filteredServices, setFilteredServices] = useState([]);
@@ -46,17 +45,17 @@ const Datatable = () => {
         {
             name: "Ver",
             cell: (row) => (
-                <Button className="bg-yellow">
+                <Link className="bg-yellow" href={`viewService/${row.id}`}>
                     <GrArchive />
-                </Button>
+                </Link>
             ),
         },
         {
             name: "Editar",
             cell: (row) => (
-                <Button className="bg-blue">
+                <Link className="bg-yellow" href={`editService/${row.id}`}>
                     <GrEdit />
-                </Button>
+                </Link>
             ),
         },
         {
@@ -70,13 +69,11 @@ const Datatable = () => {
         {
             name: "Ayuda",
             cell: (row) => (
-                <Link href={'pqrs/'+row.id} className="p-3 bg-blue-400">
-
-                <Button  className="bg-red">
-                    <IoHelp />
-                </Button>
+                <Link href={"pqrs/" + row.id} className="p-3 bg-blue-400">
+                    <Button className="bg-red">
+                        <IoHelp />
+                    </Button>
                 </Link>
-
             ),
         },
     ];
@@ -134,4 +131,4 @@ const Datatable = () => {
     );
 };
 
-export default Datatable;
+export default DataTableService;

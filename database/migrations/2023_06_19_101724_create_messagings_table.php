@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('charge');
             $table->unsignedDouble('price')->nullable();
             $table->timestamps();
-            $table->bigInteger('id_address')->unsigned();
             $table->string('dependency');
             $table->string('intern_order');
             $table->string('transporter');
@@ -32,7 +31,6 @@ return new class extends Migration
 
         Schema::table('messagings', function (Blueprint $table) {
             $table->foreign('id_service')->references('id')->on('services');
-            $table->foreign('id_address')->references('id')->on('addresses');
             $table->foreign('id_user')->references('id')->on('users');
         });
     }

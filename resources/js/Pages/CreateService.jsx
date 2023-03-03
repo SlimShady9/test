@@ -11,9 +11,10 @@ import UsersForm from "@/Components/ServiceForms/UsersForm";
 import MessagingForm from "@/Components/ServiceForms/MessagingForm";
 import TaskForm from "@/Components/ServiceForms/TaskForm";
 import ContentForm from "@/Components/ServiceForms/ContentForm";
+import { updateService } from "@/Utils/FetchService";
+import { Link } from "@inertiajs/inertia-react";
 
 export default function Services(props) {
-    console.log(props);
     const initialStateServicesAvailable = [
         EstadoServiciosEnum.SERVICIO_INCIADO,
         EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA,
@@ -28,7 +29,7 @@ export default function Services(props) {
 
     // Initial state of current service
     const [stateService, setStateService] = useState(
-        EstadoServiciosEnum.SERVICIO_INCIADO
+        EstadoServiciosEnum.SERVICIO_CON_TAREAS
     );
 
     // State of the progress of service creation using context api
@@ -81,18 +82,24 @@ export default function Services(props) {
                                 EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA && (
                                 <AddressForm
                                     api_token={props.api_token}
-                                    onSubmit={(res) =>{
-                                        setServiceDTO( function(prev){
-                                                return{
-                                                    ...prev,
-                                                    address:res
-                                                } 
-
-                                            }
-                                        ) 
-                                        setStateService(EstadoServiciosEnum.SERVICIO_MENSAJERIA)
-                                    }
-                                }
+                                    onSubmit={async (res) => {
+                                        setServiceDTO(function (prev) {
+                                            console.log(prev);
+                                            prev.service.address_id = res.id;
+                                            var service = {
+                                                ...prev.service,
+                                                address: res.id,
+                                            };
+                                            return {
+                                                ...prev,
+                                                service,
+                                            };
+                                        });
+                                        await updateService(serviceDTO.service);
+                                        setStateService(
+                                            EstadoServiciosEnum.SERVICIO_MENSAJERIA
+                                        );
+                                    }}
                                 />
                             )}
                             {stateService ===

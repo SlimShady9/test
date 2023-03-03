@@ -11,12 +11,16 @@ import {
     toStringTipoDeServiciosEnum,
 } from "@/Constants/TipoDeServiciosEnum";
 import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
-import { uploadFile, uploadService } from "@/Utils/FetchService";
+import { updateService, uploadFile, uploadService } from "@/Utils/FetchService";
 import moment from "moment";
 import { toast } from "react-toastify";
 
-
-function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
+function ServiceDataForm({
+    currentStep,
+    setNextStep,
+    setServicesAvailable,
+    isEdit = false,
+}) {
     const id = EstadoServiciosEnum.SERVICIO_INCIADO;
 
     const typeServices = Object.keys(TipoDeServiciosEnum).map((key) => {
@@ -26,7 +30,8 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
         };
     });
     // Context
-    const { service, setService } = useContext(ServiceContext);
+    const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
+
     // Refs
     const inputRef = React.useRef(null);
     // States
@@ -36,12 +41,15 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
     const [showDetail, setShowDetail] = useState(true);
 
     const [serviceForm, setServiceForm] = useState({
-        name: "",
-        id_type_service: TipoDeServiciosEnum.CORRESPONDENCIA,
+        id: serviceDTO.service.id,
+        name: serviceDTO.service.name,
+        id_type_service: serviceDTO.service.id_type_service,
         id_state_service: EstadoServiciosEnum.SERVICIO_INCIADO,
-        description: "",
-        price: 0,
-        cost: 0,
+        start_date: serviceDTO.service.start_date,
+        description: serviceDTO.service.description,
+        price: serviceDTO.service.price,
+        cost: serviceDTO.service.cost,
+        archive: serviceDTO.service.archive,
     });
 
     // Closure fuctions
@@ -103,34 +111,40 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
             return;
         }
 
-        const date = `${serviceForm.start_date} ${serviceForm.start_date_hours}`;
-        setServiceForm((prev) => {
-            return {
-                ...prev,
-                start_date: moment(date)
-                    .format("YYYY-MM-DD HH:mm:ss")
-                    .toString(),
-                start_date_hours: undefined,
-            };
-        });
-
+        const date =
+            serviceForm.start_date + " " + serviceForm.start_date_hours;
+        serviceForm.start_date = date;
         if (files.length !== 0) {
             await addAddress();
         }
-        
-        const responseService = await uploadService(serviceForm);
-        if (responseService.error) {
-            toast.error("Error al subir el servicio");
+
+        if (!isEdit) {
+            const response = await uploadService(serviceForm);
+            if (response.error) {
+                toast.error("Error al subir el servicio");
+                return;
+            }
+            const service = await response.data;
+            setServiceForm(service);
+            setServiceDTO((prev) => {
+                return { ...prev, service: service };
+            });
+            finalizeServiceForm();
+            return;
+        } else {
+            const response = await updateService(serviceForm);
+            if (response.error) {
+                toast.error("Error al subir el servicio");
+                return;
+            }
+            const service = await response.data;
+            setServiceForm(service);
+            setServiceDTO((prev) => {
+                return { ...prev, service: service };
+            });
+            finalizeServiceForm();
             return;
         }
-        const service = await responseService.data;
-        setServiceForm((prev) => {
-            return {
-                ...prev,
-                service: service,
-            };
-        });
-        finalizeServiceForm();
     };
     // Sync data
     useEffect(() => {}, []);
@@ -138,14 +152,12 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
     const addAddress = async () => {
         const response = await uploadFile(files[0]);
         if (response.data === null) {
-
             toast.error("Error al subir el archivo");
             return;
         }
         const file = await response.data.name;
         setServiceForm({ ...serviceForm, archive: file });
-
-    }
+    };
 
     if (currentStep !== id) {
         return <></>;
@@ -163,6 +175,7 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
                         <Input
                             name="name"
                             autoComplete="nameService"
+                            defaultValue={serviceForm.name}
                             handleChange={handleChange}
                             required
                             max={30}
@@ -181,6 +194,12 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
                                     },
                                 })
                             }
+                            value={{
+                                value: serviceForm.id_type_service,
+                                label: toStringTipoDeServiciosEnum(
+                                    serviceForm.id_type_service
+                                ),
+                            }}
                             required={true}
                         />
                     </div>
@@ -192,6 +211,12 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
                             name="start_date"
                             handleChange={handleChange}
                             required={true}
+                            defaultValue={moment(
+                                serviceForm.start_date,
+                                "yyyy-MM-DD HH:mm:ss"
+                            )
+                                .format("yyyy-MM-DD")
+                                .toString()}
                         />
                     </div>
                     <div className="col-span-1">
@@ -201,6 +226,12 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
                             name="start_date_hours"
                             handleChange={handleChange}
                             required={true}
+                            defaultValue={moment(
+                                serviceForm.start_date,
+                                "yyyy-MM-DD HH:mm:ss"
+                            )
+                                .format("HH:mm:ss")
+                                .toString()}
                         />
                     </div>
                     {showDetail && (
@@ -214,6 +245,7 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
                                             target: { name: "cost", value: e },
                                         })
                                     }
+                                    defaultValue={serviceForm.cost}
                                 />
                             </div>
                             <div className="col-span-1">
@@ -225,6 +257,7 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
                                             target: { name: "price", value: e },
                                         })
                                     }
+                                    defaultValue={serviceForm.price}
                                 />
                             </div>
                         </>
@@ -241,6 +274,7 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
                         cols="30"
                         rows="4"
                         onChange={handleChange}
+                        defaultValue={serviceForm.description}
                     ></textarea>
                     <div className="justify-center mt-3">
                         <Label>Archivos Adicionales</Label>
@@ -254,11 +288,18 @@ function ServiceDataForm({ currentStep, setNextStep, setServicesAvailable }) {
                     </div>
 
                     <div className="flex">
-
-                        <Button className="mx-3 w-2/3" type="Button" onClick={handleChangeFileButton}>
+                        <Button
+                            className="mx-3 w-2/3"
+                            type="Button"
+                            onClick={handleChangeFileButton}
+                        >
                             Selecciona uno o varios Archivos
                         </Button>
-                        <Button className="mx-3 w-1/3" type="Button" onClick={() => setFileList([])}>
+                        <Button
+                            className="mx-3 w-1/3"
+                            type="Button"
+                            onClick={() => setFileList([])}
+                        >
                             Limpiar
                         </Button>
                     </div>
