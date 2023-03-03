@@ -6,7 +6,7 @@ import Checkbox from "@/Components/FormUtils/Checkbox";
 import Button from "@/Components/FormUtils/Button";
 import SignatureCanvas from 'react-signature-canvas'
 import ReactToPrint from 'react-to-print';
-import { loadService } from "@/Utils/FetchService";
+import { getService } from "@/Utils/FetchService";
 import {
     TipoDeServiciosEnum,
     toStringTipoDeServiciosEnum,
@@ -17,7 +17,7 @@ import axios from "axios";
 export default function DeliveryProof(props) {
     const [sigPad, setSigPad] = useState({});
     const [content, setContent] = useState();
-    const [pri, setPri] = useState(); 
+    const [pri, setPri] = useState();
     const [service, setService] = useState([]);
     const [message, setMessage] = useState([]);
     const [task, setTask] = useState([]);
@@ -28,7 +28,7 @@ export default function DeliveryProof(props) {
             let originalContents = document.body.innerHTML;
             document.body.innerHTML = printContents;
             window.print();
-            document.body.innerHTML = originalContents; 
+            document.body.innerHTML = originalContents;
     }
 
     const clear = () => {
