@@ -37,7 +37,7 @@ class Service extends Model
     public function generateTrackingId()
     {
         $trackingId = '';
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         for ($i = 0; $i < 12; $i++) {
             $trackingId .= $characters[rand(0, $charactersLength - 1)];
