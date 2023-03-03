@@ -11,11 +11,20 @@ const storeContent = async (content) => {
 
 const deleteContent = async (id) => {
     try {
-        const req = axios.delete(`/api/content/${id}`);
+        const req = await axios.delete(`/api/content/${id}`);
         return { data: req.data, error: null };
     } catch (error) {
         return { data: null, error: error };
     }
 };
 
-export { storeContent, deleteContent };
+const getContent = async (idService) => {
+    try {
+        const req = await axios.get(`/api/content/${idService}`);
+        return [req.data[0], null];
+    } catch (error) {
+        return [null, error];
+    }
+};
+
+export { storeContent, deleteContent, getContent };

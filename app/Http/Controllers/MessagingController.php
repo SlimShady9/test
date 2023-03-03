@@ -14,7 +14,7 @@ class MessagingController extends Controller
 
     public function show($id) {
 
-        return Messaging::find($id);
+        return Messaging::where('id_service', $id)->get();
     }
 
     public function messageByService($id_service)
@@ -30,7 +30,6 @@ class MessagingController extends Controller
                 'name' => 'required|string|max:30',
                 'entity' => 'required|string|max:30',
                 'charge' => 'required|string|max:50',
-                'id_address' => 'required|Exists:addresses,id',
                 'id_service' => 'required|Exists:services,id',
                 'cost_center' => 'required|string|max:255',
                 'id_user' => 'required|Exists:users,id',
@@ -50,7 +49,6 @@ class MessagingController extends Controller
             'entity' => $request->entity,
             'dependency' => $request->dependency,
             'id_user' => $request->id_user,
-            'id_address' => $request->id_address,
             'id_service' =>  $request->id_service,
             'charge' => $request->charge,
             'cost_center' => $request->cost_center,
@@ -70,7 +68,6 @@ class MessagingController extends Controller
                 'name' => 'string|max:30',
                 'entity' => 'string|max:30',
                 'charge' => 'string|max:50',
-                'id_address' => 'Exists:addresses,id',
                 'id_service' => 'Exists:services,id',
                 'cost_center' => 'string|max:255',
                 'id_user' => 'Exists:users,id',
@@ -91,8 +88,7 @@ class MessagingController extends Controller
         $Messaging->name = $request->name_service;
         $Messaging->entity = $request->entity;
         $Messaging->dependency = $request->dependency;
-        $Messaging->id_user = $request->id_user; 
-        $Messaging->id_address = $request->id_address;
+        $Messaging->id_user = $request->id_user;
         $Messaging->id_service = $request->id_service;
         $Messaging->charge = $request->charge;
         $Messaging->cost_center = $request->cost_center;

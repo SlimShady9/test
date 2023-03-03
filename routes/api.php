@@ -46,6 +46,8 @@ Route::resource('envio', EnvioController::class);
 
 Route::resource('service', ServiceController::class);
 
+Route::get('/service/{service}/address', [ServiceController::class, 'addressByService'])->name('service.address');
+
 Route::resource('user', UserController::class);
 
 Route::resource('service.user', ServiceUserController::class);

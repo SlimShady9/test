@@ -26,12 +26,14 @@ return new class extends Migration
             $table->unsignedDouble('price')->nullable();
             $table->unsignedDouble('cost')->nullable();
             $table->string('archive')->nullable();
+            $table->bigInteger('address')->unsigned()->nullable();
             $table->timestamps();
         });
 
         Schema::table('services', function (Blueprint $table) {
             $table->foreign('id_type_service')->references('id')->on('type_services');
             $table->foreign('id_state_service')->references('id')->on('state_services');
+            $table->foreign('address')->references('id')->on('addresses');
         });
     }
 

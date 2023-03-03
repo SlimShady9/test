@@ -1,5 +1,5 @@
 import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useForm } from "@inertiajs/inertia-react";
 import Label from "./FormUtils/Label";
 import SelectInput from "./FormUtils/SelectInput";
@@ -11,11 +11,35 @@ import {
     getCountries,
     getRegions,
     saveAddress,
+    updateAddress,
 } from "@/Utils/FetchAddress";
 import { toast } from "react-toastify";
+import ServiceContext from "./ServiceForms/useServiceContext";
 
-function AddressForm({ api_token, onSubmit }) {
-    const [data, setData] = useState({});
+function AddressForm({ api_token, onSubmit, isEdit = false }) {
+    const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
+    const [data, setData] = useState({
+        name: serviceDTO.address.name,
+        addr: serviceDTO.address.addr,
+        country: {
+            label: serviceDTO.address.country,
+            value: serviceDTO.address.country_iso,
+        },
+        country_iso: serviceDTO.address.country_iso,
+        region: {
+            label: serviceDTO.address.region,
+            value: serviceDTO.address.region_iso,
+        },
+        region_iso: serviceDTO.address.region_iso,
+        city: {
+            label: serviceDTO.address.city,
+            value: serviceDTO.address.city_id,
+        },
+        city_id: serviceDTO.address.city_id,
+        postal_code: serviceDTO.address.postal_code,
+        addr_detail: serviceDTO.address.addr_detail,
+        neighborhood: serviceDTO.address.neighborhood,
+    });
 
     const [countries, setCountries] = useState([]);
     const [regions, setRegions] = useState([]);
@@ -56,10 +80,11 @@ function AddressForm({ api_token, onSubmit }) {
         }
     }, [data.region]);
 
-    const handleChange = (e, propName) => {
+    const handleChange = (e, propName, args) => {
         let newData = { ...data };
         if (e.label) {
             newData[propName] = e;
+            newData[args.isoId] = args.isoName;
             setData(newData);
         } else {
             setData({ ...data, [e.target.name]: e.target.value });
@@ -68,10 +93,17 @@ function AddressForm({ api_token, onSubmit }) {
 
     const submit = (e) => {
         e.preventDefault();
-        toast.success("Dirección guardada correctamente");
-        saveAddress(data).then((res) => {
-            onSubmit(res);
-        });
+        if (!isEdit) {
+            toast.success("Dirección guardada correctamente");
+            saveAddress(data).then((res) => {
+                onSubmit(res);
+            });
+        } else {
+            toast.success("Dirección actualizada correctamente");
+            updateAddress(data).then((res) => {
+                onSubmit(res);
+            });
+        }
     };
 
     return (
@@ -109,7 +141,12 @@ function AddressForm({ api_token, onSubmit }) {
                         <Label forInput="country">País</Label>
                         <SelectInput
                             value={data.country}
-                            onChange={(e) => handleChange(e, "country")}
+                            onChange={(e) =>
+                                handleChange(e, "country", {
+                                    isoId: "country_iso",
+                                    isoName: e.value,
+                                })
+                            }
                             options={countries.map((c) => ({
                                 label: c.name,
                                 value: c.iso2,
@@ -120,7 +157,12 @@ function AddressForm({ api_token, onSubmit }) {
                         <Label forInput="region">Región</Label>
                         <SelectInput
                             value={data.region}
-                            onChange={(e) => handleChange(e, "region")}
+                            onChange={(e) =>
+                                handleChange(e, "region", {
+                                    isoId: "region_iso",
+                                    isoName: e.value,
+                                })
+                            }
                             options={regions.map((c) => ({
                                 label: c.name,
                                 value: c.iso2,
@@ -131,7 +173,12 @@ function AddressForm({ api_token, onSubmit }) {
                         <Label forInput="city">Ciudad</Label>
                         <SelectInput
                             value={data.city}
-                            onChange={(e) => handleChange(e, "city")}
+                            onChange={(e) =>
+                                handleChange(e, "city", {
+                                    isoId: "city_id",
+                                    isoName: e.value,
+                                })
+                            }
                             options={cities.map((c) => ({
                                 label: c.name,
                                 value: c.id,

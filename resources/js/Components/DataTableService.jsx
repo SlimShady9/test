@@ -8,7 +8,7 @@ import { Link } from "@inertiajs/inertia-react";
 import Container from "@/Components/Container";
 import { container } from "tailwindcss/defaultTheme";
 
-const Datatable = () => {
+const DataTableService = () => {
     const [search, setSearch] = useState("");
     const [servicios, setServicios] = useState([]);
     const [filteredServices, setFilteredServices] = useState([]);
@@ -43,17 +43,17 @@ const Datatable = () => {
         {
             name: "Ver",
             cell: (row) => (
-                <button className="bg-yellow">
-                    <GrArchive />
-                </button>
+                <Link className="bg-yellow" href={`viewService/${row.id}`}>
+                    <GrArchive/>
+                </Link>
             ),
         },
         {
             name: "Editar",
             cell: (row) => (
-                <button className="bg-blue">
-                    <GrEdit />
-                </button>
+                <Link className="bg-yellow" href={`editService/${row.id}`}>
+                    <GrEdit/>
+                </Link>
             ),
         },
         {
@@ -118,4 +118,4 @@ const Datatable = () => {
     );
 };
 
-export default Datatable;
+export default DataTableService;

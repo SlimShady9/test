@@ -16,7 +16,7 @@ class TaskController extends Controller
 
     public function show($id) {
 
-        return Task::find($id);
+        return Task::where('id_service', $id)->get();
     }
 
     public function taskByService($id_service){

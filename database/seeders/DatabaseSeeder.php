@@ -92,6 +92,35 @@ class DatabaseSeeder extends Seeder
         \App\Models\State_task::create([
             'name' => 'Aplazado',
         ]);
+        // Tipos de contenido
+        \App\Models\Type_exception::create([
+            'name' => 'Riesgo biológico',
+        ]);
+        \App\Models\Type_exception::create([
+            'name' => 'Contenido frágil',
+        ]);
+        \App\Models\Type_exception::create([
+            'name' => 'Documento privado',
+        ]);
+        \App\Models\Type_exception::create([
+            'name' => 'Trámite personal',
+        ]);
+        \App\Models\Type_exception::create([
+            'name' => 'Documento privado',
+        ]);
+        \App\Models\Type_exception::create([
+            'name' => 'Valores',
+        ]);
+        \App\Models\Type_exception::create([
+            'name' => 'Contenido vacío',
+        ]);
+        // Type_content
+        \App\Models\Type_content::create([
+            'name' => 'Paquete',
+        ]);
+        \App\Models\Type_content::create([
+            'name' => 'Caja',
+        ]);
         
         // Seeder para crear servicios
         $addr = new AddressSeeder();

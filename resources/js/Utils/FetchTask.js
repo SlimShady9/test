@@ -18,8 +18,13 @@ const deleteTask = async (id) => {
     }
 };
 
-const changeTaskState = async (id) => {
-    
+const getTask = async (serviceId) => {
+    try {
+        const req = await axios.get(`/api/task/${serviceId}`);
+        return [await req.data[0], null];
+    } catch (error) {
+        return [null, error];
+    }
 };
 
-export { storeTask, deleteTask, changeTaskState };
+export { storeTask, deleteTask, getTask };
