@@ -158,4 +158,4 @@ Route::post('/email', [EmailController::class, 'emailPqrs']);
 
 Route::post('order/multiple', [OrderController::class, 'createMultiple']);
 
-Route::resource('file', EmailController::class);
+Route::resource('file', FileController::class);
