@@ -4,9 +4,11 @@ import { GrEdit } from "react-icons/gr";
 import { GrArchive } from "react-icons/gr";
 import { RiDeleteBinLine } from "react-icons/ri";
 import DataTable from "react-data-table-component";
+import { IoHelp } from "react-icons/io5";
 import { Link } from "@inertiajs/inertia-react";
 import Container from "@/Components/Container";
 import { container } from "tailwindcss/defaultTheme";
+import Button from "./FormUtils/Button";
 
 const DataTableService = () => {
     const [search, setSearch] = useState("");
@@ -44,7 +46,7 @@ const DataTableService = () => {
             name: "Ver",
             cell: (row) => (
                 <Link className="bg-yellow" href={`viewService/${row.id}`}>
-                    <GrArchive/>
+                    <GrArchive />
                 </Link>
             ),
         },
@@ -52,19 +54,30 @@ const DataTableService = () => {
             name: "Editar",
             cell: (row) => (
                 <Link className="bg-yellow" href={`editService/${row.id}`}>
-                    <GrEdit/>
+                    <GrEdit />
                 </Link>
             ),
         },
         {
             name: "Eliminar",
             cell: (row) => (
-                <button className="bg-red">
+                <Button className="bg-red">
                     <RiDeleteBinLine />
-                </button>
+                </Button>
+            ),
+        },
+        {
+            name: "Ayuda",
+            cell: (row) => (
+                <Link href={"pqrs/" + row.id} className="p-3 bg-blue-400">
+                    <Button className="bg-red">
+                        <IoHelp />
+                    </Button>
+                </Link>
             ),
         },
     ];
+
     useEffect(() => {
         getServicios();
     }, []);

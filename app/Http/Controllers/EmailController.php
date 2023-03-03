@@ -1,10 +1,12 @@
 <?php
  
 namespace App\Http\Controllers;
- 
+
 use App\Http\Controllers\Controller;
 use App\Mail\OrderShipped;
-use App\Models\Order;
+use Illuminate\Mail\Message;
+use App\Models\Email;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
  
@@ -16,12 +18,16 @@ class EmailController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function emailPqrs($servicio, $comentario, $usuario)
+    public function emailPqrs(Request  $request = null)
     {   
-        Mail::raw("El servicio ". $servicio." tuvo dificultades para el usuario, por favor contactar con el /n"
-        ." El usuario ". $usuario . " ha tenido el siguiente comentario /n ". $comentario, function ($message) {
-            $message->to('juandaflorez11@gmail.com')
-              ->subject("Tiquet para el servicio ". $servicio);
-          });
+        Mail::send([], [], function (Message $message) {
+            $servicio = Service::find(request()->servicio);
+            $message
+            ->to('gortega2001@gmail.com')
+            ->subject('PQRs servicio '.$servicio->tracking_id)
+            ->html('<h1>El usuario '. request()->usuario.' tiene el siguiente comentario sobre el servicio con el identificador de rastreo:
+                    '.$servicio->tracking_id.'</h1>
+                    <h1>'.request()->comentario.'</h1>');
+        });
     }
 }
