@@ -6,21 +6,95 @@ import Checkbox from "@/Components/FormUtils/Checkbox";
 import Button from "@/Components/FormUtils/Button";
 import SignatureCanvas from 'react-signature-canvas'
 import ReactToPrint from 'react-to-print';
+import { getService } from "@/Utils/FetchService";
+import {
+    TipoDeServiciosEnum,
+    toStringTipoDeServiciosEnum,
+} from "@/Constants/TipoDeServiciosEnum";
+import { ExcepcionesEnum } from "@/Constants/ExcepcionesEnum";
+import axios from "axios";
 
 export default function DeliveryProof(props) {
     const [sigPad, setSigPad] = useState({});
     const [content, setContent] = useState();
     const [pri, setPri] = useState();
+    const [service, setService] = useState([]);
+    const [message, setMessage] = useState([]);
+    const [task, setTask] = useState([]);
+    const [id, setId] = useState(3);
+
+    const print = () => {
+            let printContents = document.getElementById('divcontents').innerHTML;
+            let originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+    }
 
     const clear = () => {
         this.sigPad.clear()
     }
 
+    const getService = (id) => {
+        try {
+            axios.get(`/api/service/${id}`).then((res) => {
+            setService(res.data);
+        })
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getMessaging = (id) => {
+        try {
+            axios.get(`/api/messaging/${id}/messageByService`).then((res) => {
+            setMessage(res.data[0])
+        })
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getTask = (id) => {
+        try {
+            axios.get(`/api/task/${id}/taskByService`).then((res) => {
+            setTask(res.data[0])
+        })
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const completeID = (id) =>{
+        var conv = id.toString().padStart(4, '0');
+        return conv;
+    }
+
+    useEffect(() => {
+        getService(id);
+        console.log(service);
+        getMessaging(id);
+        console.log(message);
+        getTask(id);
+        console.log(task);
+    }, []);
+
+    const fechaActual = (separator) => {
+    let newDate = new Date()
+    let date = newDate.getDate();
+    let month = newDate.getMonth() + 1;
+    let year = newDate.getFullYear();
+    return `${date}${separator}${month<10?`0${month}`:`${month}`}${separator}${year}`
+}
     return (
         <>
             <Authenticated {...props}>
                 <div className="overflow-scroll">
-                    <div id="divcontents" className="grid grid-cols-2 mx-auto w-11/12 md:w-4/5 lg:w-2/5 my-10 border">
+                <div id="" className="mt-5 w-full text-center text-3xl grid grid-rows-2">
+                        <Label>Prueba de Entrega de: </Label>
+                        {service.name}
+                    </div>
+                    <div id="divcontents" className="grid grid-cols-2 mx-auto w-11/12 md:w-4/5 lg:w-2/5 my-5 border">
                         <div className="row-span-2  mx-auto my-5">
                             <ApplicationLogo />
                         </div>
@@ -40,7 +114,7 @@ export default function DeliveryProof(props) {
                             </div>
                             <div className="mt-3">
                                 <div className="ml-2">
-                                    Codensa Emgesa
+                                    {message.entity}
                                 </div>
                                 <div className="ml-2">
                                     Pepe Andrés Cruz Godoy, Coordinador
@@ -104,7 +178,7 @@ export default function DeliveryProof(props) {
                             Destinatario(s)
                         </div>
                         
-                        <div className="grid grid-cols-4 col-span-2 sm:col-span-2 text-left m-2  border-b-2 border-gray-dark border-dotted">
+                        <div className="grid grid-cols-4 col-span-2 text-left m-2  border-b-2 border-gray-dark border-dotted">
                             <ul className="col-span-4 sm:col-span-3">
                                 <li className="mt-2 border-l-4 border-gray-servi">1. Nombre Destinatario, Entidad Destinatario, Dependencia</li>
                                 <li className="mt-2 text-center">Calle 123 No. 23-34 | Hora: 11:30 AM</li>
@@ -116,7 +190,7 @@ export default function DeliveryProof(props) {
                                 </Button>
                             </div>
                         </div>
-                        <div className="grid grid-cols-4 col-span-2 sm:col-span-2 text-left m-2  border-b-2 border-gray-dark border-dotted">
+                        <div className="grid grid-cols-4 col-span-2 text-left m-2  border-b-2 border-gray-dark border-dotted">
                             <ul className="col-span-3">
                                 <li className="mt-2 border-l-4 border-gray-servi">2. Nombre Destinatario, Entidad Destinatario, Dependencia</li>
                                 <li className="mt-2 text-center">Calle 123 No. 23-34 | Hora: 11:30 AM</li>
@@ -128,7 +202,7 @@ export default function DeliveryProof(props) {
                                 </Button>
                             </div>
                         </div>
-                        <div className="grid grid-cols-4 col-span-2 sm:col-span-2 text-left m-2  border-b-2 border-gray-dark border-dotted">
+                        <div className="grid grid-cols-4 col-span-2 text-left m-2  border-b-2 border-gray-dark border-dotted">
                             <ul className="col-span-3">
                                 <li className="mt-2 border-l-4 border-gray-servi">3. Nombre Destinatario, Entidad Destinatario, Dependencia</li>
                                 <li className="mt-2 text-center">Calle 123 No. 23-34 | Hora: 11:30 AM</li>
@@ -146,7 +220,7 @@ export default function DeliveryProof(props) {
                         <div className="col-span-2 text-center bg-gray-servi border-gray-servi border-b-2">
                             <Label >ID DE SEGUIMIENTO: 123456789</Label>
                         </div>
-                        <div className="col-span-1 text-center border-gray-servi border-r-2">
+                        <div className="col-span-2 sm:col-span-1 text-center border-gray-servi border-r-2">
                             <div className="border-gray-servi border-b-2">
                                 <div className="col-span-3 border-gray-servi border-b-2">
                                     <Label>VOLUMEN:</Label>
@@ -172,19 +246,21 @@ export default function DeliveryProof(props) {
                                             30 cm
                                         </div>
                                     </div>
-                                    <div className="grid grid-cols-2 border-gray-servi border-t-2">
-                                        <Label className="mr-2 m-auto">PESO:</Label>
-                                        <div className="ml-2 m-auto">20 Kg</div>
-                                    </div>
-                                    <div className="grid grid-cols-2 border-gray-servi border-t-2">
-                                        <Label className="mr-2 m-auto">UNIDADES:</Label>
-                                        <div className="ml-2 m-auto">200</div>
+                                    <div className="grid grid-cols-2 sm:grid-cols-1">
+                                        <div className="grid grid-cols-2 border-gray-servi border-t-2">
+                                            <Label className="mr-2 m-auto">PESO:</Label>
+                                            <div className="ml-2 m-auto">20 Kg</div>
+                                        </div>
+                                        <div className="grid grid-cols-2 border-gray-servi border-t-2">
+                                            <Label className="mr-2 m-auto">UNIDADES:</Label>
+                                            <div className="ml-2 m-auto">200</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="col-span-1 grid grid-cols-2 text-center">
+                        <div className="col-span-2 sm:col-span-1  grid grid-cols-2 text-center">
                             <div className="flex col-span-2 border-gray-servi border-b-2">
                                 <div className="m-auto">
                                     <Label className="row-span-2">TIPO DE CONTENIDO:</Label>
@@ -245,7 +321,7 @@ export default function DeliveryProof(props) {
                                 Pepe Andrés Cruz Godoy - 1.000.036.533
                             </div>
                         </div>
-                        <div className="col-span-2 sm:col-span-1 border-t-2 border-gray-servi grid">
+                        <div className="col-span-2 border-t-2 border-gray-servi grid">
                         <Label className="text-left ml-2">
                                 Firma:
                             </Label>
@@ -257,7 +333,7 @@ export default function DeliveryProof(props) {
                                 <div className="ml-2">Autorizo tratamiento de datos</div>
                             </div>
                         </div>
-                        <div className="col-span-2 sm:col-span-1 border-t-2 sm:border-l-2 border-gray-servi">
+                        <div className="col-span-2 border-t-2 sm:border-l-2 border-gray-servi">
                             <Label className="text-left m-2">
                                 Observaciones:
                             </Label>
@@ -266,13 +342,15 @@ export default function DeliveryProof(props) {
                             </div>
                         </div>
                     </div>
-                    <div className="flex w-full mb-10">
+                    <div onClick={() => print()} className="flex w-full mb-10">
                         <Button className="m-auto">
                             Imprimir
                         </Button>
                     </div>
                 </div>
                 <div id="ifmcontentstoprint"></div>
+                <iframe id="ifmcontentstoprint"></iframe>
+                
             </Authenticated>
         </>
     );

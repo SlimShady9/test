@@ -17,6 +17,11 @@ class MessagingController extends Controller
         return Messaging::where('id_service', $id)->get();
     }
 
+    public function messageByService($id_service)
+    { 
+        return Messaging::where('id_service',$id_service)->get();
+    }
+
     public function store(Request $request) {
 
         try {
