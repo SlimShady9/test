@@ -83,19 +83,15 @@ export default function Services(props) {
                                 <AddressForm
                                     api_token={props.api_token}
                                     onSubmit={async (res) => {
-                                        setServiceDTO(function (prev) {
-                                            console.log(prev);
-                                            prev.service.address_id = res.id;
-                                            var service = {
-                                                ...prev.service,
-                                                address: res.id,
-                                            };
-                                            return {
-                                                ...prev,
-                                                service,
-                                            };
+                                        const newServiceDTO = {
+                                            ...serviceDTO.service,
+                                            address: res.id,
+                                        };
+                                        updateService(newServiceDTO);
+                                        setServiceDTO({
+                                            ...serviceDTO,
+                                            service: newServiceDTO,
                                         });
-                                        await updateService(serviceDTO.service);
                                         setStateService(
                                             EstadoServiciosEnum.SERVICIO_MENSAJERIA
                                         );

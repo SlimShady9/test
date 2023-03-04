@@ -36,7 +36,7 @@ function EditService(props) {
     );
 
     const [stateService, setStateService] = useState(
-        EstadoServiciosEnum.SERVICIO_CON_CONTENIDO
+        EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA
     );
 
     const [dataLoaded, setDataLoaded] = useState(false);
@@ -101,7 +101,6 @@ function EditService(props) {
             orders: dataOrders,
             tasks: dataTasks,
         });
-        console.log(dataContent);
         setDataLoaded(true);
     };
 
@@ -168,6 +167,7 @@ function EditService(props) {
                                                 EstadoServiciosEnum.SERVICIO_MENSAJERIA
                                             );
                                         }}
+                                        isEdit={true}
                                     />
                                 )}
                                 {stateService ===
