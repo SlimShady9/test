@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import AddressForm from "@/Components/AddressForm";
 import Card from "@/Components/Card";
 import Container from "@/Components/Container";
@@ -16,7 +17,7 @@ import { getMessaging } from "@/Utils/FetchMessaging";
 import { getOrder } from "@/Utils/FetchOrder";
 import { getAddressByService, getService } from "@/Utils/FetchService";
 import { getTask } from "@/Utils/FetchTask";
-import React, { useEffect, useState } from "react";
+import ReactLoading from "react-loading";
 
 function EditService(props) {
     const { auth, serviceId } = props;
@@ -35,7 +36,7 @@ function EditService(props) {
     );
 
     const [stateService, setStateService] = useState(
-        EstadoServiciosEnum.SERVICIO_MENSAJERIA
+        EstadoServiciosEnum.SERVICIO_CON_CONTENIDO
     );
 
     const [dataLoaded, setDataLoaded] = useState(false);
@@ -100,13 +101,22 @@ function EditService(props) {
             orders: dataOrders,
             tasks: dataTasks,
         });
-        console.log(serviceDTO, dataAddr);
+        console.log(serviceDTO);
         setDataLoaded(true);
     };
 
     return (
         <>
             <Authenticated {...props}>
+                {!dataLoaded && (
+                    <ReactLoading
+                        type={"spin"}
+                        color={"#D3D3D3"}
+                        height={"10%"}
+                        width={"10%"}
+                        className="m-auto translate-y-2/3"
+                    />
+                )}
                 {dataLoaded && (
                     <Container className="flex justify-center">
                         <Card className="sm:w-3/5">

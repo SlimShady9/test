@@ -1,9 +1,6 @@
-import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
 import React, { useState, useEffect, useContext } from "react";
-import { useForm } from "@inertiajs/inertia-react";
 import Label from "./FormUtils/Label";
 import SelectInput from "./FormUtils/SelectInput";
-import axios from "axios";
 import Input from "./FormUtils/Input";
 import Button from "./FormUtils/Button";
 import {
@@ -18,28 +15,54 @@ import ServiceContext from "./ServiceForms/useServiceContext";
 
 function AddressForm({ api_token, onSubmit, isEdit = false }) {
     const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
+    console.log(serviceDTO);
     const [data, setData] = useState({
-        name: serviceDTO.address.name,
-        addr: serviceDTO.address.addr,
+        name: "",
+        addr: "",
         country: {
-            label: serviceDTO.address.country,
-            value: serviceDTO.address.country_iso,
+            label: "",
+            value: "",
         },
-        country_iso: serviceDTO.address.country_iso,
+        country_iso: "",
         region: {
-            label: serviceDTO.address.region,
-            value: serviceDTO.address.region_iso,
+            label: "",
+            value: "",
         },
-        region_iso: serviceDTO.address.region_iso,
+        region_iso: "",
         city: {
-            label: serviceDTO.address.city,
-            value: serviceDTO.address.city_id,
+            label: "",
+            value: "",
         },
-        city_id: serviceDTO.address.city_id,
-        postal_code: serviceDTO.address.postal_code,
-        addr_detail: serviceDTO.address.addr_detail,
-        neighborhood: serviceDTO.address.neighborhood,
+        city_id: "",
+        postal_code: "",
+        addr_detail: "",
+        neighborhood: "",
     });
+
+    if (isEdit) {
+        setData({
+            name: serviceDTO.address.name,
+            addr: serviceDTO.address.addr,
+            country: {
+                label: serviceDTO.address.country,
+                value: serviceDTO.address.country_iso,
+            },
+            country_iso: serviceDTO.address.country_iso,
+            region: {
+                label: serviceDTO.address.region,
+                value: serviceDTO.address.region_iso,
+            },
+            region_iso: serviceDTO.address.region_iso,
+            city: {
+                label: serviceDTO.address.city,
+                value: serviceDTO.address.city_id,
+            },
+            city_id: serviceDTO.address.city_id,
+            postal_code: serviceDTO.address.postal_code,
+            addr_detail: serviceDTO.address.addr_detail,
+            neighborhood: serviceDTO.address.neighborhood,
+        });
+    }
 
     const [countries, setCountries] = useState([]);
     const [regions, setRegions] = useState([]);

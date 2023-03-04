@@ -1,7 +1,7 @@
 const EstadoServiciosEnum = Object.freeze({
     SERVICIO_INCIADO: 1,
-    SERVICIO_MENSAJERIA: 3, //Datos de Origen del envío
     SERVICIO_DIRECCION_CONFIRMADA: 2,
+    SERVICIO_MENSAJERIA: 3, //Datos de Origen del envío
     SERVICIO_USUARIOS_ASIGNADOS: 4,
     SERVICIO_CON_CONTENIDO: 5,
     SERVICIO_CON_TAREAS: 6, //Tareas (task) asignadas

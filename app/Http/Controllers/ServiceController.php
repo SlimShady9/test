@@ -127,6 +127,8 @@ class ServiceController extends Controller {
                 'price' => 'numeric|Between:0,9999999999',
                 'cost' => 'numeric|Between:0,9999999999',
                 'address' => 'Exists:addresses,id',
+                'archive' => 'max:255',
+
             ]);
             
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -142,9 +144,10 @@ class ServiceController extends Controller {
         $service->id_type_service = $request->id_type_service;
         $service->description = $request->description;
         $service->start_date = $request->start_date;
-        $service->price = $request->price_service;
+        $service->price = $request->price;
         $service->cost = $request->cost;
-        $service->address = $request->address;
+        $service->address = $request->address ? $request->address : $service->address;
+        $service->archive = $request->archive ? $request->archive : $service->archive;
         $service->save();
         return $service;
     }
