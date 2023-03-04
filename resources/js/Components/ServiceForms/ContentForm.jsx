@@ -36,31 +36,24 @@ function ContentForm({ setNextStep ,isEdit = false }) {
         })
     );
     const [content, setContent] = useState({
-        id_exception: -1,
-        t_carga: -1,
-        content: "Prueba",
-        units: "kg",
-        unit_weight: 50,
-        length: 1,
-        width: 15,
-        height: 54,
-        commercial_value: 20000.0,
-    });
-
-    const [optionsTypeService, setOptionsTypeService] = useState([]);
-    if (isEdit) {
-        setContent({
             commercial_value: serviceDTO.content.commercial_value,
             content: serviceDTO.content.content,
             height: serviceDTO.content.height,
-            id_exception: serviceDTO.content.id_exception,
-            t_carga: serviceDTO.content.t_carga,
+            id_exception: {
+                label: Object.keys(ExcepcionesEnum).filter(k => ExcepcionesEnum[k]===serviceDTO.content.id_exception)[0],
+                value: serviceDTO.content.id_exception,         
+            },
+            t_carga:{
+                label: Object.keys(TipoDeCargaEnum).filter(k => TipoDeCargaEnum[k]===serviceDTO.content.t_carga)[0],
+                value: serviceDTO.content.t_carga,         
+            },
             unit_weight: serviceDTO.content.unit_weight,
             width: serviceDTO.content.width,
             units: serviceDTO.content.units,
             length: serviceDTO.content.length,
-        });
-    }
+    });
+
+    const [optionsTypeService, setOptionsTypeService] = useState([]);
 
     useEffect(() => {
         fetchData();
@@ -115,6 +108,7 @@ function ContentForm({ setNextStep ,isEdit = false }) {
                         <Label>Tipo de Carga</Label>
                         <SelectInput
                             options={tiposDeCargaSelect}
+                            value={content.t_carga}
                             onChange={(e) => {
                                 onChange({
                                     target: { name: "t_carga", value: e.value },
@@ -192,6 +186,7 @@ function ContentForm({ setNextStep ,isEdit = false }) {
                         <SelectInput
                             isMulti={true}
                             options={condicionesEspecialesSelect}
+                            value={content.id_exception}
                             onChange={(e) => {
                                 onChange({
                                     target: {
