@@ -21,7 +21,7 @@ import { storeContent } from "@/Utils/FetchContent";
 import { toast } from "react-toastify";
 import ServiceContext from "./useServiceContext";
 
-function ContentForm({ setNextStep }) {
+function ContentForm({ setNextStep ,isEdit = false }) {
     const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
 
     const tiposDeCargaSelect = Object.keys(TipoDeCargaEnum).map((key) => ({
@@ -48,6 +48,19 @@ function ContentForm({ setNextStep }) {
     });
 
     const [optionsTypeService, setOptionsTypeService] = useState([]);
+    if (isEdit) {
+        setContent({
+            commercial_value: serviceDTO.content.commercial_value,
+            content: serviceDTO.content.content,
+            height: serviceDTO.content.height,
+            id_exception: serviceDTO.content.id_exception,
+            t_carga: serviceDTO.content.t_carga,
+            unit_weight: serviceDTO.content.unit_weight,
+            width: serviceDTO.content.width,
+            units: serviceDTO.content.units,
+            length: serviceDTO.content.length,
+        });
+    }
 
     useEffect(() => {
         fetchData();
@@ -74,7 +87,7 @@ function ContentForm({ setNextStep }) {
                 toast.error(res.error);
                 return;
             }
-            //setNextStep(EstadoServiciosEnum.SERVICIO_CON_TAREAS);
+            setNextStep(EstadoServiciosEnum.SERVICIO_CON_TAREAS);
         });
     };
 

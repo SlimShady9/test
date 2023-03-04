@@ -184,6 +184,7 @@ function EditService(props) {
                                         currentStep={stateService}
                                         setNextStep={setStateService}
                                         content={serviceDTO.content}
+                                        isEdit={true}
                                     />
                                 )}
                                 {stateService ===
