@@ -15,54 +15,28 @@ import ServiceContext from "./ServiceForms/useServiceContext";
 
 function AddressForm({ api_token, onSubmit, isEdit = false }) {
     const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
-    console.log(serviceDTO);
     const [data, setData] = useState({
-        name: "",
-        addr: "",
+        name: serviceDTO.address.name,
+        addr: serviceDTO.address.addr,
         country: {
-            label: "",
-            value: "",
+            label: serviceDTO.address.country,
+            value: serviceDTO.address.country_iso,
         },
-        country_iso: "",
+        country_iso: serviceDTO.address.country_iso,
         region: {
-            label: "",
-            value: "",
+            label: serviceDTO.address.region,
+            value: serviceDTO.address.region_iso,
         },
-        region_iso: "",
+        region_iso: serviceDTO.address.region_iso,
         city: {
-            label: "",
-            value: "",
+            label: serviceDTO.address.city,
+            value: serviceDTO.address.city_id,
         },
-        city_id: "",
-        postal_code: "",
-        addr_detail: "",
-        neighborhood: "",
+        city_id: serviceDTO.address.city_id,
+        postal_code: serviceDTO.address.postal_code,
+        addr_detail: serviceDTO.address.addr_detail,
+        neighborhood: serviceDTO.address.neighborhood,
     });
-
-    if (isEdit) {
-        setData({
-            name: serviceDTO.address.name,
-            addr: serviceDTO.address.addr,
-            country: {
-                label: serviceDTO.address.country,
-                value: serviceDTO.address.country_iso,
-            },
-            country_iso: serviceDTO.address.country_iso,
-            region: {
-                label: serviceDTO.address.region,
-                value: serviceDTO.address.region_iso,
-            },
-            region_iso: serviceDTO.address.region_iso,
-            city: {
-                label: serviceDTO.address.city,
-                value: serviceDTO.address.city_id,
-            },
-            city_id: serviceDTO.address.city_id,
-            postal_code: serviceDTO.address.postal_code,
-            addr_detail: serviceDTO.address.addr_detail,
-            neighborhood: serviceDTO.address.neighborhood,
-        });
-    }
 
     const [countries, setCountries] = useState([]);
     const [regions, setRegions] = useState([]);
