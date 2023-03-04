@@ -24,13 +24,13 @@ class ContentController extends Controller
             $request->validate([
                 'id_exception' => 'required',
                 't_carga' => 'required',
-                'content' => 'required|string|max:30',
+                'content' => 'required|string|max:60',
                 'units' => 'required|string|max:30',
-                'unit_weight' => 'required|string|max:30',
-                'length' => 'required|string|max:30',
-                'width' => 'required|string|max:30',
-                'height' => 'required|string|max:30',
-                'commercial_value' => 'required|string|max:30',
+                'unit_weight' => 'required|integer|max:255',
+                'length' => 'required|integer|max:255',
+                'width' => 'required|integer|max:255',
+                'height' => 'required|integer|max:255',
+                'commercial_value' => 'required|integer',
                 'service' => 'required|Exists:services,id',
             ]);
             

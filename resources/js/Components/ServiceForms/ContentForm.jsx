@@ -4,6 +4,7 @@ import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
 import { Head } from "@inertiajs/inertia-react";
 import Input from "../FormUtils/Input";
 import Label from "../FormUtils/Label";
+import { useContext } from "react";
 import CurrencyFormInput from "../FormUtils/CurrencyFormInput";
 import { getOptionsTypeService } from "@/Utils/FetchApi";
 import Button from "../FormUtils/Button";
@@ -18,8 +19,11 @@ import {
 } from "@/Constants/ExcepcionesEnum";
 import { storeContent } from "@/Utils/FetchContent";
 import { toast } from "react-toastify";
+import ServiceContext from "./useServiceContext";
 
 function ContentForm({ setNextStep }) {
+    const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
+
     const tiposDeCargaSelect = Object.keys(TipoDeCargaEnum).map((key) => ({
         label: toStringTipoDeCargaEnum(TipoDeCargaEnum[key]),
         value: TipoDeCargaEnum[key],
@@ -35,7 +39,7 @@ function ContentForm({ setNextStep }) {
         id_exception: -1,
         t_carga: -1,
         content: "Prueba",
-        units: 12,
+        units: "kg",
         unit_weight: 50,
         length: 1,
         width: 15,
@@ -64,12 +68,13 @@ function ContentForm({ setNextStep }) {
         storeContent({
             ...content,
             id_exception: Number(content.id_exception),
+            service: serviceDTO.service.id,
         }).then((res) => {
             if (res.error) {
                 toast.error(res.error);
                 return;
             }
-            setNextStep(EstadoServiciosEnum.SERVICIO_CON_TAREAS);
+            //setNextStep(EstadoServiciosEnum.SERVICIO_CON_TAREAS);
         });
     };
 

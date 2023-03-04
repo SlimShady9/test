@@ -101,7 +101,7 @@ function EditService(props) {
             orders: dataOrders,
             tasks: dataTasks,
         });
-        console.log(serviceDTO);
+        console.log(dataContent);
         setDataLoaded(true);
     };
 

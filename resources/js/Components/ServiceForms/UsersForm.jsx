@@ -86,7 +86,7 @@ function UsersForm({ currentStep, setNextStep }) {
             }
             alert("Usuarios agregados");
             setServiceDTO((prev) => ({ ...prev, orders: res.data }));
-            setNextStep(EstadoServiciosEnum.SERVICIO_CON_TAREAS);
+            setNextStep(EstadoServiciosEnum.SERVICIO_CON_CONTENIDO);
         });
     };
 
