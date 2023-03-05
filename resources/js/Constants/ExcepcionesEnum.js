@@ -10,6 +10,7 @@ const ExcepcionesEnum = Object.freeze({
 });
 
 const toStringExcepcionesEnum = (value) => {
+    console.log("value", value, );
     switch (value) {
         case ExcepcionesEnum.CONTENIDO_FRAGIL:
             return "Contenido frágil";
@@ -27,5 +28,24 @@ const toStringExcepcionesEnum = (value) => {
             return "";
     }
 };
+const toStringExcepcionesEnum2 = (value) => {
+    console.log("value", value, );
+    switch (value) {
+        case "1":
+            return "Contenido frágil";
+        case "2":
+            return "Riesgo biológico";
+        case "3":
+            return "Documento privado";
+        case "4":
+            return "Trámite personal";
+        case "5":
+            return "Valores";
+        case "6":
+            return "Contenido vacío";
+        default:
+            return "";
+    }
+};
 
-export { ExcepcionesEnum, toStringExcepcionesEnum };
+export { ExcepcionesEnum, toStringExcepcionesEnum ,toStringExcepcionesEnum2};

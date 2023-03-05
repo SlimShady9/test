@@ -36,7 +36,7 @@ function EditService(props) {
     );
 
     const [stateService, setStateService] = useState(
-        EstadoServiciosEnum.SERVICIO_INCIADO
+        EstadoServiciosEnum.SERVICIO_CON_CONTENIDO
     );
 
     const [dataLoaded, setDataLoaded] = useState(false);
@@ -97,7 +97,7 @@ function EditService(props) {
             service: dataService,
             address: dataAddr,
             messaging: dataMessaging,
-            content: dataContent,
+            content: dataContent?dataContent:{},
             orders: dataOrders,
             tasks: dataTasks,
         });
