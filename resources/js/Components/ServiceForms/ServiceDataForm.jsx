@@ -11,10 +11,14 @@ import {
     toStringTipoDeServiciosEnum,
 } from "@/Constants/TipoDeServiciosEnum";
 import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
-import { updateService, uploadFile, uploadService } from "@/Utils/FetchService";
+import {
+    getAddressByService,
+    updateService,
+    uploadService,
+} from "@/Utils/FetchService";
 import moment from "moment";
 import { toast } from "react-toastify";
-import Login from "@/Pages/Auth/Login";
+import { uploadFile, deleteFile as dFile } from "@/Utils/FetchFile";
 
 function ServiceDataForm({
     currentStep,
@@ -58,6 +62,7 @@ function ServiceDataForm({
         price: serviceDTO.service.price,
         cost: serviceDTO.service.cost,
         archive: serviceDTO.service.archive,
+        originalArchive: serviceDTO.service.archive,
     });
 
     // Closure fuctions
@@ -151,8 +156,9 @@ function ServiceDataForm({
     };
     // Sync data
     useEffect(() => {
-        if (!!serviceDTO.service.address) {
-            setShowDetail(false);
+        if (!!serviceDTO.service.archive && !!serviceDTO.service.id) {
+            // load address details
+            setFileList([{ name: serviceDTO.service.archive }]);
         }
     }, []);
 
@@ -163,6 +169,21 @@ function ServiceDataForm({
             return;
         }
         return await response.data.name;
+    };
+
+    const deleteFile = async () => {
+        if (serviceForm.originalArchive) {
+            const [response, err] = await dFile(serviceForm.originalArchive);
+            if (err) {
+                return;
+            }
+            setServiceForm({
+                ...serviceForm,
+                archive: null,
+                originalArchive: null,
+            });
+        }
+        setFileList([]);
     };
 
     if (currentStep !== id) {
@@ -312,7 +333,7 @@ function ServiceDataForm({
                                 <Button
                                     className="mx-3 w-1/3"
                                     type="Button"
-                                    onClick={() => setFileList([])}
+                                    onClick={deleteFile}
                                 >
                                     Limpiar
                                 </Button>
@@ -320,7 +341,8 @@ function ServiceDataForm({
                             <ul>
                                 {files.map((file, i) => (
                                     <li key={i}>
-                                        {file.name} - {file.type}
+                                        {file.name} {file.type && "-"}{" "}
+                                        {file.type}
                                     </li>
                                 ))}
                             </ul>

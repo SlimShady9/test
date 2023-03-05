@@ -21,10 +21,19 @@ const deleteTask = async (id) => {
 const getTask = async (serviceId) => {
     try {
         const req = await axios.get(`/api/task/${serviceId}`);
-        return [await req.data[0], null];
+        return [await req.data, null];
     } catch (error) {
         return [null, error];
     }
 };
 
-export { storeTask, deleteTask, getTask };
+const updateTask = async (task) => {
+    try {
+        const req = await axios.put(`/api/task/${task.id}`, task);
+        return [await req.data, null];
+    } catch (error) {
+        return [null, error];
+    }
+};
+
+export { storeTask, deleteTask, getTask, updateTask };

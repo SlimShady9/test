@@ -156,8 +156,6 @@ class AddressController extends Controller
     {
         try {
             $address = Address::findorfail($id);
-            $address->delete();
-            return response()->json(['message' => 'Address deleted successfully'], 200);
         } catch (\Throwable $th) {
             return response()->json(['message' => 'Address not found'], 404);
         }

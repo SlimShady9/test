@@ -36,7 +36,7 @@ function EditService(props) {
     );
 
     const [stateService, setStateService] = useState(
-        EstadoServiciosEnum.SERVICIO_CON_CONTENIDO
+        EstadoServiciosEnum.SERVICIO_CON_TAREAS
     );
 
     const [dataLoaded, setDataLoaded] = useState(false);
@@ -97,7 +97,7 @@ function EditService(props) {
             service: dataService,
             address: dataAddr,
             messaging: dataMessaging,
-            content: dataContent?dataContent:{},
+            content: dataContent ? dataContent : {},
             orders: dataOrders,
             tasks: dataTasks,
         });
@@ -193,7 +193,8 @@ function EditService(props) {
                                         api_token={props.api_token}
                                         currentStep={stateService}
                                         setNextStep={setStateService}
-                                        tasks={serviceDTO.tasks}
+                                        pTasks={serviceDTO.tasks}
+                                        isEdit={true}
                                     />
                                 )}
                             </ServiceContext.Provider>

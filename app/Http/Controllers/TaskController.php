@@ -85,14 +85,13 @@ class TaskController extends Controller
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json(['error' => 'Task not found'], 404);
         }
-        $Task->name = $request->name_service;
+        $Task->name = $request->name;
         $Task->entity = $request->entity;
         $Task->dependency = $request->dependency;
-        $Task->state = $request->state; 
-        $Task->address = $request->address;
+        $Task->id_state = $request->id_state; 
         $Task->id_service = $request->id_service;
         $Task->desc = $request->desc;
-        $Task->id_address = $request->id_state;
+        $Task->id_address = $request->id_address;
         $Task->responsible = $request->responsible; 
         $Task->limit_date = $request->limit_date;
         $Task->last_state_date = $request->last_state_date;

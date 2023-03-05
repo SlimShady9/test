@@ -55,7 +55,7 @@ const deleteAddress = async (addressId) => {
 const getAddress = async (addressId) => {
     try {
         const req = await axios.get(`/api/address/${addressId}`);
-        return [req.data[0], null];
+        return [req.data, null];
     } catch (error) {
         return [null, error];
     }

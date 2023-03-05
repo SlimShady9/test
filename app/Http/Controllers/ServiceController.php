@@ -147,7 +147,8 @@ class ServiceController extends Controller {
         $service->price = $request->price;
         $service->cost = $request->cost;
         $service->address = $request->address ? $request->address : $service->address;
-        $service->archive = $request->archive ? $request->archive : $service->archive;
+        $service->archive = $request->archive;
+
         $service->save();
         return $service;
     }
@@ -199,32 +200,6 @@ class ServiceController extends Controller {
         where u.id = ' . $id_user;
         $products = DB::select($sql);
         return $products;
-    }
-
-    public function storeFile($serviceId, Request $request) {
-        $service = Service::find($serviceId);
-        if (!$service) {
-            return response()->json(['message' => 'Service not found'], 404);
-        }
-
-        $name = $path. $user_id . '.' . $extension;
-
-        $path = $this->path;
-        $file = $request->file('file');
-        $extension = $file->getClientOriginalExtension();
-        // Change file name to avoid duplicates
-
-        if ($service->archive) {
-            Storage::disk('public')->delete($service->archive);
-        }
-
-        Storage::disk('public')->put($name, file_get_contents($file));
-        $service->archive = $name;
-        $service->save();
-        return response()->json(['success' => 'File uploaded successfuly'], 200);
-
-
-
     }
     /**
      * Generate a random string

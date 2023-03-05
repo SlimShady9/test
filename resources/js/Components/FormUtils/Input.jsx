@@ -13,14 +13,14 @@ export default function Input({
     ref,
     min,
     max,
-    onlyLetters=false, // including spaces
-    alpaNumeric=false, // ecxluding spaces
+    onlyLetters = false, // including spaces
+    alpaNumeric = false, // ecxluding spaces
 }) {
     var pattern = null;
     if (alpaNumeric) {
         pattern = "[a-zA-Z0-9]*";
     } else if (onlyLetters) {
-        pattern ="[a-zA-Z ]*";
+        pattern = "[a-zA-Z ]*";
     }
     return (
         <div>
@@ -33,15 +33,15 @@ export default function Input({
                     } ${
                     disabled ? "bg-gray-light" : "active:border-blue-border"
                 }`}
-                defaultValue={defaultValue}
                 autoComplete={autoComplete}
                 required={required}
                 onChange={(e) => handleChange(e)}
                 disabled={disabled}
                 ref={ref}
-                pattern={ onlyLetters == true ? "[a-zA-Z ]*" : pattern}
+                pattern={onlyLetters == true ? "[a-zA-Z ]*" : pattern}
                 min={min}
                 max={max}
+                value={defaultValue}
             />
         </div>
     );

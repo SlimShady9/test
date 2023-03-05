@@ -91,10 +91,11 @@ class FileController extends Controller
      */
     public function destroy($id)
     {
-        if (!Storage::disk('public')->exists($id)) {
+        $path = $this->path;
+        if (!Storage::disk('public')->exists($path.$id)) {
             return response()->json(['message' => 'File not found'], 404);
         }
-        Storage::disk('public')->delete($id);
+        Storage::disk('public')->delete($path.$id);
         return response()->json(['success' => 'File deleted successfuly'], 200);
     }
 
