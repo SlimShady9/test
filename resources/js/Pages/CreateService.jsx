@@ -39,6 +39,7 @@ export default function Services(props) {
         orders: [],
         tasks: [],
         messaging: {},
+        content: {},
     });
 
     const restoreInitialState = () => {

@@ -36,7 +36,7 @@ function EditService(props) {
     );
 
     const [stateService, setStateService] = useState(
-        EstadoServiciosEnum.SERVICIO_MENSAJERIA
+        EstadoServiciosEnum.SERVICIO_INCIADO
     );
 
     const [dataLoaded, setDataLoaded] = useState(false);

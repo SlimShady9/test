@@ -150,6 +150,11 @@ function ServiceDataForm({
         }
     };
     // Sync data
+    useEffect(() => {
+        if (!!serviceDTO.service.address) {
+            setShowDetail(false);
+        }
+    }, []);
 
     const addAddress = async () => {
         const response = await uploadFile(files[0]);
