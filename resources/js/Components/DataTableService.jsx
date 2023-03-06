@@ -45,7 +45,7 @@ const DataTableService = () => {
         {
             name: "Ver",
             cell: (row) => (
-                <Link className="bg-yellow" href={`viewService/${row.id}`}>
+                <Link className="bg-yellow" href={`deliveryProof/${row.id}`}>
                     <GrArchive />
                 </Link>
             ),

@@ -46,8 +46,6 @@ Route::resource('envio', EnvioController::class);
 
 Route::resource('service', ServiceController::class);
 
-Route::get('/service/{service}/address', [ServiceController::class, 'addressByService'])->name('service.address');
-
 Route::resource('user', UserController::class);
 
 Route::resource('service.user', ServiceUserController::class);
@@ -153,9 +151,9 @@ Route::get('/user/{user_id}/profileimg', [PhotoUserController::class, 'profileim
 Route::post('/user/{user_id}/profileimg', [PhotoUserController::class, 'uploadprofileimg']);
 Route::delete('/user/{user_id}/profileimg', [PhotoUserController::class, 'deleteprofileimg']);
 Route::get('/service/{user_id}/serviceByUser', [ServiceController::class, 'serviceByUser']);
-Route::get('/messaging/{service_id}/messageByService', [MessagingController::class, 'messageByService']);
-Route::get('/task/{service_id}/taskByService', [TaskController::class, 'taskByService']);
 
+Route::get('/task/{task}/address', [TaskController::class, 'addressByTask']);
+Route::get('/service/{service}/address', [ServiceController::class, 'addressByService']);
 Route::post('/email', [EmailController::class, 'emailPqrs']);
 
 Route::post('order/multiple', [OrderController::class, 'createMultiple']);

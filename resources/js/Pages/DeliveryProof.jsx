@@ -5,35 +5,18 @@ import Label from "@/Components/FormUtils/Label";
 import Checkbox from "@/Components/FormUtils/Checkbox";
 import Button from "@/Components/FormUtils/Button";
 import SignatureCanvas from 'react-signature-canvas'
-import ReactToPrint from 'react-to-print';
-import { getService } from "@/Utils/FetchService";
-import {
-    TipoDeServiciosEnum,
-    toStringTipoDeServiciosEnum,
-} from "@/Constants/TipoDeServiciosEnum";
-import { ExcepcionesEnum } from "@/Constants/ExcepcionesEnum";
+import { toStringTipoDeServiciosEnum } from "@/Constants/TipoDeServiciosEnum";
 import axios from "axios";
 
 export default function DeliveryProof(props) {
-    const [sigPad, setSigPad] = useState({});
-    const [content, setContent] = useState();
+    const [sigPad, setSigPad] = useState([]);
+    const [content, setContent] = useState([]);
     const [pri, setPri] = useState();
     const [service, setService] = useState([]);
     const [message, setMessage] = useState([]);
-    const [task, setTask] = useState([]);
-    const [id, setId] = useState(3);
-
-    const print = () => {
-            let printContents = document.getElementById('divcontents').innerHTML;
-            let originalContents = document.body.innerHTML;
-            document.body.innerHTML = printContents;
-            window.print();
-            document.body.innerHTML = originalContents;
-    }
-
-    const clear = () => {
-        this.sigPad.clear()
-    }
+    const [tasks, setTasks] = useState([]);
+    const [address, setAddress] = useState([]);
+    const [id, setId] = useState(props.serviceId);
 
     const getService = (id) => {
         try {
@@ -47,7 +30,7 @@ export default function DeliveryProof(props) {
 
     const getMessaging = (id) => {
         try {
-            axios.get(`/api/messaging/${id}/messageByService`).then((res) => {
+            axios.get(`/api/messaging/${id}`).then((res) => {
             setMessage(res.data[0])
         })
         } catch (error) {
@@ -55,28 +38,95 @@ export default function DeliveryProof(props) {
         }
     };
 
-    const getTask = (id) => {
+    const getTasks = (id) => {
         try {
-            axios.get(`/api/task/${id}/taskByService`).then((res) => {
-            setTask(res.data[0])
+            axios.get(`/api/task/${id}`).then((res) => {
+            setTasks(res.data)
         })
         } catch (error) {
             console.log(error);
         }
     };
 
+    const getAddress = (id) => {
+        try {
+            axios.get(`/api/service/${id}/address`).then((res) => {
+            setAddress(res.data);
+        })
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getContent = (id) => {
+        try {
+            axios.get(`/api/content/${id}`).then((res) => {
+            return res.data;
+        })
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getTaskAddress = (id) =>{
+        try {
+            axios.get(`/api/task/${id}/address`).then((res) => {
+            return res.data;
+        })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const nextTaskState = (id) =>{
+        try {
+            axios.get(`/api/task/${id}/address`).then((res) => {
+            setTaskAddress(res.data);
+        })
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const print = () => {
+            let printContents = document.getElementById('divcontents').innerHTML;
+            let originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
+            window.print();
+            document.body.innerHTML = originalContents;
+    }
+
+    const clear = () => {
+        this.sigPad.clear()
+    }
+
     const completeID = (id) =>{
         var conv = id.toString().padStart(4, '0');
         return conv;
     }
 
+    const getLastTaskDate = () =>{
+        tasks.map(task  => {
+            if(task == tasks[tasks.length-1]){
+                console.log(task.limit_date);
+                return task.limit_date;
+            }
+        }
+        )
+    }
+
     useEffect(() => {
         getService(id);
-        console.log(service);
+
         getMessaging(id);
         console.log(message);
-        getTask(id);
-        console.log(task);
+
+        getTasks(id);
+
+        getAddress(id);
+
+        getContent(id);
+        console.log(content); 
     }, []);
 
     const fechaActual = (separator) => {
@@ -90,7 +140,7 @@ export default function DeliveryProof(props) {
         <>
             <Authenticated {...props}>
                 <div className="overflow-scroll">
-                <div id="" className="mt-5 w-full text-center text-3xl grid grid-rows-2">
+                <div className="mt-5 w-full text-center text-3xl grid grid-rows-2">
                         <Label>Prueba de Entrega de: </Label>
                         {service.name}
                     </div>
@@ -113,24 +163,22 @@ export default function DeliveryProof(props) {
                                 <div className=" bg-gray-dark text-center text-white"> Remitente</div>
                             </div>
                             <div className="mt-3">
-                                <div className="ml-2">
+                                <div className="m-2">
                                     {message.entity}
                                 </div>
-                                <div className="ml-2">
-                                    Pepe Andrés Cruz Godoy, Coordinador
+                                <div className="m-2">
+                                    {message.name}, {message.charge}
                                 </div>
-                                <div className="ml-2">
-                                    País, Ciudad, Localidad
+                                <div className="m-2">
+                                    {address.country}, {address.region}, {address.city}
                                 </div>
-                                <div className="ml-2">
-                                    Calle 152 No. 54 - 39
+                                <div className="m-2">
+                                    {address.addr}
                                 </div>
-                                <div className="ml-2">
-                                    Torre 2 apto 1504
+                                <div className="m-2">
+                                    {address.addr_detail}
                                 </div>
-                                <div className="ml-2">
-                                    3002004056
-                                </div>
+
                             </div>
                         </div>
                         <div className="col-span-2 sm:col-span-1 grid grid-cols-2 border-t sm:border-l">
@@ -138,87 +186,82 @@ export default function DeliveryProof(props) {
                                 No. de Guía
                             </Label>
                             <Label className="col-span-2 text-center bg-gray-servi">
-                                02365
+                                {service.tracking_id}
                             </Label>
+                            <Label className="mr-2 m-auto">
+                                Nombre:
+                            </Label>
+                            <div className="ml-2 m-auto">
+                                {service.name}
+                            </div>
                             <Label className="mr-2 m-auto">
                                 Impresión:
                             </Label>
                             <div className="ml-2 m-auto">
-                                29/01/2023
+                                {fechaActual("/")}
                             </div>
                             <Label className="mr-2 m-auto">
                                 Inicio:
                             </Label>
                             <div className="ml-2 m-auto">
-                                29/01/2023
+                                {service.start_date}
                             </div>
                             <Label className="mr-2 m-auto">
                                 Finalización:
                             </Label>
                             <div className="ml-2 m-auto">
-                                29/01/2023
+                                {
+                                    getLastTaskDate()
+                                }
                             </div>
                             <Label className="mr-2 m-auto">
                                 Tipo de Servicio:
                             </Label>
                             <div className="ml-2 m-auto">
-                                Correspondencia
+                                {toStringTipoDeServiciosEnum(service.id_type_service)}
+                            </div>
+                            <Label className="mr-2 m-auto">
+                                Orden Interna:
+                            </Label>
+                            <div className="ml-2 m-auto">
+                                {message.intern_order}
                             </div>
                             <Label className="row-span-2 text-right mr-2 my-auto">
                                 Cargar a:
                             </Label>
                             <div className="text-left ml-2 my-auto">
-                                MX600B2
+                                {message.cost_center}
                             </div>
                             <div className="text-left ml-2 my-auto">
-                                Orden interna
+                                {message.dependency}
                             </div>
                         </div>
                         <div className="col-span-2 bg-gray-dark text-center text-white">
                             Destinatario(s)
                         </div>
-                        
-                        <div className="grid grid-cols-4 col-span-2 text-left m-2  border-b-2 border-gray-dark border-dotted">
-                            <ul className="col-span-4 sm:col-span-3">
-                                <li className="mt-2 border-l-4 border-gray-servi">1. Nombre Destinatario, Entidad Destinatario, Dependencia</li>
-                                <li className="mt-2 text-center">Calle 123 No. 23-34 | Hora: 11:30 AM</li>
-                                <li className="mt-2 text-sm">Descripción así como bien descriptiva </li>
-                            </ul>
-                            <div className="col-span-4 sm:col-span-1 flex">
-                                <Button className="text-center sm:tracking-tighter mx-auto my-2 text-xs h-16 bg-yellow-cream">
-                                    Pendiente
-                                </Button>
+                        {tasks.map((task, index) => (
+                                
+                                <div className="grid grid-cols-4 col-span-2 text-left m-2  border-b-2 border-gray-dark border-dotted">
+                                <ul className="col-span-4 sm:col-span-3">
+                                    <li className="mt-2 border-l-4 border-gray-servi">{index+1}. {task.name}, {task.entity}, {task.dependency}</li>
+                                    <li className="mt-2 text-center">{getTaskAddress(task.id_address)}Calle 123 No. 23-34 | Hora: 11:30 AM</li>
+                                    <li className="mt-2 text-sm">{task.desc}</li>
+                                </ul>
+                                <div className="col-span-4 sm:col-span-1 flex">
+                                    <Button className="text-center sm:tracking-tighter mx-auto my-2 text-xs h-16 bg-yellow-cream">
+                                        Pendiente
+                                    </Button>
+                                </div>
                             </div>
-                        </div>
-                        <div className="grid grid-cols-4 col-span-2 text-left m-2  border-b-2 border-gray-dark border-dotted">
-                            <ul className="col-span-3">
-                                <li className="mt-2 border-l-4 border-gray-servi">2. Nombre Destinatario, Entidad Destinatario, Dependencia</li>
-                                <li className="mt-2 text-center">Calle 123 No. 23-34 | Hora: 11:30 AM</li>
-                                <li className="mt-2 text-sm">Descripción así como bien descriptiva </li>
-                            </ul>
-                            <div className="col-span-4 sm:col-span-1 flex">
-                                <Button className="text-center sm:tracking-tighter mx-auto my-2 text-xs h-16 bg-yellow-cream">
-                                    Pendiente
-                                </Button>
-                            </div>
-                        </div>
-                        <div className="grid grid-cols-4 col-span-2 text-left m-2  border-b-2 border-gray-dark border-dotted">
-                            <ul className="col-span-3">
-                                <li className="mt-2 border-l-4 border-gray-servi">3. Nombre Destinatario, Entidad Destinatario, Dependencia</li>
-                                <li className="mt-2 text-center">Calle 123 No. 23-34 | Hora: 11:30 AM</li>
-                                <li className="mt-2 text-sm">Descripción así como bien descriptiva </li>
-                            </ul>
-                            <div className="col-span-4 sm:col-span-1 flex">
-                                <Button className="text-center sm:tracking-tighter mx-auto my-2 text-xs h-16 bg-yellow-cream">
-                                    Pendiente
-                                </Button>
-                            </div>
-                        </div>
+                        ))}
                         <div className="col-span-2 text-center bg-gray-dark text-white border-t border-b">
                             Contenido
                         </div>
                         <div className="col-span-2 text-center bg-gray-servi border-gray-servi border-b-2">
-                            <Label >ID DE SEGUIMIENTO: 123456789</Label>
+                            <Label >TRANSPORTADORA: {message.transporter}</Label>
+                        </div>
+                        <div className="col-span-2 text-center bg-gray-servi border-gray-servi border-b-2">
+                            <Label >ID DE SEGUIMIENTO: {message.id_transporter_tracking}</Label>
                         </div>
                         <div className="col-span-2 sm:col-span-1 text-center border-gray-servi border-r-2">
                             <div className="border-gray-servi border-b-2">
@@ -311,7 +354,7 @@ export default function DeliveryProof(props) {
                             Descripción del Servicio
                         </div>
                         <div className="col-span-2 text-center">
-                            <div className="text-justify m-2">Entidad Destinatario, Calle 123 No. 23-34, Nombre Destinatario, Descripción así como bien descriptivaEntidad Destinatario, Calle 123 No. 23-34, Nombre Destinatario, Descripción así como bien descriptiva</div>
+                            <div className="text-justify m-2">{service.description}</div>
                         </div>
                         <div className="col-span-2">
                             <div className="text-center bg-gray-dark text-white">
