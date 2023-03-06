@@ -15,7 +15,7 @@ import {
     toStringTransportadorasEnum,
 } from "@/Constants/TransportadorEnum";
 
-function MessagingForm({ currentStep, setNextStep , user}) {
+function MessagingForm({ currentStep, setNextStep , user, isEdit}) {
 
     const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
     const transportadorasSelect = Object.keys(TransportadoraEnum).map(
@@ -37,18 +37,19 @@ function MessagingForm({ currentStep, setNextStep , user}) {
         });
     };
     const [showDetail, setShowDetail] = useState(true);
+    console.log(serviceDTO);
     const [messaging, setMessaging] = useState({
-        name: null,
-        id_user: user,
+        name: serviceDTO.messaging.name,
+        id_user: serviceDTO.messaging.id_user,
         id_service: serviceDTO.service.id,
-        entity: null,
-        charge: null,
+        entity: serviceDTO.messaging.entity,
+        charge: serviceDTO.messaging.charge,
         id_address: serviceDTO.address.id,
-        dependency: null,
-        intern_order: null,
-        transporter:null,
-        cost_center: null,
-        id_transporter_tracking: null,
+        dependency: serviceDTO.messaging.dependency,
+        intern_order: serviceDTO.messaging.intern_order,
+        transporter:serviceDTO.messaging.transporter,
+        cost_center: serviceDTO.messaging.cost_center,
+        id_transporter_tracking: serviceDTO.messaging.id_transporter_tracking,
     });
     const id = EstadoServiciosEnum.SERVICIO_MENSAJERIA;
 
