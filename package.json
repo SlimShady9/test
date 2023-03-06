@@ -23,9 +23,11 @@
         "vite": "^2.9.11"
     },
     "dependencies": {
+        "chart.js": "^4.2.1",
         "composer": "^4.1.0",
         "esbuild": "^0.14.49",
         "moment": "^2.29.4",
+        "react-chartjs-2": "^5.2.0",
         "react-currency-input-field": "^3.6.9",
         "react-data-table-component": "^7.5.2",
         "react-dropzone": "^14.2.2",
