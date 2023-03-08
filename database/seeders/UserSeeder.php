@@ -83,5 +83,31 @@ class UserSeeder extends Seeder
             'phone' => '3178874957',
             'cellphone' => '3178874957',
         ]);
+
+        User::create([
+            'name' => 'Juan',
+            'email' => 'jdflorez@gmail.com',
+            'password' => bcrypt('Ronditas11'),
+            'id_t_user' => 2,
+            'id_t_doc' => 1,
+            'username' => 'juan',
+            'surname' => 'florez',
+            'doc' => '192789689',
+            'phone' => '3002001007',
+            'cellphone' => '3002001007',
+        ]);
+
+        User::create([
+            'name' => 'Gabriel',
+            'email' => 'gortega@gmail.com',
+            'password' => bcrypt('Yasuo123'),
+            'id_t_user' => 3,
+            'id_t_doc' => 1,
+            'username' => 'Gabriel',
+            'surname' => 'Ortega',
+            'doc' => '7485615',
+            'phone' => '321155587',
+            'cellphone' => '321155587',
+        ]);
     }
 }
