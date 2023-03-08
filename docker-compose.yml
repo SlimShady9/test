@@ -1,54 +1,60 @@
-version: "3.7"
+version: '3'
+
+networks:
+  laravel:
+
 services:
-  app:
-    build:
-      args:
-        user: servicourrier
-        uid: 1000
-      context: ./
-      dockerfile: Dockerfile
-    image: servicourrier
-    container_name: servicourrier-app
-    restart: unless-stopped
-    working_dir: /var/www/
-    volumes:
-      - ./:/var/www
-    networks:
-      - servicourrier
-
-  db:
-    image: mysql:5.7
-    container_name: servicourrier-db
-    restart: unless-stopped
-    environment:
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_USER: ${DB_USERNAME}
-      SERVICE_TAGS: dev
-      SERVICE_NAME: mysql
-    volumes:
-      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
-    networks:
-      servicourrier:
-        ipv4_address: 10.5.0.5
-
   nginx:
-    image: nginx:alpine
-    container_name: servicourrier-nginx
+    build:
+      context: ./docker
+      dockerfile: nginx.dockerfile
+      args:
+        - UID=${UID:-1000}
+        - GID=${GID:-1000}
+        - USER=${USER:-laravel}
     restart: unless-stopped
+    container_name: nginx
     ports:
-      - 8000:80
+      - 8000:8000
     volumes:
       - ./:/var/www
       - ./docker-compose/nginx:/etc/nginx/conf.d/
+    depends_on:
+      - php
+      - mysql
     networks:
-      - servicourrier
+      - laravel
 
-networks:
-  servicourrier:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 10.5.0.0/16
-          gateway: 10.5.0.1
+  php:
+    build:
+      context: ./
+      dockerfile: ./docker/php.dockerfile
+      args:
+        user: servicourrier
+        uid: 1000
+    container_name: php
+    ports:
+      - ":9000"
+    volumes:
+      - ./:/var/www
+    networks:
+      - laravel
+
+  mysql:
+    image: mariadb:10.6
+    container_name: mysql
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
+    networks:
+      - laravel
