@@ -111,11 +111,7 @@ const DataTableService = () => {
                             Nuevo Servicio
                         </Container>
                     </Link>
-                    <Link href={"deliveryProof"} className="p-3 bg-blue-400">
-                        <Container className="hover:scale-125 shadow-xl rounded-3xl bg-green-light">
-                            Prueba de Entrega
-                        </Container>
-                    </Link>
+                    
                     <Container>
                         <input
                             type="text"

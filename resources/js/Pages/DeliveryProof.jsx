@@ -5,7 +5,11 @@ import Label from "@/Components/FormUtils/Label";
 import Checkbox from "@/Components/FormUtils/Checkbox";
 import Button from "@/Components/FormUtils/Button";
 import SignatureCanvas from 'react-signature-canvas'
+import { getContent } from "@/Utils/FetchContent";
 import { toStringTipoDeServiciosEnum } from "@/Constants/TipoDeServiciosEnum";
+import { toStringTipoDeCargaEnum } from "@/Constants/TipoDeCargaEnum";
+import { toStringExcepcionesEnum } from "@/Constants/ExcepcionesEnum";
+import { toStringEstadoDeTareaEnum } from "@/Constants/EstadoDeTareaEnum";
 import axios from "axios";
 
 export default function DeliveryProof(props) {
@@ -58,15 +62,6 @@ export default function DeliveryProof(props) {
         }
     };
 
-    const getContent = (id) => {
-        try {
-            axios.get(`/api/content/${id}`).then((res) => {
-            return res.data;
-        })
-        } catch (error) {
-            console.log(error);
-        }
-    };
 
     const getTaskAddress = (id) =>{
         try {
@@ -108,25 +103,21 @@ export default function DeliveryProof(props) {
     const getLastTaskDate = () =>{
         tasks.map(task  => {
             if(task == tasks[tasks.length-1]){
-                console.log(task.limit_date);
                 return task.limit_date;
             }
         }
         )
     }
 
-    useEffect(() => {
+    useState(() => {
         getService(id);
-
+        console.log(id);
         getMessaging(id);
-        console.log(message);
-
         getTasks(id);
-
         getAddress(id);
-
-        getContent(id);
-        console.log(content); 
+        getContent(id).then(data => {setContent(data)});
+        console.log(content[0]);
+        
     }, []);
 
     const fechaActual = (separator) => {
@@ -211,7 +202,7 @@ export default function DeliveryProof(props) {
                             </Label>
                             <div className="ml-2 m-auto">
                                 {
-                                    getLastTaskDate()
+                                    
                                 }
                             </div>
                             <Label className="mr-2 m-auto">
@@ -244,7 +235,7 @@ export default function DeliveryProof(props) {
                                 <div className="grid grid-cols-4 col-span-2 text-left m-2  border-b-2 border-gray-dark border-dotted">
                                 <ul className="col-span-4 sm:col-span-3">
                                     <li className="mt-2 border-l-4 border-gray-servi">{index+1}. {task.name}, {task.entity}, {task.dependency}</li>
-                                    <li className="mt-2 text-center">{getTaskAddress(task.id_address)}Calle 123 No. 23-34 | Hora: 11:30 AM</li>
+                                    <li className="mt-2 text-center">{}Calle 123 No. 23-34 | Hora: 11:30 AM</li>
                                     <li className="mt-2 text-sm">{task.desc}</li>
                                 </ul>
                                 <div className="col-span-4 sm:col-span-1 flex">
@@ -280,23 +271,23 @@ export default function DeliveryProof(props) {
                                             <Label>Largo</Label>
                                         </div>
                                         <div className="m-auto">
-                                            30 cm
+                                            {} cm
                                         </div>
                                         <div className="m-auto">
-                                            30 cm
+                                            {} cm
                                         </div>
                                         <div className="m-auto">
-                                            30 cm
+                                            {} cm
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-2 sm:grid-cols-1">
                                         <div className="grid grid-cols-2 border-gray-servi border-t-2">
-                                            <Label className="mr-2 m-auto">PESO:</Label>
-                                            <div className="ml-2 m-auto">20 Kg</div>
+                                            <Label className="mr-2 m-auto">PESO UNITARIO:</Label>
+                                            <div className="ml-2 m-auto">{} Kg</div>
                                         </div>
                                         <div className="grid grid-cols-2 border-gray-servi border-t-2">
                                             <Label className="mr-2 m-auto">UNIDADES:</Label>
-                                            <div className="ml-2 m-auto">200</div>
+                                            <div className="ml-2 m-auto">{}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -307,13 +298,13 @@ export default function DeliveryProof(props) {
                             <div className="flex col-span-2 border-gray-servi border-b-2">
                                 <div className="m-auto">
                                     <Label className="row-span-2">TIPO DE CONTENIDO:</Label>
-                                    <div className="row-span-2 text-center">Tipo Contenido</div>
+                                    <div className="row-span-2 text-center">{toStringTipoDeCargaEnum()}</div>
                                 </div>
                             </div>
                             <div className="flex col-span-2 border-gray-servi border-b-2">
                                 <div className="m-auto">
                                     <Label className="row-span-2">DICE CONTENER:</Label>
-                                    <div className="row-span-2 text-center">Nombre Contenido</div>
+                                    <div className="row-span-2 text-center">{}</div>
                                 </div>
                             </div>
                             <div className="flex col-span-2 border-gray-servi border-b-2">
@@ -327,7 +318,7 @@ export default function DeliveryProof(props) {
                             <Label>EXCEPCION DEL SERVICIO: </Label>
                         </div>
                         <div className="col-span-2 m-auto">
-                            Contenido delicado
+                            {toStringExcepcionesEnum(3)}
                         </div>
                         <div className="col-span-2 text-center bg-gray-dark text-white border-t">
                             Excepción de Entrega

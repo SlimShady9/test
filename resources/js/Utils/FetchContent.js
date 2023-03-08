@@ -21,7 +21,7 @@ const deleteContent = async (id) => {
 const getContent = async (idService) => {
     try {
         const req = await axios.get(`/api/content/${idService}`);
-        return [req.data[0], null];
+        return [req.data, null];
     } catch (error) {
         return [null, error];
     }
