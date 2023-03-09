@@ -31,7 +31,7 @@ function TaskForm({ setNextStep, api_token, pTasks = [], isEdit = false }) {
         id_address: -1,
         id_service: serviceDTO.service.id,
         desc: "",
-        responsible: -1,
+        responsible: 0,
         dateLimit: "",
         hourLimit: "",
         last_state_date: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
@@ -83,6 +83,10 @@ function TaskForm({ setNextStep, api_token, pTasks = [], isEdit = false }) {
             dateLimit: undefined,
             hourLimit: undefined,
             undefined: undefined,
+            id_address:
+                currentTask.id_address === null
+                    ? undefined
+                    : currentTask.id_address,
         };
 
         if (currentTask.dateLimit && currentTask.hourLimit) {
@@ -260,10 +264,15 @@ function TaskForm({ setNextStep, api_token, pTasks = [], isEdit = false }) {
                                         },
                                     })
                                 }
-                                value={usersResponsibleAvailable.find(
-                                    (user) =>
-                                        user.value === currentTask.responsible
-                                )}
+                                value={
+                                    currentTask.responsible === -1
+                                        ? ""
+                                        : usersResponsibleAvailable.find(
+                                              (user) =>
+                                                  user.value ===
+                                                  currentTask.responsible
+                                          )
+                                }
                             />
                         </div>
                         <div className="grid grid-cols-2 col-span-2 justify-center">
