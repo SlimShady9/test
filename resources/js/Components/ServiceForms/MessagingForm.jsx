@@ -8,15 +8,14 @@ import { getOptionsTypeService } from "@/Utils/FetchApi";
 import Button from "../FormUtils/Button";
 import SelectInput from "../FormUtils/SelectInput";
 import ServiceContext from "./useServiceContext";
-import { storeMessaging, updateMessaging} from "@/Utils/FetchMessaging";
+import { storeMessaging, updateMessaging } from "@/Utils/FetchMessaging";
 
 import {
     TransportadoraEnum,
     toStringTransportadorasEnum,
 } from "@/Constants/TransportadorEnum";
 
-function MessagingForm({ currentStep, setNextStep , user, isEdit}) {
-
+function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
     const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
     const transportadorasSelect = Object.keys(TransportadoraEnum).map(
         (key) => ({
@@ -26,49 +25,51 @@ function MessagingForm({ currentStep, setNextStep , user, isEdit}) {
     );
     const submitForm = async (e) => {
         e.preventDefault();
-        if(isEdit){
-            const response = await updateMessaging(messaging);
-            if (response.error) {
+        if (isEdit) {
+            const [response, error] = await updateMessaging(messaging);
+            if (error) {
                 toast.error("Error al subir el servicio");
                 return;
             }
-            const messaging2 = await response.data;
+            const messaging2 = await response;
+            console.log(messaging2);
             setServiceDTO((prev) => {
                 return { ...prev, messaging: messaging2 };
             });
             setNextStep(EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS);
-
+        } else {
+            storeMessaging({
+                ...messaging,
+            }).then((res) => {
+                if (res.error) {
+                    toast.error(res.error);
+                    return;
+                }
+                setNextStep(EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS);
+            });
         }
-        else{
-        storeMessaging({
-            ...messaging,
-        }).then((res) => {
-            if (res.error) {
-                toast.error(res.error);
-                return;
-            }
-            setNextStep(EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS);
-        });
-        };
     };
     const [showDetail, setShowDetail] = useState(true);
 
+    console.log(serviceDTO.messaging);
+
     const [messaging, setMessaging] = useState({
         name: serviceDTO.messaging.name,
-        id_user: serviceDTO.messaging.id_user?serviceDTO.messaging.id_user:user.id,
+        id_user: serviceDTO.messaging.id_user
+            ? serviceDTO.messaging.id_user
+            : user.id,
         id_service: serviceDTO.service.id,
         entity: serviceDTO.messaging.entity,
         charge: serviceDTO.messaging.charge,
         id_address: serviceDTO.address.id,
         dependency: serviceDTO.messaging.dependency,
         intern_order: serviceDTO.messaging.intern_order,
-        transporter:serviceDTO.messaging.transporter,
+        transporter: serviceDTO.messaging.transporter,
         cost_center: serviceDTO.messaging.cost_center,
         id_transporter_tracking: serviceDTO.messaging.id_transporter_tracking,
         id: serviceDTO.messaging.id,
     });
     const id = EstadoServiciosEnum.SERVICIO_MENSAJERIA;
-
 
     const [optionsTypeService, setOptionsTypeService] = useState([]);
 
@@ -115,9 +116,9 @@ function MessagingForm({ currentStep, setNextStep , user, isEdit}) {
                     <div className="col-span-1">
                         <Label className="">Cargo del Remitente</Label>
                         <Input
-                        name="charge"
-                        defaultValue={messaging.charge}
-                        handleChange={onChange}
+                            name="charge"
+                            defaultValue={messaging.charge}
+                            handleChange={onChange}
                         />
                     </div>
                     <div className="col-span-1">
@@ -151,25 +152,33 @@ function MessagingForm({ currentStep, setNextStep , user, isEdit}) {
                                 <Label className="">
                                     Transportadora Asociada
                                 </Label>
-                                <SelectInput 
-                            options={transportadorasSelect}
-                            value={{
-                                value: messaging.transporter,
-                                label: toStringTransportadorasEnum(
-                                    TransportadoraEnum[messaging.transporter?.toUpperCase()]
-                                ),
-                            }}
-                            onChange={(e) => {
-                                onChange({
-                                    target: { name: "transporter", value: e.label },
-                                });
-                            }}/>
+                                <SelectInput
+                                    options={transportadorasSelect}
+                                    value={{
+                                        value: messaging.transporter,
+                                        label: toStringTransportadorasEnum(
+                                            TransportadoraEnum[
+                                                messaging.transporter?.toUpperCase()
+                                            ]
+                                        ),
+                                    }}
+                                    onChange={(e) => {
+                                        onChange({
+                                            target: {
+                                                name: "transporter",
+                                                value: e.label,
+                                            },
+                                        });
+                                    }}
+                                />
                             </div>
                             <div className="col-span-1">
                                 <Label>Número de Seguimiento</Label>
                                 <Input
                                     name="id_transporter_tracking"
-                                    defaultValue={messaging.id_transporter_tracking}
+                                    defaultValue={
+                                        messaging.id_transporter_tracking
+                                    }
                                     handleChange={onChange}
                                 />
                             </div>

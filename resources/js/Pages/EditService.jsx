@@ -80,6 +80,7 @@ function EditService(props) {
         ) {
             // messaging
             var [dataMessaging, errorMessaging] = await getMessaging(serviceId);
+            console.log(dataMessaging);
             if (errorMessaging != null) {
             }
             // content

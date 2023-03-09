@@ -71,12 +71,13 @@ function ContentForm({ setNextStep, isEdit }) {
     const submitForm = async (e) => {
         e.preventDefault();
         if (isEdit) {
-            const response = await updateContent(content);
-            if (response.error) {
+            const [response, error] = await updateContent(content);
+
+            if (error) {
                 toast.error("Error al subir el servicio");
                 return;
             }
-            const content2 = await response.data;
+            const content2 = await response;
             setServiceDTO((prev) => {
                 return { ...prev, content: content2 };
             });
