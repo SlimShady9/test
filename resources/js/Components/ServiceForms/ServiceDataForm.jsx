@@ -51,16 +51,16 @@ function ServiceDataForm({
         id_type_service: serviceDTO.service.id_type_service || 0,
         id_state_service: EstadoServiciosEnum.SERVICIO_INCIADO,
         start_date:
-            serviceDTO.service.start_date === undefined ||
-            serviceDTO.service.start_date === null
+            serviceDTO.service.start_date !== undefined &&
+            serviceDTO.service.start_date !== null
                 ? moment(
                       serviceDTO.service.start_date,
                       "yyyy-MM-DD HH:mm:ss"
                   ).format("yyyy-MM-DD")
                 : moment().format("yyyy-MM-DD"),
         start_date_hours:
-            serviceDTO.service.start_date === undefined ||
-            serviceDTO.service.start_date === null
+            serviceDTO.service.start_date !== undefined &&
+            serviceDTO.service.start_date !== null
                 ? moment(
                       serviceDTO.service.start_date,
                       "yyyy-MM-DD HH:mm:ss"
@@ -84,6 +84,7 @@ function ServiceDataForm({
     };
 
     const handleChange = (event) => {
+        console.log(event.target.name + " " + event.target.value);
         setServiceForm({
             ...serviceForm,
             [event.target.name]: event.target.value,
@@ -133,9 +134,6 @@ function ServiceDataForm({
         const date =
             serviceForm.start_date + " " + serviceForm.start_date_hours;
         serviceForm.start_date = date;
-        console.log(date);
-        console.log(serviceForm.start_date);
-        console.log(serviceForm.start_date_hours);
         if (files.length !== 0) {
             serviceForm.archive = await addAddress();
         }
@@ -266,12 +264,15 @@ function ServiceDataForm({
                                     name="start_date_hours"
                                     handleChange={handleChange}
                                     required={true}
-                                    defaultValue={moment(
-                                        serviceForm.start_date,
-                                        "yyyy-MM-DD HH:mm:ss"
-                                    )
-                                        .format("HH:mm:ss")
-                                        .toString()}
+                                    defaultValue={
+                                        setServiceDTO.start_date_hours &&
+                                        moment(
+                                            serviceForm.start_date,
+                                            "yyyy-MM-DD HH:mm:ss"
+                                        )
+                                            .format("HH:mm")
+                                            .toString()
+                                    }
                                 />
                             </div>
                             {showDetail && (
