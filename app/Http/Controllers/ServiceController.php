@@ -29,7 +29,7 @@ class ServiceController extends Controller {
         try {
 
             $request->validate([
-                'name' => 'required|string|max:30',
+                'name' => 'required|string|max:50',
                 'id_state_service' => 'Exists:state_services,id',
                 'id_type_service' => 'Exists:type_services,id',
                 'description' => 'max:255',
@@ -119,7 +119,7 @@ class ServiceController extends Controller {
         try {
 
             $request->validate([
-                'name' => 'required|string|max:30',
+                'name' => 'required|string|max:50',
                 'id_state_service' => 'Exists:state_services,id',
                 'id_type_service' => 'Exists:type_services,id',
                 'description' => 'required|string|max:255',

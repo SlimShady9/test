@@ -39,7 +39,7 @@ class AddressController extends Controller
         try {
 
             $request->validate([
-                'name' => 'string|max:30',
+                'name' => 'string|max:50',
                 'country' => 'required|string|max:30',
                 'region' => 'required|string|max:30',
                 'city' => 'required|string|max:30',
@@ -110,7 +110,7 @@ class AddressController extends Controller
         try {
             $request->validate([
                 'id' => 'required|Exists:addresses,id',
-                'name' => 'string|max:30',
+                'name' => 'string|max:50',
                 'country' => 'required|string|max:30',
                 'region' => 'required|string|max:30',
                 'city' => 'required|string|max:30',

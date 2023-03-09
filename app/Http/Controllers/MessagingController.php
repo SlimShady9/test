@@ -27,8 +27,8 @@ class MessagingController extends Controller
         try {
 
             $request->validate([
-                'name' => 'required|string|max:30',
-                'entity' => 'required|string|max:30',
+                'name' => 'required|string|max:50',
+                'entity' => 'required|string|max:50',
                 'charge' => 'required|string|max:50',
                 'id_service' => 'required|Exists:services,id',
                 'cost_center' => 'required|string|max:255',
@@ -65,8 +65,8 @@ class MessagingController extends Controller
         try {
 
             $request->validate([
-                'name' => 'string|max:30',
-                'entity' => 'string|max:30',
+                'name' => 'string|max:50',
+                'entity' => 'string|max:50',
                 'charge' => 'string|max:50',
                 'id_service' => 'Exists:services,id',
                 'cost_center' => 'string|max:255',

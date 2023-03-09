@@ -87,7 +87,6 @@ function ContentForm({ setNextStep, isEdit }) {
                 id_exception: Number(content.id_exception),
                 service: serviceDTO.service.id,
             }).then((res) => {
-                SERVICIO_INCIADO;
                 if (res.error) {
                     toast.error(res.error);
                     return;
@@ -135,6 +134,8 @@ function ContentForm({ setNextStep, isEdit }) {
                     <div className="col-span-1">
                         <Label className="">Unidades Declaradas</Label>
                         <Input
+                            type="number"
+                            min={0}
                             name="units"
                             defaultValue={content.units}
                             handleChange={onChange}
@@ -144,6 +145,7 @@ function ContentForm({ setNextStep, isEdit }) {
                         <Label>Peso Unitario (Kg)</Label>
                         <Input
                             type="number"
+                            min={0}
                             name="unit_weight"
                             defaultValue={content.unit_weight}
                             handleChange={onChange}
@@ -155,6 +157,7 @@ function ContentForm({ setNextStep, isEdit }) {
                         <Label>Largo (m)</Label>
                         <Input
                             type="number"
+                            min={0}
                             name="length"
                             defaultValue={content.length}
                             handleChange={onChange}
@@ -164,6 +167,7 @@ function ContentForm({ setNextStep, isEdit }) {
                         <Label>Ancho (m)</Label>
                         <Input
                             type="number"
+                            min={0}
                             name="width"
                             defaultValue={content.width}
                             handleChange={onChange}
@@ -173,6 +177,7 @@ function ContentForm({ setNextStep, isEdit }) {
                         <Label>Alto (m)</Label>
                         <Input
                             type="number"
+                            min={0}
                             name="height"
                             defaultValue={content.height}
                             handleChange={onChange}

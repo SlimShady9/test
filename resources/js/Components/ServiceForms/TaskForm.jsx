@@ -77,7 +77,6 @@ function TaskForm({ setNextStep, api_token, pTasks = [], isEdit = false }) {
 
     const submitForm = (e) => {
         e.preventDefault();
-
         var task = {
             ...currentTask,
             last_state_date: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
@@ -224,6 +223,7 @@ function TaskForm({ setNextStep, api_token, pTasks = [], isEdit = false }) {
                             <Label>Nombre Destinatario</Label>
                             <Input
                                 name="name"
+                                max={50}
                                 handleChange={onChange}
                                 defaultValue={currentTask.name}
                             />

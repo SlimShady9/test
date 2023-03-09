@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('entity');
             $table->string('name');
             $table->string('dependency');
-            $table->string('desc');
+            $table->string('desc')->nullable();
             $table->dateTime('limit_date');
             $table->dateTime('last_state_date');
 
