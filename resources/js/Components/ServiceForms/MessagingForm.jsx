@@ -52,10 +52,10 @@ function MessagingForm({ currentStep, setNextStep , user, isEdit}) {
         };
     };
     const [showDetail, setShowDetail] = useState(true);
-    console.log(serviceDTO);
+
     const [messaging, setMessaging] = useState({
         name: serviceDTO.messaging.name,
-        id_user: serviceDTO.messaging.id_user,
+        id_user: serviceDTO.messaging.id_user?serviceDTO.messaging.id_user:user.id,
         id_service: serviceDTO.service.id,
         entity: serviceDTO.messaging.entity,
         charge: serviceDTO.messaging.charge,
@@ -156,7 +156,7 @@ function MessagingForm({ currentStep, setNextStep , user, isEdit}) {
                             value={{
                                 value: messaging.transporter,
                                 label: toStringTransportadorasEnum(
-                                    TransportadoraEnum[messaging.transporter.toUpperCase()]
+                                    TransportadoraEnum[messaging.transporter?.toUpperCase()]
                                 ),
                             }}
                             onChange={(e) => {

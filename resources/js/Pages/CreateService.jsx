@@ -76,7 +76,7 @@ export default function Services(props) {
                                 <MessagingForm
                                     currentStep={stateService}
                                     setNextStep={setStateService}
-                                    user={props.auth.user.id}
+                                    user={props.auth.user}
                                 />
                             )}
                             {stateService ===
