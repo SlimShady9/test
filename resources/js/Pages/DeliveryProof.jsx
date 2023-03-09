@@ -4,19 +4,23 @@ import ApplicationLogo from "@/Components/ApplicationLogo";
 import Label from "@/Components/FormUtils/Label";
 import Checkbox from "@/Components/FormUtils/Checkbox";
 import Button from "@/Components/FormUtils/Button";
-import SignatureCanvas from 'react-signature-canvas'
+import SignatureCanvas from "react-signature-canvas";
 import { getContent } from "@/Utils/FetchContent";
 import { toStringTipoDeServiciosEnum } from "@/Constants/TipoDeServiciosEnum";
 import { toStringTipoDeCargaEnum } from "@/Constants/TipoDeCargaEnum";
 import { toStringExcepcionesEnum } from "@/Constants/ExcepcionesEnum";
 import { toStringEstadoDeTareaEnum } from "@/Constants/EstadoDeTareaEnum";
 import axios from "axios";
+import { dataURLtoFile } from "@/Utils/Functions";
+import { updateService, uploadFile } from "@/Utils/FetchService";
 
 export default function DeliveryProof(props) {
-    const [sigPad, setSigPad] = useState([]);
+    const signature = "4kXpUZAM3aG6w1HrKZkgc6GFNG3ykB.png";
+
+    const [sigPad, setSigPad] = useState(null);
     const [content, setContent] = useState([]);
     const [pri, setPri] = useState();
-    const [service, setService] = useState([]);
+    const [service, setService] = useState({});
     const [message, setMessage] = useState([]);
     const [tasks, setTasks] = useState([]);
     const [address, setAddress] = useState([]);
@@ -25,8 +29,8 @@ export default function DeliveryProof(props) {
     const getService = (id) => {
         try {
             axios.get(`/api/service/${id}`).then((res) => {
-            setService(res.data);
-        })
+                setService(res.data);
+            });
         } catch (error) {
             console.log(error);
         }
@@ -35,8 +39,8 @@ export default function DeliveryProof(props) {
     const getMessaging = (id) => {
         try {
             axios.get(`/api/messaging/${id}`).then((res) => {
-            setMessage(res.data[0])
-        })
+                setMessage(res.data[0]);
+            });
         } catch (error) {
             console.log(error);
         }
@@ -45,8 +49,8 @@ export default function DeliveryProof(props) {
     const getTasks = (id) => {
         try {
             axios.get(`/api/task/${id}`).then((res) => {
-            setTasks(res.data)
-        })
+                setTasks(res.data);
+            });
         } catch (error) {
             console.log(error);
         }
@@ -55,59 +59,57 @@ export default function DeliveryProof(props) {
     const getAddress = (id) => {
         try {
             axios.get(`/api/service/${id}/address`).then((res) => {
-            setAddress(res.data);
-        })
+                setAddress(res.data);
+            });
         } catch (error) {
             console.log(error);
         }
     };
 
-
-    const getTaskAddress = (id) =>{
+    const getTaskAddress = (id) => {
         try {
             axios.get(`/api/task/${id}/address`).then((res) => {
-            return res.data;
-        })
+                return res.data;
+            });
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
-    const nextTaskState = (id) =>{
+    const nextTaskState = (id) => {
         try {
             axios.get(`/api/task/${id}/address`).then((res) => {
-            setTaskAddress(res.data);
-        })
+                setTaskAddress(res.data);
+            });
         } catch (error) {
             console.log(error);
         }
-    }
+    };
 
     const print = () => {
-            let printContents = document.getElementById('divcontents').innerHTML;
-            let originalContents = document.body.innerHTML;
-            document.body.innerHTML = printContents;
-            window.print();
-            document.body.innerHTML = originalContents;
-    }
+        let printContents = document.getElementById("divcontents").innerHTML;
+        let originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    };
 
     const clear = () => {
-        this.sigPad.clear()
-    }
+        this.sigPad.clear();
+    };
 
-    const completeID = (id) =>{
-        var conv = id.toString().padStart(4, '0');
+    const completeID = (id) => {
+        var conv = id.toString().padStart(4, "0");
         return conv;
-    }
+    };
 
-    const getLastTaskDate = () =>{
-        tasks.map(task  => {
-            if(task == tasks[tasks.length-1]){
+    const getLastTaskDate = () => {
+        tasks.map((task) => {
+            if (task == tasks[tasks.length - 1]) {
                 return task.limit_date;
             }
-        }
-        )
-    }
+        });
+    };
 
     useState(() => {
         getService(id);
@@ -115,27 +117,44 @@ export default function DeliveryProof(props) {
         getMessaging(id);
         getTasks(id);
         getAddress(id);
-        getContent(id).then(data => {setContent(data)});
-        console.log(content[0]);
-        
+        getContent(id).then((data) => {
+            const [res, error] = data;
+            setContent(res[0]);
+        });
     }, []);
 
     const fechaActual = (separator) => {
-    let newDate = new Date()
-    let date = newDate.getDate();
-    let month = newDate.getMonth() + 1;
-    let year = newDate.getFullYear();
-    return `${date}${separator}${month<10?`0${month}`:`${month}`}${separator}${year}`
-}
+        let newDate = new Date();
+        let date = newDate.getDate();
+        let month = newDate.getMonth() + 1;
+        let year = newDate.getFullYear();
+        return `${date}${separator}${
+            month < 10 ? `0${month}` : `${month}`
+        }${separator}${year}`;
+    };
+
+    const storeSignature = async () => {
+        const file = dataURLtoFile(sigPad.toDataURL(), "signature.png");
+        const { status, data } = await uploadFile(file);
+        if (status === 200) {
+            console.log(data.name);
+            const newService = { ...service, signature: data.name };
+            updateService(newService);
+        }
+    };
+
     return (
         <>
             <Authenticated {...props}>
                 <div className="overflow-scroll">
-                <div className="mt-5 w-full text-center text-3xl grid grid-rows-2">
+                    <div className="mt-5 w-full text-center text-3xl grid grid-rows-2">
                         <Label>Prueba de Entrega de: </Label>
                         {service.name}
                     </div>
-                    <div id="divcontents" className="grid grid-cols-2 mx-auto w-11/12 md:w-4/5 lg:w-2/5 my-5 border">
+                    <div
+                        id="divcontents"
+                        className="grid grid-cols-2 mx-auto w-11/12 md:w-4/5 lg:w-2/5 my-5 border"
+                    >
                         <div className="row-span-2  mx-auto my-5">
                             <ApplicationLogo />
                         </div>
@@ -151,25 +170,22 @@ export default function DeliveryProof(props) {
                         </div>
                         <div className="col-span-2 sm:col-span-1 border-t">
                             <div>
-                                <div className=" bg-gray-dark text-center text-white"> Remitente</div>
+                                <div className=" bg-gray-dark text-center text-white">
+                                    {" "}
+                                    Remitente
+                                </div>
                             </div>
                             <div className="mt-3">
-                                <div className="m-2">
-                                    {message.entity}
-                                </div>
+                                <div className="m-2">{message.entity}</div>
                                 <div className="m-2">
                                     {message.name}, {message.charge}
                                 </div>
                                 <div className="m-2">
-                                    {address.country}, {address.region}, {address.city}
+                                    {address.country}, {address.region},{" "}
+                                    {address.city}
                                 </div>
-                                <div className="m-2">
-                                    {address.addr}
-                                </div>
-                                <div className="m-2">
-                                    {address.addr_detail}
-                                </div>
-
+                                <div className="m-2">{address.addr}</div>
+                                <div className="m-2">{address.addr_detail}</div>
                             </div>
                         </div>
                         <div className="col-span-2 sm:col-span-1 grid grid-cols-2 border-t sm:border-l">
@@ -179,37 +195,25 @@ export default function DeliveryProof(props) {
                             <Label className="col-span-2 text-center bg-gray-servi">
                                 {service.tracking_id}
                             </Label>
-                            <Label className="mr-2 m-auto">
-                                Nombre:
-                            </Label>
-                            <div className="ml-2 m-auto">
-                                {service.name}
-                            </div>
-                            <Label className="mr-2 m-auto">
-                                Impresión:
-                            </Label>
+                            <Label className="mr-2 m-auto">Nombre:</Label>
+                            <div className="ml-2 m-auto">{service.name}</div>
+                            <Label className="mr-2 m-auto">Impresión:</Label>
                             <div className="ml-2 m-auto">
                                 {fechaActual("/")}
                             </div>
-                            <Label className="mr-2 m-auto">
-                                Inicio:
-                            </Label>
+                            <Label className="mr-2 m-auto">Inicio:</Label>
                             <div className="ml-2 m-auto">
                                 {service.start_date}
                             </div>
-                            <Label className="mr-2 m-auto">
-                                Finalización:
-                            </Label>
-                            <div className="ml-2 m-auto">
-                                {
-                                    
-                                }
-                            </div>
+                            <Label className="mr-2 m-auto">Finalización:</Label>
+                            <div className="ml-2 m-auto">{}</div>
                             <Label className="mr-2 m-auto">
                                 Tipo de Servicio:
                             </Label>
                             <div className="ml-2 m-auto">
-                                {toStringTipoDeServiciosEnum(service.id_type_service)}
+                                {toStringTipoDeServiciosEnum(
+                                    service.id_type_service
+                                )}
                             </div>
                             <Label className="mr-2 m-auto">
                                 Orden Interna:
@@ -231,12 +235,21 @@ export default function DeliveryProof(props) {
                             Destinatario(s)
                         </div>
                         {tasks.map((task, index) => (
-                                
-                                <div className="grid grid-cols-4 col-span-2 text-left m-2  border-b-2 border-gray-dark border-dotted">
+                            <div
+                                className="grid grid-cols-4 col-span-2 text-left m-2  border-b-2 border-gray-dark border-dotted"
+                                key={index}
+                            >
                                 <ul className="col-span-4 sm:col-span-3">
-                                    <li className="mt-2 border-l-4 border-gray-servi">{index+1}. {task.name}, {task.entity}, {task.dependency}</li>
-                                    <li className="mt-2 text-center">{}Calle 123 No. 23-34 | Hora: 11:30 AM</li>
-                                    <li className="mt-2 text-sm">{task.desc}</li>
+                                    <li className="mt-2 border-l-4 border-gray-servi">
+                                        {index + 1}. {task.name}, {task.entity},{" "}
+                                        {task.dependency}
+                                    </li>
+                                    <li className="mt-2 text-center">
+                                        {}Calle 123 No. 23-34 | Hora: 11:30 AM
+                                    </li>
+                                    <li className="mt-2 text-sm">
+                                        {task.desc}
+                                    </li>
                                 </ul>
                                 <div className="col-span-4 sm:col-span-1 flex">
                                     <Button className="text-center sm:tracking-tighter mx-auto my-2 text-xs h-16 bg-yellow-cream">
@@ -249,10 +262,13 @@ export default function DeliveryProof(props) {
                             Contenido
                         </div>
                         <div className="col-span-2 text-center bg-gray-servi border-gray-servi border-b-2">
-                            <Label >TRANSPORTADORA: {message.transporter}</Label>
+                            <Label>TRANSPORTADORA: {message.transporter}</Label>
                         </div>
                         <div className="col-span-2 text-center bg-gray-servi border-gray-servi border-b-2">
-                            <Label >ID DE SEGUIMIENTO: {message.id_transporter_tracking}</Label>
+                            <Label>
+                                ID DE SEGUIMIENTO:{" "}
+                                {message.id_transporter_tracking}
+                            </Label>
                         </div>
                         <div className="col-span-2 sm:col-span-1 text-center border-gray-servi border-r-2">
                             <div className="border-gray-servi border-b-2">
@@ -271,23 +287,31 @@ export default function DeliveryProof(props) {
                                             <Label>Largo</Label>
                                         </div>
                                         <div className="m-auto">
-                                            {} cm
+                                            {content.length} cm
                                         </div>
                                         <div className="m-auto">
-                                            {} cm
+                                            {content.width} cm
                                         </div>
                                         <div className="m-auto">
-                                            {} cm
+                                            {content.height} cm
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-2 sm:grid-cols-1">
                                         <div className="grid grid-cols-2 border-gray-servi border-t-2">
-                                            <Label className="mr-2 m-auto">PESO UNITARIO:</Label>
-                                            <div className="ml-2 m-auto">{} Kg</div>
+                                            <Label className="mr-2 m-auto">
+                                                PESO UNITARIO:
+                                            </Label>
+                                            <div className="ml-2 m-auto">
+                                                {content.unit_weight} Kg
+                                            </div>
                                         </div>
                                         <div className="grid grid-cols-2 border-gray-servi border-t-2">
-                                            <Label className="mr-2 m-auto">UNIDADES:</Label>
-                                            <div className="ml-2 m-auto">{}</div>
+                                            <Label className="mr-2 m-auto">
+                                                UNIDADES:
+                                            </Label>
+                                            <div className="ml-2 m-auto">
+                                                {content.units}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -297,20 +321,34 @@ export default function DeliveryProof(props) {
                         <div className="col-span-2 sm:col-span-1  grid grid-cols-2 text-center">
                             <div className="flex col-span-2 border-gray-servi border-b-2">
                                 <div className="m-auto">
-                                    <Label className="row-span-2">TIPO DE CONTENIDO:</Label>
-                                    <div className="row-span-2 text-center">{toStringTipoDeCargaEnum()}</div>
+                                    <Label className="row-span-2">
+                                        TIPO DE CONTENIDO:
+                                    </Label>
+                                    <div className="row-span-2 text-center">
+                                        {toStringTipoDeCargaEnum(
+                                            content.t_carga
+                                        )}
+                                    </div>
                                 </div>
                             </div>
                             <div className="flex col-span-2 border-gray-servi border-b-2">
                                 <div className="m-auto">
-                                    <Label className="row-span-2">DICE CONTENER:</Label>
-                                    <div className="row-span-2 text-center">{}</div>
+                                    <Label className="row-span-2">
+                                        DICE CONTENER:
+                                    </Label>
+                                    <div className="row-span-2 text-center">
+                                        {content.content}
+                                    </div>
                                 </div>
                             </div>
                             <div className="flex col-span-2 border-gray-servi border-b-2">
                                 <div className="m-auto">
-                                    <Label className="row-span-2">VALOR COMERCIAL:</Label>
-                                    <div className="row-span-2">$ 50.000</div>
+                                    <Label className="row-span-2">
+                                        VALOR COMERCIAL:
+                                    </Label>
+                                    <div className="row-span-2">
+                                        ${" " + content.commercial_value}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -318,7 +356,9 @@ export default function DeliveryProof(props) {
                             <Label>EXCEPCION DEL SERVICIO: </Label>
                         </div>
                         <div className="col-span-2 m-auto">
-                            {toStringExcepcionesEnum(3)}
+                            {toStringExcepcionesEnum(
+                                Number(content.id_exception)
+                            )}
                         </div>
                         <div className="col-span-2 text-center bg-gray-dark text-white border-t">
                             Excepción de Entrega
@@ -326,26 +366,39 @@ export default function DeliveryProof(props) {
                         <div className="col-span-2 grid grid-cols-2 lg:grid-cols-4 items-center">
                             <div className="m-2 flex sm:mx-auto">
                                 <Checkbox name="desconocido" id="desconocido" />
-                                <Label className="text-sm" forInput="desconocido">1. DESCONOCIDO</Label>
+                                <Label
+                                    className="text-sm"
+                                    forInput="desconocido"
+                                >
+                                    1. DESCONOCIDO
+                                </Label>
                             </div>
                             <div className="m-2 flex sm:mx-auto">
                                 <Checkbox name="direccion" id="direccion" />
-                                <Label className="text-sm" forInput="direccion">2. DIRECCIÓN ERRADA</Label>
+                                <Label className="text-sm" forInput="direccion">
+                                    2. DIRECCIÓN ERRADA
+                                </Label>
                             </div>
                             <div className="m-2 flex sm:mx-auto">
                                 <Checkbox name="reside" id="reside" />
-                                <Label className="text-sm" forInput="reside">3. NO RESIDE</Label>
+                                <Label className="text-sm" forInput="reside">
+                                    3. NO RESIDE
+                                </Label>
                             </div>
                             <div className="m-2 flex sm:mx-auto">
                                 <Checkbox name="rehusado" id="rehusado" />
-                                <Label className="text-sm" forInput="rehusado">4. REHUSADO</Label>
+                                <Label className="text-sm" forInput="rehusado">
+                                    4. REHUSADO
+                                </Label>
                             </div>
                         </div>
                         <div className="col-span-2 text-center bg-gray-dark text-white border-t">
                             Descripción del Servicio
                         </div>
                         <div className="col-span-2 text-center">
-                            <div className="text-justify m-2">{service.description}</div>
+                            <div className="text-justify m-2">
+                                {service.description}
+                            </div>
                         </div>
                         <div className="col-span-2">
                             <div className="text-center bg-gray-dark text-white">
@@ -356,15 +409,32 @@ export default function DeliveryProof(props) {
                             </div>
                         </div>
                         <div className="col-span-2 border-t-2 border-gray-servi grid">
-                        <Label className="text-left ml-2">
-                                Firma:
-                            </Label>
+                            <Label className="text-left ml-2">Firma:</Label>
                             <div className="col-span-1 text-center text-gray-dark border mx-auto">
-                                <SignatureCanvas canvasProps={{width: 300, height: 100, className: 'sigCanvas'}} clearOnResize={false} 
-                                ref={(ref) => { setSigPad(ref) }} />
+                                {signature && (
+                                    <img
+                                        src={`http://localhost:8000/api/file/4kXpUZAM3aG6w1HrKZkgc6GFNG3ykB.png`}
+                                        alt=""
+                                    />
+                                )}
+                                {!signature && (
+                                    <SignatureCanvas
+                                        canvasProps={{
+                                            width: 300,
+                                            height: 100,
+                                            className: "sigCanvas",
+                                        }}
+                                        clearOnResize={false}
+                                        ref={(ref) => {
+                                            setSigPad(ref);
+                                        }}
+                                    />
+                                )}
                             </div>
                             <div className="m-2 text-xs text-center text-gray-dark border-t border-dotted">
-                                <div className="ml-2">Autorizo tratamiento de datos</div>
+                                <div className="ml-2">
+                                    Autorizo tratamiento de datos
+                                </div>
                             </div>
                         </div>
                         <div className="col-span-2 border-t-2 sm:border-l-2 border-gray-servi">
@@ -372,19 +442,19 @@ export default function DeliveryProof(props) {
                                 Observaciones:
                             </Label>
                             <div className="m-2">
-                            <textarea className="h-24 w-full text-sm mx-auto" />
+                                <textarea className="h-24 w-full text-sm mx-auto" />
                             </div>
                         </div>
                     </div>
                     <div onClick={() => print()} className="flex w-full mb-10">
-                        <Button className="m-auto">
-                            Imprimir
-                        </Button>
+                        <Button className="m-auto">Imprimir</Button>
+                    </div>
+                    <div onClick={storeSignature} className="flex w-full mb-10">
+                        <Button className="m-auto">Guardar firma</Button>
                     </div>
                 </div>
                 <div id="ifmcontentstoprint"></div>
                 <iframe id="ifmcontentstoprint"></iframe>
-                
             </Authenticated>
         </>
     );

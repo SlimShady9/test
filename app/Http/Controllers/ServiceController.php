@@ -129,6 +129,7 @@ class ServiceController extends Controller {
                 'price' => 'numeric|Between:0,9999999999',
                 'cost' => 'numeric|Between:0,9999999999',
                 'address' => 'Exists:addresses,id',
+                'signature' => 'max:255',
             ]);
             
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -147,6 +148,7 @@ class ServiceController extends Controller {
         $service->price = $request->price_service;
         $service->cost = $request->cost;
         $service->address = $request->address;
+        $service->signature = $request->signature;
         $service->save();
         return $service;
     }
