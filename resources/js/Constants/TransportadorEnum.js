@@ -7,6 +7,7 @@ const TransportadoraEnum = Object.freeze({
 });
 
 const toStringTransportadorasEnum = (value) => {
+    console.log(value);
     switch (value) {
         case TransportadoraEnum.SERVIENTREGA:
             return "ServiEntrega";

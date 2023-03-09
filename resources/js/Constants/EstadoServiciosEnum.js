@@ -25,5 +25,23 @@ const toStringEstadoServiciosEnum = (value) => {
             return "";
     }
 };
+const toStringEstadoServiciosEnum2 = (value) => {
+    switch (value) {
+        case 1:
+            return "Servicio iniciado";
+        case 2:
+            return "Datos de Origen del envío";
+        case 3:
+            return "Dirección confirmada";
+        case 4:
+            return "Usuarios asignados";
+        case 5:
+            return "Servicio con contenido";
+        case 6:
+            return "Servicio con tareas";
+        default:
+            return "";
+    }
+};
 
-export { EstadoServiciosEnum, toStringEstadoServiciosEnum };
+export { EstadoServiciosEnum, toStringEstadoServiciosEnum,toStringEstadoServiciosEnum2 };

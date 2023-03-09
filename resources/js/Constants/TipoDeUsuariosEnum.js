@@ -20,4 +20,19 @@ const toStringTipoDeUsuariosEnum = (value) => {
     }
 };
 
-export { TipoDeUsuariosEnum, toStringTipoDeUsuariosEnum };
+const toStringTipoDeUsuariosEnum2 = (value) => {
+    switch (value) {
+        case 1:
+            return "Administrador";
+        case 2:
+            return "Cliente Jurídico";
+        case 3:
+            return "Cliente Natural";
+        case 4:
+            return "Courier";
+        default:
+            return "gf";
+    }
+};
+
+export { TipoDeUsuariosEnum, toStringTipoDeUsuariosEnum ,toStringTipoDeUsuariosEnum2};

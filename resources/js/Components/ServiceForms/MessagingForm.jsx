@@ -8,7 +8,7 @@ import { getOptionsTypeService } from "@/Utils/FetchApi";
 import Button from "../FormUtils/Button";
 import SelectInput from "../FormUtils/SelectInput";
 import ServiceContext from "./useServiceContext";
-import { storeMessaging } from "@/Utils/FetchMessaging";
+import { storeMessaging, updateMessaging} from "@/Utils/FetchMessaging";
 
 import {
     TransportadoraEnum,
@@ -24,8 +24,22 @@ function MessagingForm({ currentStep, setNextStep , user, isEdit}) {
             value: TransportadoraEnum[key],
         })
     );
-    const submitForm = (e) => {
+    const submitForm = async (e) => {
         e.preventDefault();
+        if(isEdit){
+            const response = await updateMessaging(messaging);
+            if (response.error) {
+                toast.error("Error al subir el servicio");
+                return;
+            }
+            const messaging2 = await response.data;
+            setServiceDTO((prev) => {
+                return { ...prev, messaging: messaging2 };
+            });
+            setNextStep(EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS);
+
+        }
+        else{
         storeMessaging({
             ...messaging,
         }).then((res) => {
@@ -35,6 +49,7 @@ function MessagingForm({ currentStep, setNextStep , user, isEdit}) {
             }
             setNextStep(EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS);
         });
+        };
     };
     const [showDetail, setShowDetail] = useState(true);
     console.log(serviceDTO);
@@ -50,6 +65,7 @@ function MessagingForm({ currentStep, setNextStep , user, isEdit}) {
         transporter:serviceDTO.messaging.transporter,
         cost_center: serviceDTO.messaging.cost_center,
         id_transporter_tracking: serviceDTO.messaging.id_transporter_tracking,
+        id: serviceDTO.messaging.id,
     });
     const id = EstadoServiciosEnum.SERVICIO_MENSAJERIA;
 
@@ -137,6 +153,12 @@ function MessagingForm({ currentStep, setNextStep , user, isEdit}) {
                                 </Label>
                                 <SelectInput 
                             options={transportadorasSelect}
+                            value={{
+                                value: messaging.transporter,
+                                label: toStringTransportadorasEnum(
+                                    TransportadoraEnum[messaging.transporter.toUpperCase()]
+                                ),
+                            }}
                             onChange={(e) => {
                                 onChange({
                                     target: { name: "transporter", value: e.label },

@@ -1,8 +1,18 @@
 import axios from "axios";
 
-const storeMessaging = async (content) => {
+const updateMessaging = async (messaging) => {
     try {
-        const req = axios.post("/api/messaging", content);
+        const req = (await axios.put(`/api/messaging/${messaging.id}`, messaging))
+        .data;
+        return [req, null];
+    } catch (error) {
+        return [null, error];
+    }
+};
+
+const storeMessaging = async (messaging) => {
+    try {
+        const req = axios.post("/api/messaging", messaging);
         return { data: req.data, error: null };
     } catch (error) {
         return { data: null, error: error };
@@ -27,4 +37,4 @@ const getMessaging = async (idService) => {
     }
 };
 
-export { storeMessaging, deleteMessaging, getMessaging };
+export { storeMessaging, deleteMessaging, getMessaging,updateMessaging };

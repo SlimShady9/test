@@ -36,7 +36,7 @@ function EditService(props) {
     );
 
     const [stateService, setStateService] = useState(
-        EstadoServiciosEnum.SERVICIO_CON_TAREAS
+        EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS
     );
 
     const [dataLoaded, setDataLoaded] = useState(false);
@@ -149,6 +149,8 @@ function EditService(props) {
                                         setNextStep={setStateService}
                                         user={props.auth.user.id}
                                         messaging={serviceDTO.messaging}
+                                        isEdit={true}
+
                                     />
                                 )}
                                 {stateService ===

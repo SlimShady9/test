@@ -85,7 +85,7 @@ class MessagingController extends Controller
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json(['error' => 'Messaging not found'], 404);
         }
-        $Messaging->name = $request->name_service;
+        $Messaging->name = $request->name;
         $Messaging->entity = $request->entity;
         $Messaging->dependency = $request->dependency;
         $Messaging->id_user = $request->id_user;
