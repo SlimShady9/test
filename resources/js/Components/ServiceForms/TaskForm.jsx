@@ -344,7 +344,8 @@ function TaskForm({ setNextStep, api_token, pTasks, isEdit = false }) {
                 </form>
 
                 {/* Tareas agregadas*/}
-                {tasks.length > 0 &&
+                {tasks === undefined &&
+                    tasks.length > 0 &&
                     tasks.map((task, index) => (
                         <TaskBox
                             task={task}
