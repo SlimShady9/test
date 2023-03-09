@@ -2,8 +2,11 @@ import axios from "axios";
 
 const storeContent = async (content) => {
     try {
-        const req = axios.post("/api/content", content);
-        return { data: req.data, error: null };
+        const req = await axios.post("/api/content", content);
+        if (req.status === 200 || req.status === 201 || req.status === 202) {
+            return { data: req.data, error: null };
+        }
+        return { data: null, error: "Error al guardar el contenido" };
     } catch (error) {
         return { data: null, error: error };
     }
@@ -12,7 +15,7 @@ const storeContent = async (content) => {
 const updateContent = async (content) => {
     try {
         const req = (await axios.put(`/api/content/${content.id}`, content))
-        .data;
+            .data;
         return [req, null];
     } catch (error) {
         return [null, error];
@@ -37,4 +40,4 @@ const getContent = async (idService) => {
     }
 };
 
-export { storeContent, deleteContent, getContent,updateContent};
+export { storeContent, deleteContent, getContent, updateContent };

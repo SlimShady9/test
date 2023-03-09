@@ -29,7 +29,7 @@ function TaskForm({ setNextStep, api_token, pTasks = [], isEdit = false }) {
         dependency: "",
         id_state: EstadoDeTareaEnum.CREADO,
         id_address: -1,
-        id_service: -1,
+        id_service: serviceDTO.service.id,
         desc: "",
         responsible: -1,
         dateLimit: "",
@@ -77,7 +77,6 @@ function TaskForm({ setNextStep, api_token, pTasks = [], isEdit = false }) {
 
     const submitForm = (e) => {
         e.preventDefault();
-        console.log(currentTask);
 
         var task = {
             ...currentTask,
@@ -128,7 +127,7 @@ function TaskForm({ setNextStep, api_token, pTasks = [], isEdit = false }) {
             dependency: "",
             id_state: EstadoDeTareaEnum.CREADO,
             id_address: -1,
-            id_service: -1,
+            id_service: serviceDTO.service.id,
             desc: "",
             responsible: -1,
             dateLimit: "",
@@ -151,7 +150,6 @@ function TaskForm({ setNextStep, api_token, pTasks = [], isEdit = false }) {
 
     const deleteAddress = async (e) => {
         e.preventDefault();
-        console.log("delete address");
         if (currentTask.id_address) {
             const [nTask, error] = await updateTask({
                 ...currentTask,
@@ -256,8 +254,10 @@ function TaskForm({ setNextStep, api_token, pTasks = [], isEdit = false }) {
                                 options={usersResponsibleAvailable}
                                 onChange={(e) =>
                                     onChange({
-                                        target: "responsible",
-                                        value: e.value,
+                                        target: {
+                                            name: "responsible",
+                                            value: e.value,
+                                        },
                                     })
                                 }
                                 value={usersResponsibleAvailable.find(

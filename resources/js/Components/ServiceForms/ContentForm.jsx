@@ -17,11 +17,11 @@ import {
     toStringExcepcionesEnum,
     toStringExcepcionesEnum2,
 } from "@/Constants/ExcepcionesEnum";
-import { storeContent, updateContent} from "@/Utils/FetchContent";
+import { storeContent, updateContent } from "@/Utils/FetchContent";
 import { toast } from "react-toastify";
 import ServiceContext from "./useServiceContext";
 
-function ContentForm({ setNextStep ,isEdit}) {
+function ContentForm({ setNextStep, isEdit }) {
     const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
 
     const tiposDeCargaSelect = Object.keys(TipoDeCargaEnum).map((key) => ({
@@ -36,17 +36,20 @@ function ContentForm({ setNextStep ,isEdit}) {
         })
     );
     const [content, setContent] = useState({
-            commercial_value: serviceDTO.content.commercial_value,
-            content: serviceDTO.content.content,
-            height: serviceDTO.content.height,
-            id_exception: serviceDTO.content.id_exception!=null?serviceDTO.content.id_exception:undefined,
-            t_carga: serviceDTO.content.t_carga?serviceDTO.content.t_carga:null,
-            unit_weight: serviceDTO.content.unit_weight,
-            width: serviceDTO.content.width,
-            units: serviceDTO.content.units,
-            length: serviceDTO.content.length,
-            id: serviceDTO.content.id,
-            service: serviceDTO.service.id,
+        commercial_value: serviceDTO.content.commercial_value,
+        content: serviceDTO.content.content,
+        height: serviceDTO.content.height,
+        id_exception:
+            serviceDTO.content.id_exception != null
+                ? serviceDTO.content.id_exception
+                : undefined,
+        t_carga: serviceDTO.content.t_carga ? serviceDTO.content.t_carga : null,
+        unit_weight: serviceDTO.content.unit_weight,
+        width: serviceDTO.content.width,
+        units: serviceDTO.content.units,
+        length: serviceDTO.content.length,
+        id: serviceDTO.content.id,
+        service: serviceDTO.service.id,
     });
 
     const [optionsTypeService, setOptionsTypeService] = useState([]);
@@ -65,7 +68,7 @@ function ContentForm({ setNextStep ,isEdit}) {
         setNextStep(EstadoServiciosEnum.SERVICIO_CON_DETALLE);
     };
 
-    const submitForm = async(e) => {
+    const submitForm = async (e) => {
         e.preventDefault();
         if (isEdit) {
             const response = await updateContent(content);
@@ -78,20 +81,20 @@ function ContentForm({ setNextStep ,isEdit}) {
                 return { ...prev, content: content2 };
             });
             setNextStep(EstadoServiciosEnum.SERVICIO_CON_TAREAS);
-
         } else {
-        storeContent({
-            ...content,
-            id_exception: Number(content.id_exception),
-            service: serviceDTO.service.id,
-        }).then((res) => {
-            if (res.error) {
-                toast.error(res.error);
-                return;
-            }
-            setNextStep(EstadoServiciosEnum.SERVICIO_CON_TAREAS);
-        });
-    }
+            storeContent({
+                ...content,
+                id_exception: Number(content.id_exception),
+                service: serviceDTO.service.id,
+            }).then((res) => {
+                SERVICIO_INCIADO;
+                if (res.error) {
+                    toast.error(res.error);
+                    return;
+                }
+                setNextStep(EstadoServiciosEnum.SERVICIO_CON_TAREAS);
+            });
+        }
     };
 
     const onChange = (e) => {
@@ -120,9 +123,7 @@ function ContentForm({ setNextStep ,isEdit}) {
                             options={tiposDeCargaSelect}
                             value={{
                                 value: content.t_carga,
-                                label: toStringTipoDeCargaEnum(
-                                    content.t_carga
-                                ),
+                                label: toStringTipoDeCargaEnum(content.t_carga),
                             }}
                             onChange={(e) => {
                                 onChange({
@@ -201,14 +202,24 @@ function ContentForm({ setNextStep ,isEdit}) {
                         <SelectInput
                             isMulti={true}
                             options={condicionesEspecialesSelect}
-                            value={content.id_exception? content.id_exception.split("").map((key) =>
-                             ({ value: key, label: toStringExcepcionesEnum2(key) })) : []}
+                            value={
+                                content.id_exception
+                                    ? content.id_exception
+                                          .split("")
+                                          .map((key) => ({
+                                              value: key,
+                                              label: toStringExcepcionesEnum2(
+                                                  key
+                                              ),
+                                          }))
+                                    : []
+                            }
                             onChange={(e) => {
                                 onChange({
                                     target: {
                                         name: "id_exception",
                                         value: e
-                                            .map((key) => key.value) 
+                                            .map((key) => key.value)
                                             .join(""),
                                     },
                                 });

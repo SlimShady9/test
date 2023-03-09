@@ -110,8 +110,6 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
         }
     };
 
-    console.log(data);
-
     return (
         <div>
             <form onSubmit={submit}>
