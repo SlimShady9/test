@@ -19,7 +19,7 @@ import TaskBox from "../FormUtils/TaskBox";
 import { toast } from "react-toastify";
 import { storeTask, deleteTask as dTaks, updateTask } from "@/Utils/FetchTask";
 
-function TaskForm({ setNextStep, api_token, pTasks, isEdit = false }) {
+function TaskForm({ setNextStep, api_token, pTasks = [], isEdit = false }) {
     const [showDetail, setShowDetail] = useState(false);
     const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
     const [tasks, setTasks] = useState(pTasks);
@@ -344,8 +344,7 @@ function TaskForm({ setNextStep, api_token, pTasks, isEdit = false }) {
                 </form>
 
                 {/* Tareas agregadas*/}
-                {tasks === undefined &&
-                    tasks.length > 0 &&
+                {tasks.length > 0 &&
                     tasks.map((task, index) => (
                         <TaskBox
                             task={task}
