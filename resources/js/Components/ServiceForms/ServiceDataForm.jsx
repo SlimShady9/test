@@ -50,14 +50,22 @@ function ServiceDataForm({
         name: serviceDTO.service.name,
         id_type_service: serviceDTO.service.id_type_service || 0,
         id_state_service: EstadoServiciosEnum.SERVICIO_INCIADO,
-        start_date: moment(
-            serviceDTO.service.start_date,
-            "yyyy-MM-DD HH:mm:ss"
-        ).format("yyyy-MM-DD"),
-        start_date_hours: moment(
-            serviceDTO.service.start_date,
-            "yyyy-MM-DD HH:mm:ss"
-        ).format("HH:mm:ss"),
+        start_date:
+            serviceDTO.service.start_date === undefined ||
+            serviceDTO.service.start_date === null
+                ? moment(
+                      serviceDTO.service.start_date,
+                      "yyyy-MM-DD HH:mm:ss"
+                  ).format("yyyy-MM-DD")
+                : moment().format("yyyy-MM-DD"),
+        start_date_hours:
+            serviceDTO.service.start_date === undefined ||
+            serviceDTO.service.start_date === null
+                ? moment(
+                      serviceDTO.service.start_date,
+                      "yyyy-MM-DD HH:mm:ss"
+                  ).format("HH:mm:ss")
+                : moment().format("HH:mm:ss"),
         description: serviceDTO.service.description,
         price: serviceDTO.service.price,
         cost: serviceDTO.service.cost,
