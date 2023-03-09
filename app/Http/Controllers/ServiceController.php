@@ -37,6 +37,7 @@ class ServiceController extends Controller {
                 'price' => 'numeric|Between:0,9999999999',
                 'cost' => 'numeric|Between:0,9999999999',
                 'archive' => 'max:255',
+                'signature' => 'max:255',
             ]);
             
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -52,6 +53,7 @@ class ServiceController extends Controller {
             'price' => $request->price,
             'cost' => $request->cost,
             'archive' => $request->archive,
+            'signature' => $request->signature,
         ]);
         return $newService;
     }
@@ -219,10 +221,31 @@ class ServiceController extends Controller {
         $service->archive = $name;
         $service->save();
         return response()->json(['success' => 'File uploaded successfuly'], 200);
-
-
-
     }
+
+    public function storeSignature($serviceId, Request $request) {
+        $service = Service::find($serviceId);
+        if (!$service) {
+            return response()->json(['message' => 'Service not found'], 404);
+        }
+
+        $name = $path. $user_id . '.' . $extension;
+
+        $path = $this->path;
+        $file = $request->file('signature');
+        $extension = $file->getClientOriginalExtension();
+        // Change file name to avoid duplicates
+
+        if ($service->signature) {
+            Storage::disk('public')->delete($service->signature);
+        }
+
+        Storage::disk('public')->put($name, file_get_contents($file));
+        $service->signature = $name;
+        $service->save();
+        return response()->json(['success' => 'File uploaded successfuly'], 200);
+    }
+
     /**
      * Generate a random string
      * Of 30 characters
