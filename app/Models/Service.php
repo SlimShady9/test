@@ -21,6 +21,8 @@ class Service extends Model
         'cost',
         'archive',
         'address',
+        'id_exception',
+        'signature',
     ];
 
     protected $hidden = [

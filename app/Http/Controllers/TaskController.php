@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Task;
 use App\Models\Parameter;
+use App\Models\Address;
 
 
 use Barryvdh\Debugbar\Facade as Debugbar;
@@ -15,12 +16,11 @@ class TaskController extends Controller
     }
 
     public function show($id) {
-
         return Task::where('id_service', $id)->get();
     }
 
-    public function taskByService($id_service){
-        return Task::where('id_service',$id_service)->get();
+    public function addressByTask($id_task) {
+        return Address::find($id_task);
     }
 
     public function store(Request $request) {

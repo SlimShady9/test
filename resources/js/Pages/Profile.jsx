@@ -208,16 +208,7 @@ export default function Profile(props) {
                                 Generar
                             </Button>
                         </div>
-                        <Modal
-                            onHide={onHide}
-                            show={showModal}
-                            title={"Ingrese una nueva dirección"}
-                        >
-                            <AddressForm
-                                api_token={props.api_token}
-                                onSubmit={succesAddressLoad}
-                            />
-                        </Modal>
+                   
                     </Card>
                 </Container>
             </Authenticated>

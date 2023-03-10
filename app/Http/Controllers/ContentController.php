@@ -13,7 +13,6 @@ class ContentController extends Controller
     }
 
     public function show($id) {
-
         return Content::where('service', $id)->get();
     }
 

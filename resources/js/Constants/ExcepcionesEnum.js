@@ -1,5 +1,3 @@
-import { GrObjectUngroup } from "react-icons/gr";
-
 const ExcepcionesEnum = Object.freeze({
     CONTENIDO_FRAGIL: 1,
     CONTENIDO_RIESGO_BIOLOGICO: 2,
