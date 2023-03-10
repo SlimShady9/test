@@ -37,6 +37,7 @@ class ServiceController extends Controller {
                 'price' => 'numeric|Between:0,9999999999',
                 'cost' => 'numeric|Between:0,9999999999',
                 'archive' => 'max:255',
+                'signature' => 'max:255',
             ]);
             
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -52,6 +53,7 @@ class ServiceController extends Controller {
             'price' => $request->price,
             'cost' => $request->cost,
             'archive' => $request->archive,
+            'signature' => $request->signature,
         ]);
         return $newService;
     }
@@ -128,7 +130,7 @@ class ServiceController extends Controller {
                 'cost' => 'numeric|Between:0,9999999999',
                 'address' => 'Exists:addresses,id',
                 'archive' => 'max:255',
-
+                'signature' => 'max:255',
             ]);
             
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -148,7 +150,7 @@ class ServiceController extends Controller {
         $service->cost = $request->cost;
         $service->address = $request->address ? $request->address : $service->address;
         $service->archive = $request->archive;
-
+        $service->signature = $request->signature;
         $service->save();
         return $service;
     }
