@@ -22,11 +22,11 @@ return new class extends Migration
             $table->string('charge');
             $table->unsignedDouble('price')->nullable();
             $table->timestamps();
-            $table->string('dependency');
-            $table->string('intern_order');
-            $table->string('transporter');
-            $table->string('cost_center');
-            $table->string('id_transporter_tracking');
+            $table->string('dependency')->nullable();
+            $table->string('intern_order')->nullable();
+            $table->string('transporter')->nullable();
+            $table->string('cost_center')->nullable();
+            $table->string('id_transporter_tracking')->nullable();
         });
 
         Schema::table('messagings', function (Blueprint $table) {

@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('services', function (Blueprint $table) {
-            $table->bigInteger('id_exception')->unsigned();
+            $table->bigInteger('id_exception')->unsigned()->nullable();
             $table->string('signature')->nullable();
         });
     }

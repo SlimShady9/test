@@ -12,7 +12,8 @@ import { toStringExcepcionesEnum } from "@/Constants/ExcepcionesEnum";
 import { toStringEstadoDeTareaEnum } from "@/Constants/EstadoDeTareaEnum";
 import axios from "axios";
 import { dataURLtoFile } from "@/Utils/Functions";
-import { updateService, uploadFile } from "@/Utils/FetchService";
+import { updateService } from "@/Utils/FetchService";
+import { uploadFile } from "@/Utils/FetchFile";
 
 export default function DeliveryProof(props) {
     const signature = "4kXpUZAM3aG6w1HrKZkgc6GFNG3ykB.png";

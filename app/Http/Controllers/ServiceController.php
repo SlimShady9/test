@@ -124,7 +124,7 @@ class ServiceController extends Controller {
                 'name' => 'required|string|max:50',
                 'id_state_service' => 'Exists:state_services,id',
                 'id_type_service' => 'Exists:type_services,id',
-                'description' => 'required|string|max:255',
+                'description' => 'max:255',
                 'start_date' => 'required|date',
                 'price' => 'numeric|Between:0,9999999999',
                 'cost' => 'numeric|Between:0,9999999999',

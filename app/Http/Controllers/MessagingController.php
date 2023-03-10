@@ -34,9 +34,9 @@ class MessagingController extends Controller
                 'cost_center' => 'required|string|max:255',
                 'id_user' => 'required|Exists:users,id',
                 'dependency' => 'required|string|max:30',
-                'intern_order' => 'required|string|max:30',
-                'transporter' => 'required|string|max:30',
-                'id_transporter_tracking' => 'required|string|max:255',
+                'intern_order' => 'string|max:30',
+                'transporter' => 'string|max:30',
+                'id_transporter_tracking' => 'string|max:255',
             ]);
             
         } catch (\Illuminate\Validation\ValidationException $e) {

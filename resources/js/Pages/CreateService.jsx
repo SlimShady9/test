@@ -29,12 +29,12 @@ export default function Services(props) {
 
     // Initial state of current service
     const [stateService, setStateService] = useState(
-        EstadoServiciosEnum.SERVICIO_CON_TAREAS
+        EstadoServiciosEnum.SERVICIO_INCIADO
     );
 
     // State of the progress of service creation using context api
     const [serviceDTO, setServiceDTO] = useState({
-        service: { id: 1 },
+        service: {},
         address: {},
         orders: [],
         tasks: [],
