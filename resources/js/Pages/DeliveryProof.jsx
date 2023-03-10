@@ -14,10 +14,13 @@ import axios from "axios";
 import { dataURLtoFile } from "@/Utils/Functions";
 import { updateService } from "@/Utils/FetchService";
 import { uploadFile } from "@/Utils/FetchFile";
+import { toast } from "react-toastify";
+import ButtonGroup from "@/Components/FormUtils/ButtonGroup";
+import { FaPrint, FaSave, FaTrash } from "react-icons/fa";
+import { getAddressByTask } from "@/Utils/FetchAddress";
+import { getTask } from "@/Utils/FetchTask";
 
 export default function DeliveryProof(props) {
-    const signature = "4kXpUZAM3aG6w1HrKZkgc6GFNG3ykB.png";
-
     const [sigPad, setSigPad] = useState(null);
     const [content, setContent] = useState([]);
     const [pri, setPri] = useState();
@@ -47,16 +50,6 @@ export default function DeliveryProof(props) {
         }
     };
 
-    const getTasks = (id) => {
-        try {
-            axios.get(`/api/task/${id}`).then((res) => {
-                setTasks(res.data);
-            });
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
     const getAddress = (id) => {
         try {
             axios.get(`/api/service/${id}/address`).then((res) => {
@@ -67,14 +60,21 @@ export default function DeliveryProof(props) {
         }
     };
 
-    const getTaskAddress = (id) => {
-        try {
-            axios.get(`/api/task/${id}/address`).then((res) => {
-                return res.data;
+    const getTaskAddress = (idService) => {
+        getTask(idService).then(([res, err]) => {
+            console.log(err, res);
+            res.map((task) => {
+                if (task.id_address) {
+                    getAddressByTask(task.id).then(([res, err]) => {
+                        console.log(err, res);
+                        const newTask = { ...task, address: res.addr };
+                        setTasks((oldTasks) => [...oldTasks, newTask]);
+                    });
+                } else {
+                    setTasks((oldTasks) => [...oldTasks, task]);
+                }
             });
-        } catch (error) {
-            console.log(error);
-        }
+        });
     };
 
     const nextTaskState = (id) => {
@@ -96,7 +96,7 @@ export default function DeliveryProof(props) {
     };
 
     const clear = () => {
-        this.sigPad.clear();
+        sigPad.clear();
     };
 
     const completeID = (id) => {
@@ -112,11 +112,10 @@ export default function DeliveryProof(props) {
         });
     };
 
-    useState(() => {
+    useEffect(() => {
         getService(id);
-        console.log(id);
         getMessaging(id);
-        getTasks(id);
+        getTaskAddress(id);
         getAddress(id);
         getContent(id).then((data) => {
             const [res, error] = data;
@@ -138,16 +137,34 @@ export default function DeliveryProof(props) {
         const file = dataURLtoFile(sigPad.toDataURL(), "signature.png");
         const { status, data } = await uploadFile(file);
         if (status === 200) {
-            console.log(data.name);
+            console.log(data, status);
             const newService = { ...service, signature: data.name };
-            updateService(newService);
+            const [res, error] = await updateService(newService);
+            if (error) {
+                toast.error("Error al guardar la firma");
+                return;
+            }
+            toast.success("Firma guardada correctamente");
+            setService(res);
         }
+    };
+
+    const deleteSignature = async () => {
+        const newService = { ...service, signature: null };
+        const [res, error] = await updateService(newService);
+        if (error) {
+            toast.error("Error al eliminar la firma");
+            return;
+        }
+        console.log(res);
+        toast.success("Firma eliminada correctamente");
+        setService(res);
     };
 
     return (
         <>
             <Authenticated {...props}>
-                <div className="overflow-scroll">
+                <div className="">
                     <div className="mt-5 w-full text-center text-3xl grid grid-rows-2">
                         <Label>Prueba de Entrega de: </Label>
                         {service.name}
@@ -245,9 +262,11 @@ export default function DeliveryProof(props) {
                                         {index + 1}. {task.name}, {task.entity},{" "}
                                         {task.dependency}
                                     </li>
-                                    <li className="mt-2 text-center">
-                                        {}Calle 123 No. 23-34 | Hora: 11:30 AM
-                                    </li>
+                                    {task.address && (
+                                        <li className="mt-2 text-center">
+                                            {task.address} || {task.limit_date}
+                                        </li>
+                                    )}
                                     <li className="mt-2 text-sm">
                                         {task.desc}
                                     </li>
@@ -412,13 +431,13 @@ export default function DeliveryProof(props) {
                         <div className="col-span-2 border-t-2 border-gray-servi grid">
                             <Label className="text-left ml-2">Firma:</Label>
                             <div className="col-span-1 text-center text-gray-dark border mx-auto">
-                                {signature && (
+                                {service.signature && (
                                     <img
-                                        src={`http://localhost:8000/api/file/4kXpUZAM3aG6w1HrKZkgc6GFNG3ykB.png`}
+                                        src={`http://localhost:8000/api/file/${service.signature}`}
                                         alt=""
                                     />
                                 )}
-                                {!signature && (
+                                {!service.signature && (
                                     <SignatureCanvas
                                         canvasProps={{
                                             width: 300,
@@ -447,12 +466,25 @@ export default function DeliveryProof(props) {
                             </div>
                         </div>
                     </div>
-                    <div onClick={() => print()} className="flex w-full mb-10">
-                        <Button className="m-auto">Imprimir</Button>
-                    </div>
-                    <div onClick={storeSignature} className="flex w-full mb-10">
-                        <Button className="m-auto">Guardar firma</Button>
-                    </div>
+                    <ButtonGroup
+                        listButtons={[
+                            {
+                                onClick: print,
+                                icon: <FaPrint />,
+                                text: "Imprimir",
+                            },
+                            {
+                                onClick: storeSignature,
+                                icon: <FaSave />,
+                                text: "Guardar firma",
+                            },
+                            {
+                                onClick: deleteSignature,
+                                icon: <FaTrash />,
+                                text: "Borrar firma",
+                            },
+                        ]}
+                    />
                 </div>
                 <div id="ifmcontentstoprint"></div>
                 <iframe id="ifmcontentstoprint"></iframe>

@@ -70,6 +70,15 @@ const getAddressByService = async (serviceId) => {
     }
 };
 
+const getAddressByTask = async (taskId) => {
+    try {
+        const req = await axios.get(`/api/task/${taskId}/address/`);
+        return [req.data, null];
+    } catch (error) {
+        return [null, error];
+    }
+};
+
 export {
     getCountries,
     getRegions,
@@ -79,4 +88,5 @@ export {
     getAddress,
     getAddressByService,
     updateAddress,
+    getAddressByTask,
 };
