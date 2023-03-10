@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import AddressForm from "@/Components/AddressForm";
 import Card from "@/Components/Card";
 import Container from "@/Components/Container";
@@ -16,7 +17,7 @@ import { getMessaging } from "@/Utils/FetchMessaging";
 import { getOrder } from "@/Utils/FetchOrder";
 import { getAddressByService, getService } from "@/Utils/FetchService";
 import { getTask } from "@/Utils/FetchTask";
-import React, { useEffect, useState } from "react";
+import ReactLoading from "react-loading";
 
 function EditService(props) {
     const { auth, serviceId } = props;
@@ -35,7 +36,7 @@ function EditService(props) {
     );
 
     const [stateService, setStateService] = useState(
-        EstadoServiciosEnum.SERVICIO_MENSAJERIA
+        EstadoServiciosEnum.SERVICIO_INCIADO
     );
 
     const [dataLoaded, setDataLoaded] = useState(false);
@@ -79,6 +80,7 @@ function EditService(props) {
         ) {
             // messaging
             var [dataMessaging, errorMessaging] = await getMessaging(serviceId);
+            console.log(dataMessaging);
             if (errorMessaging != null) {
             }
             // content
@@ -96,17 +98,25 @@ function EditService(props) {
             service: dataService,
             address: dataAddr,
             messaging: dataMessaging,
-            content: dataContent,
+            content: dataContent ? dataContent : {},
             orders: dataOrders,
             tasks: dataTasks,
         });
-        console.log(serviceDTO, dataAddr);
         setDataLoaded(true);
     };
 
     return (
         <>
             <Authenticated {...props}>
+                {!dataLoaded && (
+                    <ReactLoading
+                        type={"spin"}
+                        color={"#D3D3D3"}
+                        height={"10%"}
+                        width={"10%"}
+                        className="m-auto translate-y-2/3"
+                    />
+                )}
                 {dataLoaded && (
                     <Container className="flex justify-center">
                         <Card className="sm:w-3/5">
@@ -140,6 +150,7 @@ function EditService(props) {
                                         setNextStep={setStateService}
                                         user={props.auth.user.id}
                                         messaging={serviceDTO.messaging}
+                                        isEdit={true}
                                     />
                                 )}
                                 {stateService ===
@@ -158,6 +169,7 @@ function EditService(props) {
                                                 EstadoServiciosEnum.SERVICIO_MENSAJERIA
                                             );
                                         }}
+                                        isEdit={true}
                                     />
                                 )}
                                 {stateService ===
@@ -174,6 +186,7 @@ function EditService(props) {
                                         currentStep={stateService}
                                         setNextStep={setStateService}
                                         content={serviceDTO.content}
+                                        isEdit={true}
                                     />
                                 )}
                                 {stateService ===
@@ -182,7 +195,8 @@ function EditService(props) {
                                         api_token={props.api_token}
                                         currentStep={stateService}
                                         setNextStep={setStateService}
-                                        tasks={serviceDTO.tasks}
+                                        pTasks={serviceDTO.tasks}
+                                        isEdit={true}
                                     />
                                 )}
                             </ServiceContext.Provider>

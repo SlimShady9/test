@@ -11,9 +11,14 @@ import {
     toStringTipoDeServiciosEnum,
 } from "@/Constants/TipoDeServiciosEnum";
 import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
-import { updateService, uploadFile, uploadService } from "@/Utils/FetchService";
+import {
+    getAddressByService,
+    updateService,
+    uploadService,
+} from "@/Utils/FetchService";
 import moment from "moment";
 import { toast } from "react-toastify";
+import { uploadFile, deleteFile as dFile } from "@/Utils/FetchFile";
 
 function ServiceDataForm({
     currentStep,
@@ -43,13 +48,29 @@ function ServiceDataForm({
     const [serviceForm, setServiceForm] = useState({
         id: serviceDTO.service.id,
         name: serviceDTO.service.name,
-        id_type_service: serviceDTO.service.id_type_service,
+        id_type_service: serviceDTO.service.id_type_service || 0,
         id_state_service: EstadoServiciosEnum.SERVICIO_INCIADO,
-        start_date: serviceDTO.service.start_date,
+        start_date:
+            serviceDTO.service.start_date !== undefined &&
+            serviceDTO.service.start_date !== null
+                ? moment(
+                      serviceDTO.service.start_date,
+                      "yyyy-MM-DD HH:mm:ss"
+                  ).format("yyyy-MM-DD")
+                : moment().format("yyyy-MM-DD"),
+        start_date_hours:
+            serviceDTO.service.start_date !== undefined &&
+            serviceDTO.service.start_date !== null
+                ? moment(
+                      serviceDTO.service.start_date,
+                      "yyyy-MM-DD HH:mm:ss"
+                  ).format("HH:mm:ss")
+                : moment().format("HH:mm:ss"),
         description: serviceDTO.service.description,
         price: serviceDTO.service.price,
         cost: serviceDTO.service.cost,
         archive: serviceDTO.service.archive,
+        originalArchive: serviceDTO.service.archive,
     });
 
     // Closure fuctions
@@ -63,6 +84,7 @@ function ServiceDataForm({
     };
 
     const handleChange = (event) => {
+        console.log(event.target.name + " " + event.target.value);
         setServiceForm({
             ...serviceForm,
             [event.target.name]: event.target.value,
@@ -91,10 +113,8 @@ function ServiceDataForm({
                 );
                 return prev;
             });
-            setNextStep(EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA);
-        } else {
-            setNextStep(EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA);
         }
+        setNextStep(EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA);
     };
 
     const submitForm = async (e) => {
@@ -115,9 +135,8 @@ function ServiceDataForm({
             serviceForm.start_date + " " + serviceForm.start_date_hours;
         serviceForm.start_date = date;
         if (files.length !== 0) {
-            await addAddress();
+            serviceForm.archive = await addAddress();
         }
-
         if (!isEdit) {
             const response = await uploadService(serviceForm);
             if (response.error) {
@@ -130,24 +149,27 @@ function ServiceDataForm({
                 return { ...prev, service: service };
             });
             finalizeServiceForm();
-            return;
         } else {
-            const response = await updateService(serviceForm);
-            if (response.error) {
+            const data = await updateService(serviceForm);
+            console.log(data[0]);
+            if (data.error) {
                 toast.error("Error al subir el servicio");
                 return;
             }
-            const service = await response.data;
-            setServiceForm(service);
+            setServiceForm(data[0]);
             setServiceDTO((prev) => {
-                return { ...prev, service: service };
+                return { ...prev, service: data[0] };
             });
             finalizeServiceForm();
-            return;
         }
     };
     // Sync data
-    useEffect(() => {}, []);
+    useEffect(() => {
+        if (!!serviceDTO.service.archive && !!serviceDTO.service.id) {
+            // load address details
+            setFileList([{ name: serviceDTO.service.archive }]);
+        }
+    }, []);
 
     const addAddress = async () => {
         const response = await uploadFile(files[0]);
@@ -155,8 +177,22 @@ function ServiceDataForm({
             toast.error("Error al subir el archivo");
             return;
         }
-        const file = await response.data.name;
-        setServiceForm({ ...serviceForm, archive: file });
+        return await response.data.name;
+    };
+
+    const deleteFile = async () => {
+        if (serviceForm.originalArchive) {
+            const [response, err] = await dFile(serviceForm.originalArchive);
+            if (err) {
+                return;
+            }
+            setServiceForm({
+                ...serviceForm,
+                archive: null,
+                originalArchive: null,
+            });
+        }
+        setFileList([]);
     };
 
     if (currentStep !== id) {
@@ -164,159 +200,173 @@ function ServiceDataForm({
     }
     return (
         <>
-            <Head title="Datos del servicio" />
-            <h1 className="text-xl font-bold text-left mb-3">
-                Datos iniciales
-            </h1>
-            <form className="gap-4" onSubmit={submitForm}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="col-span-1">
-                        <Label>Asunto de la Solicitud</Label>
-                        <Input
-                            name="name"
-                            autoComplete="nameService"
-                            defaultValue={serviceForm.name}
-                            handleChange={handleChange}
-                            required
-                            max={30}
-                        />
-                    </div>
-                    <div className="col-span-1">
-                        <Label className="">Tipo de servicio</Label>
-                        <SelectInput
-                            options={typeServices}
-                            name="id_type_service"
-                            onChange={(e) =>
-                                handleChange({
-                                    target: {
-                                        name: "id_type_service",
-                                        value: e.value,
-                                    },
-                                })
-                            }
-                            value={{
-                                value: serviceForm.id_type_service,
-                                label: toStringTipoDeServiciosEnum(
-                                    serviceForm.id_type_service
-                                ),
-                            }}
-                            required={true}
-                        />
-                    </div>
-
-                    <div className="col-span-1">
-                        <Label>Fecha de inicio del Servicio</Label>
-                        <Input
-                            type="date"
-                            name="start_date"
-                            handleChange={handleChange}
-                            required={true}
-                            defaultValue={moment(
-                                serviceForm.start_date,
-                                "yyyy-MM-DD HH:mm:ss"
-                            )
-                                .format("yyyy-MM-DD")
-                                .toString()}
-                        />
-                    </div>
-                    <div className="col-span-1">
-                        <Label>Hora de inicio del Servicio</Label>
-                        <Input
-                            type="time"
-                            name="start_date_hours"
-                            handleChange={handleChange}
-                            required={true}
-                            defaultValue={moment(
-                                serviceForm.start_date,
-                                "yyyy-MM-DD HH:mm:ss"
-                            )
-                                .format("HH:mm:ss")
-                                .toString()}
-                        />
-                    </div>
-                    {showDetail && (
-                        <>
+            {serviceForm != undefined && currentStep === id && (
+                <>
+                    <Head title="Datos del servicio" />
+                    <h1 className="text-xl font-bold text-left mb-3">
+                        Datos iniciales
+                    </h1>
+                    <form className="gap-4" onSubmit={submitForm}>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="col-span-1">
-                                <Label>Costo ($COP)</Label>
-                                <CurrencyFormInput
-                                    name="cost"
-                                    onValueChange={(e) =>
-                                        handleChange({
-                                            target: { name: "cost", value: e },
-                                        })
-                                    }
-                                    defaultValue={serviceForm.cost}
+                                <Label>Asunto de la Solicitud</Label>
+                                <Input
+                                    name="name"
+                                    autoComplete="nameService"
+                                    defaultValue={serviceForm.name}
+                                    handleChange={handleChange}
+                                    required
+                                    max={30}
                                 />
                             </div>
                             <div className="col-span-1">
-                                <Label>Precio ($COP)</Label>
-                                <CurrencyFormInput
-                                    name="price"
-                                    onValueChange={(e) =>
+                                <Label className="">Tipo de servicio</Label>
+                                <SelectInput
+                                    options={typeServices}
+                                    name="id_type_service"
+                                    onChange={(e) =>
                                         handleChange({
-                                            target: { name: "price", value: e },
+                                            target: {
+                                                name: "id_type_service",
+                                                value: e.value,
+                                            },
                                         })
                                     }
-                                    defaultValue={serviceForm.price}
+                                    value={{
+                                        value: serviceForm.id_type_service,
+                                        label: toStringTipoDeServiciosEnum(
+                                            serviceForm.id_type_service
+                                        ),
+                                    }}
+                                    required={true}
                                 />
                             </div>
-                        </>
-                    )}
-                </div>
-                <div className="flex flex-col w-full gap-4">
-                    <div className="mt-3">
-                        <Label>Descripción / Recomendaciones</Label>
-                    </div>
-                    <textarea
-                        className="m-1 rounded-md font-sans tracking-widest"
-                        name="description"
-                        id=""
-                        cols="30"
-                        rows="4"
-                        onChange={handleChange}
-                        defaultValue={serviceForm.description}
-                    ></textarea>
-                    <div className="justify-center mt-3">
-                        <Label>Archivos Adicionales</Label>
-                        <input
-                            ref={inputRef}
-                            onChange={handleChangeFile}
-                            style={{ display: "none" }}
-                            className="mx-auto my-3 w-full"
-                            type="file"
-                        />
-                    </div>
 
-                    <div className="flex">
-                        <Button
-                            className="mx-3 w-2/3"
-                            type="Button"
-                            onClick={handleChangeFileButton}
-                        >
-                            Selecciona uno o varios Archivos
-                        </Button>
-                        <Button
-                            className="mx-3 w-1/3"
-                            type="Button"
-                            onClick={() => setFileList([])}
-                        >
-                            Limpiar
-                        </Button>
-                    </div>
-                    <ul>
-                        {files.map((file, i) => (
-                            <li key={i}>
-                                {file.name} - {file.type}
-                            </li>
-                        ))}
-                    </ul>
-                    <div className="my-3 m-auto">
-                        <Button className="" type="submit">
-                            Guardar y continuar
-                        </Button>
-                    </div>
-                </div>
-            </form>
+                            <div className="col-span-1">
+                                <Label>Fecha de inicio del Servicio</Label>
+                                <Input
+                                    type="date"
+                                    name="start_date"
+                                    handleChange={handleChange}
+                                    required={true}
+                                    defaultValue={moment(
+                                        serviceForm.start_date,
+                                        "yyyy-MM-DD HH:mm:ss"
+                                    )
+                                        .format("yyyy-MM-DD")
+                                        .toString()}
+                                />
+                            </div>
+                            <div className="col-span-1">
+                                <Label>Hora de inicio del Servicio</Label>
+                                <Input
+                                    type="time"
+                                    name="start_date_hours"
+                                    handleChange={handleChange}
+                                    required={true}
+                                    defaultValue={
+                                        setServiceDTO.start_date_hours &&
+                                        moment(
+                                            serviceForm.start_date,
+                                            "yyyy-MM-DD HH:mm:ss"
+                                        )
+                                            .format("HH:mm")
+                                            .toString()
+                                    }
+                                />
+                            </div>
+                            {showDetail && (
+                                <>
+                                    <div className="col-span-1">
+                                        <Label>Costo ($COP)</Label>
+                                        <CurrencyFormInput
+                                            name="cost"
+                                            onValueChange={(e) =>
+                                                handleChange({
+                                                    target: {
+                                                        name: "cost",
+                                                        value: e,
+                                                    },
+                                                })
+                                            }
+                                            defaultValue={serviceForm.cost}
+                                        />
+                                    </div>
+                                    <div className="col-span-1">
+                                        <Label>Precio ($COP)</Label>
+                                        <CurrencyFormInput
+                                            name="price"
+                                            onValueChange={(e) =>
+                                                handleChange({
+                                                    target: {
+                                                        name: "price",
+                                                        value: e,
+                                                    },
+                                                })
+                                            }
+                                            defaultValue={serviceForm.price}
+                                        />
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                        <div className="flex flex-col w-full gap-4">
+                            <div className="mt-3">
+                                <Label>Descripción / Recomendaciones</Label>
+                            </div>
+                            <textarea
+                                className="m-1 rounded-md font-sans tracking-widest"
+                                name="description"
+                                id=""
+                                cols="30"
+                                rows="4"
+                                onChange={handleChange}
+                                defaultValue={serviceForm.description}
+                            ></textarea>
+                            <div className="justify-center mt-3">
+                                <Label>Archivos Adicionales</Label>
+                                <input
+                                    ref={inputRef}
+                                    onChange={handleChangeFile}
+                                    style={{ display: "none" }}
+                                    className="mx-auto my-3 w-full"
+                                    type="file"
+                                />
+                            </div>
+
+                            <div className="flex">
+                                <Button
+                                    className="mx-3 w-2/3"
+                                    type="Button"
+                                    onClick={handleChangeFileButton}
+                                >
+                                    Selecciona uno o varios Archivos
+                                </Button>
+                                <Button
+                                    className="mx-3 w-1/3"
+                                    type="Button"
+                                    onClick={deleteFile}
+                                >
+                                    Limpiar
+                                </Button>
+                            </div>
+                            <ul>
+                                {files.map((file, i) => (
+                                    <li key={i}>
+                                        {file.name} {file.type && "-"}{" "}
+                                        {file.type}
+                                    </li>
+                                ))}
+                            </ul>
+                            <div className="my-3 m-auto">
+                                <Button className="" type="submit">
+                                    Guardar y continuar
+                                </Button>
+                            </div>
+                        </div>
+                    </form>
+                </>
+            )}
         </>
     );
 }

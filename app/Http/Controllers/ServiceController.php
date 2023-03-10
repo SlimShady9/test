@@ -29,7 +29,7 @@ class ServiceController extends Controller {
         try {
 
             $request->validate([
-                'name' => 'required|string|max:30',
+                'name' => 'required|string|max:50',
                 'id_state_service' => 'Exists:state_services,id',
                 'id_type_service' => 'Exists:type_services,id',
                 'description' => 'max:255',
@@ -119,7 +119,7 @@ class ServiceController extends Controller {
         try {
 
             $request->validate([
-                'name' => 'required|string|max:30',
+                'name' => 'required|string|max:50',
                 'id_state_service' => 'Exists:state_services,id',
                 'id_type_service' => 'Exists:type_services,id',
                 'description' => 'required|string|max:255',
@@ -127,6 +127,8 @@ class ServiceController extends Controller {
                 'price' => 'numeric|Between:0,9999999999',
                 'cost' => 'numeric|Between:0,9999999999',
                 'address' => 'Exists:addresses,id',
+                'archive' => 'max:255',
+
             ]);
             
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -142,9 +144,11 @@ class ServiceController extends Controller {
         $service->id_type_service = $request->id_type_service;
         $service->description = $request->description;
         $service->start_date = $request->start_date;
-        $service->price = $request->price_service;
+        $service->price = $request->price;
         $service->cost = $request->cost;
-        $service->address = $request->address;
+        $service->address = $request->address ? $request->address : $service->address;
+        $service->archive = $request->archive;
+
         $service->save();
         return $service;
     }
@@ -196,32 +200,6 @@ class ServiceController extends Controller {
         where u.id = ' . $id_user;
         $products = DB::select($sql);
         return $products;
-    }
-
-    public function storeFile($serviceId, Request $request) {
-        $service = Service::find($serviceId);
-        if (!$service) {
-            return response()->json(['message' => 'Service not found'], 404);
-        }
-
-        $name = $path. $user_id . '.' . $extension;
-
-        $path = $this->path;
-        $file = $request->file('file');
-        $extension = $file->getClientOriginalExtension();
-        // Change file name to avoid duplicates
-
-        if ($service->archive) {
-            Storage::disk('public')->delete($service->archive);
-        }
-
-        Storage::disk('public')->put($name, file_get_contents($file));
-        $service->archive = $name;
-        $service->save();
-        return response()->json(['success' => 'File uploaded successfuly'], 200);
-
-
-
     }
     /**
      * Generate a random string

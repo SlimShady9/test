@@ -29,16 +29,17 @@ export default function Services(props) {
 
     // Initial state of current service
     const [stateService, setStateService] = useState(
-        EstadoServiciosEnum.SERVICIO_INCIADO
+        EstadoServiciosEnum.SERVICIO_CON_TAREAS
     );
 
     // State of the progress of service creation using context api
     const [serviceDTO, setServiceDTO] = useState({
-        service: {},
+        service: { id: 1 },
         address: {},
         orders: [],
         tasks: [],
         messaging: {},
+        content: {},
     });
 
     const restoreInitialState = () => {
@@ -75,7 +76,7 @@ export default function Services(props) {
                                 <MessagingForm
                                     currentStep={stateService}
                                     setNextStep={setStateService}
-                                    user={props.auth.user.id}
+                                    user={props.auth.user}
                                 />
                             )}
                             {stateService ===
@@ -83,19 +84,15 @@ export default function Services(props) {
                                 <AddressForm
                                     api_token={props.api_token}
                                     onSubmit={async (res) => {
-                                        setServiceDTO(function (prev) {
-                                            console.log(prev);
-                                            prev.service.address_id = res.id;
-                                            var service = {
-                                                ...prev.service,
-                                                address: res.id,
-                                            };
-                                            return {
-                                                ...prev,
-                                                service,
-                                            };
+                                        const newServiceDTO = {
+                                            ...serviceDTO.service,
+                                            address: res.id,
+                                        };
+                                        updateService(newServiceDTO);
+                                        setServiceDTO({
+                                            ...serviceDTO,
+                                            service: newServiceDTO,
                                         });
-                                        await updateService(serviceDTO.service);
                                         setStateService(
                                             EstadoServiciosEnum.SERVICIO_MENSAJERIA
                                         );

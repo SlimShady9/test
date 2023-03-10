@@ -39,7 +39,7 @@ class AddressController extends Controller
         try {
 
             $request->validate([
-                'name' => 'string|max:30',
+                'name' => 'string|max:50',
                 'country' => 'required|string|max:30',
                 'region' => 'required|string|max:30',
                 'city' => 'required|string|max:30',
@@ -108,19 +108,20 @@ class AddressController extends Controller
     public function update(Request $request, $id)
     {
         try {
-        $request->validate([
-            'name' => 'string|max:255',
-            'country' => 'required|string',
-            'region' => 'required|string',
-            'city' => 'required|string',
-            'country_iso' => 'required|string',
-            'region_iso' => 'required|string',
-            'city_id' => 'required|integer',
-            'street' => 'required|string',
-            'addr' => 'required|string',
-            'addr_detail' => 'string|max:255',
-            'neighborhood' => 'required|string|max:255',
-        ]);
+            $request->validate([
+                'id' => 'required|Exists:addresses,id',
+                'name' => 'string|max:50',
+                'country' => 'required|string|max:30',
+                'region' => 'required|string|max:30',
+                'city' => 'required|string|max:30',
+                'country_iso' => 'required|string|max:30',
+                'region_iso' => 'required|string|max:30',
+                'city_id' => 'required|integer',
+                'addr' => 'required|string|max:50',
+                'addr_detail' => 'string|max:255',
+                'postal_code' => 'required|string|max:10',
+                'neighborhood' => 'required|string|max:30',
+            ]);
         $address = Address::find($id);
             
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -135,10 +136,9 @@ class AddressController extends Controller
         $address->country = $request->country;
         $address->region = $request->region;
         $address->city = $request->city;
-        $address->country = $request->country_iso;
-        $address->region = $request->region_iso;
-        $address->city = $request->city_id;
-        $address->street = $request->street;
+        $address->country_iso = $request->country_iso;
+        $address->region_iso = $request->region_iso;
+        $address->city_id = $request->city_id;
         $address->addr = $request->addr;
         $address->addr_detail = $request->addr_detail;
         $address->neighborhood = $request->neighborhood;
@@ -156,8 +156,6 @@ class AddressController extends Controller
     {
         try {
             $address = Address::findorfail($id);
-            $address->delete();
-            return response()->json(['message' => 'Address deleted successfully'], 200);
         } catch (\Throwable $th) {
             return response()->json(['message' => 'Address not found'], 404);
         }

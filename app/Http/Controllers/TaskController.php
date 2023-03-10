@@ -28,13 +28,13 @@ class TaskController extends Controller
         try {
 
             $request->validate([
-                'name' => 'required|string|max:30',
-                'entity' => 'required|string|max:30',
+                'name' => 'required|string|max:50',
+                'entity' => 'required|string|max:50',
                 'dependency' => 'required|string|max:255',
                 'id_state' => 'required|Exists:state_tasks,id',
                 'id_address' => 'Exists:addresses,id',
                 'id_service' => 'required|Exists:services,id',
-                'desc' => 'required|string|max:255',
+                'desc' => 'string|max:255',
                 'responsible' => 'required|Exists:users,id',
                 'limit_date' => 'required|date',
                 'last_state_date' => 'required|date',
@@ -65,8 +65,8 @@ class TaskController extends Controller
         try {
 
             $request->validate([
-                'name' => 'string|max:30',
-                'entity' => 'string|max:30',
+                'name' => 'string|max:50',
+                'entity' => 'string|max:50',
                 'dependency' => 'string|max:255',
                 'id_state' => 'Exists:state_tasks,id',
                 'id_address' => 'Exists:addresses,id',
@@ -85,14 +85,13 @@ class TaskController extends Controller
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json(['error' => 'Task not found'], 404);
         }
-        $Task->name = $request->name_service;
+        $Task->name = $request->name;
         $Task->entity = $request->entity;
         $Task->dependency = $request->dependency;
-        $Task->state = $request->state; 
-        $Task->address = $request->address;
+        $Task->id_state = $request->id_state; 
         $Task->id_service = $request->id_service;
         $Task->desc = $request->desc;
-        $Task->id_address = $request->id_state;
+        $Task->id_address = $request->id_address;
         $Task->responsible = $request->responsible; 
         $Task->limit_date = $request->limit_date;
         $Task->last_state_date = $request->last_state_date;

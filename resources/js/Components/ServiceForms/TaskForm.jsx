@@ -13,28 +13,27 @@ import { getUsers } from "@/Utils/FetchUsers";
 import { TipoDeUsuariosEnum } from "@/Constants/TipoDeUsuariosEnum";
 import { EstadoDeTareaEnum } from "@/Constants/EstadoDeTareaEnum";
 import ServiceContext from "./useServiceContext";
-import { deleteAddress as dAddress } from "@/Utils/FetchAddress";
+import { deleteAddress as dAddress, getAddress } from "@/Utils/FetchAddress";
 import moment from "moment/moment";
 import TaskBox from "../FormUtils/TaskBox";
 import { toast } from "react-toastify";
-import { storeTask, deleteTask as dTaks } from "@/Utils/FetchTask";
+import { storeTask, deleteTask as dTaks, updateTask } from "@/Utils/FetchTask";
 
-function TaskForm({ setNextStep, api_token }) {
+function TaskForm({ setNextStep, api_token, pTasks = [], isEdit = false }) {
     const [showDetail, setShowDetail] = useState(false);
     const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
-
-    const [tasks, setTasks] = useState([]);
+    const [tasks, setTasks] = useState(pTasks);
     const [currentTask, setCurrentTask] = useState({
-        name: "Juanda Florez",
-        entity: "Banco de la República",
-        dependency: "Banco de la República 2",
+        name: "",
+        entity: "",
+        dependency: "",
         id_state: EstadoDeTareaEnum.CREADO,
         id_address: -1,
         id_service: serviceDTO.service.id,
-        desc: "Tarea de prueba",
-        responsible: 1,
-        dateLimit: "2021-05-05",
-        hourLimit: "12:00",
+        desc: "",
+        responsible: 0,
+        dateLimit: "",
+        hourLimit: "",
         last_state_date: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
     });
 
@@ -51,6 +50,7 @@ function TaskForm({ setNextStep, api_token }) {
 
     useEffect(() => {
         fetchData();
+        setServiceDTO((prev) => ({ ...prev, address: {} }));
     }, []);
 
     const fetchData = async () => {
@@ -65,6 +65,9 @@ function TaskForm({ setNextStep, api_token }) {
                 value: user.id,
             }))
         );
+        if (currentTask.id_address === -1) {
+            setCurrentTask((prev) => ({ ...prev, id_address: null }));
+        }
     };
 
     const previous = (e) => {
@@ -74,40 +77,64 @@ function TaskForm({ setNextStep, api_token }) {
 
     const submitForm = (e) => {
         e.preventDefault();
-
         var task = {
             ...currentTask,
-            limit_date: moment(
-                currentTask.dateLimit + " " + currentTask.hourLimit
-            ).format("YYYY-MM-DD HH:mm:ss"),
             last_state_date: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
+            dateLimit: undefined,
+            hourLimit: undefined,
+            undefined: undefined,
+            id_address:
+                currentTask.id_address === null
+                    ? undefined
+                    : currentTask.id_address,
         };
-        delete task.dateLimit;
-        delete task.hourLimit;
-        delete task.undefined;
+
+        if (currentTask.dateLimit && currentTask.hourLimit) {
+            task.limit_date = moment(
+                currentTask.dateLimit + " " + currentTask.hourLimit
+            ).format("YYYY-MM-DD HH:mm:ss");
+        }
+
         if (task.id_address === -1) delete task.id_address;
-        storeTask(task).then((res) => {
-            if (res.error) {
-                toast.error(res.error);
-                return;
-            }
-            setTasks((prev) => [...prev, res.data]);
-            setServiceDTO((prev) => ({
-                ...prev,
-                tasks: [...prev.tasks, res.data],
-            }));
-        });
+        if (!!task.id) {
+            updateTask(task).then((res) => {
+                const [nTask, error] = res;
+                if (error) {
+                    toast.error(error);
+                    return;
+                }
+                setTasks((prev) => [...prev, nTask]);
+                setServiceDTO((prev) => ({
+                    ...prev,
+                    tasks: [...prev.tasks, nTask],
+                    address: {},
+                }));
+            });
+        } else {
+            storeTask(task).then((res) => {
+                if (res.error) {
+                    toast.error(res.error);
+                    return;
+                }
+                setTasks((prev) => [...prev, res.data]);
+                setServiceDTO((prev) => ({
+                    ...prev,
+                    tasks: [...prev.tasks, res.data],
+                    address: {},
+                }));
+            });
+        }
         setCurrentTask({
-            name: "Juanda Florez",
-            entity: "Banco de la República",
-            dependency: "Banco de la República 2",
+            name: "",
+            entity: "",
+            dependency: "",
             id_state: EstadoDeTareaEnum.CREADO,
             id_address: -1,
             id_service: serviceDTO.service.id,
-            desc: "Tarea de prueba",
-            responsible: 1,
-            dateLimit: "2021-05-05",
-            hourLimit: "12:00",
+            desc: "",
+            responsible: -1,
+            dateLimit: "",
+            hourLimit: "",
             last_state_date: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
         });
     };
@@ -124,7 +151,19 @@ function TaskForm({ setNextStep, api_token }) {
         onHideAdd();
     };
 
-    const deleteAddress = () => {
+    const deleteAddress = async (e) => {
+        e.preventDefault();
+        if (currentTask.id_address) {
+            const [nTask, error] = await updateTask({
+                ...currentTask,
+                id_address: undefined,
+            });
+            if (error) {
+                toast.error(error);
+                return;
+            }
+            setCurrentTask(nTask);
+        }
         dAddress(serviceDTO.address.id);
         setServiceDTO((prev) => ({ ...prev, address: {} }));
     };
@@ -151,6 +190,27 @@ function TaskForm({ setNextStep, api_token }) {
         }));
     };
 
+    const editTask = (task) => {
+        setTasks((prev) => prev.filter((t) => t.id !== task.id));
+        setCurrentTask({
+            ...task,
+            dateLimit: moment(task.limit_date).format("YYYY-MM-DD"),
+            hourLimit: moment(task.limit_date).format("HH:mm"),
+        });
+        setServiceDTO((prev) => ({
+            ...prev,
+            tasks: prev.tasks.filter((t) => t.id !== task.id),
+        }));
+        getAddress(task.id_address).then((res) => {
+            const [address, error] = res;
+            if (error) {
+                toast.error(res.error);
+                return;
+            }
+            setServiceDTO((prev) => ({ ...prev, address: address }));
+        });
+    };
+
     const finalizar = () => {
         window.location.href = "/services";
     };
@@ -167,6 +227,7 @@ function TaskForm({ setNextStep, api_token }) {
                             <Label>Nombre Destinatario</Label>
                             <Input
                                 name="name"
+                                max={50}
                                 handleChange={onChange}
                                 defaultValue={currentTask.name}
                             />
@@ -197,9 +258,20 @@ function TaskForm({ setNextStep, api_token }) {
                                 options={usersResponsibleAvailable}
                                 onChange={(e) =>
                                     onChange({
-                                        target: "responsible",
-                                        value: e.value,
+                                        target: {
+                                            name: "responsible",
+                                            value: e.value,
+                                        },
                                     })
+                                }
+                                value={
+                                    currentTask.responsible === -1
+                                        ? ""
+                                        : usersResponsibleAvailable.find(
+                                              (user) =>
+                                                  user.value ===
+                                                  currentTask.responsible
+                                          )
                                 }
                             />
                         </div>
@@ -246,8 +318,8 @@ function TaskForm({ setNextStep, api_token }) {
                             <div className="flex gap-4">
                                 <div className="w-3/4">
                                     <Input
-                                        defaultValue={serviceDTO.address?.name}
                                         disabled={true}
+                                        defaultValue={serviceDTO.address?.name}
                                     />
                                 </div>
                                 <Button
@@ -268,7 +340,7 @@ function TaskForm({ setNextStep, api_token }) {
                             cols="30"
                             rows="4"
                             onChange={onChange}
-                            defaultValue={currentTask.desc}
+                            value={currentTask.desc}
                         ></textarea>
                     </div>
                     <div className="flex flex-col w-full gap-4">
@@ -287,6 +359,7 @@ function TaskForm({ setNextStep, api_token }) {
                             task={task}
                             key={index}
                             onDelete={deleteTask}
+                            editTask={editTask}
                         />
                     ))}
 

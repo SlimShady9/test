@@ -18,8 +18,8 @@ return new class extends Migration
             $table->timestamps();
             $table->string('content');
             $table->bigInteger('t_carga')->unsigned();
-            $table->bigInteger('id_exception')->unsigned();
-            $table->integer('units');
+            $table->string('id_exception');
+            $table->string('units');
             $table->integer('unit_weight');
             $table->integer('length');
             $table->integer('width');
@@ -31,7 +31,6 @@ return new class extends Migration
 
         Schema::table('contents', function (Blueprint $table) {
             $table->foreign('t_carga')->references('id')->on('type_contents');
-            $table->foreign('id_exception')->references('id')->on('type_exceptions');
             $table->foreign('service')->references('id')->on('services');
 
         });

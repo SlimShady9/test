@@ -1,9 +1,6 @@
-import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
 import React, { useState, useEffect, useContext } from "react";
-import { useForm } from "@inertiajs/inertia-react";
 import Label from "./FormUtils/Label";
 import SelectInput from "./FormUtils/SelectInput";
-import axios from "axios";
 import Input from "./FormUtils/Input";
 import Button from "./FormUtils/Button";
 import {
@@ -19,6 +16,7 @@ import ServiceContext from "./ServiceForms/useServiceContext";
 function AddressForm({ api_token, onSubmit, isEdit = false }) {
     const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
     const [data, setData] = useState({
+        id: serviceDTO.address.id,
         name: serviceDTO.address.name,
         addr: serviceDTO.address.addr,
         country: {
@@ -44,19 +42,20 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
     const [countries, setCountries] = useState([]);
     const [regions, setRegions] = useState([]);
     const [cities, setCities] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (!data.country?.value) {
-            getCountries(api_token).then((res) => setCountries(res));
-        }
+        getCountries(api_token).then((res) => setCountries(res));
     }, []);
 
     useEffect(() => {
-        setData({
-            ...data,
-            region: { label: "", value: "" },
-            city: { label: "", value: "" },
-        });
+        if (!loading) {
+            setData({
+                ...data,
+                region: { label: "", value: "" },
+                city: { label: "", value: "" },
+            });
+        }
         if (data.country?.value && data.country.value != "") {
             getRegions(api_token, data.country.value).then((res) =>
                 setRegions(res)
@@ -65,10 +64,12 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
     }, [data.country]);
 
     useEffect(() => {
-        setData({
-            ...data,
-            city: { label: "", value: "" },
-        });
+        if (!loading) {
+            setData({
+                ...data,
+                city: { label: "", value: "" },
+            });
+        }
         if (
             data.country?.value &&
             data.region?.value &&
@@ -78,13 +79,16 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
                 (res) => setCities(res)
             );
         }
+        setLoading(false);
     }, [data.region]);
 
     const handleChange = (e, propName, args) => {
         let newData = { ...data };
         if (e.label) {
             newData[propName] = e;
-            newData[args.isoId] = args.isoName;
+            if (args) {
+                newData[args.isoId] = args.isoName;
+            }
             setData(newData);
         } else {
             setData({ ...data, [e.target.name]: e.target.value });

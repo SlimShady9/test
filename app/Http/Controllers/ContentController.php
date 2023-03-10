@@ -24,13 +24,13 @@ class ContentController extends Controller
             $request->validate([
                 'id_exception' => 'required',
                 't_carga' => 'required',
-                'content' => 'required|string|max:30',
+                'content' => 'required|string|max:60',
                 'units' => 'required|string|max:30',
-                'unit_weight' => 'required|string|max:30',
-                'length' => 'required|string|max:30',
-                'width' => 'required|string|max:30',
-                'height' => 'required|string|max:30',
-                'commercial_value' => 'required|string|max:30',
+                'unit_weight' => 'required|integer',
+                'length' => 'required|integer',
+                'width' => 'required|integer',
+                'height' => 'required|integer',
+                'commercial_value' => 'required|integer',
                 'service' => 'required|Exists:services,id',
             ]);
             
@@ -64,11 +64,13 @@ class ContentController extends Controller
                 't_carga' => 'required',
                 'content' => 'string|max:30',
                 'units' => 'string|max:30',
-                'unit_weight' => 'string|max:30',
-                'length' => 'string|max:30',
-                'width' => 'string|max:30',
-                'height' => 'string|max:30',
-                'commercial_value' => 'string|max:30',
+                'unit_weight' => 'integer',
+                'length' => 'integer',
+                'width' => 'integer',
+                'height' => 'integer',
+                'commercial_value' => 'integer',
+                'service' => 'Exists:services,id',
+                'id' => 'Exists:contents,id',
             ]);
             
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -87,7 +89,7 @@ class ContentController extends Controller
         $Content->length = $request->length; 
         $Content->width = $request->width;
         $Content->height = $request->height;
-        $Content->commercial_value = $commercial_value->units; 
+        $Content->commercial_value = $request->commercial_value; 
         $Content->save();
         return $Content;
     }
