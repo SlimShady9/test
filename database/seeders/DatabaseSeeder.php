@@ -58,13 +58,13 @@ class DatabaseSeeder extends Seeder
             'name' => 'Administrador',
         ]);
         \App\Models\T_user::create([
-            'name' => 'Coordinador',
+            'name' => 'Cliente Jurídico',
         ]);
         \App\Models\T_user::create([
-            'name' => 'Mensajero',
+            'name' => 'Cliente Natural',
         ]);
         \App\Models\T_user::create([
-            'name' => 'Cliente',
+            'name' => 'Courier',
         ]);
         //Tipo de documento
         \App\Models\T_document::create([

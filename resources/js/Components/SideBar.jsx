@@ -24,11 +24,10 @@ import { BsFillFilePersonFill } from "react-icons/bs";
 import ImageUploadForm from "./FormUtils/ImageUploadForm";
 import { Head, Link } from "@inertiajs/inertia-react";
 import { fontWeight } from "tailwindcss/defaultTheme";
+import { TipoDeUsuariosEnum } from "@/Constants/TipoDeUsuariosEnum";
 
 const SideBar = ({ user }) => {
-    const [open, setOpen] = useState(false);
-    const [loggedUser, setLoggedUser] = useState(user);
-    const Menus = [
+    const menusTodos = [
         { title: "Perfil", icon: <BsFillFilePersonFill />, url: "profile" },
         {
             title: "Servicios",
@@ -37,6 +36,10 @@ const SideBar = ({ user }) => {
             url: "services",
         },
         { title: "Ver envíos", icon: <FaShippingFast />, url: "envios" },
+        { title: "Cerrar sesión", icon: <FaRegPaperPlane />, url: "services" },
+    ];
+
+    const menusAdmin = [
         { title: "Usuarios ", icon: <FaUsers />, url: "users" },
         { title: "Ventas", icon: <FaStore />, url: "services" },
         {
@@ -45,8 +48,10 @@ const SideBar = ({ user }) => {
             icon: <FaMicroscope />,
             url: "services",
         },
-        { title: "Cerrar sesión", icon: <FaRegPaperPlane />, url: "services" },
     ];
+
+    const [open, setOpen] = useState(false);
+    const [loggedUser, setLoggedUser] = useState(user);
 
     return (
         <aside
@@ -60,7 +65,28 @@ const SideBar = ({ user }) => {
                 <ApplicationLogo />
             </div>
             <ul className="pt-6">
-                {Menus.map((Menu, index) => (
+                {user.id_t_user === TipoDeUsuariosEnum.ADMIN &&
+                    menusAdmin.map((Menu, index) => (
+                        <Link
+                            href={route(Menu.url)}
+                            key={index}
+                            className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
+                            ${Menu.gap ? "mt-9" : "mt-2"} ${
+                                index === 0 && "bg-light-white"
+                            } hover:bg-gradient-to-r from-blue-servi to-white opacity-80 hover:text-white transition ease-in-out duration-300 hover:scale-110`}
+                        >
+                            {Menu.icon}
+                            <span
+                                className={`${
+                                    !open && "hidden"
+                                } origin-left duration-200`}
+                            >
+                                {Menu.title}
+                            </span>
+                        </Link>
+                    ))}
+
+                {menusTodos.map((Menu, index) => (
                     <Link
                         href={route(Menu.url)}
                         key={index}
