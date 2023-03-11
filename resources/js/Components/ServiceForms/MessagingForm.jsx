@@ -16,6 +16,7 @@ import {
 } from "@/Constants/TransportadorEnum";
 
 function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
+    console.log(user);
     const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
     const transportadorasSelect = Object.keys(TransportadoraEnum).map(
         (key) => ({
@@ -36,7 +37,11 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
             setServiceDTO((prev) => {
                 return { ...prev, messaging: messaging2 };
             });
+            if(user.id_t_user == 1){
             setNextStep(EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS);
+            }else{
+            setNextStep(EstadoServiciosEnum.SERVICIO_CON_CONTENIDO);
+            }
         } else {
             storeMessaging({
                 ...messaging,
@@ -45,7 +50,11 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
                     toast.error(res.error);
                     return;
                 }
-                setNextStep(EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS);
+                if(user.id_t_user == 1){
+                    setNextStep(EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS);
+                    }else{
+                    setNextStep(EstadoServiciosEnum.SERVICIO_CON_CONTENIDO);
+                    }
             });
         }
     };
@@ -146,7 +155,7 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
                         />
                     </div>
 
-                    {showDetail && (
+                    {showDetail && user.id_t_user === 1 && (
                         <>
                             <div className="col-span-1">
                                 <Label className="">

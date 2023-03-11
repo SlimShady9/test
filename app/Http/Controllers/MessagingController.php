@@ -35,8 +35,8 @@ class MessagingController extends Controller
                 'id_user' => 'required|Exists:users,id',
                 'dependency' => 'required|string|max:30',
                 'intern_order' => 'string|max:30',
-                'transporter' => 'string|max:30',
-                'id_transporter_tracking' => 'string|max:255',
+                'transporter' => '|max:30',
+                'id_transporter_tracking' => 'max:255',
             ]);
             
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -73,8 +73,8 @@ class MessagingController extends Controller
                 'id_user' => 'Exists:users,id',
                 'dependency' => 'string|max:30',
                 'intern_order' => 'string|max:30',
-                'transporter' => 'string|max:30',
-                'id_transporter_tracking' => 'string|max:255',
+                'transporter' => 'max:30',
+                'id_transporter_tracking' => 'max:255',
             ]);
             
         } catch (\Illuminate\Validation\ValidationException $e) {

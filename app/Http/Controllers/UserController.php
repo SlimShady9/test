@@ -205,11 +205,18 @@ class UserController extends Controller
             'label' => 'Tipo de usuario',
             'name' => 'id_t_user',
             'options' => [],
-            'value' => T_user::find($parameter->id_t_user)->name,
+            'value' => []
         ];
+
         $typesU = T_user::all();
         Debugbar::info($typesU);
         foreach ($typesU as $typesU) {
+            if($typesU->id == $parameter->id_t_user){
+                array_push($options['value'],[
+                    'label' => $typesU->name,
+                    'value' => $typesU->id,
+                ]);
+            }
             array_push($options['options'], [
                 'label' => $typesU->name,
                 'value' => $typesU->id,
@@ -221,9 +228,15 @@ class UserController extends Controller
             'label' => 'Tipo de documento',
             'name' => 'id_t_doc',
             'options' => [],
-            'value' => T_document::find($parameter->id_t_doc)->name,
+            'value' => [],
         ];
         foreach ($typeD as $typeD) {
+            if($typeD->id == $parameter->id_t_doc){
+                array_push($optionsD['value'], [
+                    'label' => $typeD->name,
+                    'value' => $typeD->id,
+                ]);
+            }
             array_push($optionsD['options'], [
                 'label' => $typeD->name,
                 'value' => $typeD->id,
@@ -256,8 +269,10 @@ class UserController extends Controller
             'doc' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
             'cellphone' => 'required|string|max:25',
-            'notif' => 'string|max:2',
-            'data' => 'string|max:255',
+            'notif' => 'max:2',
+            'data' => 'max:255',
+            'id_t_user' => 'required',
+            'id_t_doc' => 'required',
         ]);
         $user = User::find($id);
             
@@ -278,6 +293,8 @@ class UserController extends Controller
         $user->cellphone = $request->cellphone;
         $user->notif = $request->notif;
         $user->data = $request->data;
+        $user->id_t_user = $request->id_t_user;
+        $user->id_t_doc = $request->id_t_doc;
         $user->save();
         return $user;
     }

@@ -19,7 +19,7 @@ import TaskBox from "../FormUtils/TaskBox";
 import { toast } from "react-toastify";
 import { storeTask, deleteTask as dTaks, updateTask } from "@/Utils/FetchTask";
 
-function TaskForm({ setNextStep, api_token, pTasks = [], isEdit = false }) {
+function TaskForm({ setNextStep, api_token, pTasks = [], isEdit = false , user}) {
     const [showDetail, setShowDetail] = useState(false);
     const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
     const [tasks, setTasks] = useState(pTasks);
@@ -31,7 +31,7 @@ function TaskForm({ setNextStep, api_token, pTasks = [], isEdit = false }) {
         id_address: -1,
         id_service: serviceDTO.service.id,
         desc: "",
-        responsible: 0,
+        responsible: 1,
         dateLimit: "",
         hourLimit: "",
         last_state_date: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
@@ -252,6 +252,7 @@ function TaskForm({ setNextStep, api_token, pTasks = [], isEdit = false }) {
                             <Label>Excepciones (condiciones especiales)</Label>
                             <SelectInput isMulti={true} />
                         </div>*/}
+                        {user.id_t_user === 1 && (
                         <div className="col-span-1">
                             <Label>Responsable</Label>
                             <SelectInput
@@ -275,6 +276,7 @@ function TaskForm({ setNextStep, api_token, pTasks = [], isEdit = false }) {
                                 }
                             />
                         </div>
+                        )}
                         <div className="grid grid-cols-2 col-span-2 justify-center">
                             <Label className="col-span-2">
                                 Fecha y Hora Límite

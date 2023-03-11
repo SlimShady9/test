@@ -1,64 +1,52 @@
-import { useEffect, useState } from "react";
+import {useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import Card from "@/Components/Card";
-import Modal from "@/Components/Modal";
 import Button from "@/Components/FormUtils/Button";
 import ImageUploadForm from "@/Components/FormUtils/ImageUploadForm";
 import Container from "@/Components/Container";
 import Input from "@/Components/FormUtils/Input";
+import SelectInput from "@/Components/FormUtils/SelectInput";
 import Label from "@/Components/FormUtils/Label";
-import Select from "react-select";
-import AddressForm from "@/Components/AddressForm";
-import axios from "axios";
+import { toStringTipoDocumentoEnum , TipoDocumentoEnum} from "@/Constants/TipoDocumentoEnum";
+import { toStringTipoDeUsuariosEnum , TipoDeUsuariosEnum} from "@/Constants/TipoDeUsuariosEnum";
+import { updateUsers } from "@/Utils/FetchUsers";
+
 
 export default function Profile(props) {
-    const optionsTU = [
-        { value: "1", label: "Admin" },
-        { value: "2", label: "Cliente juridico" },
-        { value: "3", label: "Cliente natural" },
-    ];
-    const optionsTD = [
-        { value: "1", label: "Cédula" },
-        { value: "2", label: "Pasaporte" },
-        { value: "3", label: "Cédula de extranjeria" },
-    ];
-    const [user, setUser] = useState([]);
-    const getUser = async () => {
-        try {
-            const res = await axios.get("/api/user/" + loggedUser.id);
-            setUser(await res.data);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-    useEffect(() => {
-        getUser();
-    }, []);
-
-    const [profileParams, setProfileParams] = useState([]);
-    const [showModal, setShowModal] = useState("");
-    const [idAddress, setIdAddress] = useState(null);
-
-    const onHide = () => setShowModal(false);
+    const [data, setData] = useState({}); 
+    const optionsTU = Object.keys(TipoDeUsuariosEnum).map((key) => ({
+        label: toStringTipoDeUsuariosEnum(TipoDeUsuariosEnum[key]),
+        value: TipoDeUsuariosEnum[key],
+    }));
+    const optionsTD = Object.keys(TipoDocumentoEnum).map((key) => ({
+        label: toStringTipoDocumentoEnum(TipoDocumentoEnum[key]),
+        value: TipoDocumentoEnum[key],
+    }));
 
     const [loggedUser, setLoggedUser] = useState(props.auth.user);
+    console.log(loggedUser);
 
-    const succesAddressLoad = (data) => {
-        setIdAddress(data.id);
-        setShowModal(false);
+    const onChange = (e) => {
+        setLoggedUser({ ...loggedUser, [e.target.name]: e.target.value });
     };
 
-    const onHandleChange = (event) => {
-        setData(
-            event.target.name,
-            event.target.type === "checkbox"
-                ? event.target.checked
-                : event.target.value
-        );
-    };
+    const submitForm = async (e) => {
+        e.preventDefault();
+        const [response, error] = await updateUsers(loggedUser);
+
+            if (error) {
+                toast.error("Error al actualizar el usuario");
+                return;
+            }
+            const userN = await response;
+            setLoggedUser((prev) => {
+                return { ...prev, loggedUser: userN };
+            });
+        }
 
     return (
         <>
+        <form className="gap-4" onSubmit={submitForm}>
             <Authenticated {...props}>
                 <Container>
                     <Card
@@ -79,10 +67,10 @@ export default function Profile(props) {
                             <Input
                                 type="text"
                                 name="username"
-                                defaultValue={user.username}
+                                defaultValue={loggedUser.username}
                                 className="mt-1 block w-full"
                                 isFocused={true}
-                                handleChange={onHandleChange}
+                                handleChange={onChange}
                                 required
                             />
                         </div>
@@ -90,12 +78,12 @@ export default function Profile(props) {
                             <Label forInput="name" value="Nombre(s)" />
                             <Input
                                 type="text"
-                                name="title"
-                                defaultValue={user.name}
+                                name="name"
+                                defaultValue={loggedUser.name}
                                 className="mt-1 block w-full"
                                 autoComplete="title"
                                 isFocused={true}
-                                handleChange={onHandleChange}
+                                handleChange={onChange}
                                 required
                             />
                         </div>
@@ -103,43 +91,41 @@ export default function Profile(props) {
                             <Label forInput="name" value="Apellido(s)" />
                             <Input
                                 type="text"
-                                name="title"
-                                defaultValue={user.surname}
+                                name="surname"
+                                defaultValue={loggedUser.surname}
                                 className="mt-1 block w-full"
                                 autoComplete="title"
                                 isFocused={true}
-                                handleChange={onHandleChange}
+                                handleChange={onChange}
                                 required
                             />
                         </div>
                         <div>
                             <Label forInput="t_user" value="Tipo de Usuario" />
-                            <Select
-                                name="t_user"
-                                options={optionsTU}
-                                defaultValue={user.id_t_user}
-                                className="mt-1 block w-full"
-                                autoComplete="t_user"
-                                required
-                            ></Select>
+                            <SelectInput
+                            options={optionsTU}
+                            value={{
+                                value: loggedUser.id_t_user,
+                                label: toStringTipoDeUsuariosEnum(loggedUser.id_t_user),
+                            }}
+                            onChange={(e) => {
+                                onChange({
+                                    target: { name: "id_t_user", value: e.value },
+                                });
+                            }}
+                        />
                         </div>
-                        <Button
-                            className="bg-gray-servi col-span-2"
-                            onClick={() => setShowModal(true)}
-                        >
-                            Cambiar Dirección
-                        </Button>
 
                         <div className="col-span-2">
                             <Label forInput="email" value="Correo" />
                             <Input
                                 type="text"
                                 name="email"
-                                defaultValue={user.email}
+                                defaultValue={loggedUser.email}
                                 className="mt-1 block w-full"
                                 autoComplete="email"
                                 isFocused={true}
-                                handleChange={onHandleChange}
+                                handleChange={onChange}
                                 required
                             />
                         </div>
@@ -148,11 +134,11 @@ export default function Profile(props) {
                             <Input
                                 type="number"
                                 name="phone"
-                                defaultValue={user.phone}
+                                defaultValue={loggedUser.phone}
                                 className="mt-1 block w-full"
                                 autoComplete="phone"
                                 isFocused={true}
-                                handleChange={onHandleChange}
+                                handleChange={onChange}
                                 required
                             />
                         </div>
@@ -161,11 +147,11 @@ export default function Profile(props) {
                             <Input
                                 type="number"
                                 name="cellphone"
-                                defaultValue={user.cellphone}
+                                defaultValue={loggedUser.cellphone}
                                 className="mt-1 block w-full"
                                 autoComplete="cellphone"
                                 isFocused={true}
-                                handleChange={onHandleChange}
+                                handleChange={onChange}
                                 required
                             />
                         </div>
@@ -177,11 +163,11 @@ export default function Profile(props) {
                             <Input
                                 type="number"
                                 name="doc"
-                                defaultValue={user.doc}
+                                defaultValue={loggedUser.doc}
                                 className="mt-1 block w-full"
                                 autoComplete="doc"
                                 isFocused={true}
-                                handleChange={onHandleChange}
+                                handleChange={onChange}
                                 required
                             />
                         </div>
@@ -190,13 +176,18 @@ export default function Profile(props) {
                                 forInput="t_document"
                                 value="Tipo de Documento"
                             />
-                            <Select
-                                name="t_document"
-                                options={optionsTD}
-                                className="mt-1 block w-full"
-                                autoComplete="t_document"
-                                required
-                            ></Select>
+                            <SelectInput
+                            options={optionsTD}
+                            value={{
+                                value: loggedUser.id_t_doc,
+                                label: toStringTipoDocumentoEnum(loggedUser.id_t_doc),
+                            }}
+                            onChange={(e) => {
+                                onChange({
+                                    target: { name: "id_t_doc", value: e.value },
+                                });
+                            }}
+                        />
                         </div>
                         <div className="flex items-center justify-start mt-4 ">
                             <Button className="bg-red-light" type="submit">
@@ -212,6 +203,8 @@ export default function Profile(props) {
                     </Card>
                 </Container>
             </Authenticated>
+            </form>
+
         </>
     );
 }

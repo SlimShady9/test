@@ -35,6 +35,7 @@ function ContentForm({ setNextStep, isEdit }) {
             value: ExcepcionesEnum[key],
         })
     );
+    console.log(serviceDTO);
     const [content, setContent] = useState({
         commercial_value: serviceDTO.content.commercial_value,
         content: serviceDTO.content.content,

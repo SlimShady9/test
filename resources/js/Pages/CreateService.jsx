@@ -15,6 +15,7 @@ import { updateService } from "@/Utils/FetchService";
 import { Link } from "@inertiajs/inertia-react";
 
 export default function Services(props) {
+    console.log(props.auth.user.id_t_user);
     const initialStateServicesAvailable = [
         EstadoServiciosEnum.SERVICIO_INCIADO,
         EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA,
@@ -69,6 +70,8 @@ export default function Services(props) {
                                     currentStep={stateService}
                                     setNextStep={setStateService}
                                     setServicesAvailable={setServicesAvailable}
+                                    typeUser={props.auth.user.id_t_user}
+
                                 />
                             )}
                             {stateService ===
@@ -100,25 +103,26 @@ export default function Services(props) {
                                 />
                             )}
                             {stateService ===
-                                EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS && (
+                                EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS && props.auth.user.id_t_user == 1 && (
                                 <UsersForm
                                     currentStep={stateService}
                                     setNextStep={setStateService}
                                 />
                             )}
                             {stateService ===
-                                EstadoServiciosEnum.SERVICIO_CON_CONTENIDO && (
+                                EstadoServiciosEnum.SERVICIO_CON_CONTENIDO  && (
                                 <ContentForm
                                     currentStep={stateService}
                                     setNextStep={setStateService}
                                 />
                             )}
                             {stateService ===
-                                EstadoServiciosEnum.SERVICIO_CON_TAREAS && (
+                                EstadoServiciosEnum.SERVICIO_CON_TAREAS  &&(
                                 <TaskForm
                                     api_token={props.api_token}
                                     currentStep={stateService}
                                     setNextStep={setStateService}
+                                    user={props.auth.user}
                                 />
                             )}
                         </ServiceContext.Provider>

@@ -25,6 +25,7 @@ function ServiceDataForm({
     setNextStep,
     setServicesAvailable,
     isEdit = false,
+    typeUser,
 }) {
     const id = EstadoServiciosEnum.SERVICIO_INCIADO;
 
@@ -45,6 +46,7 @@ function ServiceDataForm({
     const files = fileList ? [...fileList] : [];
     const [showDetail, setShowDetail] = useState(true);
 
+    console.log(serviceDTO);
     const [serviceForm, setServiceForm] = useState({
         id: serviceDTO.service.id,
         name: serviceDTO.service.name,
@@ -275,7 +277,7 @@ function ServiceDataForm({
                                     }
                                 />
                             </div>
-                            {showDetail && (
+                            {showDetail && typeUser === 1 &&(
                                 <>
                                     <div className="col-span-1">
                                         <Label>Costo ($COP)</Label>

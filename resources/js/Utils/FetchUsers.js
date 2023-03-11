@@ -6,10 +6,19 @@ const getUsers = async (params) => {
     return req.data;
 };
 
+const updateUsers = async (user) => {
+    try {
+        const req = await axios.put(`/api/user/${user.id}`, user);
+        return [await req.data, null];
+    } catch (error) {
+        return [null, error];
+    }
+};
+
 const loadImageUser = (user) => {
 
         return 'api/user/'+user+'/profileimg';
 
 };
 
-export { getUsers, loadImageUser };
+export { getUsers, loadImageUser , updateUsers};
