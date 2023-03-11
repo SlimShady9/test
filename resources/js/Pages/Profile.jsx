@@ -1,4 +1,4 @@
-import {useState } from "react";
+import { useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import Card from "@/Components/Card";
 import Button from "@/Components/FormUtils/Button";
@@ -7,13 +7,18 @@ import Container from "@/Components/Container";
 import Input from "@/Components/FormUtils/Input";
 import SelectInput from "@/Components/FormUtils/SelectInput";
 import Label from "@/Components/FormUtils/Label";
-import { toStringTipoDocumentoEnum , TipoDocumentoEnum} from "@/Constants/TipoDocumentoEnum";
-import { toStringTipoDeUsuariosEnum , TipoDeUsuariosEnum} from "@/Constants/TipoDeUsuariosEnum";
+import {
+    toStringTipoDocumentoEnum,
+    TipoDocumentoEnum,
+} from "@/Constants/TipoDocumentoEnum";
+import {
+    toStringTipoDeUsuariosEnum,
+    TipoDeUsuariosEnum,
+} from "@/Constants/TipoDeUsuariosEnum";
 import { updateUsers } from "@/Utils/FetchUsers";
 
-
 export default function Profile(props) {
-    const [data, setData] = useState({}); 
+    const [data, setData] = useState({});
     const optionsTU = Object.keys(TipoDeUsuariosEnum).map((key) => ({
         label: toStringTipoDeUsuariosEnum(TipoDeUsuariosEnum[key]),
         value: TipoDeUsuariosEnum[key],
@@ -34,177 +39,192 @@ export default function Profile(props) {
         e.preventDefault();
         const [response, error] = await updateUsers(loggedUser);
 
-            if (error) {
-                toast.error("Error al actualizar el usuario");
-                return;
-            }
-            const userN = await response;
-            setLoggedUser((prev) => {
-                return { ...prev, loggedUser: userN };
-            });
+        if (error) {
+            toast.error("Error al actualizar el usuario");
+            return;
         }
+        const userN = await response;
+        setLoggedUser((prev) => {
+            return { ...prev, loggedUser: userN };
+        });
+    };
 
     return (
         <>
-        <form className="gap-4" onSubmit={submitForm}>
-            <Authenticated {...props}>
-                <Container>
-                    <Card
-                        className={"justify-center tracking-widest m-auto"}
-                        col={2}
-                    >
-                        <Container className={"col-span-2 justify-center"}>
-                            <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
-                                Perfil de Usuario
-                            </h1>
-                            <ImageUploadForm
-                                user={loggedUser}
-                                setUser={setLoggedUser}
-                            />
-                        </Container>
-                        <div className="col-span-1">
-                            <Label forInput="username" value="Username" />
-                            <Input
-                                type="text"
-                                name="username"
-                                defaultValue={loggedUser.username}
-                                className="mt-1 block w-full"
-                                isFocused={true}
-                                handleChange={onChange}
-                                required
-                            />
-                        </div>
-                        <div className="col-span-1">
-                            <Label forInput="name" value="Nombre(s)" />
-                            <Input
-                                type="text"
-                                name="name"
-                                defaultValue={loggedUser.name}
-                                className="mt-1 block w-full"
-                                autoComplete="title"
-                                isFocused={true}
-                                handleChange={onChange}
-                                required
-                            />
-                        </div>
-                        <div className="col-span-1">
-                            <Label forInput="name" value="Apellido(s)" />
-                            <Input
-                                type="text"
-                                name="surname"
-                                defaultValue={loggedUser.surname}
-                                className="mt-1 block w-full"
-                                autoComplete="title"
-                                isFocused={true}
-                                handleChange={onChange}
-                                required
-                            />
-                        </div>
-                        <div>
-                            <Label forInput="t_user" value="Tipo de Usuario" />
-                            <SelectInput
-                            options={optionsTU}
-                            value={{
-                                value: loggedUser.id_t_user,
-                                label: toStringTipoDeUsuariosEnum(loggedUser.id_t_user),
-                            }}
-                            onChange={(e) => {
-                                onChange({
-                                    target: { name: "id_t_user", value: e.value },
-                                });
-                            }}
-                        />
-                        </div>
+            <form className="gap-4" onSubmit={submitForm}>
+                <Authenticated {...props}>
+                    <Container>
+                        <Card
+                            className={"justify-center tracking-widest m-auto"}
+                            col={2}
+                        >
+                            <Container className={"col-span-2 justify-center"}>
+                                <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                                    Perfil de Usuario
+                                </h1>
+                                <ImageUploadForm
+                                    user={loggedUser}
+                                    setUser={setLoggedUser}
+                                />
+                            </Container>
+                            <div className="col-span-1">
+                                <Label forInput="username" value="Username" />
+                                <Input
+                                    type="text"
+                                    name="username"
+                                    defaultValue={loggedUser.username}
+                                    className="mt-1 block w-full"
+                                    isFocused={true}
+                                    handleChange={onChange}
+                                    required
+                                />
+                            </div>
+                            <div className="col-span-1">
+                                <Label forInput="name" value="Nombre(s)" />
+                                <Input
+                                    type="text"
+                                    name="name"
+                                    defaultValue={loggedUser.name}
+                                    className="mt-1 block w-full"
+                                    autoComplete="title"
+                                    isFocused={true}
+                                    handleChange={onChange}
+                                    required
+                                />
+                            </div>
+                            <div className="col-span-1">
+                                <Label forInput="name" value="Apellido(s)" />
+                                <Input
+                                    type="text"
+                                    name="surname"
+                                    defaultValue={loggedUser.surname}
+                                    className="mt-1 block w-full"
+                                    autoComplete="title"
+                                    isFocused={true}
+                                    handleChange={onChange}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <Label
+                                    forInput="t_user"
+                                    value="Tipo de Usuario"
+                                />
+                                <SelectInput
+                                    disabled={true}
+                                    options={optionsTU}
+                                    value={{
+                                        value: loggedUser.id_t_user,
+                                        label: toStringTipoDeUsuariosEnum(
+                                            loggedUser.id_t_user
+                                        ),
+                                    }}
+                                    onChange={(e) => {
+                                        onChange({
+                                            target: {
+                                                name: "id_t_user",
+                                                value: e.value,
+                                            },
+                                        });
+                                    }}
+                                />
+                            </div>
 
-                        <div className="col-span-2">
-                            <Label forInput="email" value="Correo" />
-                            <Input
-                                type="text"
-                                name="email"
-                                defaultValue={loggedUser.email}
-                                className="mt-1 block w-full"
-                                autoComplete="email"
-                                isFocused={true}
-                                handleChange={onChange}
-                                required
-                            />
-                        </div>
-                        <div className="col-span-1">
-                            <Label forInput="phone" value="Teléfono" />
-                            <Input
-                                type="number"
-                                name="phone"
-                                defaultValue={loggedUser.phone}
-                                className="mt-1 block w-full"
-                                autoComplete="phone"
-                                isFocused={true}
-                                handleChange={onChange}
-                                required
-                            />
-                        </div>
-                        <div className="col-span-1">
-                            <Label forInput="cellphone" value="Celular" />
-                            <Input
-                                type="number"
-                                name="cellphone"
-                                defaultValue={loggedUser.cellphone}
-                                className="mt-1 block w-full"
-                                autoComplete="cellphone"
-                                isFocused={true}
-                                handleChange={onChange}
-                                required
-                            />
-                        </div>
-                        <div className="col-span-1">
-                            <Label
-                                forInput="doc"
-                                value="Documento de Identidad"
-                            />
-                            <Input
-                                type="number"
-                                name="doc"
-                                defaultValue={loggedUser.doc}
-                                className="mt-1 block w-full"
-                                autoComplete="doc"
-                                isFocused={true}
-                                handleChange={onChange}
-                                required
-                            />
-                        </div>
-                        <div>
-                            <Label
-                                forInput="t_document"
-                                value="Tipo de Documento"
-                            />
-                            <SelectInput
-                            options={optionsTD}
-                            value={{
-                                value: loggedUser.id_t_doc,
-                                label: toStringTipoDocumentoEnum(loggedUser.id_t_doc),
-                            }}
-                            onChange={(e) => {
-                                onChange({
-                                    target: { name: "id_t_doc", value: e.value },
-                                });
-                            }}
-                        />
-                        </div>
-                        <div className="flex items-center justify-start mt-4 ">
-                            <Button className="bg-red-light" type="submit">
-                                Cancelar
-                            </Button>
-                        </div>
-                        <div className="flex items-center justify-end mt-4 ">
-                            <Button className="bg-green-light" type="submit">
-                                Generar
-                            </Button>
-                        </div>
-                   
-                    </Card>
-                </Container>
-            </Authenticated>
+                            <div className="col-span-2">
+                                <Label forInput="email" value="Correo" />
+                                <Input
+                                    type="text"
+                                    name="email"
+                                    defaultValue={loggedUser.email}
+                                    className="mt-1 block w-full"
+                                    autoComplete="email"
+                                    isFocused={true}
+                                    handleChange={onChange}
+                                    required
+                                />
+                            </div>
+                            <div className="col-span-1">
+                                <Label forInput="phone" value="Teléfono" />
+                                <Input
+                                    type="number"
+                                    name="phone"
+                                    defaultValue={loggedUser.phone}
+                                    className="mt-1 block w-full"
+                                    autoComplete="phone"
+                                    isFocused={true}
+                                    handleChange={onChange}
+                                    required
+                                />
+                            </div>
+                            <div className="col-span-1">
+                                <Label forInput="cellphone" value="Celular" />
+                                <Input
+                                    type="number"
+                                    name="cellphone"
+                                    defaultValue={loggedUser.cellphone}
+                                    className="mt-1 block w-full"
+                                    autoComplete="cellphone"
+                                    isFocused={true}
+                                    handleChange={onChange}
+                                    required
+                                />
+                            </div>
+                            <div className="col-span-1">
+                                <Label
+                                    forInput="doc"
+                                    value="Documento de Identidad"
+                                />
+                                <Input
+                                    type="number"
+                                    name="doc"
+                                    defaultValue={loggedUser.doc}
+                                    className="mt-1 block w-full"
+                                    autoComplete="doc"
+                                    isFocused={true}
+                                    handleChange={onChange}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <Label
+                                    forInput="t_document"
+                                    value="Tipo de Documento"
+                                />
+                                <SelectInput
+                                    options={optionsTD}
+                                    value={{
+                                        value: loggedUser.id_t_doc,
+                                        label: toStringTipoDocumentoEnum(
+                                            loggedUser.id_t_doc
+                                        ),
+                                    }}
+                                    onChange={(e) => {
+                                        onChange({
+                                            target: {
+                                                name: "id_t_doc",
+                                                value: e.value,
+                                            },
+                                        });
+                                    }}
+                                />
+                            </div>
+                            <div className="flex items-center justify-start mt-4 ">
+                                <Button className="bg-red-light" type="submit">
+                                    Cancelar
+                                </Button>
+                            </div>
+                            <div className="flex items-center justify-end mt-4 ">
+                                <Button
+                                    className="bg-green-light"
+                                    type="submit"
+                                >
+                                    Generar
+                                </Button>
+                            </div>
+                        </Card>
+                    </Container>
+                </Authenticated>
             </form>
-
         </>
     );
 }

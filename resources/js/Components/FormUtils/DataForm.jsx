@@ -5,7 +5,6 @@ import Button from "@/Components/FormUtils/Button";
 import Label from "@/Components/FormUtils/Label";
 import { useForm } from "@inertiajs/inertia-react";
 
-
 export default function DataForm({
     parameters = [],
     onSubmit,
@@ -19,19 +18,29 @@ export default function DataForm({
     );
 
     const handleChange = (e, setInputData, name) => {
-        console.log(data);
         if (e.label) {
-            setData(name, e.value);
-            setInputData({label: e.label, value: e.value});
+            setData((data) => {
+                const newValueObj = data.find((input) => input.name == name);
+                const posNewObj = data.findIndex((input) => input.name == name);
+                newValueObj.value = { name: e.label, value: e.value };
+                data[posNewObj] = newValueObj;
+                return data;
+            });
+            setInputData({ label: e.label, value: e.value });
         } else {
-            setData((data)=>{
-                Object.keys(data).map((key)=>{
-                    data[key].find
-                });
+            setData((data) => {
+                const newValueObj = data.find(
+                    (input) => input.name == e.target.name
+                );
+                const posNewObj = data.findIndex(
+                    (input) => input.name == e.target.name
+                );
+                newValueObj.value = e.target.value;
+                data[posNewObj] = newValueObj;
+                return data;
+            });
             setInputData(e.target.value);
         }
-        console.log(data);
-
     };
 
     const submit = (e) => {
@@ -39,22 +48,21 @@ export default function DataForm({
 
         // Validate form
         const nData = Object.keys(data).map((key) => {
-            if(data[key].type == "select"){
-                return {[data[key].name]: data[key].value[0].value}
-            }else if(data[key].type == "text"){
-            return {[data[key].name]: data[key].value}
+            if (data[key].type == "select") {
+                console.log(data[key]);
+                return { [data[key].name]: data[key].value.value };
+            } else if (data[key].type == "text") {
+                return { [data[key].name]: data[key].value };
             }
-            return data[key]
-    });
-    const newData = {};
+            return data[key];
+        });
+        const newData = {};
 
-   nData.map((item) => {
-    if(isNaN(Object.keys(item)[0])){
-        newData[Object.keys(item)[0]] = Object.values(item)[0];
-    }
-
-
-    });
+        nData.map((item) => {
+            if (isNaN(Object.keys(item)[0])) {
+                newData[Object.keys(item)[0]] = Object.values(item)[0];
+            }
+        });
         onSubmit(newData);
     };
 
