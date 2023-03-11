@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import Label from "@/Components/FormUtils/Label";
@@ -19,8 +19,11 @@ import ButtonGroup from "@/Components/FormUtils/ButtonGroup";
 import { FaPrint, FaSave, FaTrash } from "react-icons/fa";
 import { getAddressByTask } from "@/Utils/FetchAddress";
 import { getTask } from "@/Utils/FetchTask";
+import { useReactToPrint } from "react-to-print";
 
 export default function DeliveryProof(props) {
+    const componentRef = useRef(null);
+
     const [sigPad, setSigPad] = useState(null);
     const [content, setContent] = useState([]);
     const [pri, setPri] = useState();
@@ -88,11 +91,9 @@ export default function DeliveryProof(props) {
     };
 
     const print = () => {
-        let printContents = document.getElementById("divcontents").innerHTML;
-        let originalContents = document.body.innerHTML;
-        document.body.innerHTML = printContents;
-        window.print();
-        document.body.innerHTML = originalContents;
+        useReactToPrint({
+            content: () => componentRef.current,
+        });
     };
 
     const clear = () => {
@@ -170,7 +171,7 @@ export default function DeliveryProof(props) {
                         {service.name}
                     </div>
                     <div
-                        id="divcontents"
+                        ref={componentRef}
                         className="grid grid-cols-2 mx-auto w-11/12 md:w-4/5 lg:w-2/5 my-5 border"
                     >
                         <div className="row-span-2  mx-auto my-5">

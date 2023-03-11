@@ -4,7 +4,7 @@ import { GrEdit, GrAdd, GrAddCircle } from "react-icons/gr";
 function ButtonGroup({ listButtons, className }) {
     return (
         <div
-            class={
+            className={
                 "inline-flex rounded-md shadow-sm w-full justify-center " +
                 className
             }
