@@ -3,25 +3,49 @@ import Guest from "@/Layouts/Guest";
 import Container from "@/Components/Container";
 import Card from "@/Components/Card";
 import Link from "@inertiajs/inertia-react";
+
+import barras from "../../imgs/barras.png";
+import trasnportes from "../../imgs/transportes.png";
+
+import { GrEdit } from "react-icons/gr";
 import { GrGoogle } from "react-icons/gr";
+import { welcome, title, mainText } from "@/Utils/FetchParameters";
 
 const associates = [{ name: "", icon: "", url: "" }];
+import Label from "@/Components/FormUtils/Label";
 
 export default function Welcome(props) {
    
     return (
         
         <Guest className={"grid grid-cols-1 justify-center"}>
-            <Container className={"justify-center"}>
-            <h1 className="text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">Welcome Home</h1>
-            </Container>
+
+            <img className="fixed w-full inset-y-1/3 -z-10 scale-125" src={trasnportes}/> 
+            <div>
+            <h1 className="text-4xl w-3/4 mx-auto text-blue- mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                {welcome}
+            </h1>
+            <div className="">
+                <div className="flex">
+                    
+                    
+                </div>
+            </div>
+            </div>
+            <Container className={"grid grid-cols-2 justify-center"}>
+            <h1 className="text-3xl font-bold my-auto text-center hover:scale-110 ease-in duration-200">
+                {title}
+            </h1>
             <Container className={"flex justify-center hover:scale-105 ease-in duration-200"}>
-            <Container 
-            className="text-xl text-center">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam enim nunc, lacinia a lobortis eget, mattis a augue. Praesent lacinia scelerisque sapien, at ornare risus luctus sed. Nam quis rutrum nunc. Sed tincidunt scelerisque mollis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam pellentesque, risus sit amet pretium auctor, tortor tortor hendrerit purus, sit amet tempor tortor risus in arcu. Etiam imperdiet auctor nisi a condimentum.
+            <Label
+            className="text-lg text-center">
+            {mainText}
+            </Label>
             </Container>
             </Container>
+            <div className="h-10 w-full bg-gradient-to-r from-white to-blue-light"/>
             <Container className={"grid lg:flex md:flex sm:flex justify-center gap-4"}>
+                
                 <Card
                     className={
                         "grid contentgrid-cols-1 content-center text-xl gap-4 scale-100 hover:scale-105 ease-in duration-200"

@@ -14,7 +14,6 @@ const DatatableUser = () => {
     const [user, setUser] = useState([]);
     const [filteredUser, setFilteredUser] = useState([]);
     const [idselected, setIdselected] = useState(null);
-
     const [userParams, setUserParams] = useState([]);
     const [showModal, setShowModal] = useState("");
     const onHide = () => setShowModal(false);
@@ -59,7 +58,9 @@ const DatatableUser = () => {
         },
         {
             name: "Correo",
-            selector: (row) => row.email,
+            selector: (row) => (
+                <a href={"http://"+row.email} target="_blank" className="bg-blue">{row.email}</a>
+            ),
         },
         {
             name: "Documento",

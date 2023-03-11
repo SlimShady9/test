@@ -2,6 +2,7 @@ import { VscThreeBars } from "react-icons/vsc";
 import React, { useState } from "react";
 import { Link } from "@inertiajs/inertia-react";
 import ApplicationLogo from "./ApplicationLogo";
+import barras from "../../imgs/barras.png";
 
 function NavBar({ className }) {
     let Links = [
@@ -14,10 +15,10 @@ function NavBar({ className }) {
     let [open, setOpen] = useState(false);
     return (
         <div className="shadow-md bg-gradient-to-r from-white to-blue-light w-full top-0 left-0 sticky z-10">
-            <div className="md:flex items-center justify-between py-6 md:px-10 px-7">
-            <div>
-            <ApplicationLogo height='30%' width='30%'></ApplicationLogo>
-            </div>
+            <div className="md:flex items-center justify-between">
+                <div className="flex">
+                    <ApplicationLogo className={"scale-50"}></ApplicationLogo>
+                </div>
                 <div
                     onClick={() => setOpen(!open)}
                     className="text-3xl absolute right-8 top-6 cursor-pointer md:hidden"
