@@ -12,7 +12,7 @@ import { getUsers, loadImageUser } from "@/Utils/FetchUsers";
 import Button from "../FormUtils/Button";
 import SelectInput from "../FormUtils/SelectInput";
 import { createOrders, findOrders, deleteOrder } from "@/Utils/FetchOrder";
-import { Toast } from "react-toastify/dist/types";
+import { toast } from "react-toastify";
 
 function UsersForm({ currentStep, setNextStep }) {
     const id = EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS;

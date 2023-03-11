@@ -9,6 +9,7 @@ import { Link } from "@inertiajs/inertia-react";
 import DataTable from "react-data-table-component";
 import Button from "./FormUtils/Button";
 import { toStringTipoDocumentoEnumShort } from "@/Constants/TipoDocumentoEnum";
+import Container from "./Container";
 
 const DatatableUser = ({ lUser }) => {
     const [search, setSearch] = useState("");
@@ -129,7 +130,10 @@ const DatatableUser = ({ lUser }) => {
             pagination
             subHeader
             noDataComponent="No se encontraron resultados"
-            paginationComponentOptions={{ rowsPerPageText: "Filas por página" }}
+            paginationComponentOptions={{
+                rowsPerPageText: "Filas por página",
+                rangeSeparatorText: "de",
+            }}
             subHeaderComponent={
                 <>
                     <Link href={"regUser"} className="p-3 bg-blue-400">

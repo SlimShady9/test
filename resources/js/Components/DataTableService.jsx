@@ -101,7 +101,10 @@ const DataTableService = () => {
             pagination
             subHeader
             noDataComponent="No se encontraron resultados"
-            paginationComponentOptions={{ rowsPerPageText: "Filas por página" }}
+            paginationComponentOptions={{
+                rowsPerPageText: "Filas por página",
+                rangeSeparatorText: "de",
+            }}
             subHeaderComponent={
                 <Container className="flex">
                     <Link href={"createService"} className="p-3 bg-blue-400">

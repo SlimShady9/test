@@ -16,7 +16,7 @@ export default function Authenticated({ auth, header, children }) {
         <div className="flex min-h-screen bg-white">
             <ToastContainer theme="light" draggable position="top-center" />
             <Sidebar user={auth.user} />
-            <main className="flex-1">
+            <main className="flex-1 overflow-auto">
                 <nav className="bg-gradient-to-r from-white to-blue-light border-b border-gray-light">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="flex justify-between h-16">
