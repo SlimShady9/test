@@ -18,7 +18,7 @@ import { toast } from "react-toastify";
 import ButtonGroup from "@/Components/FormUtils/ButtonGroup";
 import { FaPrint, FaSave, FaTrash } from "react-icons/fa";
 import { getAddressByTask } from "@/Utils/FetchAddress";
-import { getTask } from "@/Utils/FetchTask";
+import { getTask, updateTask } from "@/Utils/FetchTask";
 import { useReactToPrint } from "react-to-print";
 
 export default function DeliveryProof(props) {
@@ -32,8 +32,10 @@ export default function DeliveryProof(props) {
     const [tasks, setTasks] = useState([]);
     const [address, setAddress] = useState([]);
     const [id, setId] = useState(props.serviceId);
+    console.log(tasks);
 
     const getService = (id) => {
+        console.log(service);
         try {
             axios.get(`/api/service/${id}`).then((res) => {
                 setService(res.data);
@@ -44,6 +46,7 @@ export default function DeliveryProof(props) {
     };
 
     const getMessaging = (id) => {
+        console.log(message);
         try {
             axios.get(`/api/messaging/${id}`).then((res) => {
                 setMessage(res.data[0]);
@@ -54,6 +57,7 @@ export default function DeliveryProof(props) {
     };
 
     const getAddress = (id) => {
+        console.log(address);
         try {
             axios.get(`/api/service/${id}/address`).then((res) => {
                 setAddress(res.data);
@@ -64,6 +68,7 @@ export default function DeliveryProof(props) {
     };
 
     const getTaskAddress = (idService) => {
+        console.log(tasks);
         getTask(idService).then(([res, err]) => {
             console.log(err, res);
             res.map((task) => {
@@ -81,14 +86,21 @@ export default function DeliveryProof(props) {
     };
 
     const nextTaskState = (id) => {
-        try {
-            axios.get(`/api/task/${id}/address`).then((res) => {
-                setTaskAddress(res.data);
-            });
-        } catch (error) {
-            console.log(error);
-        }
+        if(tasks[id].id_state != 3){
+            tasks[id].id_state = tasks[id].id_state + 1;
+            updateTask(tasks[id]).then((res) => {
+
+                const [nTask, error] = res;
+                if (error) {
+                    toast.error(error);
+                    return;
+                }
+                setTasks((prev) => prev.map((task) => (task.id == nTask.id ? nTask : task)));
+
+        });
+
     };
+};
 
     const print = () => {
         useReactToPrint({
@@ -112,6 +124,7 @@ export default function DeliveryProof(props) {
             }
         });
     };
+        
 
     useEffect(() => {
         getService(id);
@@ -273,8 +286,8 @@ export default function DeliveryProof(props) {
                                     </li>
                                 </ul>
                                 <div className="col-span-4 sm:col-span-1 flex">
-                                    <Button className="text-center sm:tracking-tighter mx-auto my-2 text-xs h-16 bg-yellow-cream">
-                                        Pendiente
+                                    <Button onClick={() =>nextTaskState(index)} className="text-center sm:tracking-tighter mx-auto my-2 text-xs h-16 bg-yellow-cream">
+                                        {toStringEstadoDeTareaEnum(Number(tasks[index].id_state))}
                                     </Button>
                                 </div>
                             </div>
