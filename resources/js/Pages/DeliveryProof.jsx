@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import Label from "@/Components/FormUtils/Label";
@@ -14,9 +14,15 @@ import axios from "axios";
 import { dataURLtoFile } from "@/Utils/Functions";
 import { updateService } from "@/Utils/FetchService";
 import { uploadFile } from "@/Utils/FetchFile";
+import { toast } from "react-toastify";
+import ButtonGroup from "@/Components/FormUtils/ButtonGroup";
+import { FaPrint, FaSave, FaTrash } from "react-icons/fa";
+import { getAddressByTask } from "@/Utils/FetchAddress";
+import { getTask, updateTask } from "@/Utils/FetchTask";
+import { useReactToPrint } from "react-to-print";
 
 export default function DeliveryProof(props) {
-    const signature = "4kXpUZAM3aG6w1HrKZkgc6GFNG3ykB.png";
+    const componentRef = useRef(null);
 
     const [sigPad, setSigPad] = useState(null);
     const [content, setContent] = useState([]);
@@ -26,8 +32,10 @@ export default function DeliveryProof(props) {
     const [tasks, setTasks] = useState([]);
     const [address, setAddress] = useState([]);
     const [id, setId] = useState(props.serviceId);
+    console.log(tasks);
 
     const getService = (id) => {
+        console.log(service);
         try {
             axios.get(`/api/service/${id}`).then((res) => {
                 setService(res.data);
@@ -38,6 +46,7 @@ export default function DeliveryProof(props) {
     };
 
     const getMessaging = (id) => {
+        console.log(message);
         try {
             axios.get(`/api/messaging/${id}`).then((res) => {
                 setMessage(res.data[0]);
@@ -47,17 +56,8 @@ export default function DeliveryProof(props) {
         }
     };
 
-    const getTasks = (id) => {
-        try {
-            axios.get(`/api/task/${id}`).then((res) => {
-                setTasks(res.data);
-            });
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
     const getAddress = (id) => {
+        console.log(address);
         try {
             axios.get(`/api/service/${id}/address`).then((res) => {
                 setAddress(res.data);
@@ -67,36 +67,49 @@ export default function DeliveryProof(props) {
         }
     };
 
-    const getTaskAddress = (id) => {
-        try {
-            axios.get(`/api/task/${id}/address`).then((res) => {
-                return res.data;
+    const getTaskAddress = (idService) => {
+        console.log(tasks);
+        getTask(idService).then(([res, err]) => {
+            console.log(err, res);
+            res.map((task) => {
+                if (task.id_address) {
+                    getAddressByTask(task.id).then(([res, err]) => {
+                        console.log(err, res);
+                        const newTask = { ...task, address: res.addr };
+                        setTasks((oldTasks) => [...oldTasks, newTask]);
+                    });
+                } else {
+                    setTasks((oldTasks) => [...oldTasks, task]);
+                }
             });
-        } catch (error) {
-            console.log(error);
-        }
+        });
     };
 
     const nextTaskState = (id) => {
-        try {
-            axios.get(`/api/task/${id}/address`).then((res) => {
-                setTaskAddress(res.data);
-            });
-        } catch (error) {
-            console.log(error);
-        }
+        if(tasks[id].id_state != 3){
+            tasks[id].id_state = tasks[id].id_state + 1;
+            updateTask(tasks[id]).then((res) => {
+
+                const [nTask, error] = res;
+                if (error) {
+                    toast.error(error);
+                    return;
+                }
+                setTasks((prev) => prev.map((task) => (task.id == nTask.id ? nTask : task)));
+
+        });
+
     };
+};
 
     const print = () => {
-        let printContents = document.getElementById("divcontents").innerHTML;
-        let originalContents = document.body.innerHTML;
-        document.body.innerHTML = printContents;
-        window.print();
-        document.body.innerHTML = originalContents;
+        useReactToPrint({
+            content: () => componentRef.current,
+        });
     };
 
     const clear = () => {
-        this.sigPad.clear();
+        sigPad.clear();
     };
 
     const completeID = (id) => {
@@ -111,12 +124,12 @@ export default function DeliveryProof(props) {
             }
         });
     };
+        
 
-    useState(() => {
+    useEffect(() => {
         getService(id);
-        console.log(id);
         getMessaging(id);
-        getTasks(id);
+        getTaskAddress(id);
         getAddress(id);
         getContent(id).then((data) => {
             const [res, error] = data;
@@ -138,22 +151,40 @@ export default function DeliveryProof(props) {
         const file = dataURLtoFile(sigPad.toDataURL(), "signature.png");
         const { status, data } = await uploadFile(file);
         if (status === 200) {
-            console.log(data.name);
+            console.log(data, status);
             const newService = { ...service, signature: data.name };
-            updateService(newService);
+            const [res, error] = await updateService(newService);
+            if (error) {
+                toast.error("Error al guardar la firma");
+                return;
+            }
+            toast.success("Firma guardada correctamente");
+            setService(res);
         }
+    };
+
+    const deleteSignature = async () => {
+        const newService = { ...service, signature: null };
+        const [res, error] = await updateService(newService);
+        if (error) {
+            toast.error("Error al eliminar la firma");
+            return;
+        }
+        console.log(res);
+        toast.success("Firma eliminada correctamente");
+        setService(res);
     };
 
     return (
         <>
             <Authenticated {...props}>
-                <div className="overflow-scroll">
+                <div className="">
                     <div className="mt-5 w-full text-center text-3xl grid grid-rows-2">
                         <Label>Prueba de Entrega de: </Label>
                         {service.name}
                     </div>
                     <div
-                        id="divcontents"
+                        ref={componentRef}
                         className="grid grid-cols-2 mx-auto w-11/12 md:w-4/5 lg:w-2/5 my-5 border"
                     >
                         <div className="row-span-2  mx-auto my-5">
@@ -245,16 +276,18 @@ export default function DeliveryProof(props) {
                                         {index + 1}. {task.name}, {task.entity},{" "}
                                         {task.dependency}
                                     </li>
-                                    <li className="mt-2 text-center">
-                                        {}Calle 123 No. 23-34 | Hora: 11:30 AM
-                                    </li>
+                                    {task.address && (
+                                        <li className="mt-2 text-center">
+                                            {task.address} || {task.limit_date}
+                                        </li>
+                                    )}
                                     <li className="mt-2 text-sm">
                                         {task.desc}
                                     </li>
                                 </ul>
                                 <div className="col-span-4 sm:col-span-1 flex">
-                                    <Button className="text-center sm:tracking-tighter mx-auto my-2 text-xs h-16 bg-yellow-cream">
-                                        Pendiente
+                                    <Button onClick={() =>nextTaskState(index)} className="text-center sm:tracking-tighter mx-auto my-2 text-xs h-16 bg-yellow-cream">
+                                        {toStringEstadoDeTareaEnum(Number(tasks[index].id_state))}
                                     </Button>
                                 </div>
                             </div>
@@ -412,13 +445,13 @@ export default function DeliveryProof(props) {
                         <div className="col-span-2 border-t-2 border-gray-servi grid">
                             <Label className="text-left ml-2">Firma:</Label>
                             <div className="col-span-1 text-center text-gray-dark border mx-auto">
-                                {signature && (
+                                {service.signature && (
                                     <img
-                                        src={`http://localhost:8000/api/file/4kXpUZAM3aG6w1HrKZkgc6GFNG3ykB.png`}
+                                        src={`http://localhost:8000/api/file/${service.signature}`}
                                         alt=""
                                     />
                                 )}
-                                {!signature && (
+                                {!service.signature && (
                                     <SignatureCanvas
                                         canvasProps={{
                                             width: 300,
@@ -447,12 +480,25 @@ export default function DeliveryProof(props) {
                             </div>
                         </div>
                     </div>
-                    <div onClick={() => print()} className="flex w-full mb-10">
-                        <Button className="m-auto">Imprimir</Button>
-                    </div>
-                    <div onClick={storeSignature} className="flex w-full mb-10">
-                        <Button className="m-auto">Guardar firma</Button>
-                    </div>
+                    <ButtonGroup
+                        listButtons={[
+                            {
+                                onClick: print,
+                                icon: <FaPrint />,
+                                text: "Imprimir",
+                            },
+                            {
+                                onClick: storeSignature,
+                                icon: <FaSave />,
+                                text: "Guardar firma",
+                            },
+                            {
+                                onClick: deleteSignature,
+                                icon: <FaTrash />,
+                                text: "Borrar firma",
+                            },
+                        ]}
+                    />
                 </div>
                 <div id="ifmcontentstoprint"></div>
                 <iframe id="ifmcontentstoprint"></iframe>
