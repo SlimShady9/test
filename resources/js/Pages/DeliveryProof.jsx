@@ -20,13 +20,24 @@ import { FaPrint, FaSave, FaTrash } from "react-icons/fa";
 import { getAddressByTask } from "@/Utils/FetchAddress";
 import { getTask, updateTask } from "@/Utils/FetchTask";
 import { useReactToPrint } from "react-to-print";
+import { getOrder } from "@/Utils/FetchOrder";
+import SelectInput from "@/Components/FormUtils/SelectInput";
+import { getUser } from "@/Utils/FetchUsers";
+import {EstadoExceptionTaskEnum, toStringEstadoExceptionTaskEnum} from "@/Constants/EstadoExceptionTaskEnum";
 
 export default function DeliveryProof(props) {
-    const componentRef = useRef(null);
+  
+    const componentRef = useRef();
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+    });
 
+    const [exception, setException] = useState();
     const [sigPad, setSigPad] = useState(null);
     const [content, setContent] = useState([]);
     const [pri, setPri] = useState();
+    const [order, setOrder] = useState([]);
+    const [userS, setUserS] = useState([]);
     const [service, setService] = useState({});
     const [message, setMessage] = useState([]);
     const [tasks, setTasks] = useState([]);
@@ -34,6 +45,23 @@ export default function DeliveryProof(props) {
     const [id, setId] = useState(props.serviceId);
     console.log(tasks);
 
+    const userByService = (id) => {
+        getOrder(id).then(([res, err]) => {
+            console.log(err, res);
+            setOrder(res);
+            res.map((order) => {
+                console.log("order",order);
+                getUser(order.id_user).then((ress) => {
+                    console.log(ress);
+                    setUserS((prev) => [
+                        ...prev,
+                        { label: ress.name+" "+ ress.surname+" || "+ress.doc, value: order.id_user },
+                    ]);
+                });
+            });
+        });
+        console.log("cosas"+userS);
+    };
     const getService = (id) => {
         console.log(service);
         try {
@@ -102,11 +130,6 @@ export default function DeliveryProof(props) {
     };
 };
 
-    const print = () => {
-        useReactToPrint({
-            content: () => componentRef.current,
-        });
-    };
 
     const clear = () => {
         sigPad.clear();
@@ -124,6 +147,13 @@ export default function DeliveryProof(props) {
             }
         });
     };
+
+    const handleException = (e) => {
+        e.preventDefault();
+        console.log(e.target.value)
+        service.id_exception = e.target.value;
+        console.log(service.id_exception);
+    };
         
 
     useEffect(() => {
@@ -131,6 +161,7 @@ export default function DeliveryProof(props) {
         getMessaging(id);
         getTaskAddress(id);
         getAddress(id);
+        userByService(id);
         getContent(id).then((data) => {
             const [res, error] = data;
             setContent(res[0]);
@@ -147,10 +178,16 @@ export default function DeliveryProof(props) {
         }${separator}${year}`;
     };
 
-    const storeSignature = async () => {
+    const storeSignature = async (e) => {
+        e.preventDefault();
+        var Obsevation = e.target.Obsevation.value;
+        service.id_exception = e.target.exception.value;
+        service.description = service.description+" "+Obsevation;
+        if(sigPad != null && Obsevation != ""){
         const file = dataURLtoFile(sigPad.toDataURL(), "signature.png");
         const { status, data } = await uploadFile(file);
         if (status === 200) {
+            console.log("firma");
             console.log(data, status);
             const newService = { ...service, signature: data.name };
             const [res, error] = await updateService(newService);
@@ -161,7 +198,13 @@ export default function DeliveryProof(props) {
             toast.success("Firma guardada correctamente");
             setService(res);
         }
+    }else if((sigPad != null && Obsevation == "") || (sigPad == null && Obsevation != "")){
+        toast.error("Llene el campo de observaciones y firma");
+                return;
+    }
     };
+
+
 
     const deleteSignature = async () => {
         const newService = { ...service, signature: null };
@@ -178,8 +221,9 @@ export default function DeliveryProof(props) {
     return (
         <>
             <Authenticated {...props}>
-                <div className="">
-                    <div className="mt-5 w-full text-center text-3xl grid grid-rows-2">
+            <form className="gap-4" onSubmit={storeSignature}>
+                <div className="" ref={componentRef}>
+                    <div className="mt-5 w-1000 text-center text-3xl grid grid-rows-2">
                         <Label>Prueba de Entrega de: </Label>
                         {service.name}
                     </div>
@@ -398,33 +442,19 @@ export default function DeliveryProof(props) {
                             Excepción de Entrega
                         </div>
                         <div className="col-span-2 grid grid-cols-2 lg:grid-cols-4 items-center">
-                            <div className="m-2 flex sm:mx-auto">
-                                <Checkbox name="desconocido" id="desconocido" />
-                                <Label
-                                    className="text-sm"
-                                    forInput="desconocido"
-                                >
-                                    1. DESCONOCIDO
-                                </Label>
-                            </div>
-                            <div className="m-2 flex sm:mx-auto">
-                                <Checkbox name="direccion" id="direccion" />
-                                <Label className="text-sm" forInput="direccion">
-                                    2. DIRECCIÓN ERRADA
-                                </Label>
-                            </div>
-                            <div className="m-2 flex sm:mx-auto">
-                                <Checkbox name="reside" id="reside" />
-                                <Label className="text-sm" forInput="reside">
-                                    3. NO RESIDE
-                                </Label>
-                            </div>
-                            <div className="m-2 flex sm:mx-auto">
-                                <Checkbox name="rehusado" id="rehusado" />
-                                <Label className="text-sm" forInput="rehusado">
-                                    4. REHUSADO
-                                </Label>
-                            </div>
+                            <input type="radio" value="1" id="male" checked={service.id_exception == EstadoExceptionTaskEnum.DESCONOCIDO} 
+                                name="exception" onChange={handleException}/>
+                            <label for="male">{toStringEstadoExceptionTaskEnum(EstadoExceptionTaskEnum.DESCONOCIDO)}</label>
+
+                            <input type="radio" value="2" id="female" checked={service.id_exception == EstadoExceptionTaskEnum.DIRECCION_ERRADA}
+                           name="exception" onChange={handleException}/>
+                            <label for="female">{toStringEstadoExceptionTaskEnum(EstadoExceptionTaskEnum.DIRECCION_ERRADA)}</label>
+                            <input type="radio" value="3" id="female" checked={service.id_exception == EstadoExceptionTaskEnum.NO_RESIVE} 
+                            name="exception" onChange={handleException}/>
+                            <label for="female">{toStringEstadoExceptionTaskEnum(EstadoExceptionTaskEnum.NO_RESIVE)}</label>
+                            <input type="radio" value="4" id="female" checked={service.id_exception == EstadoExceptionTaskEnum.REHUSADO} 
+                            name="exception" onChange={handleException}/>
+                            <label for="female">{toStringEstadoExceptionTaskEnum(EstadoExceptionTaskEnum.REHUSADO)}</label>
                         </div>
                         <div className="col-span-2 text-center bg-gray-dark text-white border-t">
                             Descripción del Servicio
@@ -439,7 +469,9 @@ export default function DeliveryProof(props) {
                                 Recibido Por
                             </div>
                             <div className="text-center bg-gray-servi">
-                                Pepe Andrés Cruz Godoy - 1.000.036.533
+                                <SelectInput
+                                    options={userS}
+                                />
                             </div>
                         </div>
                         <div className="col-span-2 border-t-2 border-gray-servi grid">
@@ -476,20 +508,20 @@ export default function DeliveryProof(props) {
                                 Observaciones:
                             </Label>
                             <div className="m-2">
-                                <textarea className="h-24 w-full text-sm mx-auto" />
+                                <textarea className="h-24 w-full text-sm mx-auto" name="Obsevation" />
                             </div>
                         </div>
                     </div>
                     <ButtonGroup
                         listButtons={[
                             {
-                                onClick: print,
+                                onClick: handlePrint    ,
                                 icon: <FaPrint />,
                                 text: "Imprimir",
                             },
                             {
-                                onClick: storeSignature,
                                 icon: <FaSave />,
+                                type: "submit",
                                 text: "Guardar firma",
                             },
                             {
@@ -502,7 +534,9 @@ export default function DeliveryProof(props) {
                 </div>
                 <div id="ifmcontentstoprint"></div>
                 <iframe id="ifmcontentstoprint"></iframe>
+                </form>
             </Authenticated>
         </>
     );
 }
+const rootElement = document.getElementById("root");

@@ -130,6 +130,7 @@ class ServiceController extends Controller {
                 'cost' => 'Between:0,9999999999',
                 'address' => 'Exists:addresses,id',
                 'archive' => 'max:255',
+                'id_exception' => 'max:2',
                 'signature' => 'max:255',
             ]);
             
@@ -151,6 +152,7 @@ class ServiceController extends Controller {
         $service->address = $request->address ? $request->address : $service->address;
         $service->archive = $request->archive;
         $service->signature = $request->signature;
+        $service->id_exception = $request->id_exception;
         $service->save();
         return $service;
     }
