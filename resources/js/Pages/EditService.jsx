@@ -46,7 +46,7 @@ function EditService(props) {
         service: {},
         address: {},
         messaging: {},
-        content: {},
+        content: [],
         orders: [],
         tasks: [],
     });
@@ -57,7 +57,6 @@ function EditService(props) {
 
     const fetchDTO = async () => {
         var dataMessaging = {};
-        var dataContent = {};
         const [dataService, errorService] = await getService(serviceId);
         if (errorService != null) {
         }
@@ -141,6 +140,7 @@ function EditService(props) {
                                         }
                                         service={serviceDTO.service}
                                         isEdit={true}
+                                        typeUser={props.auth.user.id_t_user}
                                     />
                                 )}
                                 {stateService ===
@@ -148,7 +148,7 @@ function EditService(props) {
                                     <MessagingForm
                                         currentStep={stateService}
                                         setNextStep={setStateService}
-                                        user={props.auth.user.id}
+                                        user={props.auth.user}
                                         messaging={serviceDTO.messaging}
                                         isEdit={true}
                                     />
@@ -197,6 +197,7 @@ function EditService(props) {
                                         setNextStep={setStateService}
                                         pTasks={serviceDTO.tasks}
                                         isEdit={true}
+                                        user={props.auth.user}
                                     />
                                 )}
                             </ServiceContext.Provider>

@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import Label from "./Label";
-import Input from "./Input";
-import Button from "./Button";
-import SelectInput from "./SelectInput";
+import Input from "@/Components/FormUtils/Input";
+import SelectInput from "@/Components/FormUtils/SelectInput";
+import Button from "@/Components/FormUtils/Button";
+import Label from "@/Components/FormUtils/Label";
 import { useForm } from "@inertiajs/inertia-react";
-import axios from "axios";
-import Card from "../Card";
 
 export default function DataForm({
     parameters = [],
@@ -21,10 +19,27 @@ export default function DataForm({
 
     const handleChange = (e, setInputData, name) => {
         if (e.label) {
-            setData(name, e.value);
-            setInputData(e.value);
+            setData((data) => {
+                const newValueObj = data.find((input) => input.name == name);
+                const posNewObj = data.findIndex((input) => input.name == name);
+                newValueObj.value = { name: e.label, value: e.value };
+                data[posNewObj] = newValueObj;
+                return data;
+            });
+            setInputData({ label: e.label, value: e.value });
         } else {
-            setData(e.target.name, e.target.value);
+            setData((data) => {
+                const newValueObj = data.find(
+                    (input) => input.name == e.target.name
+                );
+                const posNewObj = data.findIndex(
+                    (input) => input.name == e.target.name
+                );
+                newValueObj.value = e.target.value;
+                data[posNewObj] = newValueObj;
+                return data;
+            });
+            setInputData(e.target.value);
         }
     };
 
@@ -32,8 +47,23 @@ export default function DataForm({
         e.preventDefault();
 
         // Validate form
+        const nData = Object.keys(data).map((key) => {
+            if (data[key].type == "select") {
+                console.log(data[key]);
+                return { [data[key].name]: data[key].value.value };
+            } else if (data[key].type == "text") {
+                return { [data[key].name]: data[key].value };
+            }
+            return data[key];
+        });
+        const newData = {};
 
-        onSubmit(data);
+        nData.map((item) => {
+            if (isNaN(Object.keys(item)[0])) {
+                newData[Object.keys(item)[0]] = Object.values(item)[0];
+            }
+        });
+        onSubmit(newData);
     };
 
     return (
@@ -73,19 +103,14 @@ function AnyInput({
     options,
     handleChange,
 }) {
-    const [inputData, setInputData] = useState("");
-
+    const [inputData, setInputData] = useState(value);
     return (
         <div className={"col-span-" + extend}>
             <Label forInput={name} value={label} />
             {type === "select" ? (
                 <SelectInput
-                    placeholder={"Seleccione..."}
-                    className={""}
                     options={options}
-                    value={value}
-                    autoComplete={name}
-                    defaultInputValue={value}
+                    value={inputData}
                     onChange={(e) => handleChange(e, setInputData, name)}
                     required={required}
                 />
@@ -93,10 +118,9 @@ function AnyInput({
                 <Input
                     type={type}
                     name={name}
-                    value={value}
-                    defaultValue={value}
+                    defaultValue={inputData}
                     autoComplete={name}
-                    handleChange={handleChange}
+                    handleChange={(e) => handleChange(e, setInputData, name)}
                     required={required}
                 />
             )}

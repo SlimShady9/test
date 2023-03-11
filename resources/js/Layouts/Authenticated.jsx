@@ -67,7 +67,7 @@ export default function Authenticated({ auth, header, children }) {
                                                 method="post"
                                                 as="button"
                                             >
-                                                Log Out
+                                                Cerrar Sesión
                                             </Dropdown.Link>
                                         </Dropdown.Content>
                                     </Dropdown>
@@ -148,7 +148,7 @@ export default function Authenticated({ auth, header, children }) {
                                     href={route("logout")}
                                     as="button"
                                 >
-                                    Log Out
+                                    Cerrar Sesión
                                 </ResponsiveNavLink>
                             </div>
                         </div>

@@ -9,20 +9,30 @@ import Label from "@/Components/FormUtils/Label";
 import Checkbox from "@/Components/FormUtils/Checkbox";
 import Select from "react-select";
 import { Head, Link, useForm } from "@inertiajs/inertia-react";
+import {
+    TipoDocumentoEnum,
+    toStringTipoDocumentoEnum,
+} from "@/Constants/TipoDocumentoEnum";
+import {
+    TipoDeUsuariosEnum,
+    toStringTipoDeUsuariosEnum,
+} from "@/Constants/TipoDeUsuariosEnum";
+import SelectInput from "@/Components/FormUtils/SelectInput";
 
 export default function RegisterUser(props) {
-    //Reemplazar por opciones en base de datos
-    const [user, setUser] = useState([]);
-    const optionsTU = [
-        { value: "1", label: "Admin" },
-        { value: "2", label: "Cliente juridico" },
-        { value: "3", label: "Cliente natural" },
-    ];
-    const optionsTD = [
-        { value: "1", label: "Cédula" },
-        { value: "2", label: "Pasaporte" },
-        { value: "3", label: "Cédula de extranjeria" },
-    ];
+    const [optionsTypeDoc, setoptionsTypeDoc] = useState(
+        Object.keys(TipoDocumentoEnum).map((key) => ({
+            value: TipoDocumentoEnum[key],
+            label: toStringTipoDocumentoEnum(TipoDocumentoEnum[key]),
+        }))
+    );
+
+    const [optionsTypeUser, setOptionsTypeUser] = useState(
+        Object.keys(TipoDeUsuariosEnum).map((key) => ({
+            value: TipoDeUsuariosEnum[key],
+            label: toStringTipoDeUsuariosEnum(TipoDeUsuariosEnum[key]),
+        }))
+    );
     //Constantes de la página
     const [data, setData] = useState({
         username: "",
@@ -43,14 +53,9 @@ export default function RegisterUser(props) {
         email: "",
         password: "",
         password_confirmation: "",
-        notifications: "",
+        //notifications: "",
     });
 
-    useEffect(() => {
-        return () => {
-            reset("password", "password_confirmation", "notifications");
-        };
-    }, []);
     const onHandleChange = (e, param) => {
         let target = e.target?.name || param;
         let value = e.target?.value || e.value;
@@ -134,16 +139,16 @@ export default function RegisterUser(props) {
                                     forInput="id_t_user"
                                     value="Tipo de Usuario"
                                 />
-                                <Select
+                                <SelectInput
                                     name="id_t_user"
-                                    options={optionsTU}
+                                    options={optionsTypeUser}
                                     className="mt-1 block w-full"
                                     autoComplete="id_t_user"
                                     onChange={(e) =>
                                         onHandleChange(e, "id_t_user")
                                     }
                                     required
-                                ></Select>
+                                />
                             </div>
 
                             <div className="col-span-2">
@@ -206,16 +211,16 @@ export default function RegisterUser(props) {
                                     forInput="id_t_doc"
                                     value="Tipo de Documento"
                                 />
-                                <Select
+                                <SelectInput
                                     name="id_t_doc"
-                                    options={optionsTD}
+                                    options={optionsTypeDoc}
                                     className="mt-1 block w-full"
                                     autoComplete="id_t_doc"
                                     onChange={(e) =>
                                         onHandleChange(e, "id_t_doc")
                                     }
                                     required
-                                ></Select>
+                                />
                             </div>
                             <div>
                                 <Label forInput="password" value="Contraseña" />
@@ -247,12 +252,14 @@ export default function RegisterUser(props) {
                                 />
                             </div>
 
+                            {/* 
                             <div className="col-span-2 flex gap-x-2">
                                 <Checkbox
                                     name="notifications"
                                     text="¿Desea recibir notificaciones sobre nuestras nuevas ofertas para usted?"
                                 />
                             </div>
+                            */}
 
                             <div className="flex items-center justify-start mt-4 ">
                                 <Button className="bg-red-light">

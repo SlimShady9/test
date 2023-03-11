@@ -10,7 +10,8 @@ function SelectInput({
     defaultInputValue,
     isMulti,
     name,
-    required=false,
+    required = false,
+    placeholder,
 }) {
     return (
         <Select
@@ -25,6 +26,8 @@ function SelectInput({
             options={options}
             isMulti={isMulti}
             required={required}
+            placeholder={placeholder || "Seleccione una opción..."}
+            isDisabled={disabled}
         />
     );
 }

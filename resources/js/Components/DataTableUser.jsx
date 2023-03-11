@@ -8,8 +8,9 @@ import Container from "./Container";
 import DataForm from "./FormUtils/DataForm";
 import { Link } from "@inertiajs/inertia-react";
 import DataTable from "react-data-table-component";
+import Button from "./FormUtils/Button";
 
-const DatatableUser = () => {
+const DatatableUser = ({ lUser }) => {
     const [search, setSearch] = useState("");
     const [user, setUser] = useState([]);
     const [filteredUser, setFilteredUser] = useState([]);
@@ -35,8 +36,8 @@ const DatatableUser = () => {
     const getUser = async () => {
         try {
             const res = await axios.get("/api/user");
-            setUser(res.data.data);
-            setFilteredUser(res.data.data);
+            setUser(res.data.data.filter((u) => lUser.id !== u.id));
+            setFilteredUser(res.data.data.filter((u) => lUser.id !== u.id));
         } catch (error) {
             console.log(error);
         }
@@ -129,9 +130,7 @@ const DatatableUser = () => {
             subHeaderComponent={
                 <>
                     <Link href={"regUser"} className="p-3 bg-blue-400">
-                        <Container className="hover:scale-125 shadow-xl rounded-3xl bg-green-light">
-                            Nuevo Usuario
-                        </Container>
+                        <Button>Nuevo Usuario</Button>
                     </Link>
                     <input
                         type="text"

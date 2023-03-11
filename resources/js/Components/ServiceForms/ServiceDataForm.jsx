@@ -25,6 +25,7 @@ function ServiceDataForm({
     setNextStep,
     setServicesAvailable,
     isEdit = false,
+    typeUser,
 }) {
     const id = EstadoServiciosEnum.SERVICIO_INCIADO;
 
@@ -264,18 +265,10 @@ function ServiceDataForm({
                                     name="start_date_hours"
                                     handleChange={handleChange}
                                     required={true}
-                                    defaultValue={
-                                        setServiceDTO.start_date_hours &&
-                                        moment(
-                                            serviceForm.start_date,
-                                            "yyyy-MM-DD HH:mm:ss"
-                                        )
-                                            .format("HH:mm")
-                                            .toString()
-                                    }
+                                    defaultValue={serviceForm.start_date_hours}
                                 />
                             </div>
-                            {showDetail && (
+                            {showDetail && typeUser === 1 && (
                                 <>
                                     <div className="col-span-1">
                                         <Label>Costo ($COP)</Label>

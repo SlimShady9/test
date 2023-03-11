@@ -36,7 +36,13 @@ const SideBar = ({ user }) => {
             url: "services",
         },
         { title: "Ver envíos", icon: <FaShippingFast />, url: "envios" },
-        { title: "Cerrar sesión", icon: <FaRegPaperPlane />, url: "services" },
+        {
+            title: "Cerrar sesión",
+            icon: <FaRegPaperPlane />,
+            url: "services",
+            href: route("logout"),
+            method: "post",
+        },
     ];
 
     const menusAdmin = [
@@ -88,7 +94,8 @@ const SideBar = ({ user }) => {
 
                 {menusTodos.map((Menu, index) => (
                     <Link
-                        href={route(Menu.url)}
+                        href={Menu.href || route(Menu.url)}
+                        method={Menu.method || "get"}
                         key={index}
                         className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
               ${Menu.gap ? "mt-9" : "mt-2"} ${
