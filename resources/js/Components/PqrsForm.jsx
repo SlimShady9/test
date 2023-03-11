@@ -6,10 +6,8 @@ import Button from "./FormUtils/Button";
 import { sendEmail } from "@/Utils/FetchEmail";
 import { toStringTipoDeUsuariosEnum2 } from "@/Constants/TipoDeUsuariosEnum";
 import { toStringEstadoServiciosEnum2 } from "@/Constants/EstadoServiciosEnum";
-import {
-    getService,
-} from "@/Utils/FetchService";
-function Pqrs({auth,serviceId}) {
+import { getService } from "@/Utils/FetchService";
+function Pqrs({ auth, serviceId }) {
     const [service, setService] = useState(null);
     useEffect(() => {
         getService(serviceId).then((res) => {
@@ -18,16 +16,15 @@ function Pqrs({auth,serviceId}) {
     }, []);
     const submitForm = (e) => {
         e.preventDefault();
-        console.log(auth);
-        console.log(serviceId);
         sendEmail({
             servicio: serviceId,
             comentario: e.target.Descripcion.value,
             usuario: auth.user.email,
             tUsuario: toStringTipoDeUsuariosEnum2(auth.user.id_t_user),
-            stateService: toStringEstadoServiciosEnum2(service.id_state_service),
+            stateService: toStringEstadoServiciosEnum2(
+                service.id_state_service
+            ),
         });
-
     };
 
     return (
@@ -47,6 +44,7 @@ function Pqrs({auth,serviceId}) {
                         id=""
                         cols="30"
                         rows="4"
+                        required
                     ></textarea>
                     <div className="my-3 m-auto">
                         <Button className="" type="submit">

@@ -152,7 +152,6 @@ function ServiceDataForm({
             finalizeServiceForm();
         } else {
             const data = await updateService(serviceForm);
-            console.log(data[0]);
             if (data.error) {
                 toast.error("Error al subir el servicio");
                 return;
@@ -217,7 +216,8 @@ function ServiceDataForm({
                                     defaultValue={serviceForm.name}
                                     handleChange={handleChange}
                                     required
-                                    max={30}
+                                    maxLength={50}
+                                    alpaNumeric={true}
                                 />
                             </div>
                             <div className="col-span-1">

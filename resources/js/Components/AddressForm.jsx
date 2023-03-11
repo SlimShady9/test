@@ -119,7 +119,9 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
                         name="name"
                         handleChange={(e) => handleChange(e, "name")}
                         defaultValue={data.name}
-                        required
+                        required={true}
+                        maxLength={50}
+                        alpaNumeric={true}
                     />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -129,7 +131,8 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
                             name="addr"
                             handleChange={(e) => handleChange(e, "addr")}
                             defaultValue={data.addr}
-                            required
+                            required={true}
+                            maxLength={50}
                         />
                     </div>
                     <div className="col-span-1">
@@ -138,6 +141,9 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
                             name="postal_code"
                             handleChange={(e) => handleChange(e, "postal_code")}
                             defaultValue={data.postal_code}
+                            required={true}
+                            maxLength={10}
+                            onlyNumbers={true}
                         />
                     </div>
 
@@ -145,6 +151,7 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
                         <Label forInput="country">País</Label>
                         <SelectInput
                             value={data.country}
+                            required={true}
                             onChange={(e) =>
                                 handleChange(e, "country", {
                                     isoId: "country_iso",
@@ -161,6 +168,7 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
                         <Label forInput="region">Región</Label>
                         <SelectInput
                             value={data.region}
+                            required={true}
                             onChange={(e) =>
                                 handleChange(e, "region", {
                                     isoId: "region_iso",
@@ -177,6 +185,7 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
                         <Label forInput="city">Ciudad</Label>
                         <SelectInput
                             value={data.city}
+                            required={true}
                             onChange={(e) =>
                                 handleChange(e, "city", {
                                     isoId: "city_id",
@@ -197,6 +206,8 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
                                 handleChange(e, "neighborhood")
                             }
                             defaultValue={data.neighborhood}
+                            required={true}
+                            maxLength={30}
                         />
                     </div>
                     <div className="col-span-2">
@@ -205,6 +216,8 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
                             name="addr_detail"
                             handleChange={(e) => handleChange(e, "addr_detail")}
                             defaultValue={data.addr_detail}
+                            maxLength={255}
+                            onlyLetters={true}
                         />
                     </div>
                 </div>

@@ -4,6 +4,7 @@ import SelectInput from "@/Components/FormUtils/SelectInput";
 import Button from "@/Components/FormUtils/Button";
 import Label from "@/Components/FormUtils/Label";
 import { useForm } from "@inertiajs/inertia-react";
+import ReactLoading from "react-loading";
 
 export default function DataForm({
     parameters = [],
@@ -16,6 +17,8 @@ export default function DataForm({
     const { data, setData, processing, errors, reset } = useForm(
         parameters.map((item) => ({ ...item, value: item.value || "" }))
     );
+
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e, setInputData, name) => {
         if (e.label) {
@@ -45,12 +48,15 @@ export default function DataForm({
 
     const submit = (e) => {
         e.preventDefault();
+        setLoading(true);
 
         // Validate form
         const nData = Object.keys(data).map((key) => {
             if (data[key].type == "select") {
-                console.log(data[key]);
-                return { [data[key].name]: data[key].value.value };
+                return {
+                    [data[key].name]:
+                        data[key].value.value || data[key].value[0].value,
+                };
             } else if (data[key].type == "text") {
                 return { [data[key].name]: data[key].value };
             }
@@ -69,7 +75,23 @@ export default function DataForm({
     return (
         <form onSubmit={submit}>
             {parameters.map(
-                ({ label, extend, name, type, value, required, options }) => (
+                ({
+                    label,
+                    extend,
+                    name,
+                    type,
+                    value,
+                    required,
+                    options,
+                    onlyLetters,
+                    alpaNumeric,
+                    onlyNumbers,
+                    email,
+                    min,
+                    max,
+                    minLenght,
+                    maxLenght,
+                }) => (
                     <AnyInput
                         label={label}
                         extend={extend}
@@ -80,13 +102,29 @@ export default function DataForm({
                         options={options}
                         handleChange={handleChange}
                         key={`${label}_${name}`}
+                        onlyLetters={onlyLetters}
+                        alpaNumeric={alpaNumeric}
+                        onlyNumbers={onlyNumbers}
+                        email={email}
+                        min={min}
+                        max={max}
+                        minLenght={minLenght}
+                        maxLenght={maxLenght}
                     />
                 )
             )}
             <div className="flex col-span-2 justify-center m-4">
                 <br />
-                <Button className="justify-center" processing={processing}>
-                    {buttonText}
+                <Button className="justify-center " processing={processing}>
+                    {loading && (
+                        <ReactLoading
+                            type="spin"
+                            color="#808080"
+                            height={16}
+                            width={16}
+                        />
+                    )}
+                    {!loading && buttonText}
                 </Button>
             </div>
         </form>
@@ -102,6 +140,14 @@ function AnyInput({
     required,
     options,
     handleChange,
+    onlyLetters,
+    alpaNumeric,
+    onlyNumbers,
+    email,
+    min,
+    max,
+    minLenght,
+    maxLenght,
 }) {
     const [inputData, setInputData] = useState(value);
     return (
@@ -122,6 +168,14 @@ function AnyInput({
                     autoComplete={name}
                     handleChange={(e) => handleChange(e, setInputData, name)}
                     required={required}
+                    onlyLetters={onlyLetters}
+                    alpaNumeric={alpaNumeric}
+                    onlyNumbers={onlyNumbers}
+                    email={email}
+                    min={min}
+                    max={max}
+                    minLength={minLenght}
+                    maxLength={maxLenght}
                 />
             )}
         </div>

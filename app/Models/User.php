@@ -27,7 +27,6 @@ class User extends Authenticatable
         'signature',
         'phone',
         'cellphone',
-        'notif',
         'data',
         'id_address',
         'id_t_user',

@@ -31,11 +31,11 @@ class MessagingController extends Controller
                 'entity' => 'required|string|max:50',
                 'charge' => 'required|string|max:50',
                 'id_service' => 'required|Exists:services,id',
-                'cost_center' => 'required|string|max:255',
+                'cost_center' => 'required|string|max:100',
                 'id_user' => 'required|Exists:users,id',
                 'dependency' => 'required|string|max:30',
                 'intern_order' => 'string|max:30',
-                'transporter' => '|max:30',
+                'transporter' => 'max:30',
                 'id_transporter_tracking' => 'max:255',
             ]);
             

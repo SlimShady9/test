@@ -29,7 +29,6 @@ export default function Profile(props) {
     }));
 
     const [loggedUser, setLoggedUser] = useState(props.auth.user);
-    console.log(loggedUser);
 
     const onChange = (e) => {
         setLoggedUser({ ...loggedUser, [e.target.name]: e.target.value });
@@ -59,7 +58,7 @@ export default function Profile(props) {
                             col={2}
                         >
                             <Container className={"col-span-2 justify-center"}>
-                                <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                                <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center ease-in duration-200">
                                     Perfil de Usuario
                                 </h1>
                                 <ImageUploadForm
@@ -77,6 +76,8 @@ export default function Profile(props) {
                                     isFocused={true}
                                     handleChange={onChange}
                                     required
+                                    maxLength={15}
+                                    minLength={8}
                                 />
                             </div>
                             <div className="col-span-1">
@@ -90,6 +91,8 @@ export default function Profile(props) {
                                     isFocused={true}
                                     handleChange={onChange}
                                     required
+                                    maxLength={50}
+                                    minLength={3}
                                 />
                             </div>
                             <div className="col-span-1">
@@ -103,6 +106,8 @@ export default function Profile(props) {
                                     isFocused={true}
                                     handleChange={onChange}
                                     required
+                                    maxLength={50}
+                                    minLength={3}
                                 />
                             </div>
                             <div>
@@ -141,12 +146,13 @@ export default function Profile(props) {
                                     isFocused={true}
                                     handleChange={onChange}
                                     required
+                                    email={true}
                                 />
                             </div>
                             <div className="col-span-1">
                                 <Label forInput="phone" value="Teléfono" />
                                 <Input
-                                    type="number"
+                                    type="text"
                                     name="phone"
                                     defaultValue={loggedUser.phone}
                                     className="mt-1 block w-full"
@@ -154,12 +160,14 @@ export default function Profile(props) {
                                     isFocused={true}
                                     handleChange={onChange}
                                     required
+                                    onlyNumbers={true}
+                                    maxLength={30}
                                 />
                             </div>
                             <div className="col-span-1">
                                 <Label forInput="cellphone" value="Celular" />
                                 <Input
-                                    type="number"
+                                    type="text"
                                     name="cellphone"
                                     defaultValue={loggedUser.cellphone}
                                     className="mt-1 block w-full"
@@ -167,6 +175,8 @@ export default function Profile(props) {
                                     isFocused={true}
                                     handleChange={onChange}
                                     required
+                                    onlyNumbers={true}
+                                    maxLength={30}
                                 />
                             </div>
                             <div className="col-span-1">
@@ -175,7 +185,7 @@ export default function Profile(props) {
                                     value="Documento de Identidad"
                                 />
                                 <Input
-                                    type="number"
+                                    type="text"
                                     name="doc"
                                     defaultValue={loggedUser.doc}
                                     className="mt-1 block w-full"
@@ -183,6 +193,9 @@ export default function Profile(props) {
                                     isFocused={true}
                                     handleChange={onChange}
                                     required
+                                    onlyNumbers={true}
+                                    maxLength={30}
+                                    minLength={4}
                                 />
                             </div>
                             <div>

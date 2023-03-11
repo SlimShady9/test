@@ -7,8 +7,8 @@ import DataTable from "react-data-table-component";
 import { IoHelp } from "react-icons/io5";
 import { Link } from "@inertiajs/inertia-react";
 import Container from "@/Components/Container";
-import { container } from "tailwindcss/defaultTheme";
 import Button from "./FormUtils/Button";
+import ButtonGroup from "@/Components/FormUtils/ButtonGroup";
 
 const DataTableService = () => {
     const [search, setSearch] = useState("");
@@ -43,41 +43,37 @@ const DataTableService = () => {
             selector: (row) => row.price,
         },
         {
-            name: "Ver",
+            name: "Opciones",
+            grow: 2.5,
+            center: true,
             cell: (row) => (
-                <Link className="bg-yellow" href={`deliveryProof/${row.id}`}>
-                    <GrArchive />
-                </Link>
-            ),
-        },
-        {
-            name: "Editar",
-            cell: (row) => (
-                <Link className="bg-yellow" href={`editService/${row.id}`}>
-                    <GrEdit />
-                </Link>
-            ),
-        },
-        {
-            name: "Eliminar",
-            cell: (row) => (
-                <Button className="bg-red">
-                    <RiDeleteBinLine />
-                </Button>
-            ),
-        },
-        {
-            name: "Ayuda",
-            cell: (row) => (
-                <Link href={"pqrs/" + row.id} className="p-3 bg-blue-400">
-                    <Button className="bg-red">
-                        <IoHelp />
-                    </Button>
-                </Link>
+                <ButtonGroup
+                    listButtons={[
+                        {
+                            href: `deliveryProof/${row.id}`,
+                            icon: <GrArchive />,
+                            text: "Ver",
+                        },
+                        {
+                            href: `editService/${row.id}`,
+                            icon: <GrEdit />,
+                            text: "Editar",
+                        },
+                        {
+                            href: `pqrs/${row.id}`,
+                            icon: <IoHelp />,
+                            text: "Ayuda",
+                        },
+                        {
+                            onClick: () => console.log("Eliminar"),
+                            icon: <RiDeleteBinLine />,
+                            text: "Archivar",
+                        },
+                    ]}
+                />
             ),
         },
     ];
-
     useEffect(() => {
         getServicios();
     }, []);
@@ -104,6 +100,8 @@ const DataTableService = () => {
             fixedHeader
             pagination
             subHeader
+            noDataComponent="No se encontraron resultados"
+            paginationComponentOptions={{ rowsPerPageText: "Filas por página" }}
             subHeaderComponent={
                 <Container className="flex">
                     <Link href={"createService"} className="p-3 bg-blue-400">

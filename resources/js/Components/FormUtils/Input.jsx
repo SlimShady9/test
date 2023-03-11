@@ -13,14 +13,22 @@ export default function Input({
     ref,
     min,
     max,
+    minLength,
+    maxLength,
     onlyLetters = false, // including spaces
     alpaNumeric = false, // ecxluding spaces
+    onlyNumbers = false,
+    email = false,
 }) {
     var pattern = null;
     if (alpaNumeric) {
-        pattern = "[a-zA-Z0-9]*";
+        pattern = "[a-zA-Z0-9 ]*";
     } else if (onlyLetters) {
         pattern = "[a-zA-Z ]*";
+    } else if (email) {
+        pattern = "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{1,63}$";
+    } else if (onlyNumbers) {
+        pattern = "[0-9]*";
     }
     return (
         <div>
@@ -38,10 +46,12 @@ export default function Input({
                 onChange={(e) => handleChange(e)}
                 disabled={disabled}
                 ref={ref}
-                pattern={onlyLetters == true ? "[a-zA-Z ]*" : pattern}
+                pattern={pattern}
                 min={min}
                 max={max}
                 value={defaultValue}
+                minLength={minLength}
+                maxLength={maxLength}
             />
         </div>
     );

@@ -35,7 +35,6 @@ function ContentForm({ setNextStep, isEdit }) {
             value: ExcepcionesEnum[key],
         })
     );
-    console.log(serviceDTO);
     const [content, setContent] = useState({
         commercial_value: serviceDTO.content.commercial_value,
         content: serviceDTO.content.content,
@@ -116,12 +115,15 @@ function ContentForm({ setNextStep, isEdit }) {
                             name="content"
                             defaultValue={content.content}
                             handleChange={onChange}
+                            onlyLetters={true}
+                            maxLength={60}
                         />
                     </div>
                     <div className="col-span-1">
                         <Label>Tipo de Carga</Label>
                         <SelectInput
                             options={tiposDeCargaSelect}
+                            required={true}
                             value={{
                                 value: content.t_carga,
                                 label: toStringTipoDeCargaEnum(content.t_carga),

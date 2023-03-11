@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { GrEdit } from "react-icons/gr";
 import { RiDeleteBinLine } from "react-icons/ri";
-
+import ButtonGroup from "@/Components/FormUtils/ButtonGroup";
 import Modal from "./Modal";
-import Container from "./Container";
 import DataForm from "./FormUtils/DataForm";
 import { Link } from "@inertiajs/inertia-react";
 import DataTable from "react-data-table-component";
 import Button from "./FormUtils/Button";
+import { toStringTipoDocumentoEnumShort } from "@/Constants/TipoDocumentoEnum";
 
 const DatatableUser = ({ lUser }) => {
     const [search, setSearch] = useState("");
@@ -24,11 +24,15 @@ const DatatableUser = ({ lUser }) => {
         axios.put(`/api/user/${idselected}`, data).then((res) => {
             setUser((prevState) =>
                 prevState.map((item) =>
-                    item.email === res.data.email ? res.data : item
+                    item.id === res.data.id ? res.data : item
+                )
+            );
+            setFilteredUser((prevState) =>
+                prevState.map((item) =>
+                    item.id === res.data.id ? res.data : item
                 )
             );
             setIdselected(null);
-            setFilteredUser(user);
             setShowModal(false);
         });
     };
@@ -45,18 +49,13 @@ const DatatableUser = ({ lUser }) => {
 
     const columns = [
         {
-            name: "Nombre",
-            selector: (row) => row.name,
-            sortable: true,
-        },
-        {
-            name: "Apellido",
-            selector: (row) => row.surname,
-            sortable: true,
-        },
-        {
             name: "Nombre de usuario",
             selector: (row) => row.username,
+        },
+        {
+            name: "Nombres",
+            selector: (row) => row.name + " " + row.surname,
+            sortable: true,
         },
         {
             name: "Correo",
@@ -64,30 +63,33 @@ const DatatableUser = ({ lUser }) => {
         },
         {
             name: "Documento",
-            selector: (row) => row.doc,
+            selector: (row) =>
+                toStringTipoDocumentoEnumShort(row.id_t_user) + " " + row.doc,
         },
         {
-            name: "Telefono",
-            selector: (row) => row.phone,
+            name: "Número de contacto",
+            selector: (row) => row.phone || row.cellphone,
         },
         {
-            name: "Celular",
-            selector: (row) => row.cellphone,
-        },
-        {
-            name: "Editar",
+            name: "Opciones",
+            grow: 1.5,
+            center: true,
             cell: (row) => (
-                <button onClick={() => loadUser(row.id)} className="bg-blue">
-                    <GrEdit />
-                </button>
-            ),
-        },
-        {
-            name: "Eliminar",
-            cell: (row) => (
-                <button className="bg-red py-4 px-3">
-                    <RiDeleteBinLine />
-                </button>
+                <ButtonGroup
+                    listButtons={[
+                        {
+                            onClick: () => loadUser(row.id),
+                            icon: <GrEdit />,
+                            text: "Editar",
+                            className: "bg-blue-400",
+                        },
+                        {
+                            onClick: () => console.log("Eliminar"),
+                            icon: <RiDeleteBinLine />,
+                            text: "Eliminar",
+                        },
+                    ]}
+                />
             ),
         },
     ];
@@ -122,11 +124,12 @@ const DatatableUser = ({ lUser }) => {
         <DataTable
             columns={columns}
             data={filteredUser}
-            selectableRows
             highlightOnHover
             fixedHeader
             pagination
             subHeader
+            noDataComponent="No se encontraron resultados"
+            paginationComponentOptions={{ rowsPerPageText: "Filas por página" }}
             subHeaderComponent={
                 <>
                     <Link href={"regUser"} className="p-3 bg-blue-400">

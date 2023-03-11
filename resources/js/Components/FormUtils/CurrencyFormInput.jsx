@@ -10,7 +10,7 @@ function CurrencyFormInput({
     id,
     decimalsLimit = 2,
     name,
-    required=false,
+    required = false,
 }) {
     return (
         <CurrencyInput
@@ -26,6 +26,7 @@ function CurrencyFormInput({
             autoComplete={autoComplete}
             decimalsLimit={decimalsLimit}
             required={required}
+            max={9999999999}
         />
     );
 }
