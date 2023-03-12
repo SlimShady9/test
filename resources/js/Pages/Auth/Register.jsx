@@ -10,16 +10,18 @@ import Select from "react-select";
 import ValidationErrors from "@/Components/ValidationErrors";
 import { Head, Link, useForm } from "@inertiajs/inertia-react";
 import SelectInput from "@/Components/FormUtils/SelectInput";
+import { TipoDocumentoEnum, toStringTipoDocumentoEnum } from "@/Constants/TipoDocumentoEnum";
 import {
     TipoDeUsuariosEnum,
     toStringTipoDeUsuariosEnum,
 } from "@/Constants/TipoDeUsuariosEnum";
+import Login from "./Login";
 
 export default function Register() {
     const [optionsTD, setOptionsTD] = useState(
-        Object.keys(TipoDeUsuariosEnum).map((key) => ({
-            value: TipoDeUsuariosEnum[key],
-            label: toStringTipoDeUsuariosEnum(TipoDeUsuariosEnum[key]),
+        Object.keys(TipoDocumentoEnum).map((key) => ({
+            value: TipoDocumentoEnum[key],
+            label: toStringTipoDocumentoEnum(TipoDocumentoEnum[key]),
         }))
     );
     //Constantes de la página
@@ -55,11 +57,11 @@ export default function Register() {
     };
 
     const submitUser = (e) => {
-        //Load address on data
         e.preventDefault();
         axios.post("/api/user", data).then((res) => {
-            // Modal de juabito
         });
+        window.location.href = "/login";
+
     };
 
     return (
@@ -239,6 +241,7 @@ export default function Register() {
                     <div className="col-span-2 flex items-center justify-end mt-4 ">
                         <Link
                             href={route("login")}
+                            
                             className="underline text-sm text-gray-600 hover:text-gray"
                         >
                             ¿Ya se ha registrado?
