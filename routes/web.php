@@ -58,10 +58,6 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/envios', function () {
-    return Inertia::render('Envios');
-})->middleware(['auth', 'verified'])->name('envios');
-
 Route::get('/services', function () {
     return Inertia::render('Services', [
         'api_token' => env('API_KEY_GEO'),

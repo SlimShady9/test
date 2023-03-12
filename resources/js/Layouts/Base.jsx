@@ -9,7 +9,7 @@ export default function Base({ children }) {
         <div className="min-h-screen">
             <Header className="mb-4 z-10" />
             <Container className="m-5 relative align-center">
-                <Card className="m-auto">{children}</Card>
+                <Card className="my-auto w-3/4">{children}</Card>
             </Container>
             <Footer className="absolute bottom-0 left-0 right-0" />
         </div>
