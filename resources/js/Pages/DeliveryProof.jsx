@@ -198,8 +198,9 @@ export default function DeliveryProof(props) {
             userByService(id);
             getContent(id).then((data) => {
                 const [res, error] = data;
-                setContent(res[0]);
+                setContent(res);
             });
+            console.log(content);
         }
     }, []);
 

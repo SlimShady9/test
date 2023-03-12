@@ -36,7 +36,6 @@ class Task extends Model
             if ($task->id_state != 3) {
                 $allCompleted = false;
             }
-            print($task->id_state);
         }
         if ($allCompleted) {
             $service->end_date = now('-5');

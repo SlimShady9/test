@@ -118,7 +118,7 @@ class AddressController extends Controller
                 'region_iso' => 'required|string|max:30',
                 'city_id' => 'required|integer',
                 'addr' => 'required|string|max:50',
-                'addr_detail' => 'string|max:255',
+                'addr_detail' => 'max:255',
                 'postal_code' => 'required|string|max:10',
                 'neighborhood' => 'required|string|max:30',
             ]);
