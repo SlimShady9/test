@@ -38,6 +38,7 @@ class Task extends Model
         }
         if ($allCompleted) {
             $service->id_state_service = 3;
+            $service->save();
         }
         parent::save($options);
     }
