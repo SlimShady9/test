@@ -41,6 +41,9 @@ module.exports = {
                 dark: "#000022",
                 servi: "#0a0231",
                 border: "#2684FF",
+                clear: "#00638d",
+                turquose: "#004f74",
+                clearer:"#0090bf",
             },
             red: {
                 light: "#ffb3b3",
@@ -52,8 +55,11 @@ module.exports = {
                 cream: "#fceea7",
             },
             white: "#ffffff",
+            semitransparent: 'rgba(0, 0, 0, 01)',
             black: "#000000",
             "input-border": "hsl(0, 0%, 80%)",
+            transparent: 'rgba(255, 255, 255, 0)',
+            semitransparent: 'rgba(255, 255, 255, 0.5)',
         },
         extend: {
             keyframes: {
@@ -83,7 +89,7 @@ module.exports = {
                         opacity: 0,
                     },
                     "100%": {
-                        opacity: 0.4,
+                        opacity: 1,
                     },
                 },
                 "opacity-out-modal": {
