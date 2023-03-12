@@ -81,9 +81,6 @@ const DataTableService = () => {
     useEffect(() => {
         const result = servicios.filter((services) => {
             return (
-                services.description
-                    .toLowerCase()
-                    .match(search.toLowerCase()) ||
                 services.name.toLowerCase().match(search.toLowerCase()) ||
                 services.tracking_id.match(search)
             );
