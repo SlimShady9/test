@@ -83,6 +83,7 @@ function TaskForm({
 
     const submitForm = (e) => {
         e.preventDefault();
+        console.log(currentTask);
         var task = {
             ...currentTask,
             last_state_date: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
@@ -197,6 +198,7 @@ function TaskForm({
     };
 
     const editTask = (task) => {
+        console.log(task);
         setTasks((prev) => prev.filter((t) => t.id !== task.id));
         setCurrentTask({
             ...task,

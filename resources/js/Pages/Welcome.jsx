@@ -97,12 +97,7 @@ export default function Welcome(props) {
                             "text-center hover:scale-110 ease-in duration-200"
                         }
                     >
-                        <a
-                            href="google.com"
-                            className="underline cursor-pointer"
-                        >
-                            Example Link To the Resource
-                        </a>
+
                     </Container>
                 </Card>
                 <Card
@@ -143,12 +138,7 @@ export default function Welcome(props) {
                             "text-center hover:scale-110 ease-in duration-200"
                         }
                     >
-                        <a
-                            href="google.com"
-                            className="underline cursor-pointer"
-                        >
-                            Example Link To the Resource
-                        </a>
+
                     </Container>
                 </Card>
                 <Card
@@ -190,12 +180,7 @@ export default function Welcome(props) {
                             "text-center hover:scale-110 ease-in duration-200"
                         }
                     >
-                        <a
-                            href="google.com"
-                            className="underline cursor-pointer"
-                        >
-                            Example Link To the Resource
-                        </a>
+
                     </Container>
                 </Card>
                 <Card
@@ -236,12 +221,7 @@ export default function Welcome(props) {
                             "text-center hover:scale-110 ease-in duration-200"
                         }
                     >
-                        <a
-                            href="google.com"
-                            className="underline cursor-pointer"
-                        >
-                            Example Link To the Resource
-                        </a>
+
                     </Container>
                 </Card>
             </div>
