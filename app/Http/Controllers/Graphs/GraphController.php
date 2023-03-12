@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Graphs;
 use Illuminate\Http\Request;
 use App\Models\Service;
 use App\Models\Address;
 use App\Models\Parameter;
 use App\Models\TypeService;
 use App\Models\StateService;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 
 use Barryvdh\Debugbar\Facade as Debugbar;
@@ -19,6 +20,11 @@ class GraphController extends Controller {
 
     public function show($id) {
        
+    }
+
+    public function costxSellBymonth() {
+        $costxSellBymonth = DB::select("SELECT MONTHNAME(start_date) AS month, SUM(cost) AS cost, SUM(price) AS price FROM services  GROUP BY MONTH(start_date)");
+        return $costxSellBymonth;
     }
 
 

@@ -26,6 +26,8 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TypeDocumentController;
 use App\Http\Controllers\TypeExceptionController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\Graphs\GraphController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -155,6 +157,8 @@ Route::get('/service/{user_id}/serviceByUser', [ServiceController::class, 'servi
 Route::get('/task/{task}/address', [TaskController::class, 'addressByTask']);
 Route::get('/service/{service}/address', [ServiceController::class, 'addressByService']);
 Route::post('/email', [EmailController::class, 'emailPqrs']);
+
+Route::get('/graph/costxSellBymonth', [GraphController::class, 'costxSellBymonth']);
 
 Route::post('order/multiple', [OrderController::class, 'createMultiple']);
 
