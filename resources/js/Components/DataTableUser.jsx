@@ -10,6 +10,7 @@ import DataTable from "react-data-table-component";
 import Button from "./FormUtils/Button";
 import { toStringTipoDocumentoEnumShort } from "@/Constants/TipoDocumentoEnum";
 import Container from "./Container";
+import { findOrders } from "@/Utils/FetchOrder";
 
 const DatatableUser = ({ lUser }) => {
     const [search, setSearch] = useState("");
@@ -55,6 +56,15 @@ const DatatableUser = ({ lUser }) => {
         {
             name: "Nombres",
             selector: (row) => row.name + " " + row.surname,
+            sortable: true,
+        },
+        {
+            name: "Servicios Asociados",
+            selector: (row) => findOrders({
+                id_user: row.id,
+            }).then((res) => {
+                return res.then((res) => {return res[0]});
+            }),
             sortable: true,
         },
         {
