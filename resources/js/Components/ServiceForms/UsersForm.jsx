@@ -8,32 +8,30 @@ import {
 } from "@/Constants/TipoDeUsuariosEnum";
 import { Head } from "@inertiajs/inertia-react";
 import Label from "../FormUtils/Label";
-import { getUsers, loadImageUser} from "@/Utils/FetchUsers";
+import { getUsers, loadImageUser } from "@/Utils/FetchUsers";
 import Button from "../FormUtils/Button";
 import SelectInput from "../FormUtils/SelectInput";
-import { createOrders,findOrders,deleteOrder } from "@/Utils/FetchOrder";
+import { createOrders, findOrders, deleteOrder } from "@/Utils/FetchOrder";
+import { toast } from "react-toastify";
 
 function UsersForm({ currentStep, setNextStep }) {
     const id = EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS;
     const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
     // As cached data fetched
-    console.log(serviceDTO);
     const [visitedUsers, setVisitedUsers] = useState([]);
     const [usersFiltered, setUsersFiltered] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
-    console.log()
     const [usuariosSeleccionados, setUsuariosSeleccionados] = useState([]);
 
     useEffect(() => {
-        if(serviceDTO.orders.length>0){
-            serviceDTO.orders.forEach((order) => {  
-                getUsers({id: order.id_user}).then((res) => {
+        if (serviceDTO.orders.length > 0) {
+            serviceDTO.orders.forEach((order) => {
+                getUsers({ id: order.id_user }).then((res) => {
                     setUsuariosSeleccionados((prev) => [...prev, res.data[0]]);
                 });
             });
         }
     }, []);
-
 
     const tipoUsuarios = Object.keys(TipoDeUsuariosEnum).map((key) => {
         return {
@@ -66,9 +64,7 @@ function UsersForm({ currentStep, setNextStep }) {
     };
 
     const onUserSelected = (e) => {
-  
         const { value } = e;
-        console.log(value);
         setUsuariosSeleccionados((prev) => {
             let user = visitedUsers.find((u) => u.id === value);
             // If user already in prev, return prev
@@ -77,21 +73,19 @@ function UsersForm({ currentStep, setNextStep }) {
             }
             return [...prev, user.data];
         });
-        console.log(usuariosSeleccionados);
         setSelectedUser(e);
     };
 
     const removeFromSelectedList = (user) => {
-        console.log(user);
         setUsuariosSeleccionados((prev) => {
             return prev.filter((u) => u.id !== user.id);
         });
-        findOrders( {id_user: user.id, id_service: serviceDTO.service.id}).then((res) => { 
-            console.log(res[0][0])    
-            deleteOrder(res[0][0].id).then((res) => { 
-
-                });
-            })                    
+        findOrders({
+            id_user: user.id,
+            id_service: serviceDTO.service.id,
+        }).then((res) => {
+            deleteOrder(res[0][0].id).then((res) => {});
+        });
     };
 
     const submitForm = (e) => {

@@ -102,6 +102,9 @@ export default function RegisterUser(props) {
                                     isFocused={true}
                                     handleChange={onHandleChange}
                                     required
+                                    minLength={3}
+                                    maxLength={50}
+                                    onlyLetters={true}
                                 />
                             </div>
                             <div>
@@ -117,6 +120,9 @@ export default function RegisterUser(props) {
                                     autoComplete="name"
                                     handleChange={onHandleChange}
                                     required
+                                    minLength={3}
+                                    maxLength={50}
+                                    onlyLetters={true}
                                 />
                             </div>
                             <div>
@@ -132,6 +138,9 @@ export default function RegisterUser(props) {
                                     autoComplete="username"
                                     handleChange={onHandleChange}
                                     required
+                                    minLength={8}
+                                    maxLength={15}
+                                    alpaNumeric={true}
                                 />
                             </div>
                             <div>
@@ -161,6 +170,7 @@ export default function RegisterUser(props) {
                                     autoComplete="username"
                                     handleChange={onHandleChange}
                                     required
+                                    email={true}
                                 />
                             </div>
 
@@ -174,6 +184,9 @@ export default function RegisterUser(props) {
                                     autoComplete="phone"
                                     handleChange={onHandleChange}
                                     required
+                                    onlyNumbers={true}
+                                    minLength={4}
+                                    maxLength={30}
                                 />
                             </div>
 
@@ -187,6 +200,9 @@ export default function RegisterUser(props) {
                                     autoComplete="cellphone"
                                     handleChange={onHandleChange}
                                     required
+                                    onlyNumbers={true}
+                                    minLength={4}
+                                    maxLength={30}
                                 />
                             </div>
 
@@ -203,6 +219,9 @@ export default function RegisterUser(props) {
                                     autoComplete="doc"
                                     handleChange={onHandleChange}
                                     required
+                                    onlyNumbers={true}
+                                    minLength={4}
+                                    maxLength={30}
                                 />
                             </div>
 
@@ -249,6 +268,7 @@ export default function RegisterUser(props) {
                                     className="mt-1 block w-full"
                                     handleChange={onHandleChange}
                                     required
+                                    minLength={8}
                                 />
                             </div>
 

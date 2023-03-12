@@ -17,4 +17,21 @@ const toStringTipoDocumentoEnum = (tipoDeCarga) => {
     }
 };
 
-export { TipoDocumentoEnum, toStringTipoDocumentoEnum };
+const toStringTipoDocumentoEnumShort = (tipoDeCarga) => {
+    switch (tipoDeCarga) {
+        case TipoDocumentoEnum.CEDULA:
+            return "CC";
+        case TipoDocumentoEnum.PASAPORTE:
+            return "PA";
+        case TipoDocumentoEnum.CEDULA_EXTRANJERIA:
+            return "CE";
+        default:
+            return "";
+    }
+};
+
+export {
+    TipoDocumentoEnum,
+    toStringTipoDocumentoEnum,
+    toStringTipoDocumentoEnumShort,
+};

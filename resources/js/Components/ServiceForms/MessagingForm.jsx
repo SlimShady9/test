@@ -16,7 +16,6 @@ import {
 } from "@/Constants/TransportadorEnum";
 
 function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
-    console.log(user);
     const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
     const transportadorasSelect = Object.keys(TransportadoraEnum).map(
         (key) => ({
@@ -33,14 +32,13 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
                 return;
             }
             const messaging2 = await response;
-            console.log(messaging2);
             setServiceDTO((prev) => {
                 return { ...prev, messaging: messaging2 };
             });
-            if(user.id_t_user == 1){
-            setNextStep(EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS);
-            }else{
-            setNextStep(EstadoServiciosEnum.SERVICIO_CON_CONTENIDO);
+            if (user.id_t_user == 1) {
+                setNextStep(EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS);
+            } else {
+                setNextStep(EstadoServiciosEnum.SERVICIO_CON_CONTENIDO);
             }
         } else {
             storeMessaging({
@@ -50,17 +48,17 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
                     toast.error(res.error);
                     return;
                 }
-                if(user.id_t_user == 1){
-                    setNextStep(EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS);
-                    }else{
+                if (user.id_t_user == 1) {
+                    setNextStep(
+                        EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS
+                    );
+                } else {
                     setNextStep(EstadoServiciosEnum.SERVICIO_CON_CONTENIDO);
-                    }
+                }
             });
         }
     };
     const [showDetail, setShowDetail] = useState(true);
-
-    console.log(serviceDTO.messaging);
 
     const [messaging, setMessaging] = useState({
         name: serviceDTO.messaging.name,
@@ -112,6 +110,9 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
                             name="name"
                             defaultValue={messaging.name}
                             handleChange={onChange}
+                            required={true}
+                            maxLength={50}
+                            minLength={3}
                         />
                     </div>
                     <div className="col-span-1">
@@ -120,6 +121,9 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
                             name="entity"
                             defaultValue={messaging.entity}
                             handleChange={onChange}
+                            required={true}
+                            maxLength={50}
+                            minLength={3}
                         ></Input>
                     </div>
                     <div className="col-span-1">
@@ -128,6 +132,9 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
                             name="charge"
                             defaultValue={messaging.charge}
                             handleChange={onChange}
+                            required={true}
+                            maxLength={50}
+                            minLength={3}
                         />
                     </div>
                     <div className="col-span-1">
@@ -136,6 +143,8 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
                             name="cost_center"
                             defaultValue={messaging.cost_center}
                             handleChange={onChange}
+                            required={true}
+                            maxLength={100}
                         />
                     </div>
                     <div className="col-span-1">
@@ -144,6 +153,8 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
                             name="dependency"
                             defaultValue={messaging.dependency}
                             handleChange={onChange}
+                            required={true}
+                            maxLength={30}
                         />
                     </div>
                     <div className="col-span-1">
@@ -152,6 +163,7 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
                             name="intern_order"
                             defaultValue={messaging.intern_order}
                             handleChange={onChange}
+                            maxLength={30}
                         />
                     </div>
 
@@ -189,6 +201,7 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
                                         messaging.id_transporter_tracking
                                     }
                                     handleChange={onChange}
+                                    maxLength={255}
                                 />
                             </div>
                         </>

@@ -33,12 +33,15 @@ export default function ImageUploadForm({ user, setUser }) {
     }, [user]);
 
     return (
-        <section className="container">
-            <div {...getRootProps()}>
-                    <div className="max-h-60 max-w-60 h-40 w-40 m-auto bg-gray-light shadow-xl rounded-full flex justify-center">
-                        <input {...getInputProps()} />
-                        <Thumbs files={files} />
-                    </div>
+        <section>
+            <div
+                {...getRootProps()}
+                className="max-h-60 max-w-60 m-auto rounded-full flex justify-center"
+            >
+                <div>
+                    <input {...getInputProps()} />
+                    <Thumbs files={files} />
+                </div>
             </div>
         </section>
     );

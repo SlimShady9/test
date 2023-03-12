@@ -9,20 +9,25 @@ import Checkbox from "@/Components/FormUtils/Checkbox";
 import Select from "react-select";
 import ValidationErrors from "@/Components/ValidationErrors";
 import { Head, Link, useForm } from "@inertiajs/inertia-react";
+import SelectInput from "@/Components/FormUtils/SelectInput";
+import {
+    TipoDeUsuariosEnum,
+    toStringTipoDeUsuariosEnum,
+} from "@/Constants/TipoDeUsuariosEnum";
 
 export default function Register() {
-    //Reemplazar por opciones en base de datos
-    const optionsTD = [
-        { value: "1", label: "Cédula" },
-        { value: "2", label: "Pasaporte" },
-        { value: "3", label: "Cédula de extranjeria" },
-    ];
+    const [optionsTD, setOptionsTD] = useState(
+        Object.keys(TipoDeUsuariosEnum).map((key) => ({
+            value: TipoDeUsuariosEnum[key],
+            label: toStringTipoDeUsuariosEnum(TipoDeUsuariosEnum[key]),
+        }))
+    );
     //Constantes de la página
     const [data, setData] = useState({
         username: "",
         name: "",
         surname: "",
-        id_t_user: "3",
+        id_t_user: TipoDeUsuariosEnum.CLIENTE_NATURAL,
         picture: "",
         country: "",
         city: "",
@@ -40,12 +45,6 @@ export default function Register() {
         notifications: "",
     });
 
-    useEffect(() => {
-        return () => {
-            reset("password", "password_confirmation", "notifications");
-        };
-    }, []);
-
     const onHandleChange = (e, param) => {
         let target = e.target?.name || param;
         let value = e.target?.value || e.value;
@@ -62,18 +61,13 @@ export default function Register() {
             // Modal de juabito
         });
     };
-    useEffect(() => {
-        axios.get("/api/user/create").then((res) => {
-            setUser(res.data.parameters);
-        });
-    }, []);
 
     return (
         <Base>
             <Head title="Register" />
             <form onSubmit={submitUser}>
                 <Container className={"justify-center"}>
-                    <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                    <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center ease-in duration-200">
                         Registro de Usuario
                     </h1>
                 </Container>
@@ -89,6 +83,9 @@ export default function Register() {
                             isFocused={true}
                             handleChange={onHandleChange}
                             required
+                            minLength={3}
+                            maxLength={50}
+                            onlyLetters={true}
                         />
                     </div>
 
@@ -102,6 +99,9 @@ export default function Register() {
                             autoComplete="name"
                             handleChange={onHandleChange}
                             required
+                            minLength={3}
+                            maxLength={50}
+                            onlyLetters={true}
                         />
                     </div>
 
@@ -115,6 +115,9 @@ export default function Register() {
                             autoComplete="username"
                             handleChange={onHandleChange}
                             required
+                            minLength={8}
+                            maxLength={15}
+                            alpaNumeric={true}
                         />
                     </div>
 
@@ -128,6 +131,7 @@ export default function Register() {
                             autoComplete="email"
                             handleChange={onHandleChange}
                             required
+                            email={true}
                         />
                     </div>
 
@@ -141,6 +145,9 @@ export default function Register() {
                             autoComplete="phone"
                             handleChange={onHandleChange}
                             required
+                            onlyNumbers={true}
+                            minLength={4}
+                            maxLength={30}
                         />
                     </div>
 
@@ -154,6 +161,9 @@ export default function Register() {
                             autoComplete="cellphone"
                             handleChange={onHandleChange}
                             required
+                            onlyNumbers={true}
+                            minLength={4}
+                            maxLength={30}
                         />
                     </div>
 
@@ -167,19 +177,22 @@ export default function Register() {
                             autoComplete="doc"
                             handleChange={onHandleChange}
                             required
+                            onlyNumbers={true}
+                            minLength={4}
+                            maxLength={30}
                         />
                     </div>
 
                     <div>
                         <Label forInput="id_t_doc" value="Tipo de Documento" />
-                        <Select
+                        <SelectInput
                             name="id_t_doc"
                             options={optionsTD}
                             className="mt-1 block w-full"
                             autoComplete="id_t_doc"
                             onChange={(e) => onHandleChange(e, "id_t_doc")}
                             required
-                        ></Select>
+                        ></SelectInput>
                     </div>
 
                     <div>
@@ -193,6 +206,7 @@ export default function Register() {
                             autoComplete="new-password"
                             handleChange={onHandleChange}
                             required
+                            minLength={8}
                         />
                     </div>
 
@@ -211,7 +225,8 @@ export default function Register() {
                             required
                         />
                     </div>
-
+                    {/**
+                     * 
                     <div className="col-span-2 flex gap-x-2">
                         <Checkbox
                             name="notifications"
@@ -219,6 +234,7 @@ export default function Register() {
                             text="¿Desea recibir notificaciones sobre nuestras nuevas ofertas para usted?"
                         />
                     </div>
+                     */}
 
                     <div className="col-span-2 flex items-center justify-end mt-4 ">
                         <Link

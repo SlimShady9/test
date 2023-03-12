@@ -32,10 +32,8 @@ export default function DeliveryProof(props) {
     const [tasks, setTasks] = useState([]);
     const [address, setAddress] = useState([]);
     const [id, setId] = useState(props.serviceId);
-    console.log(tasks);
 
     const getService = (id) => {
-        console.log(service);
         try {
             axios.get(`/api/service/${id}`).then((res) => {
                 setService(res.data);
@@ -46,7 +44,6 @@ export default function DeliveryProof(props) {
     };
 
     const getMessaging = (id) => {
-        console.log(message);
         try {
             axios.get(`/api/messaging/${id}`).then((res) => {
                 setMessage(res.data[0]);
@@ -57,7 +54,6 @@ export default function DeliveryProof(props) {
     };
 
     const getAddress = (id) => {
-        console.log(address);
         try {
             axios.get(`/api/service/${id}/address`).then((res) => {
                 setAddress(res.data);
@@ -68,13 +64,10 @@ export default function DeliveryProof(props) {
     };
 
     const getTaskAddress = (idService) => {
-        console.log(tasks);
         getTask(idService).then(([res, err]) => {
-            console.log(err, res);
             res.map((task) => {
                 if (task.id_address) {
                     getAddressByTask(task.id).then(([res, err]) => {
-                        console.log(err, res);
                         const newTask = { ...task, address: res.addr };
                         setTasks((oldTasks) => [...oldTasks, newTask]);
                     });
@@ -86,21 +79,20 @@ export default function DeliveryProof(props) {
     };
 
     const nextTaskState = (id) => {
-        if(tasks[id].id_state != 3){
+        if (tasks[id].id_state != 3) {
             tasks[id].id_state = tasks[id].id_state + 1;
             updateTask(tasks[id]).then((res) => {
-
                 const [nTask, error] = res;
                 if (error) {
                     toast.error(error);
                     return;
                 }
-                setTasks((prev) => prev.map((task) => (task.id == nTask.id ? nTask : task)));
-
-        });
-
+                setTasks((prev) =>
+                    prev.map((task) => (task.id == nTask.id ? nTask : task))
+                );
+            });
+        }
     };
-};
 
     const print = () => {
         useReactToPrint({
@@ -124,7 +116,6 @@ export default function DeliveryProof(props) {
             }
         });
     };
-        
 
     useEffect(() => {
         getService(id);
@@ -151,7 +142,6 @@ export default function DeliveryProof(props) {
         const file = dataURLtoFile(sigPad.toDataURL(), "signature.png");
         const { status, data } = await uploadFile(file);
         if (status === 200) {
-            console.log(data, status);
             const newService = { ...service, signature: data.name };
             const [res, error] = await updateService(newService);
             if (error) {
@@ -170,7 +160,6 @@ export default function DeliveryProof(props) {
             toast.error("Error al eliminar la firma");
             return;
         }
-        console.log(res);
         toast.success("Firma eliminada correctamente");
         setService(res);
     };
@@ -286,8 +275,13 @@ export default function DeliveryProof(props) {
                                     </li>
                                 </ul>
                                 <div className="col-span-4 sm:col-span-1 flex">
-                                    <Button onClick={() =>nextTaskState(index)} className="text-center sm:tracking-tighter mx-auto my-2 text-xs h-16 bg-yellow-cream">
-                                        {toStringEstadoDeTareaEnum(Number(tasks[index].id_state))}
+                                    <Button
+                                        onClick={() => nextTaskState(index)}
+                                        className="text-center sm:tracking-tighter mx-auto my-2 text-xs h-16 bg-yellow-cream"
+                                    >
+                                        {toStringEstadoDeTareaEnum(
+                                            Number(tasks[index].id_state)
+                                        )}
                                     </Button>
                                 </div>
                             </div>
