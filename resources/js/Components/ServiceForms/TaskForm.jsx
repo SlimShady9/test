@@ -19,7 +19,13 @@ import TaskBox from "../FormUtils/TaskBox";
 import { toast } from "react-toastify";
 import { storeTask, deleteTask as dTaks, updateTask } from "@/Utils/FetchTask";
 
-function TaskForm({ setNextStep, api_token, pTasks = [], isEdit = false , user}) {
+function TaskForm({
+    setNextStep,
+    api_token,
+    pTasks = [],
+    isEdit = false,
+    user,
+}) {
     const [showDetail, setShowDetail] = useState(false);
     const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
     const [tasks, setTasks] = useState(pTasks);
@@ -27,7 +33,7 @@ function TaskForm({ setNextStep, api_token, pTasks = [], isEdit = false , user})
         name: "",
         entity: "",
         dependency: "",
-        id_state: EstadoDeTareaEnum.CREADO,
+        id_state: EstadoDeTareaEnum.PENDIENTE,
         id_address: -1,
         id_service: serviceDTO.service.id,
         desc: "",
@@ -253,29 +259,29 @@ function TaskForm({ setNextStep, api_token, pTasks = [], isEdit = false , user})
                             <SelectInput isMulti={true} />
                         </div>*/}
                         {user.id_t_user === 1 && (
-                        <div className="col-span-1">
-                            <Label>Responsable</Label>
-                            <SelectInput
-                                options={usersResponsibleAvailable}
-                                onChange={(e) =>
-                                    onChange({
-                                        target: {
-                                            name: "responsible",
-                                            value: e.value,
-                                        },
-                                    })
-                                }
-                                value={
-                                    currentTask.responsible === -1
-                                        ? ""
-                                        : usersResponsibleAvailable.find(
-                                              (user) =>
-                                                  user.value ===
-                                                  currentTask.responsible
-                                          )
-                                }
-                            />
-                        </div>
+                            <div className="col-span-1">
+                                <Label>Responsable</Label>
+                                <SelectInput
+                                    options={usersResponsibleAvailable}
+                                    onChange={(e) =>
+                                        onChange({
+                                            target: {
+                                                name: "responsible",
+                                                value: e.value,
+                                            },
+                                        })
+                                    }
+                                    value={
+                                        currentTask.responsible === -1
+                                            ? ""
+                                            : usersResponsibleAvailable.find(
+                                                  (user) =>
+                                                      user.value ===
+                                                      currentTask.responsible
+                                              )
+                                    }
+                                />
+                            </div>
                         )}
                         <div className="grid grid-cols-2 col-span-2 justify-center">
                             <Label className="col-span-2">

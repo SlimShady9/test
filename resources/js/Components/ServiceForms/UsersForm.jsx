@@ -8,25 +8,23 @@ import {
 } from "@/Constants/TipoDeUsuariosEnum";
 import { Head } from "@inertiajs/inertia-react";
 import Label from "../FormUtils/Label";
-import { getUsers, loadImageUser, getUser} from "@/Utils/FetchUsers";
+import { getUsers, loadImageUser, getUser } from "@/Utils/FetchUsers";
 import Button from "../FormUtils/Button";
 import SelectInput from "../FormUtils/SelectInput";
-import { createOrders,findOrders,deleteOrder } from "@/Utils/FetchOrder";
+import { createOrders, findOrders, deleteOrder } from "@/Utils/FetchOrder";
 
 function UsersForm({ currentStep, setNextStep }) {
     const id = EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS;
     const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
     // As cached data fetched
-    console.log(serviceDTO);
     const [visitedUsers, setVisitedUsers] = useState([]);
     const [usersFiltered, setUsersFiltered] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
-    console.log()
     const [usuariosSeleccionados, setUsuariosSeleccionados] = useState([]);
 
     useEffect(() => {
-        if(serviceDTO.orders.length>0){
-            serviceDTO.orders.forEach((order) => {  
+        if (serviceDTO.orders.length > 0) {
+            serviceDTO.orders.forEach((order) => {
                 getUser(order.id_user).then((res) => {
                     console.log(res);
                     setUsuariosSeleccionados((prev) => [...prev, res]);
@@ -34,7 +32,6 @@ function UsersForm({ currentStep, setNextStep }) {
             });
         }
     }, []);
-
 
     const tipoUsuarios = Object.keys(TipoDeUsuariosEnum).map((key) => {
         return {
@@ -67,7 +64,6 @@ function UsersForm({ currentStep, setNextStep }) {
     };
 
     const onUserSelected = (e) => {
-  
         const { value } = e;
         console.log(value);
         setUsuariosSeleccionados((prev) => {
@@ -87,18 +83,37 @@ function UsersForm({ currentStep, setNextStep }) {
         setUsuariosSeleccionados((prev) => {
             return prev.filter((u) => u.id !== user.id);
         });
-        findOrders( {id_user: user.id, id_service: serviceDTO.service.id}).then((res) => { 
-            console.log(res[0][0])    
-            deleteOrder(res[0][0].id).then((res) => { 
-
-                });
-            })                    
+        findOrders({
+            id_user: user.id,
+            id_service: serviceDTO.service.id,
+        }).then((res) => {
+            console.log(res[0][0]);
+            deleteOrder(res[0][0].id).then((res) => {});
+        });
     };
 
     const submitForm = (e) => {
         e.preventDefault();
+        // Validar si los usuarios ya estan en la lista de las ordenes del DTO
+        // Alerta! Complejidad O(n^2)
+        const nUsuariosSeleccionados = [];
+        usuariosSeleccionados.forEach((user) => {
+            var existe = false;
+            serviceDTO.orders.forEach((order) => {
+                if (order.id_user === user.id) {
+                    existe = true;
+                }
+            });
+            if (!existe) {
+                nUsuariosSeleccionados.push(user);
+            }
+        });
+        if (nUsuariosSeleccionados.length === 0) {
+            setNextStep(EstadoServiciosEnum.SERVICIO_CON_CONTENIDO);
+            return;
+        }
         createOrders({
-            orders: usuariosSeleccionados.map((user) => ({
+            orders: nUsuariosSeleccionados.map((user) => ({
                 id_user: user.id,
                 id_service: serviceDTO.service.id,
             })),
