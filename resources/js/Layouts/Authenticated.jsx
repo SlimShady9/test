@@ -7,16 +7,21 @@ import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/inertia-react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import trasnportes from "../../imgs/transportes.png";
 
 export default function Authenticated({ auth, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
     return (
-        <div className="flex min-h-screen bg-white">
+        <div className="flex min-h-screen bg-">
+            <img
+                className="fixed w-full inset-y-3/4 sm:inset-y-2/4 -z-10 scale-125 opacity-50"
+                src={trasnportes}
+            />
             <ToastContainer theme="light" draggable position="top-center" />
             <Sidebar user={auth.user} />
-            <main className="flex-1">
+            <main className="flex-1 overflow-auto">
                 <nav className="bg-gradient-to-r from-white to-blue-light border-b border-gray-light">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="flex justify-between h-16">

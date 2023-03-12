@@ -4,7 +4,6 @@ import Label from "./Label";
 import moment from "moment/moment";
 
 function TaskBox({ task, onDelete, editTask }) {
-    console.log(task);
     return (
         <div className="grid gap-3 my-2">
             <div

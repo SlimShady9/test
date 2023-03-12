@@ -12,6 +12,7 @@ import { getUsers, loadImageUser, getUser } from "@/Utils/FetchUsers";
 import Button from "../FormUtils/Button";
 import SelectInput from "../FormUtils/SelectInput";
 import { createOrders, findOrders, deleteOrder } from "@/Utils/FetchOrder";
+import { toast } from "react-toastify";
 
 function UsersForm({ currentStep, setNextStep }) {
     const id = EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS;
@@ -65,7 +66,6 @@ function UsersForm({ currentStep, setNextStep }) {
 
     const onUserSelected = (e) => {
         const { value } = e;
-        console.log(value);
         setUsuariosSeleccionados((prev) => {
             let user = visitedUsers.find((u) => u.id === value);
             // If user already in prev, return prev
@@ -74,12 +74,10 @@ function UsersForm({ currentStep, setNextStep }) {
             }
             return [...prev, user.data];
         });
-        console.log(usuariosSeleccionados);
         setSelectedUser(e);
     };
 
     const removeFromSelectedList = (user) => {
-        console.log(user);
         setUsuariosSeleccionados((prev) => {
             return prev.filter((u) => u.id !== user.id);
         });
@@ -87,7 +85,6 @@ function UsersForm({ currentStep, setNextStep }) {
             id_user: user.id,
             id_service: serviceDTO.service.id,
         }).then((res) => {
-            console.log(res[0][0]);
             deleteOrder(res[0][0].id).then((res) => {});
         });
     };

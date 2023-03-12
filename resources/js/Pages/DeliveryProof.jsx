@@ -220,8 +220,6 @@ export default function DeliveryProof(props) {
         const file = dataURLtoFile(sigPad.toDataURL(), "signature.png");
         const { status, data } = await uploadFile(file);
         if (status === 200) {
-            console.log("firma");
-            console.log(data, status);
             const newService = { ...service, signature: data.name };
             const [res, error] = await updateService(newService);
             if (error) {
@@ -240,7 +238,6 @@ export default function DeliveryProof(props) {
             toast.error("Error al eliminar la firma");
             return;
         }
-        console.log(res);
         toast.success("Firma eliminada correctamente");
         setService(res);
     };

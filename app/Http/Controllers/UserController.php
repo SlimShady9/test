@@ -88,23 +88,22 @@ class UserController extends Controller
         try {
 
             $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:50',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required', 'confirmed',
-            'surname' => 'required|string|max:255',
-            'username' => 'required|string|max:255',
-            'doc' => 'required|string|max:255',
-            'phone' => 'required|string|max:20',
+            'surname' => 'required|string|max:50 ',
+            'username' => 'required|string|max:15',
+            'doc' => 'required|string|max:30',
+            'phone' => 'required|string|max:30',
             'id_t_user' => 'required',
             'id_t_doc' => 'required',
-            'cellphone' => 'required|string|max:25',
-            'notif' => 'string|max:2',
-            'data' => 'string|max:255',
+            'cellphone' => 'required|string|max:30'
             ]);
             
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json(['error' => $e->getMessage()], 403);
         }
+
 
         $newUser = User::create([
             'name' => $request->name,
@@ -116,9 +115,7 @@ class UserController extends Controller
             'id_t_doc' => $request->id_t_doc,
             'id_t_user' => $request->id_t_user,
             'phone' => $request->phone,
-            'cellphone' => $request->cellphone,
-            'notif' => $request->notif,
-            'data' => $request->data,
+            'cellphone' => $request->cellphone
         ]);
 
         return $newUser;
@@ -155,6 +152,9 @@ class UserController extends Controller
                 'required' => true,
                 'table' => 'users',
                 'value' => $parameter->username,
+                'alpaNumeric' => true,
+                'minLenght' => 8,
+                'maxLenght' => 15,
             ],
             [
                 'label' => 'Nombre',
@@ -162,6 +162,9 @@ class UserController extends Controller
                 'type' => 'text',
                 'required' => true,
                 'value' => $parameter->name,
+                'onlyLetters' => true,
+                'minLenght' => 3,
+                'maxLenght' => 50,
             ],
             [
                 'label' => 'Apellido',
@@ -169,6 +172,9 @@ class UserController extends Controller
                 'type' => 'text',
                 'required' => true,
                 'value' => $parameter->surname,
+                'onlyLetters' => true,
+                'minLenght' => 3,
+                'maxLenght' => 50,
             ],
             [
                 'label' => 'Correo electronico',
@@ -176,6 +182,7 @@ class UserController extends Controller
                 'type' => 'text',
                 'required' => true,
                 'value' => $parameter->email,
+                'email' => true,
             ],
             [
                 'label' => 'Documento',
@@ -183,6 +190,9 @@ class UserController extends Controller
                 'type' => 'text',
                 'required' => true,
                 'value' => $parameter->doc,
+                'onlyNumbers' => true,
+                'minLenght' => 4,
+                'maxLenght' => 30,
             ],
             [
                 'label' => 'Telefono',
@@ -190,6 +200,9 @@ class UserController extends Controller
                 'type' => 'text',
                 'required' => true,
                 'value' => $parameter->phone,
+                'onlyNumbers' => true,
+                'minLenght' => 4,
+                'maxLenght' => 20,
             ],
             [
                 'label' => 'Celular',
@@ -197,6 +210,9 @@ class UserController extends Controller
                 'type' => 'text',
                 'required' => true,
                 'value' => $parameter->cellphone,
+                'onlyNumbers' => true,
+                'minLenght' => 4,
+                'maxLenght' => 30,
             ],
         ];
         
@@ -205,7 +221,8 @@ class UserController extends Controller
             'label' => 'Tipo de usuario',
             'name' => 'id_t_user',
             'options' => [],
-            'value' => []
+            'value' => [],
+            'required' => true,
         ];
 
         $typesU = T_user::all();
@@ -229,6 +246,7 @@ class UserController extends Controller
             'name' => 'id_t_doc',
             'options' => [],
             'value' => [],
+            'required' => true,
         ];
         foreach ($typeD as $typeD) {
             if($typeD->id == $parameter->id_t_doc){
@@ -265,10 +283,11 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'surname' => 'required|string|max:255',
-            'username' => 'required|string|max:255',
-            'doc' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'username' => 'required|string|max:15',
+            'doc' => 'required|string|max:30',
             'phone' => 'required|string|max:20',
-            'cellphone' => 'required|string|max:25',
+            'cellphone' => 'required|string|max:30',
             'notif' => 'max:2',
             'data' => 'max:255',
             'id_t_user' => 'required',
@@ -286,6 +305,7 @@ class UserController extends Controller
         }
        
         $user->name = $request->name;
+        $user->email = $request->email;
         $user->surname = $request->surname;
         $user->username = $request->username;
         $user->doc = $request->doc;

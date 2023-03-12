@@ -236,6 +236,8 @@ function TaskForm({
                                 max={50}
                                 handleChange={onChange}
                                 defaultValue={currentTask.name}
+                                required={true}
+                                onlyLetters={true}
                             />
                         </div>
                         <div className="col-span-1">
@@ -244,6 +246,8 @@ function TaskForm({
                                 name="entity"
                                 handleChange={onChange}
                                 defaultValue={currentTask.entity}
+                                required={true}
+                                maxLength={50}
                             />
                         </div>
                         <div className="col-span-1">
@@ -252,6 +256,7 @@ function TaskForm({
                                 name="dependency"
                                 handleChange={onChange}
                                 defaultValue={currentTask.dependency}
+                                maxLength={50}
                             />
                         </div>
                         {/*<div className="col-span-1">
@@ -349,6 +354,7 @@ function TaskForm({
                             rows="4"
                             onChange={onChange}
                             value={currentTask.desc}
+                            maxLength={255}
                         ></textarea>
                     </div>
                     <div className="flex flex-col w-full gap-4">
