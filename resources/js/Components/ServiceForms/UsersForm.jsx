@@ -8,7 +8,7 @@ import {
 } from "@/Constants/TipoDeUsuariosEnum";
 import { Head } from "@inertiajs/inertia-react";
 import Label from "../FormUtils/Label";
-import { getUsers, loadImageUser} from "@/Utils/FetchUsers";
+import { getUsers, loadImageUser, getUser} from "@/Utils/FetchUsers";
 import Button from "../FormUtils/Button";
 import SelectInput from "../FormUtils/SelectInput";
 import { createOrders,findOrders,deleteOrder } from "@/Utils/FetchOrder";
@@ -27,8 +27,9 @@ function UsersForm({ currentStep, setNextStep }) {
     useEffect(() => {
         if(serviceDTO.orders.length>0){
             serviceDTO.orders.forEach((order) => {  
-                getUsers({id: order.id_user}).then((res) => {
-                    setUsuariosSeleccionados((prev) => [...prev, res.data[0]]);
+                getUser(order.id_user).then((res) => {
+                    console.log(res);
+                    setUsuariosSeleccionados((prev) => [...prev, res]);
                 });
             });
         }
@@ -96,7 +97,6 @@ function UsersForm({ currentStep, setNextStep }) {
 
     const submitForm = (e) => {
         e.preventDefault();
-
         createOrders({
             orders: usuariosSeleccionados.map((user) => ({
                 id_user: user.id,
@@ -169,6 +169,7 @@ function UsersForm({ currentStep, setNextStep }) {
                                     {toStringTipoDeUsuariosEnum(user.id)}
                                 </Label>
                                 <Button
+                                    type="button"
                                     className="col-span-1 ml-auto mr-0"
                                     onClick={() => removeFromSelectedList(user)}
                                 >

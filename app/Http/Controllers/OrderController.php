@@ -134,8 +134,8 @@ class OrderController extends Controller
     public function destroy($id)
     {
         try {
-            $ids = $this->show($id)->pluck('id');
-            $orders = Order::destroy($ids);
+            $order = Order::find($id);
+            $order->delete();
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json(['error' => 'Order not found'], 404);
         }
