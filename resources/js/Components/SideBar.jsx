@@ -29,7 +29,7 @@ import { TipoDeUsuariosEnum } from "@/Constants/TipoDeUsuariosEnum";
 const SideBar = ({ user }) => {
     const seccionAdmin = [
         { title: "Usuarios ", icon: <FaUsers />, url: "users" },
-        { title: "Ventas", icon: <FaStore />, url: "services" ,
+        { title: "Ventas", icon: <FaStore />, url: "graph" ,
             gap: true
         },
         {
