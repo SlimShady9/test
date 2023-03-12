@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Container from "@/Components/Container";
 import Authenticated from "@/Layouts/Authenticated";
 import AreaGraph from "@/Components/Graph/AreaGraph";
+import ServiceGraph from "@/Components/Graph/ServiceGraph";
 import { getService } from "@/Utils/FetchService";
 
 export default function Graph(props) {
@@ -21,6 +22,7 @@ export default function Graph(props) {
                             {service?.tracking_id} PQRs
                         </h1>
                         <AreaGraph/>
+                        <ServiceGraph/>
                     </Container>
                 </Container>
             </Authenticated>
