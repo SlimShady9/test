@@ -4,7 +4,7 @@ import Container from "@/Components/Container";
 import Base from "@/Layouts/Base";
 import axios from "axios";
 import Input from "@/Components/FormUtils/Input";
-import Label from "@/Components/ema/Label";
+import Label from "@/Components/FormUtils/Label";
 import Checkbox from "@/Components/FormUtils/Checkbox";
 import Select from "react-select";
 import ValidationErrors from "@/Components/ValidationErrors";
@@ -15,6 +15,7 @@ import {
     TipoDeUsuariosEnum,
     toStringTipoDeUsuariosEnum,
 } from "@/Constants/TipoDeUsuariosEnum";
+import Login from "./Login";
 
 export default function Register() {
     const [optionsTD, setOptionsTD] = useState(
@@ -57,11 +58,10 @@ export default function Register() {
 
     const submitUser = (e) => {
         e.preventDefault();
-        console.log("Llega po favo edi");
         axios.post("/api/user", data).then((res) => {
-            
         });
-        window.location.href = route("login");
+        window.location.href = "/login";
+
     };
 
     return (
@@ -241,6 +241,7 @@ export default function Register() {
                     <div className="col-span-2 flex items-center justify-end mt-4 ">
                         <Link
                             href={route("login")}
+                            
                             className="underline text-sm text-gray-600 hover:text-gray"
                         >
                             ¿Ya se ha registrado?
