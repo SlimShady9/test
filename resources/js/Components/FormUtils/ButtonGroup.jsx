@@ -13,6 +13,7 @@ function ButtonGroup({ listButtons, className }) {
             {listButtons.map((button, index) => (
                 <button
                     key={index}
+                    type={button.type ? button.type : "button"}
                     onClick={button.onClick}
                     className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-white border border-gray-200 ${
                         index === 0 && "rounded-l-lg"

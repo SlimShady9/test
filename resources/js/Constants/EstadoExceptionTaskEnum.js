@@ -1,7 +1,7 @@
 const EstadoExceptionTaskEnum = Object.freeze({
     DESCONOCIDO: 1,
     DIRECCION_ERRADA: 2,
-    NO_RESIVE: 3,
+    NO_RECIBE: 3,
     REHUSADO: 4,
 });
 
@@ -11,8 +11,8 @@ const toStringEstadoExceptionTaskEnum = (value) => {
             return "Desconocido";
         case EstadoExceptionTaskEnum.DIRECCION_ERRADA:
             return "Dirección Errada";
-        case EstadoExceptionTaskEnum.NO_RESIVE:
-            return "No Resive";
+        case EstadoExceptionTaskEnum.NO_RECIBE:
+            return "No Recibe";
         case EstadoExceptionTaskEnum.REHUSADO:
             return "Rehusado";
         default:
