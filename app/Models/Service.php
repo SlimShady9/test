@@ -16,6 +16,7 @@ class Service extends Model
         'id_type_service',
         'created_date',
         'start_date',
+        'end_date',
         'description',
         'price',
         'cost',
@@ -32,7 +33,9 @@ class Service extends Model
 
     public function save(array $options = [])
     {
-        $this->tracking_id = $this->generateTrackingId();
+        if($this->tracking_id == null){
+            $this->tracking_id = $this->generateTrackingId();
+        }
         parent::save($options);
     }
 

@@ -161,6 +161,7 @@ export default function DeliveryProof(props) {
                         : { ...task, isLoading: false }
                 )
             );
+            getService(id);
         });
     };
 
@@ -216,7 +217,7 @@ export default function DeliveryProof(props) {
         e.preventDefault();
         var Obsevation = e.target.Obsevation.value;
         service.id_exception = e.target.exception.value;
-        service.description = service.description + " " + Obsevation;
+        service.description = service.description + " | " + Obsevation;
         const file = dataURLtoFile(sigPad.toDataURL(), "signature.png");
         const { status, data } = await uploadFile(file);
         if (status === 200) {
@@ -253,7 +254,7 @@ export default function DeliveryProof(props) {
                         </div>
                         <div
                             ref={componentRef}
-                            className="grid grid-cols-2 mx-auto w-11/12 md:w-4/5 my-5 border"
+                            className="grid grid-cols-2 mx-auto w-11/12 md:w-4/5 my-5 border bg-semitransparent"
                         >
                             <div className="row-span-2  mx-auto my-5">
                                 <ApplicationLogo />
@@ -314,7 +315,7 @@ export default function DeliveryProof(props) {
                                 <Label className="mr-2 m-auto">
                                     Finalización:
                                 </Label>
-                                <div className="ml-2 m-auto">{}</div>
+                                <div className="ml-2 m-auto">{service.end_date}</div>
                                 <Label className="mr-2 m-auto">
                                     Tipo de Servicio:
                                 </Label>
@@ -419,13 +420,13 @@ export default function DeliveryProof(props) {
                                                 <Label>Largo</Label>
                                             </div>
                                             <div className="m-auto">
-                                                {content.length} cm
+                                                {content?.length} cm
                                             </div>
                                             <div className="m-auto">
-                                                {content.width} cm
+                                                {content?.width} cm
                                             </div>
                                             <div className="m-auto">
-                                                {content.height} cm
+                                                {content?.height} cm
                                             </div>
                                         </div>
                                         <div className="grid grid-cols-2 sm:grid-cols-1">
@@ -434,7 +435,7 @@ export default function DeliveryProof(props) {
                                                     PESO UNITARIO:
                                                 </Label>
                                                 <div className="ml-2 m-auto">
-                                                    {content.unit_weight} Kg
+                                                    {content?.unit_weight} Kg
                                                 </div>
                                             </div>
                                             <div className="grid grid-cols-2 border-gray-servi border-t-2">
@@ -442,7 +443,7 @@ export default function DeliveryProof(props) {
                                                     UNIDADES:
                                                 </Label>
                                                 <div className="ml-2 m-auto">
-                                                    {content.units}
+                                                    {content?.units}
                                                 </div>
                                             </div>
                                         </div>
@@ -458,7 +459,7 @@ export default function DeliveryProof(props) {
                                         </Label>
                                         <div className="row-span-2 text-center">
                                             {toStringTipoDeCargaEnum(
-                                                content.t_carga
+                                                content?.t_carga
                                             )}
                                         </div>
                                     </div>
@@ -469,7 +470,7 @@ export default function DeliveryProof(props) {
                                             DICE CONTENER:
                                         </Label>
                                         <div className="row-span-2 text-center">
-                                            {content.content}
+                                            {content?.content}
                                         </div>
                                     </div>
                                 </div>
@@ -479,7 +480,7 @@ export default function DeliveryProof(props) {
                                             VALOR COMERCIAL:
                                         </Label>
                                         <div className="row-span-2">
-                                            ${" " + content.commercial_value}
+                                            ${" " + content?.commercial_value}
                                         </div>
                                     </div>
                                 </div>
@@ -489,7 +490,7 @@ export default function DeliveryProof(props) {
                             </div>
                             <div className="col-span-2 m-auto">
                                 {toStringExcepcionesEnum(
-                                    Number(content.id_exception)
+                                    Number(content?.id_exception)
                                 )}
                             </div>
                             <div className="col-span-2 text-center bg-gray-dark text-white border-t"></div>
@@ -608,10 +609,11 @@ export default function DeliveryProof(props) {
                                 </div>
                             </div>
                             <div className="col-span-2 border-t-2 border-gray-servi grid">
-                                <Label className="text-left ml-2">Firma:</Label>
+                                <Label className="text-left mx-auto">Firma:</Label>
                                 <div className="col-span-1 text-center text-gray-dark border mx-auto">
                                     {service.signature && (
                                         <img
+                                            className="bg-white"
                                             src={`http://localhost:8000/api/file/${service.signature}`}
                                             alt=""
                                         />
@@ -621,7 +623,7 @@ export default function DeliveryProof(props) {
                                             canvasProps={{
                                                 width: 300,
                                                 height: 100,
-                                                className: "sigCanvas",
+                                                className: "sigCanvas bg-white",
                                             }}
                                             clearOnResize={false}
                                             ref={(ref) => {
@@ -638,7 +640,7 @@ export default function DeliveryProof(props) {
                             </div>
                             <div className="col-span-2 border-t-2 sm:border-l-2 border-gray-servi">
                                 <Label className="text-left m-2">
-                                    Observaciones:
+                                    Observaciones Adicionales:
                                 </Label>
                                 <div className="m-2">
                                     <textarea
@@ -653,12 +655,13 @@ export default function DeliveryProof(props) {
                                 {
                                     onClick: handlePrint,
                                     icon: <FaPrint />,
-                                    text: "Imprimir",
+                                    text: "Imprimir Prueba",
                                 },
                                 {
-                                    icon: <FaSave />,
+                                    onClick: ()=>{},
+                                    icon: <FaSave/>,
                                     type: "submit",
-                                    text: "Guardar",
+                                    text: "Guardar Prueba",
                                 },
                                 {
                                     onClick: deleteSignature,
