@@ -9,7 +9,10 @@ import { getContent } from "@/Utils/FetchContent";
 import { toStringTipoDeServiciosEnum } from "@/Constants/TipoDeServiciosEnum";
 import { toStringTipoDeCargaEnum } from "@/Constants/TipoDeCargaEnum";
 import { toStringExcepcionesEnum } from "@/Constants/ExcepcionesEnum";
-import { toStringEstadoDeTareaEnum } from "@/Constants/EstadoDeTareaEnum";
+import {
+    EstadoDeTareaEnum,
+    toStringEstadoDeTareaEnum,
+} from "@/Constants/EstadoDeTareaEnum";
 import axios from "axios";
 import { dataURLtoFile } from "@/Utils/Functions";
 import { updateService } from "@/Utils/FetchService";
@@ -20,19 +23,55 @@ import { FaPrint, FaSave, FaTrash } from "react-icons/fa";
 import { getAddressByTask } from "@/Utils/FetchAddress";
 import { getTask, updateTask } from "@/Utils/FetchTask";
 import { useReactToPrint } from "react-to-print";
+import { getOrder } from "@/Utils/FetchOrder";
+import SelectInput from "@/Components/FormUtils/SelectInput";
+import { getUser } from "@/Utils/FetchUsers";
+import {
+    EstadoExceptionTaskEnum,
+    toStringEstadoExceptionTaskEnum,
+} from "@/Constants/EstadoExceptionTaskEnum";
+import ReactLoading from "react-loading";
 
 export default function DeliveryProof(props) {
-    const componentRef = useRef(null);
+    const componentRef = useRef();
+    const handlePrint = useReactToPrint({
+        content: () => componentRef.current,
+    });
 
+    const [mounted, setMounted] = useState(false);
+    const [exception, setException] = useState();
     const [sigPad, setSigPad] = useState(null);
     const [content, setContent] = useState([]);
     const [pri, setPri] = useState();
+    const [order, setOrder] = useState([]);
+    const [userS, setUserS] = useState([]);
     const [service, setService] = useState({});
     const [message, setMessage] = useState([]);
     const [tasks, setTasks] = useState([]);
     const [address, setAddress] = useState([]);
     const [id, setId] = useState(props.serviceId);
 
+    const userByService = (id) => {
+        getOrder(id).then(([res, err]) => {
+            setOrder(res);
+            res.map((order) => {
+                getUser(order.id_user).then((ress) => {
+                    setUserS((prev) => [
+                        ...prev,
+                        {
+                            label:
+                                ress.name +
+                                " " +
+                                ress.surname +
+                                " || " +
+                                ress.doc,
+                            value: order.id_user,
+                        },
+                    ]);
+                });
+            });
+        });
+    };
     const getService = (id) => {
         try {
             axios.get(`/api/service/${id}`).then((res) => {
@@ -68,35 +107,60 @@ export default function DeliveryProof(props) {
             res.map((task) => {
                 if (task.id_address) {
                     getAddressByTask(task.id).then(([res, err]) => {
-                        const newTask = { ...task, address: res.addr };
+                        const newTask = {
+                            ...task,
+                            address: res.addr,
+                            isLoadingTask: false,
+                        };
                         setTasks((oldTasks) => [...oldTasks, newTask]);
                     });
                 } else {
-                    setTasks((oldTasks) => [...oldTasks, task]);
+                    setTasks((oldTasks) => [
+                        ...oldTasks,
+                        { ...task, isLoadingTask: false },
+                    ]);
                 }
             });
         });
     };
 
-    const nextTaskState = (id) => {
-        if (tasks[id].id_state != 3) {
-            tasks[id].id_state = tasks[id].id_state + 1;
-            updateTask(tasks[id]).then((res) => {
-                const [nTask, error] = res;
-                if (error) {
-                    toast.error(error);
-                    return;
-                }
-                setTasks((prev) =>
-                    prev.map((task) => (task.id == nTask.id ? nTask : task))
-                );
-            });
-        }
-    };
-
-    const print = () => {
-        useReactToPrint({
-            content: () => componentRef.current,
+    const nextTaskState = (task, index) => {
+        console.log();
+        const newTask = {
+            ...tasks[index],
+            id_state:
+                (task.id_state + 1 === Object.keys(EstadoDeTareaEnum).length + 1
+                    ? 1
+                    : task.id_state + 1) %
+                (Object.keys(EstadoDeTareaEnum).length + 1),
+        };
+        setTasks((prev) => {
+            const prevTasks = [...prev];
+            prevTasks[index] = {
+                ...prevTasks[index],
+                isLoading: true,
+                id_state:
+                    (prev[index].id_state + 1 ===
+                    Object.keys(EstadoDeTareaEnum).length + 1
+                        ? 1
+                        : task.id_state + 1) %
+                    (Object.keys(EstadoDeTareaEnum).length + 1),
+            };
+            return prevTasks;
+        });
+        updateTask(newTask).then((res) => {
+            const [nTask, error] = res;
+            if (error) {
+                toast.error(error);
+                return;
+            }
+            setTasks((prev) =>
+                prev.map((task) =>
+                    task.id == nTask.id
+                        ? { ...nTask, isLoading: false }
+                        : { ...task, isLoading: false }
+                )
+            );
         });
     };
 
@@ -117,15 +181,25 @@ export default function DeliveryProof(props) {
         });
     };
 
+    const handleException = (e) => {
+        e.preventDefault();
+        setService((prev) => ({ ...prev, id_exception: e.target.value }));
+        console.log(service);
+    };
+
     useEffect(() => {
-        getService(id);
-        getMessaging(id);
-        getTaskAddress(id);
-        getAddress(id);
-        getContent(id).then((data) => {
-            const [res, error] = data;
-            setContent(res[0]);
-        });
+        if (!mounted) {
+            setMounted(true);
+            getService(id);
+            getMessaging(id);
+            getTaskAddress(id);
+            getAddress(id);
+            userByService(id);
+            getContent(id).then((data) => {
+                const [res, error] = data;
+                setContent(res[0]);
+            });
+        }
     }, []);
 
     const fechaActual = (separator) => {
@@ -138,7 +212,11 @@ export default function DeliveryProof(props) {
         }${separator}${year}`;
     };
 
-    const storeSignature = async () => {
+    const storeSignature = async (e) => {
+        e.preventDefault();
+        var Obsevation = e.target.Obsevation.value;
+        service.id_exception = e.target.exception.value;
+        service.description = service.description + " " + Obsevation;
         const file = dataURLtoFile(sigPad.toDataURL(), "signature.png");
         const { status, data } = await uploadFile(file);
         if (status === 200) {
@@ -167,336 +245,434 @@ export default function DeliveryProof(props) {
     return (
         <>
             <Authenticated {...props}>
-                <div className="">
-                    <div className="mt-5 w-full text-center text-3xl grid grid-rows-2">
-                        <Label>Prueba de Entrega de: </Label>
-                        {service.name}
-                    </div>
-                    <div
-                        ref={componentRef}
-                        className="grid grid-cols-2 mx-auto w-11/12 md:w-4/5 lg:w-2/5 my-5 border"
-                    >
-                        <div className="row-span-2  mx-auto my-5">
-                            <ApplicationLogo />
+                <form className="gap-4" onSubmit={storeSignature}>
+                    <div className="">
+                        <div className="mt-5 w-1000 text-center text-3xl grid grid-rows-2">
+                            <Label>Prueba de Entrega de: </Label>
+                            {service.name}
                         </div>
-                        <div className="grid border-l">
-                            <Label className=" text-center text-xl my-auto">
-                                SERVICURRIER
-                            </Label>
-                        </div>
-                        <div className="grid border-t border-l">
-                            <Label className=" text-center my-auto">
-                                Prueba de Entrega
-                            </Label>
-                        </div>
-                        <div className="col-span-2 sm:col-span-1 border-t">
-                            <div>
-                                <div className=" bg-gray-dark text-center text-white">
-                                    {" "}
-                                    Remitente
+                        <div
+                            ref={componentRef}
+                            className="grid grid-cols-2 mx-auto w-11/12 md:w-4/5 my-5 border"
+                        >
+                            <div className="row-span-2  mx-auto my-5">
+                                <ApplicationLogo />
+                            </div>
+                            <div className="grid border-l">
+                                <Label className=" text-center text-xl my-auto">
+                                    SERVICURRIER
+                                </Label>
+                            </div>
+                            <div className="grid border-t border-l">
+                                <Label className=" text-center my-auto">
+                                    Prueba de Entrega
+                                </Label>
+                            </div>
+                            <div className="col-span-2 sm:col-span-1 border-t">
+                                <div>
+                                    <div className=" bg-gray-dark text-center text-white">
+                                        {" "}
+                                        Remitente
+                                    </div>
+                                </div>
+                                <div className="mt-3">
+                                    <div className="m-2">{message.entity}</div>
+                                    <div className="m-2">
+                                        {message.name}, {message.charge}
+                                    </div>
+                                    <div className="m-2">
+                                        {address.country}, {address.region},{" "}
+                                        {address.city}
+                                    </div>
+                                    <div className="m-2">{address.addr}</div>
+                                    <div className="m-2">
+                                        {address.addr_detail}
+                                    </div>
                                 </div>
                             </div>
-                            <div className="mt-3">
-                                <div className="m-2">{message.entity}</div>
-                                <div className="m-2">
-                                    {message.name}, {message.charge}
+                            <div className="col-span-2 sm:col-span-1 grid grid-cols-2 border-t sm:border-l">
+                                <Label className="col-span-2 text-center bg-gray-servi">
+                                    No. de Guía
+                                </Label>
+                                <Label className="col-span-2 text-center bg-gray-servi">
+                                    {service.tracking_id}
+                                </Label>
+                                <Label className="mr-2 m-auto">Nombre:</Label>
+                                <div className="ml-2 m-auto">
+                                    {service.name}
                                 </div>
-                                <div className="m-2">
-                                    {address.country}, {address.region},{" "}
-                                    {address.city}
+                                <Label className="mr-2 m-auto">
+                                    Impresión:
+                                </Label>
+                                <div className="ml-2 m-auto">
+                                    {fechaActual("/")}
                                 </div>
-                                <div className="m-2">{address.addr}</div>
-                                <div className="m-2">{address.addr_detail}</div>
-                            </div>
-                        </div>
-                        <div className="col-span-2 sm:col-span-1 grid grid-cols-2 border-t sm:border-l">
-                            <Label className="col-span-2 text-center bg-gray-servi">
-                                No. de Guía
-                            </Label>
-                            <Label className="col-span-2 text-center bg-gray-servi">
-                                {service.tracking_id}
-                            </Label>
-                            <Label className="mr-2 m-auto">Nombre:</Label>
-                            <div className="ml-2 m-auto">{service.name}</div>
-                            <Label className="mr-2 m-auto">Impresión:</Label>
-                            <div className="ml-2 m-auto">
-                                {fechaActual("/")}
-                            </div>
-                            <Label className="mr-2 m-auto">Inicio:</Label>
-                            <div className="ml-2 m-auto">
-                                {service.start_date}
-                            </div>
-                            <Label className="mr-2 m-auto">Finalización:</Label>
-                            <div className="ml-2 m-auto">{}</div>
-                            <Label className="mr-2 m-auto">
-                                Tipo de Servicio:
-                            </Label>
-                            <div className="ml-2 m-auto">
-                                {toStringTipoDeServiciosEnum(
-                                    service.id_type_service
-                                )}
-                            </div>
-                            <Label className="mr-2 m-auto">
-                                Orden Interna:
-                            </Label>
-                            <div className="ml-2 m-auto">
-                                {message.intern_order}
-                            </div>
-                            <Label className="row-span-2 text-right mr-2 my-auto">
-                                Cargar a:
-                            </Label>
-                            <div className="text-left ml-2 my-auto">
-                                {message.cost_center}
-                            </div>
-                            <div className="text-left ml-2 my-auto">
-                                {message.dependency}
-                            </div>
-                        </div>
-                        <div className="col-span-2 bg-gray-dark text-center text-white">
-                            Destinatario(s)
-                        </div>
-                        {tasks.map((task, index) => (
-                            <div
-                                className="grid grid-cols-4 col-span-2 text-left m-2  border-b-2 border-gray-dark border-dotted"
-                                key={index}
-                            >
-                                <ul className="col-span-4 sm:col-span-3">
-                                    <li className="mt-2 border-l-4 border-gray-servi">
-                                        {index + 1}. {task.name}, {task.entity},{" "}
-                                        {task.dependency}
-                                    </li>
-                                    {task.address && (
-                                        <li className="mt-2 text-center">
-                                            {task.address} || {task.limit_date}
-                                        </li>
+                                <Label className="mr-2 m-auto">Inicio:</Label>
+                                <div className="ml-2 m-auto">
+                                    {service.start_date}
+                                </div>
+                                <Label className="mr-2 m-auto">
+                                    Finalización:
+                                </Label>
+                                <div className="ml-2 m-auto">{}</div>
+                                <Label className="mr-2 m-auto">
+                                    Tipo de Servicio:
+                                </Label>
+                                <div className="ml-2 m-auto">
+                                    {toStringTipoDeServiciosEnum(
+                                        service.id_type_service
                                     )}
-                                    <li className="mt-2 text-sm">
-                                        {task.desc}
-                                    </li>
-                                </ul>
-                                <div className="col-span-4 sm:col-span-1 flex">
-                                    <Button
-                                        onClick={() => nextTaskState(index)}
-                                        className="text-center sm:tracking-tighter mx-auto my-2 text-xs h-16 bg-yellow-cream"
-                                    >
-                                        {toStringEstadoDeTareaEnum(
-                                            Number(tasks[index].id_state)
-                                        )}
-                                    </Button>
+                                </div>
+                                <Label className="mr-2 m-auto">
+                                    Orden Interna:
+                                </Label>
+                                <div className="ml-2 m-auto">
+                                    {message.intern_order}
+                                </div>
+                                <Label className="row-span-2 text-right mr-2 my-auto">
+                                    Cargar a:
+                                </Label>
+                                <div className="text-left ml-2 my-auto">
+                                    {message.cost_center}
+                                </div>
+                                <div className="text-left ml-2 my-auto">
+                                    {message.dependency}
                                 </div>
                             </div>
-                        ))}
-                        <div className="col-span-2 text-center bg-gray-dark text-white border-t border-b">
-                            Contenido
-                        </div>
-                        <div className="col-span-2 text-center bg-gray-servi border-gray-servi border-b-2">
-                            <Label>TRANSPORTADORA: {message.transporter}</Label>
-                        </div>
-                        <div className="col-span-2 text-center bg-gray-servi border-gray-servi border-b-2">
-                            <Label>
-                                ID DE SEGUIMIENTO:{" "}
-                                {message.id_transporter_tracking}
-                            </Label>
-                        </div>
-                        <div className="col-span-2 sm:col-span-1 text-center border-gray-servi border-r-2">
-                            <div className="border-gray-servi border-b-2">
-                                <div className="col-span-3 border-gray-servi border-b-2">
-                                    <Label>VOLUMEN:</Label>
-                                </div>
-                                <div className="border-gray-servi">
-                                    <div className="row-span-2 grid grid-cols-3  my-3">
-                                        <div className="m-auto border-gray-servi border-b-2">
-                                            <Label>Alto</Label>
-                                        </div>
-                                        <div className="m-auto border-gray-servi border-b-2">
-                                            <Label>Ancho</Label>
-                                        </div>
-                                        <div className="m-auto border-gray-servi border-b-2">
-                                            <Label>Largo</Label>
-                                        </div>
-                                        <div className="m-auto">
-                                            {content.length} cm
-                                        </div>
-                                        <div className="m-auto">
-                                            {content.width} cm
-                                        </div>
-                                        <div className="m-auto">
-                                            {content.height} cm
-                                        </div>
-                                    </div>
-                                    <div className="grid grid-cols-2 sm:grid-cols-1">
-                                        <div className="grid grid-cols-2 border-gray-servi border-t-2">
-                                            <Label className="mr-2 m-auto">
-                                                PESO UNITARIO:
-                                            </Label>
-                                            <div className="ml-2 m-auto">
-                                                {content.unit_weight} Kg
-                                            </div>
-                                        </div>
-                                        <div className="grid grid-cols-2 border-gray-servi border-t-2">
-                                            <Label className="mr-2 m-auto">
-                                                UNIDADES:
-                                            </Label>
-                                            <div className="ml-2 m-auto">
-                                                {content.units}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div className="col-span-2 bg-gray-dark text-center text-white">
+                                Destinatario(s)
                             </div>
-                        </div>
-
-                        <div className="col-span-2 sm:col-span-1  grid grid-cols-2 text-center">
-                            <div className="flex col-span-2 border-gray-servi border-b-2">
-                                <div className="m-auto">
-                                    <Label className="row-span-2">
-                                        TIPO DE CONTENIDO:
-                                    </Label>
-                                    <div className="row-span-2 text-center">
-                                        {toStringTipoDeCargaEnum(
-                                            content.t_carga
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="flex col-span-2 border-gray-servi border-b-2">
-                                <div className="m-auto">
-                                    <Label className="row-span-2">
-                                        DICE CONTENER:
-                                    </Label>
-                                    <div className="row-span-2 text-center">
-                                        {content.content}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="flex col-span-2 border-gray-servi border-b-2">
-                                <div className="m-auto">
-                                    <Label className="row-span-2">
-                                        VALOR COMERCIAL:
-                                    </Label>
-                                    <div className="row-span-2">
-                                        ${" " + content.commercial_value}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="col-span-2 m-auto">
-                            <Label>EXCEPCION DEL SERVICIO: </Label>
-                        </div>
-                        <div className="col-span-2 m-auto">
-                            {toStringExcepcionesEnum(
-                                Number(content.id_exception)
-                            )}
-                        </div>
-                        <div className="col-span-2 text-center bg-gray-dark text-white border-t">
-                            Excepción de Entrega
-                        </div>
-                        <div className="col-span-2 grid grid-cols-2 lg:grid-cols-4 items-center">
-                            <div className="m-2 flex sm:mx-auto">
-                                <Checkbox name="desconocido" id="desconocido" />
-                                <Label
-                                    className="text-sm"
-                                    forInput="desconocido"
+                            {tasks.map((task, index) => (
+                                <div
+                                    className="grid grid-cols-4 col-span-2 text-left m-2  border-b-2 border-gray-dark border-dotted"
+                                    key={index}
                                 >
-                                    1. DESCONOCIDO
+                                    <ul className="col-span-4 sm:col-span-3">
+                                        <li className="mt-2 border-l-4 border-gray-servi">
+                                            {index + 1}. {task.name},{" "}
+                                            {task.entity}, {task.dependency}
+                                        </li>
+                                        {task.address && (
+                                            <li className="mt-2 text-center">
+                                                {task.address} ||{" "}
+                                                {task.limit_date}
+                                            </li>
+                                        )}
+                                        <li className="mt-2 text-sm">
+                                            {task.desc}
+                                        </li>
+                                    </ul>
+                                    <div className="col-span-4 sm:col-span-1 flex ">
+                                        <Button
+                                            type="button"
+                                            onClick={() =>
+                                                nextTaskState(task, index)
+                                            }
+                                            className="text-center sm:tracking-tighter mx-auto my-2 text-xs h-16 bg-yellow-cream"
+                                        >
+                                            {task.isLoading && (
+                                                <ReactLoading
+                                                    type="spin"
+                                                    height={40}
+                                                    width={40}
+                                                    color="#808080"
+                                                />
+                                            )}
+                                            {!task.isLoading &&
+                                                toStringEstadoDeTareaEnum(
+                                                    Number(
+                                                        tasks[index].id_state
+                                                    )
+                                                )}
+                                        </Button>
+                                    </div>
+                                </div>
+                            ))}
+                            <div className="col-span-2 text-center bg-gray-dark text-white border-t border-b">
+                                Contenido
+                            </div>
+                            <div className="col-span-2 text-center bg-gray-servi border-gray-servi border-b-2">
+                                <Label>
+                                    TRANSPORTADORA: {message.transporter}
                                 </Label>
                             </div>
-                            <div className="m-2 flex sm:mx-auto">
-                                <Checkbox name="direccion" id="direccion" />
-                                <Label className="text-sm" forInput="direccion">
-                                    2. DIRECCIÓN ERRADA
+                            <div className="col-span-2 text-center bg-gray-servi border-gray-servi border-b-2">
+                                <Label>
+                                    ID DE SEGUIMIENTO:{" "}
+                                    {message.id_transporter_tracking}
                                 </Label>
                             </div>
-                            <div className="m-2 flex sm:mx-auto">
-                                <Checkbox name="reside" id="reside" />
-                                <Label className="text-sm" forInput="reside">
-                                    3. NO RESIDE
-                                </Label>
+                            <div className="col-span-2 sm:col-span-1 text-center border-gray-servi border-r-2">
+                                <div className="border-gray-servi border-b-2">
+                                    <div className="col-span-3 border-gray-servi border-b-2">
+                                        <Label>VOLUMEN:</Label>
+                                    </div>
+                                    <div className="border-gray-servi">
+                                        <div className="row-span-2 grid grid-cols-3  my-3">
+                                            <div className="m-auto border-gray-servi border-b-2">
+                                                <Label>Alto</Label>
+                                            </div>
+                                            <div className="m-auto border-gray-servi border-b-2">
+                                                <Label>Ancho</Label>
+                                            </div>
+                                            <div className="m-auto border-gray-servi border-b-2">
+                                                <Label>Largo</Label>
+                                            </div>
+                                            <div className="m-auto">
+                                                {content.length} cm
+                                            </div>
+                                            <div className="m-auto">
+                                                {content.width} cm
+                                            </div>
+                                            <div className="m-auto">
+                                                {content.height} cm
+                                            </div>
+                                        </div>
+                                        <div className="grid grid-cols-2 sm:grid-cols-1">
+                                            <div className="grid grid-cols-2 border-gray-servi border-t-2">
+                                                <Label className="mr-2 m-auto">
+                                                    PESO UNITARIO:
+                                                </Label>
+                                                <div className="ml-2 m-auto">
+                                                    {content.unit_weight} Kg
+                                                </div>
+                                            </div>
+                                            <div className="grid grid-cols-2 border-gray-servi border-t-2">
+                                                <Label className="mr-2 m-auto">
+                                                    UNIDADES:
+                                                </Label>
+                                                <div className="ml-2 m-auto">
+                                                    {content.units}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="m-2 flex sm:mx-auto">
-                                <Checkbox name="rehusado" id="rehusado" />
-                                <Label className="text-sm" forInput="rehusado">
-                                    4. REHUSADO
-                                </Label>
+
+                            <div className="col-span-2 sm:col-span-1  grid grid-cols-2 text-center">
+                                <div className="flex col-span-2 border-gray-servi border-b-2">
+                                    <div className="m-auto">
+                                        <Label className="row-span-2">
+                                            TIPO DE CONTENIDO:
+                                        </Label>
+                                        <div className="row-span-2 text-center">
+                                            {toStringTipoDeCargaEnum(
+                                                content.t_carga
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex col-span-2 border-gray-servi border-b-2">
+                                    <div className="m-auto">
+                                        <Label className="row-span-2">
+                                            DICE CONTENER:
+                                        </Label>
+                                        <div className="row-span-2 text-center">
+                                            {content.content}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex col-span-2 border-gray-servi border-b-2">
+                                    <div className="m-auto">
+                                        <Label className="row-span-2">
+                                            VALOR COMERCIAL:
+                                        </Label>
+                                        <div className="row-span-2">
+                                            ${" " + content.commercial_value}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div className="col-span-2 text-center bg-gray-dark text-white border-t">
-                            Descripción del Servicio
-                        </div>
-                        <div className="col-span-2 text-center">
-                            <div className="text-justify m-2">
-                                {service.description}
+                            <div className="col-span-2 m-auto">
+                                <Label>EXCEPCION DEL SERVICIO: </Label>
                             </div>
-                        </div>
-                        <div className="col-span-2">
-                            <div className="text-center bg-gray-dark text-white">
-                                Recibido Por
-                            </div>
-                            <div className="text-center bg-gray-servi">
-                                Pepe Andrés Cruz Godoy - 1.000.036.533
-                            </div>
-                        </div>
-                        <div className="col-span-2 border-t-2 border-gray-servi grid">
-                            <Label className="text-left ml-2">Firma:</Label>
-                            <div className="col-span-1 text-center text-gray-dark border mx-auto">
-                                {service.signature && (
-                                    <img
-                                        src={`http://localhost:8000/api/file/${service.signature}`}
-                                        alt=""
-                                    />
+                            <div className="col-span-2 m-auto">
+                                {toStringExcepcionesEnum(
+                                    Number(content.id_exception)
                                 )}
-                                {!service.signature && (
-                                    <SignatureCanvas
-                                        canvasProps={{
-                                            width: 300,
-                                            height: 100,
-                                            className: "sigCanvas",
-                                        }}
-                                        clearOnResize={false}
-                                        ref={(ref) => {
-                                            setSigPad(ref);
-                                        }}
-                                    />
-                                )}
                             </div>
-                            <div className="m-2 text-xs text-center text-gray-dark border-t border-dotted">
-                                <div className="ml-2">
-                                    Autorizo tratamiento de datos
+                            <div className="col-span-2 text-center bg-gray-dark text-white border-t"></div>
+                            <div className="col-span-2 grid grid-cols-2 lg:grid-cols-4 items-center">
+                                <div>
+                                    <input
+                                        type="radio"
+                                        value="1"
+                                        className="mx-2"
+                                        checked={
+                                            service.id_exception ==
+                                            EstadoExceptionTaskEnum.DESCONOCIDO
+                                        }
+                                        onClick={() =>
+                                            setService((prev) => ({
+                                                ...prev,
+                                                id_exception:
+                                                    EstadoExceptionTaskEnum.DESCONOCIDO,
+                                            }))
+                                        }
+                                        name="exception"
+                                    />
+                                    <label>
+                                        {toStringEstadoExceptionTaskEnum(
+                                            EstadoExceptionTaskEnum.DESCONOCIDO
+                                        )}
+                                    </label>
+                                </div>
+                                <div>
+                                    <input
+                                        type="radio"
+                                        value="2"
+                                        className="mx-2"
+                                        checked={
+                                            service.id_exception ==
+                                            EstadoExceptionTaskEnum.DIRECCION_ERRADA
+                                        }
+                                        name="exception"
+                                        onClick={() =>
+                                            setService((prev) => ({
+                                                ...prev,
+                                                id_exception:
+                                                    EstadoExceptionTaskEnum.DIRECCION_ERRADA,
+                                            }))
+                                        }
+                                    />
+                                    <label>
+                                        {toStringEstadoExceptionTaskEnum(
+                                            EstadoExceptionTaskEnum.DIRECCION_ERRADA
+                                        )}
+                                    </label>
+                                </div>
+                                <div>
+                                    <input
+                                        type="radio"
+                                        value="3"
+                                        className="mx-2"
+                                        checked={
+                                            service.id_exception ==
+                                            EstadoExceptionTaskEnum.NO_RECIBE
+                                        }
+                                        onClick={() =>
+                                            setService((prev) => ({
+                                                ...prev,
+                                                id_exception:
+                                                    EstadoExceptionTaskEnum.NO_RECIBE,
+                                            }))
+                                        }
+                                        name="exception"
+                                    />
+                                    <label>
+                                        {toStringEstadoExceptionTaskEnum(
+                                            EstadoExceptionTaskEnum.NO_RECIBE
+                                        )}
+                                    </label>
+                                </div>
+                                <div>
+                                    <input
+                                        type="radio"
+                                        value="4"
+                                        className="mx-2"
+                                        checked={
+                                            service.id_exception ==
+                                            EstadoExceptionTaskEnum.REHUSADO
+                                        }
+                                        onClick={() =>
+                                            setService((prev) => ({
+                                                ...prev,
+                                                id_exception:
+                                                    EstadoExceptionTaskEnum.REHUSADO,
+                                            }))
+                                        }
+                                        name="exception"
+                                    />
+                                    <label>
+                                        {toStringEstadoExceptionTaskEnum(
+                                            EstadoExceptionTaskEnum.REHUSADO
+                                        )}
+                                    </label>
+                                </div>
+                            </div>
+                            <div className="col-span-2 text-center bg-gray-dark text-white border-t">
+                                Descripción del Servicio
+                            </div>
+                            <div className="col-span-2 text-center">
+                                <div className="text-justify m-2">
+                                    {service.description}
+                                </div>
+                            </div>
+                            <div className="col-span-2">
+                                <div className="text-center bg-gray-dark text-white">
+                                    Recibido Por
+                                </div>
+                                <div className="text-center bg-gray-servi">
+                                    <SelectInput options={userS} />
+                                </div>
+                            </div>
+                            <div className="col-span-2 border-t-2 border-gray-servi grid">
+                                <Label className="text-left ml-2">Firma:</Label>
+                                <div className="col-span-1 text-center text-gray-dark border mx-auto">
+                                    {service.signature && (
+                                        <img
+                                            src={`http://localhost:8000/api/file/${service.signature}`}
+                                            alt=""
+                                        />
+                                    )}
+                                    {!service.signature && (
+                                        <SignatureCanvas
+                                            canvasProps={{
+                                                width: 300,
+                                                height: 100,
+                                                className: "sigCanvas",
+                                            }}
+                                            clearOnResize={false}
+                                            ref={(ref) => {
+                                                setSigPad(ref);
+                                            }}
+                                        />
+                                    )}
+                                </div>
+                                <div className="m-2 text-xs text-center text-gray-dark border-t border-dotted">
+                                    <div className="ml-2">
+                                        Autorizo tratamiento de datos
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-span-2 border-t-2 sm:border-l-2 border-gray-servi">
+                                <Label className="text-left m-2">
+                                    Observaciones:
+                                </Label>
+                                <div className="m-2">
+                                    <textarea
+                                        className="h-24 w-full text-sm mx-auto"
+                                        name="Obsevation"
+                                    />
                                 </div>
                             </div>
                         </div>
-                        <div className="col-span-2 border-t-2 sm:border-l-2 border-gray-servi">
-                            <Label className="text-left m-2">
-                                Observaciones:
-                            </Label>
-                            <div className="m-2">
-                                <textarea className="h-24 w-full text-sm mx-auto" />
-                            </div>
-                        </div>
+                        <ButtonGroup
+                            listButtons={[
+                                {
+                                    onClick: handlePrint,
+                                    icon: <FaPrint />,
+                                    text: "Imprimir",
+                                },
+                                {
+                                    icon: <FaSave />,
+                                    type: "submit",
+                                    text: "Guardar",
+                                },
+                                {
+                                    onClick: deleteSignature,
+                                    icon: <FaTrash />,
+                                    text: "Borrar firma",
+                                },
+                            ]}
+                        />
                     </div>
-                    <ButtonGroup
-                        listButtons={[
-                            {
-                                onClick: print,
-                                icon: <FaPrint />,
-                                text: "Imprimir",
-                            },
-                            {
-                                onClick: storeSignature,
-                                icon: <FaSave />,
-                                text: "Guardar firma",
-                            },
-                            {
-                                onClick: deleteSignature,
-                                icon: <FaTrash />,
-                                text: "Borrar firma",
-                            },
-                        ]}
-                    />
-                </div>
-                <div id="ifmcontentstoprint"></div>
-                <iframe id="ifmcontentstoprint"></iframe>
+                    <div id="ifmcontentstoprint"></div>
+                    <iframe id="ifmcontentstoprint"></iframe>
+                </form>
             </Authenticated>
         </>
     );
 }
+const rootElement = document.getElementById("root");

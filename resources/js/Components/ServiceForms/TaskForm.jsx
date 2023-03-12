@@ -33,7 +33,7 @@ function TaskForm({
         name: "",
         entity: "",
         dependency: "",
-        id_state: EstadoDeTareaEnum.CREADO,
+        id_state: EstadoDeTareaEnum.PENDIENTE,
         id_address: -1,
         id_service: serviceDTO.service.id,
         desc: "",

@@ -6,6 +6,11 @@ const getUsers = async (params) => {
     return req.data;
 };
 
+const getUser = async (id) => {
+    const req = await axios.get(`/api/user/${id}`);
+    return req.data;
+};
+
 const updateUsers = async (user) => {
     try {
         const req = await axios.put(`/api/user/${user.id}`, user);
@@ -21,4 +26,4 @@ const loadImageUser = (user) => {
 
 };
 
-export { getUsers, loadImageUser , updateUsers};
+export { getUsers, loadImageUser , updateUsers, getUser};

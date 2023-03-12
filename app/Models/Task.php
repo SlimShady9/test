@@ -23,4 +23,24 @@ class Task extends Model
         
     ];
 
+    // OnUpdate -> trigger AfterUpdate
+    public function save(array $options = [])
+    {
+        // Check if all tasks related with this service are completed
+        // If yes, change service state to completed
+        $service = Service::find($this->id_service);
+        $tasks = Task::where('id_service', $service->id)->get();
+        $allCompleted = true;
+        foreach ($tasks as $task) {
+            if ($task->id_state != 3) {
+                $allCompleted = false;
+            }
+        }
+        if ($allCompleted) {
+            $service->id_state_service = 3;
+            $service->save();
+        }
+        parent::save($options);
+    }
+
 }

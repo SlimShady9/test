@@ -33,6 +33,7 @@ export default function ButtonGroup({ listButtons, className }) {
                         <button
                             key={index}
                             onClick={button.onClick}
+                            type={button.type || "button"}
                             className={`inline-flex items-center h-fit gap-2 px-4 py-2 text-sm font-medium bg-white border border-gray-200 ${
                                 index === 0 && "rounded-l-lg"
                             } ${
