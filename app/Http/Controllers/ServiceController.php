@@ -147,6 +147,7 @@ class ServiceController extends Controller {
         $service->id_type_service = $request->id_type_service;
         $service->description = $request->description;
         $service->start_date = $request->start_date;
+        $service->end_date = null;
         $service->price = $request->price;
         $service->cost = $request->cost;
         $service->address = $request->address ? $request->address : $service->address;
@@ -197,7 +198,7 @@ class ServiceController extends Controller {
     }
 
     public function serviceByUser($id_user)
-    { 
+    {
         $sql = 'SELECT s.tracking_id FROM services s 
         inner join orders o on s.id = o.id_service 
         inner join users u on u.id = o.id_user 

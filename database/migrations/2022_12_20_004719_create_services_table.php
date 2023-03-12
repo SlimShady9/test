@@ -22,6 +22,7 @@ return new class extends Migration
             $table->bigInteger('id_type_service')->unsigned();
             $table->timestamp('created_date')->useCurrent();
             $table->timestamp('start_date')->useCurrent();
+            $table->timestamp('end_date')->nullable();
             $table->string('description')->nullable();
             $table->unsignedDouble('price')->nullable();
             $table->unsignedDouble('cost')->nullable();

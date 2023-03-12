@@ -28,6 +28,7 @@ class Task extends Model
     {
         // Check if all tasks related with this service are completed
         // If yes, change service state to completed
+        parent::save($options);
         $service = Service::find($this->id_service);
         $tasks = Task::where('id_service', $service->id)->get();
         $allCompleted = true;
@@ -35,12 +36,14 @@ class Task extends Model
             if ($task->id_state != 3) {
                 $allCompleted = false;
             }
+            print($task->id_state);
         }
         if ($allCompleted) {
+            $service->end_date = now('-5');
             $service->id_state_service = 3;
             $service->save();
         }
-        parent::save($options);
+        
     }
 
 }
