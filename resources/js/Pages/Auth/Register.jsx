@@ -4,12 +4,13 @@ import Container from "@/Components/Container";
 import Base from "@/Layouts/Base";
 import axios from "axios";
 import Input from "@/Components/FormUtils/Input";
-import Label from "@/Components/FormUtils/Label";
+import Label from "@/Components/ema/Label";
 import Checkbox from "@/Components/FormUtils/Checkbox";
 import Select from "react-select";
 import ValidationErrors from "@/Components/ValidationErrors";
 import { Head, Link, useForm } from "@inertiajs/inertia-react";
 import SelectInput from "@/Components/FormUtils/SelectInput";
+import { TipoDocumentoEnum, toStringTipoDocumentoEnum } from "@/Constants/TipoDocumentoEnum";
 import {
     TipoDeUsuariosEnum,
     toStringTipoDeUsuariosEnum,
@@ -17,9 +18,9 @@ import {
 
 export default function Register() {
     const [optionsTD, setOptionsTD] = useState(
-        Object.keys(TipoDeUsuariosEnum).map((key) => ({
-            value: TipoDeUsuariosEnum[key],
-            label: toStringTipoDeUsuariosEnum(TipoDeUsuariosEnum[key]),
+        Object.keys(TipoDocumentoEnum).map((key) => ({
+            value: TipoDocumentoEnum[key],
+            label: toStringTipoDocumentoEnum(TipoDocumentoEnum[key]),
         }))
     );
     //Constantes de la página
@@ -55,11 +56,12 @@ export default function Register() {
     };
 
     const submitUser = (e) => {
-        //Load address on data
         e.preventDefault();
+        console.log("Llega po favo edi");
         axios.post("/api/user", data).then((res) => {
-            // Modal de juabito
+            
         });
+        window.location.href = route("login");
     };
 
     return (
