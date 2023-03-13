@@ -4,23 +4,6 @@ import { Line } from "react-chartjs-2";
 import { getServicesMonth } from "@/Utils/FetchGraph";
 
 export default function ServiceGraph(props) {
-    const [servicesM, setServicesM] = useState([]);
-
-    const [labels, setLabels] = useState([
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "July",
-    ]);
-
     const options = useState({
         responsive: true,
         plugins: {
@@ -33,28 +16,58 @@ export default function ServiceGraph(props) {
             },
         },
     });
+    const labels = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+    ];
 
-    const [servicios, setServicios] = useState([]);
-    const data = {
+    const [data, setData] = useState({
         labels,
         datasets: [
             {
                 fill: true,
                 label: "Servicios",
-                data: servicesM.map((res) => {
-                    1;
+                data: labels.map((res) => {
+                    0;
                 }),
                 borderColor: "rgb(53, 162, 235)",
                 backgroundColor: "rgba(53, 162, 235, 0.5)",
             },
         ],
-    };
+    });
 
     useEffect(() => {
         getServicesMonth().then((data) => {
-            setServicesM(data);
+            var nLabels = [];
+            var nData = [];
+            data.map(({ month, servicios }) => {
+                nLabels.push(month);
+                nData.push(servicios);
+            });
+            setData({
+                labels: nLabels,
+                datasets: [
+                    {
+                        fill: true,
+                        label: "Servicios",
+                        data: nData,
+                        borderColor: "rgb(53, 162, 235)",
+                        backgroundColor: "rgba(53, 162, 235, 0.5)",
+                    },
+                ],
+            });
         });
-    });
+    }, []);
 
     return (
         <>
@@ -66,7 +79,6 @@ export default function ServiceGraph(props) {
                 options={options}
                 data={data}
             />
-            ;
         </>
     );
 }
