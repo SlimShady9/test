@@ -13,4 +13,13 @@ const getServicesMonth = async () => {
     }
 };
 
-export { costxSellBymonth, getServicesMonth };
+const costXVolumen = async () => {
+    try {
+        const req = await axios.get(`/api/graph/costXVolumen`);
+        return req.data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export { costxSellBymonth, getServicesMonth, costXVolumen };

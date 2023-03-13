@@ -162,6 +162,8 @@ Route::get('/graph/costxSellBymonth', [GraphController::class, 'costxSellBymonth
 
 Route::get('/graph/servicesxTimeRange', [GraphController::class, 'servicesxTimeRange']);
 
+Route::get('/graph/costXVolumen', [GraphController::class, 'costXVolumen']);
+
 Route::post('order/multiple', [OrderController::class, 'createMultiple']);
 
 Route::resource('file', FileController::class);

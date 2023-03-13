@@ -23,18 +23,19 @@ class GraphController extends Controller {
     }
 
     public function servicesxTimeRange() {
-        $servicesxTimeRange = DB::select("SELECT COUNT(*) AS servicios, MONTHNAME(start_date) AS month FROM services GROUP BY MONTHNAME(start_date)");
+        $servicesxTimeRange = DB::select("SELECT COUNT(*) AS servicios, DATE_FORMAT(start_date, '%M-%Y', 'es_ES') AS month FROM services GROUP BY MONTHNAME(start_date)
+        ORDER BY start_date");
         return $servicesxTimeRange;
     }
 
     public function costxSellBymonth() {
-        $costxSellBymonth = DB::select("SELECT DATE_FORMAT(start_date, '%M', 'es_ES') AS month, SUM(cost) AS cost, SUM(price) AS price FROM services  GROUP BY MONTH(start_date)");
+        $costxSellBymonth = DB::select("SELECT DATE_FORMAT(start_date, '%M-%Y', 'es_ES') AS month, SUM(cost) AS cost, SUM(price) AS price, (SUM(price)-SUM(cost)) as profits FROM services GROUP BY MONTH(start_date) ORDER BY start_date");
         return $costxSellBymonth;
     }
 
     public function costXVolumen() {
-        $costxSellBymonth = DB::select("SELECT (c.width * c.height * c.length  ) as volumen, AVG(s.cost) AS cost, AVG(s.price) AS price, (s.price-s.cost) as ganancia FROM services s
-        inner join contents  c where c.service = s.id GROUP BY volumen");
+        $costxSellBymonth = DB::select("SELECT DATE_FORMAT(start_date, '%M-%Y', 'es_ES') AS month, (c.width * c.height * c.length  ) as volumen, AVG(s.cost) AS cost, AVG(s.price) AS price, (AVG(s.price)-AVG(s.cost)) as profits FROM services s
+        inner join contents  c where c.service = s.id GROUP BY volumen ORDER BY start_date");
         return $costxSellBymonth;
     }
 

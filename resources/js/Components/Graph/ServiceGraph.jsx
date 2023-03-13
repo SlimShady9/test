@@ -6,6 +6,14 @@ import { getServicesMonth } from "@/Utils/FetchGraph";
 export default function ServiceGraph(props) {
     const options = useState({
         responsive: true,
+        scales: {
+            x: {
+              beginAtZero: true,
+            },
+            y: {
+              beginAtZero: true,
+            }
+          },
         plugins: {
             legend: {
                 position: "top",
@@ -37,9 +45,7 @@ export default function ServiceGraph(props) {
             {
                 fill: true,
                 label: "Servicios",
-                data: labels.map((res) => {
-                    0;
-                }),
+                data: 0,
                 borderColor: "rgb(53, 162, 235)",
                 backgroundColor: "rgba(53, 162, 235, 0.5)",
             },
@@ -48,19 +54,19 @@ export default function ServiceGraph(props) {
 
     useEffect(() => {
         getServicesMonth().then((data) => {
-            var nLabels = [];
-            var nData = [];
-            data.map(({ month, servicios }) => {
-                nLabels.push(month);
-                nData.push(servicios);
+            const labels = [];
+            const dataSet1 = [];
+            data.map((data) => {
+                labels.push(data.month);
+                dataSet1.push(data.servicios);
             });
             setData({
-                labels: nLabels,
+                labels: labels,
                 datasets: [
                     {
                         fill: true,
                         label: "Servicios",
-                        data: nData,
+                        data: dataSet1,
                         borderColor: "rgb(53, 162, 235)",
                         backgroundColor: "rgba(53, 162, 235, 0.5)",
                     },
