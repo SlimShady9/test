@@ -75,10 +75,15 @@ const VolumeGraph = () => {
     if (loading) return <p>Loading...</p>;
     return (
     <>
+    <div>
     <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center ease-in duration-200">
-        Ventas
+        Volumen x Ventas
     </h1>
-    <Bar data={data} options={options}/>
+    <Bar 
+    className="bg-semiwhite rounded-xl shadow-xl"
+    data={data} 
+    options={options}/>
+    </div>
     </>
     )
 };

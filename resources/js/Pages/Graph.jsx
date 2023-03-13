@@ -7,23 +7,15 @@ import VolumeGraph from "@/Components/Graph/VolumeGraph";
 import { getService } from "@/Utils/FetchService";
 
 export default function Graph(props) {
-    const [service, setService] = useState(null);
-    useEffect(() => {
-        getService(props.serviceId).then((res) => {
-            setService(res[0]);
-        });
-    }, []);
-
+    
     return (
         <>
             <Authenticated {...props}>
-                <Container className="justify-center bg-opacity-30 shadow-xl">
-                    <Container className={"justify-center"}>
+                    <div className="grid sm:grid-cols-2  mx-5 gap-5">
                         <VolumeGraph />
                         <SalesGraph />
                         <ServiceGraph />
-                    </Container>
-                </Container>
+                    </div>
             </Authenticated>
         </>
     );
