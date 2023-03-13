@@ -10,7 +10,6 @@ use App\Models\TypeService;
 use App\Models\StateService;
 use Illuminate\Support\Facades\DB;
 
-use Barryvdh\Debugbar\Facade as Debugbar;
 
 class ServiceController extends Controller {
 
