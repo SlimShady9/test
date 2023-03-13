@@ -1,30 +1,7 @@
 import React from "react";
 import { useEffect, useState, useRef } from "react";
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Filler,
-    Legend,
-} from "chart.js";
 import { Line } from "react-chartjs-2";
-import axios from "axios";
 import { getServicesMonth } from "@/Utils/FetchGraph";
-
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Filler,
-    Legend
-);
 
 export default function ServiceGraph(props) {
     const [servicesM, setServicesM] = useState([]);
@@ -73,13 +50,9 @@ export default function ServiceGraph(props) {
         ],
     };
 
-
     useEffect(() => {
-        getServicesMonth().then((data)=>{
+        getServicesMonth().then((data) => {
             setServicesM(data);
-        });
-        servicesM.map((res, index) =>{
-            servicios.push(res[index].servicios);
         });
     });
 
