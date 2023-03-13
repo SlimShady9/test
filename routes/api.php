@@ -160,6 +160,8 @@ Route::post('/email', [EmailController::class, 'emailPqrs']);
 
 Route::get('/graph/costxSellBymonth', [GraphController::class, 'costxSellBymonth']);
 
+Route::get('/graph/servicesxTimeRange', [GraphController::class, 'servicesxTimeRange']);
+
 Route::post('order/multiple', [OrderController::class, 'createMultiple']);
 
 Route::resource('file', FileController::class);
