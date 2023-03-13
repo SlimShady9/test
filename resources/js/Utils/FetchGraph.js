@@ -4,4 +4,13 @@ const costxSellBymonth = async () => {
     return req.data;
 };
 
-export { costxSellBymonth };
+const getServicesMonth = async () => {
+    try {
+        const req = await axios.get(`/api/graph/servicesxTimeRange`);
+        return req.data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export { costxSellBymonth, getServicesMonth };

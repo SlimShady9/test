@@ -22,6 +22,11 @@ class GraphController extends Controller {
        
     }
 
+    public function servicesxTimeRange() {
+        $servicesxTimeRange = DB::select("SELECT COUNT(*) AS servicios, MONTHNAME(start_date) AS month FROM services GROUP BY MONTHNAME(start_date)");
+        return $servicesxTimeRange;
+    }
+
     public function costxSellBymonth() {
         $costxSellBymonth = DB::select("SELECT MONTHNAME(start_date) AS month, SUM(cost) AS cost, SUM(price) AS price FROM services  GROUP BY MONTH(start_date)");
         return $costxSellBymonth;
