@@ -33,7 +33,7 @@ class GraphController extends Controller {
     }
 
     public function costXVolumen() {
-        $costxSellBymonth = DB::select("SELECT (c.width * c.height * c.length  ) as volumen, SUM(s.cost) AS cost, SUM(s.price) AS price, (s.price-s.cost) as ganancia FROM services s
+        $costxSellBymonth = DB::select("SELECT (c.width * c.height * c.length  ) as volumen, AVG(s.cost) AS cost, AVG(s.price) AS price, (s.price-s.cost) as ganancia FROM services s
         inner join contents  c where c.service = s.id GROUP BY volumen");
         return $costxSellBymonth;
     }
