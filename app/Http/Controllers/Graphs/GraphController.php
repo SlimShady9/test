@@ -23,7 +23,7 @@ class GraphController extends Controller {
     }
 
     public function costxSellBymonth() {
-        $costxSellBymonth = DB::select("SELECT MONTHNAME(start_date) AS month, SUM(cost) AS cost, SUM(price) AS price FROM services  GROUP BY MONTH(start_date)");
+        $costxSellBymonth = DB::select("SELECT DATE_FORMAT(start_date, '%M', 'es_ES') AS month, SUM(cost) AS cost, SUM(price) AS price FROM services  GROUP BY MONTH(start_date)");
         return $costxSellBymonth;
     }
 

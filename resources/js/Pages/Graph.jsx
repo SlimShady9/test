@@ -22,7 +22,6 @@ export default function Graph(props) {
                             {service?.tracking_id} PQRs
                         </h1>
                         <AreaGraph/>
-                        <ServiceGraph/>
                     </Container>
                 </Container>
             </Authenticated>
