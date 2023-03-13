@@ -10,7 +10,7 @@ import nombre from "../../imgs/nombre.png";
 import camion from "../../imgs/camion.png";
 import mundo from "../../imgs/mundo.png";
 import documento from "../../imgs/document.png";
-import { GrEdit, GrGoogle, GrDown, GrUp } from "react-icons/gr";
+import { GrDown, GrUp } from "react-icons/gr";
 import { welcome, title, mainText } from "@/Utils/FetchParameters";
 
 const associates = [{ name: "", icon: "", url: "" }];
@@ -115,9 +115,7 @@ export default function Welcome(props) {
                         className={
                             "text-center hover:scale-110 ease-in duration-200"
                         }
-                    >
-
-                    </Container>
+                    ></Container>
                 </Card>
                 <Card
                     className={
@@ -171,9 +169,7 @@ export default function Welcome(props) {
                         className={
                             "text-center hover:scale-110 ease-in duration-200"
                         }
-                    >
-
-                    </Container>
+                    ></Container>
                 </Card>
                 <Card
                     className={
@@ -231,9 +227,7 @@ export default function Welcome(props) {
                         className={
                             "text-center hover:scale-110 ease-in duration-200"
                         }
-                    >
-
-                    </Container>
+                    ></Container>
                 </Card>
                 <Card
                     className={
@@ -277,9 +271,7 @@ export default function Welcome(props) {
                         className={
                             "text-center hover:scale-110 ease-in duration-200"
                         }
-                    >
-
-                    </Container>
+                    ></Container>
                 </Card>
             </div>
             <Container className={"flex justify-center"}>

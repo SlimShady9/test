@@ -6,9 +6,7 @@ import Card from "@/Components/Card";
 import Input from "@/Components/FormUtils/Input";
 import axios from "axios";
 import Label from "@/Components/FormUtils/Label";
-import Checkbox from "@/Components/FormUtils/Checkbox";
-import Select from "react-select";
-import { Head, Link, useForm } from "@inertiajs/inertia-react";
+import { Head } from "@inertiajs/inertia-react";
 import {
     TipoDocumentoEnum,
     toStringTipoDocumentoEnum,
@@ -291,7 +289,7 @@ export default function RegisterUser(props) {
                                     className="bg-green-light"
                                     type="submit"
                                 >
-                                    Generar
+                                    Guardar
                                 </Button>
                             </div>
                         </div>

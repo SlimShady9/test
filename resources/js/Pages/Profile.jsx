@@ -231,7 +231,7 @@ export default function Profile(props) {
                                     className="bg-green-light"
                                     type="submit"
                                 >
-                                    Generar
+                                    Guardar
                                 </Button>
                             </div>
                         </Card>

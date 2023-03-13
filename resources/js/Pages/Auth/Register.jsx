@@ -1,24 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Button from "@/Components/FormUtils/Button";
 import Container from "@/Components/Container";
 import Base from "@/Layouts/Base";
 import axios from "axios";
 import Input from "@/Components/FormUtils/Input";
 import Label from "@/Components/FormUtils/Label";
-import Checkbox from "@/Components/FormUtils/Checkbox";
-import Select from "react-select";
-import ValidationErrors from "@/Components/ValidationErrors";
 import { Head, Link, useForm } from "@inertiajs/inertia-react";
 import SelectInput from "@/Components/FormUtils/SelectInput";
 import {
     TipoDocumentoEnum,
     toStringTipoDocumentoEnum,
 } from "@/Constants/TipoDocumentoEnum";
-import {
-    TipoDeUsuariosEnum,
-    toStringTipoDeUsuariosEnum,
-} from "@/Constants/TipoDeUsuariosEnum";
-import Login from "./Login";
+import { TipoDeUsuariosEnum } from "@/Constants/TipoDeUsuariosEnum";
 
 export default function Register() {
     const [optionsTD, setOptionsTD] = useState(
