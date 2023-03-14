@@ -164,7 +164,7 @@ Route::get('/graph/servicesxTimeRange', [GraphController::class, 'servicesxTimeR
 
 Route::get('/graph/costXVolumen', [GraphController::class, 'costXVolumen']);
 
-Route::get('/graph/costXWeight', [GraphController::class, 'costXVolumen']);
+Route::get('/graph/costXWeight', [GraphController::class, 'costXWeight']);
 
 Route::post('order/multiple', [OrderController::class, 'createMultiple']);
 
