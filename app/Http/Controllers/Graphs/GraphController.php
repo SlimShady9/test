@@ -81,7 +81,7 @@ class GraphController extends Controller {
     }
 
     public function ServiceByStateService() {
-        $costxSellBymonth = DB::select("SELECT count(s.id), s.id_state_service  from services s group by s.id_state_service");
+        $costxSellBymonth = DB::select("SELECT count(s.id) as id, s.id_state_service  from services s group by s.id_state_service");
         return $costxSellBymonth;
     }
 
