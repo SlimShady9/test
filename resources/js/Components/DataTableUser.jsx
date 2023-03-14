@@ -9,6 +9,7 @@ import { Link } from "@inertiajs/inertia-react";
 import DataTable from "react-data-table-component";
 import Button from "./FormUtils/Button";
 import { toStringTipoDocumentoEnumShort } from "@/Constants/TipoDocumentoEnum";
+
 import Container from "./Container";
 import { findOrders } from "@/Utils/FetchOrder";
 import { toStringTipoDeUsuariosEnum } from "@/Constants/TipoDeUsuariosEnum";
@@ -66,7 +67,13 @@ const DatatableUser = ({ lUser }) => {
         {
             name: "Correo",
             selector: (row) => (
-                <a href={"http://"+row.email} target="_blank" className="bg-blue">{row.email}</a>
+                <a
+                    href={"http://" + row.email}
+                    target="_blank"
+                    className="bg-blue"
+                >
+                    {row.email}
+                </a>
             ),
         },
         {

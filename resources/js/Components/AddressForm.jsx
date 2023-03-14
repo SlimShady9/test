@@ -112,8 +112,8 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
 
     return (
         <div>
-            <form onSubmit={submit}>
-                <div className="col-span-1 my-3">
+            <form onSubmit={submit} className="">
+                <div className="flex flex-col my-3">
                     <Label forInput="name">Nombre del Lugar</Label>
                     <Input
                         name="name"
@@ -124,8 +124,8 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
                         alpaNumeric={true}
                     />
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="col-span-1">
+                <div className="flex md:flex-row gap-4">
+                    <div className="md:w-1/2 w-full">
                         <Label forInput="addr">Dirección</Label>
                         <Input
                             name="addr"
@@ -135,7 +135,7 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
                             maxLength={50}
                         />
                     </div>
-                    <div className="col-span-1">
+                    <div className="md:w-1/2 w-full">
                         <Label forInput="postal_code">Código postal</Label>
                         <Input
                             name="postal_code"
@@ -146,8 +146,10 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
                             onlyNumbers={true}
                         />
                     </div>
+                </div>
 
-                    <div className="col-span-1">
+                <div className="flex flex-row gap-4">
+                    <div className="md:w-1/2">
                         <Label forInput="country">País</Label>
                         <SelectInput
                             value={data.country}
@@ -164,7 +166,7 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
                             }))}
                         />
                     </div>
-                    <div className="col-span-1">
+                    <div className="md:w-1/2">
                         <Label forInput="region">Región</Label>
                         <SelectInput
                             value={data.region}
@@ -181,7 +183,9 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
                             }))}
                         />
                     </div>
-                    <div className="col-span-1">
+                </div>
+                <div className="flex gap-4">
+                    <div className="md:w-1/2">
                         <Label forInput="city">Ciudad</Label>
                         <SelectInput
                             value={data.city}
@@ -198,7 +202,7 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
                             }))}
                         />
                     </div>
-                    <div className="col-span-1">
+                    <div className="md:w-1/2">
                         <Label forInput="postal_code">Localidad / Barrio</Label>
                         <Input
                             name="neighborhood"
@@ -210,16 +214,16 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
                             maxLength={30}
                         />
                     </div>
-                    <div className="col-span-2">
-                        <Label forInput="addr_detail">Detalles Dirección</Label>
-                        <Input
-                            name="addr_detail"
-                            handleChange={(e) => handleChange(e, "addr_detail")}
-                            defaultValue={data.addr_detail}
-                            maxLength={255}
-                            onlyLetters={true}
-                        />
-                    </div>
+                </div>
+                <div className="w-full">
+                    <Label forInput="addr_detail">Detalles Dirección</Label>
+                    <Input
+                        name="addr_detail"
+                        handleChange={(e) => handleChange(e, "addr_detail")}
+                        defaultValue={data.addr_detail}
+                        maxLength={255}
+                        onlyLetters={true}
+                    />
                 </div>
 
                 <div className="flex flex-col w-full gap-4">

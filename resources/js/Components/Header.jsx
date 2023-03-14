@@ -4,12 +4,11 @@ import { Link } from "@inertiajs/inertia-react";
 import ApplicationLogo from "./ApplicationLogo";
 import Label from "./FormUtils/Label";
 import barras from "../../imgs/barras.png";
-import { GrHome, GrInfo, GrContact, GrLogin, GrEdit } from "react-icons/gr";
+import { GrHome, GrContact, GrLogin, GrEdit } from "react-icons/gr";
 
 function NavBar({ className }) {
     let Links = [
         { name: "Inicio", link: "/", icon: <GrHome className="mr-0" /> },
-        { name: "Nosotros", link: "/", icon: <GrInfo className="mr-0" /> },
         {
             name: "Contáctenos",
             link: "/",
@@ -24,7 +23,7 @@ function NavBar({ className }) {
     ];
     let [open, setOpen] = useState(false);
     return (
-        <div className="shadow-md bg-gradient-to-r from-white to-blue-light w-full top-0 left-0 sticky z-10">
+        <div className="shadow-md bg-gradient-to-r from-white to-blue-light w-full top-0 left-0 z-10">
             <div className="md:flex justify-center">
                 <div className="flex m-5">
                     <ApplicationLogo />

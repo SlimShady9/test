@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Container from "@/Components/Container";
 import Authenticated from "@/Layouts/Authenticated";
 import DatatableUser from "@/Components/DataTableUser";

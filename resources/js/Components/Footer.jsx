@@ -3,7 +3,7 @@ import React from "react";
 function Footer({ className }) {
     return (
         <footer
-            className={`relative shadow-md bg-gradient-to-r from-white to-blue-light bg-bg-secondary text-text-primary ${className}`}
+            className={`shadow-md bg-gradient-to-r from-white to-blue-light bg-bg-secondary text-text-primary ${className}`}
         >
             <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-6 sm:px-8 px-5 py-16">
                 <ul>

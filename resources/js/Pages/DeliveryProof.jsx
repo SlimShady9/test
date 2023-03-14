@@ -1,8 +1,7 @@
-import { useEffect, useState, useRef } from "react";
+import react, { useEffect, useState, useRef } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import Label from "@/Components/FormUtils/Label";
-import Checkbox from "@/Components/FormUtils/Checkbox";
 import Button from "@/Components/FormUtils/Button";
 import SignatureCanvas from "react-signature-canvas";
 import { getContent } from "@/Utils/FetchContent";
@@ -19,7 +18,7 @@ import { updateService } from "@/Utils/FetchService";
 import { uploadFile } from "@/Utils/FetchFile";
 import { toast } from "react-toastify";
 import ButtonGroup from "@/Components/FormUtils/ButtonGroup";
-import { FaPrint, FaSave, FaTrash } from "react-icons/fa";
+import { FaEraser, FaPrint, FaSave, FaTrash } from "react-icons/fa";
 import { getAddressByTask } from "@/Utils/FetchAddress";
 import { getTask, updateTask } from "@/Utils/FetchTask";
 import { useReactToPrint } from "react-to-print";
@@ -31,6 +30,7 @@ import {
     toStringEstadoExceptionTaskEnum,
 } from "@/Constants/EstadoExceptionTaskEnum";
 import ReactLoading from "react-loading";
+import React from "react";
 
 export default function DeliveryProof(props) {
     const componentRef = useRef();
@@ -200,7 +200,6 @@ export default function DeliveryProof(props) {
                 const [res, error] = data;
                 setContent(res);
             });
-            console.log(content);
         }
     }, []);
 
@@ -277,20 +276,28 @@ export default function DeliveryProof(props) {
                                         Remitente
                                     </div>
                                 </div>
-                                <div className="mt-3">
-                                    <div className="m-2">{message.entity}</div>
-                                    <div className="m-2">
-                                        {message.name}, {message.charge}
-                                    </div>
-                                    <div className="m-2">
-                                        {address.country}, {address.region},{" "}
-                                        {address.city}
-                                    </div>
-                                    <div className="m-2">{address.addr}</div>
-                                    <div className="m-2">
-                                        {address.addr_detail}
-                                    </div>
-                                </div>
+                                {message && address && (
+                                    <>
+                                        <div className="mt-3">
+                                            <div className="m-2">
+                                                {message.entity}
+                                            </div>
+                                            <div className="m-2">
+                                                {message.name}, {message.charge}
+                                            </div>
+                                            <div className="m-2">
+                                                {address.country},{" "}
+                                                {address.region}, {address.city}
+                                            </div>
+                                            <div className="m-2">
+                                                {address.addr}
+                                            </div>
+                                            <div className="m-2">
+                                                {address.addr_detail}
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
                             </div>
                             <div className="col-span-2 sm:col-span-1 grid grid-cols-2 border-t sm:border-l">
                                 <Label className="col-span-2 text-center bg-gray-servi">
@@ -316,7 +323,9 @@ export default function DeliveryProof(props) {
                                 <Label className="mr-2 m-auto">
                                     Finalización:
                                 </Label>
-                                <div className="ml-2 m-auto">{service.end_date}</div>
+                                <div className="ml-2 m-auto">
+                                    {service.end_date}
+                                </div>
                                 <Label className="mr-2 m-auto">
                                     Tipo de Servicio:
                                 </Label>
@@ -325,183 +334,221 @@ export default function DeliveryProof(props) {
                                         service.id_type_service
                                     )}
                                 </div>
-                                <Label className="mr-2 m-auto">
-                                    Orden Interna:
-                                </Label>
-                                <div className="ml-2 m-auto">
-                                    {message.intern_order}
-                                </div>
-                                <Label className="row-span-2 text-right mr-2 my-auto">
-                                    Cargar a:
-                                </Label>
-                                <div className="text-left ml-2 my-auto">
-                                    {message.cost_center}
-                                </div>
-                                <div className="text-left ml-2 my-auto">
-                                    {message.dependency}
-                                </div>
-                            </div>
-                            <div className="col-span-2 bg-gray-dark text-center text-white">
-                                Destinatario(s)
-                            </div>
-                            {tasks.map((task, index) => (
-                                <div
-                                    className="grid grid-cols-4 col-span-2 text-left m-2  border-b-2 border-gray-dark border-dotted"
-                                    key={index}
-                                >
-                                    <ul className="col-span-4 sm:col-span-3">
-                                        <li className="mt-2 border-l-4 border-gray-servi">
-                                            {index + 1}. {task.name},{" "}
-                                            {task.entity}, {task.dependency}
-                                        </li>
-                                        {task.address && (
-                                            <li className="mt-2 text-center">
-                                                {task.address} ||{" "}
-                                                {task.limit_date}
-                                            </li>
-                                        )}
-                                        <li className="mt-2 text-sm">
-                                            {task.desc}
-                                        </li>
-                                    </ul>
-                                    <div className="col-span-4 sm:col-span-1 flex ">
-                                        <Button
-                                            type="button"
-                                            onClick={() =>
-                                                nextTaskState(task, index)
-                                            }
-                                            className="text-center sm:tracking-tighter mx-auto my-2 text-xs h-16 bg-yellow-cream"
-                                        >
-                                            {task.isLoading && (
-                                                <ReactLoading
-                                                    type="spin"
-                                                    height={40}
-                                                    width={40}
-                                                    color="#808080"
-                                                />
-                                            )}
-                                            {!task.isLoading &&
-                                                toStringEstadoDeTareaEnum(
-                                                    Number(
-                                                        tasks[index].id_state
-                                                    )
-                                                )}
-                                        </Button>
-                                    </div>
-                                </div>
-                            ))}
-                            <div className="col-span-2 text-center bg-gray-dark text-white border-t border-b">
-                                Contenido
-                            </div>
-                            <div className="col-span-2 text-center bg-gray-servi border-gray-servi border-b-2">
-                                <Label>
-                                    TRANSPORTADORA: {message.transporter}
-                                </Label>
-                            </div>
-                            <div className="col-span-2 text-center bg-gray-servi border-gray-servi border-b-2">
-                                <Label>
-                                    ID DE SEGUIMIENTO:{" "}
-                                    {message.id_transporter_tracking}
-                                </Label>
-                            </div>
-                            <div className="col-span-2 sm:col-span-1 text-center border-gray-servi border-r-2">
-                                <div className="border-gray-servi border-b-2">
-                                    <div className="col-span-3 border-gray-servi border-b-2">
-                                        <Label>VOLUMEN:</Label>
-                                    </div>
-                                    <div className="border-gray-servi">
-                                        <div className="row-span-2 grid grid-cols-3  my-3">
-                                            <div className="m-auto border-gray-servi border-b-2">
-                                                <Label>Alto</Label>
-                                            </div>
-                                            <div className="m-auto border-gray-servi border-b-2">
-                                                <Label>Ancho</Label>
-                                            </div>
-                                            <div className="m-auto border-gray-servi border-b-2">
-                                                <Label>Largo</Label>
-                                            </div>
-                                            <div className="m-auto">
-                                                {content?.length} cm
-                                            </div>
-                                            <div className="m-auto">
-                                                {content?.width} cm
-                                            </div>
-                                            <div className="m-auto">
-                                                {content?.height} cm
-                                            </div>
-                                        </div>
-                                        <div className="grid grid-cols-2 sm:grid-cols-1">
-                                            <div className="grid grid-cols-2 border-gray-servi border-t-2">
-                                                <Label className="mr-2 m-auto">
-                                                    PESO UNITARIO:
-                                                </Label>
-                                                <div className="ml-2 m-auto">
-                                                    {content?.unit_weight} Kg
-                                                </div>
-                                            </div>
-                                            <div className="grid grid-cols-2 border-gray-servi border-t-2">
-                                                <Label className="mr-2 m-auto">
-                                                    UNIDADES:
-                                                </Label>
-                                                <div className="ml-2 m-auto">
-                                                    {content?.units}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="col-span-2 sm:col-span-1  grid grid-cols-2 text-center">
-                                <div className="flex col-span-2 border-gray-servi border-b-2">
-                                    <div className="m-auto">
-                                        <Label className="row-span-2">
-                                            TIPO DE CONTENIDO:
+                                {message && (
+                                    <>
+                                        <Label className="mr-2 m-auto">
+                                            Orden Interna:
                                         </Label>
-                                        <div className="row-span-2 text-center">
-                                            {toStringTipoDeCargaEnum(
-                                                content?.t_carga
-                                            )}
+                                        <div className="ml-2 m-auto">
+                                            {message.intern_order}
                                         </div>
-                                    </div>
-                                </div>
-                                <div className="flex col-span-2 border-gray-servi border-b-2">
-                                    <div className="m-auto">
-                                        <Label className="row-span-2">
-                                            DICE CONTENER:
+                                        <Label className="row-span-2 text-right mr-2 my-auto">
+                                            Cargar a:
                                         </Label>
-                                        <div className="row-span-2 text-center">
-                                            {content?.content}
+                                        <div className="text-left ml-2 my-auto">
+                                            {message.cost_center}
                                         </div>
-                                    </div>
-                                </div>
-                                <div className="flex col-span-2 border-gray-servi border-b-2">
-                                    <div className="m-auto">
-                                        <Label className="row-span-2">
-                                            VALOR COMERCIAL:
-                                        </Label>
-                                        <div className="row-span-2">
-                                            ${" " + content?.commercial_value}
+                                        <div className="text-left ml-2 my-auto">
+                                            {message.dependency}
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-span-2 m-auto">
-                                <Label>EXCEPCION DEL SERVICIO: </Label>
-                            </div>
-                            <div className="col-span-2 m-auto">
-                                {toStringExcepcionesEnum(
-                                    Number(content?.id_exception)
+                                    </>
                                 )}
                             </div>
-                            <div className="col-span-2 text-center bg-gray-dark text-white border-t"></div>
+                            {tasks.map((task, index) => (
+                                <React.Fragment key={index}>
+                                    <div className="col-span-2 bg-gray-dark text-center text-white">
+                                        Destinatario(s)
+                                    </div>
+                                    <div
+                                        className="grid grid-cols-4 col-span-2 text-left m-2  border-b-2 border-gray-dark border-dotted"
+                                        key={index}
+                                    >
+                                        <ul className="col-span-4 sm:col-span-3">
+                                            <li className="mt-2 border-l-4 border-gray-servi">
+                                                {index + 1}. {task.name},{" "}
+                                                {task.entity}, {task.dependency}
+                                            </li>
+                                            {task.address && (
+                                                <li className="mt-2 text-center">
+                                                    {task.address} ||{" "}
+                                                    {task.limit_date}
+                                                </li>
+                                            )}
+                                            <li className="mt-2 text-sm">
+                                                {task.desc}
+                                            </li>
+                                        </ul>
+                                        <div className="col-span-4 sm:col-span-1 flex ">
+                                            <Button
+                                                type="button"
+                                                onClick={() =>
+                                                    nextTaskState(task, index)
+                                                }
+                                                className="text-center sm:tracking-tighter mx-auto my-2 text-xs h-16 bg-yellow-cream"
+                                            >
+                                                {task.isLoading && (
+                                                    <ReactLoading
+                                                        type="spin"
+                                                        height={40}
+                                                        width={40}
+                                                        color="#808080"
+                                                    />
+                                                )}
+                                                {!task.isLoading &&
+                                                    toStringEstadoDeTareaEnum(
+                                                        Number(
+                                                            tasks[index]
+                                                                .id_state
+                                                        )
+                                                    )}
+                                            </Button>
+                                        </div>
+                                    </div>
+                                </React.Fragment>
+                            ))}
+                            {message && (
+                                <>
+                                    <div className="col-span-2 text-center bg-gray-dark text-white border-t border-b">
+                                        Contenido
+                                    </div>
+                                    <div className="col-span-2 text-center bg-gray-servi border-gray-servi border-b-2">
+                                        <Label>
+                                            TRANSPORTADORA:{" "}
+                                            {message.transporter}
+                                        </Label>
+                                    </div>
+                                    <div className="col-span-2 text-center bg-gray-servi border-gray-servi border-b-2">
+                                        <Label>
+                                            ID DE SEGUIMIENTO:{" "}
+                                            {message.id_transporter_tracking}
+                                        </Label>
+                                    </div>
+                                </>
+                            )}
+                            {content && (
+                                <>
+                                    <div className="col-span-2 sm:col-span-1 text-center border-gray-servi border-r-2">
+                                        <div className="border-gray-servi border-b-2">
+                                            <div className="col-span-3 border-gray-servi border-b-2">
+                                                <Label>VOLUMEN:</Label>
+                                            </div>
+                                            <div className="border-gray-servi">
+                                                <div className="row-span-2 grid grid-cols-3  my-3">
+                                                    <div className="m-auto border-gray-servi border-b-2">
+                                                        <Label>Alto</Label>
+                                                    </div>
+                                                    <div className="m-auto border-gray-servi border-b-2">
+                                                        <Label>Ancho</Label>
+                                                    </div>
+                                                    <div className="m-auto border-gray-servi border-b-2">
+                                                        <Label>Largo</Label>
+                                                    </div>
+                                                    <div className="m-auto">
+                                                        {content?.length} cm
+                                                    </div>
+                                                    <div className="m-auto">
+                                                        {content?.width} cm
+                                                    </div>
+                                                    <div className="m-auto">
+                                                        {content?.height} cm
+                                                    </div>
+                                                </div>
+                                                <div className="grid grid-cols-2 sm:grid-cols-1">
+                                                    <div className="grid grid-cols-2 border-gray-servi border-t-2">
+                                                        <Label className="mr-2 m-auto">
+                                                            PESO UNITARIO:
+                                                        </Label>
+                                                        <div className="ml-2 m-auto">
+                                                            {
+                                                                content?.unit_weight
+                                                            }{" "}
+                                                            Kg
+                                                        </div>
+                                                    </div>
+                                                    <div className="grid grid-cols-2 border-gray-servi border-t-2">
+                                                        <Label className="mr-2 m-auto">
+                                                            UNIDADES:
+                                                        </Label>
+                                                        <div className="ml-2 m-auto">
+                                                            {content?.units}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {content && (
+                                        <>
+                                            <div className="col-span-2 sm:col-span-1  grid grid-cols-2 text-center">
+                                                <div className="flex col-span-2 border-gray-servi border-b-2">
+                                                    <div className="m-auto">
+                                                        <Label className="row-span-2">
+                                                            TIPO DE CONTENIDO:
+                                                        </Label>
+                                                        <div className="row-span-2 text-center">
+                                                            {toStringTipoDeCargaEnum(
+                                                                content.t_carga
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="flex col-span-2 border-gray-servi border-b-2">
+                                                    <div className="m-auto">
+                                                        <Label className="row-span-2">
+                                                            DICE CONTENER:
+                                                        </Label>
+                                                        <div className="row-span-2 text-center">
+                                                            {content.content}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="flex col-span-2 border-gray-servi border-b-2">
+                                                    <div className="m-auto">
+                                                        <Label className="row-span-2">
+                                                            VALOR COMERCIAL:
+                                                        </Label>
+                                                        <div className="row-span-2">
+                                                            $
+                                                            {" " +
+                                                                content.commercial_value}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </>
+                                    )}
+                                    <div className="col-span-2 m-auto">
+                                        <Label>EXCEPCIÓN DEL SERVICIO: </Label>
+                                    </div>
+                                    <div className="col-span-2 m-auto">
+                                        {content &&
+                                            content.id_exception &&
+                                            content.id_exception
+                                                .split("")
+                                                .map((n, i) => (
+                                                    <span key={i}>
+                                                        {toStringExcepcionesEnum(
+                                                            Number(n)
+                                                        )}
+                                                        {i + 1 <
+                                                            content.id_exception.split(
+                                                                ""
+                                                            ).length && ", "}
+                                                    </span>
+                                                ))}
+                                    </div>
+                                </>
+                            )}
+                            <div className="col-span-2 text-center bg-gray-dark text-white border-t">
+                                Excepción de entrega
+                            </div>
                             <div className="col-span-2 grid grid-cols-2 lg:grid-cols-4 items-center">
                                 <div>
                                     <input
                                         type="radio"
                                         value="1"
                                         className="mx-2"
-                                        checked={
+                                        defaultChecked={
                                             service.id_exception ==
                                             EstadoExceptionTaskEnum.DESCONOCIDO
                                         }
@@ -525,7 +572,7 @@ export default function DeliveryProof(props) {
                                         type="radio"
                                         value="2"
                                         className="mx-2"
-                                        checked={
+                                        defaultChecked={
                                             service.id_exception ==
                                             EstadoExceptionTaskEnum.DIRECCION_ERRADA
                                         }
@@ -549,7 +596,7 @@ export default function DeliveryProof(props) {
                                         type="radio"
                                         value="3"
                                         className="mx-2"
-                                        checked={
+                                        defaultChecked={
                                             service.id_exception ==
                                             EstadoExceptionTaskEnum.NO_RECIBE
                                         }
@@ -573,7 +620,7 @@ export default function DeliveryProof(props) {
                                         type="radio"
                                         value="4"
                                         className="mx-2"
-                                        checked={
+                                        defaultChecked={
                                             service.id_exception ==
                                             EstadoExceptionTaskEnum.REHUSADO
                                         }
@@ -610,7 +657,9 @@ export default function DeliveryProof(props) {
                                 </div>
                             </div>
                             <div className="col-span-2 border-t-2 border-gray-servi grid">
-                                <Label className="text-left mx-auto">Firma:</Label>
+                                <Label className="text-left mx-auto">
+                                    Firma:
+                                </Label>
                                 <div className="col-span-1 text-center text-gray-dark border mx-auto">
                                     {service.signature && (
                                         <img
@@ -659,15 +708,20 @@ export default function DeliveryProof(props) {
                                     text: "Imprimir Prueba",
                                 },
                                 {
-                                    onClick: ()=>{},
-                                    icon: <FaSave/>,
+                                    onClick: () => {},
+                                    icon: <FaSave />,
                                     type: "submit",
                                     text: "Guardar Prueba",
                                 },
                                 {
+                                    onClick: () => sigPad.clear(),
+                                    icon: <FaEraser />,
+                                    text: "Limpiar Firma",
+                                },
+                                {
                                     onClick: deleteSignature,
                                     icon: <FaTrash />,
-                                    text: "Borrar firma",
+                                    text: "Borrar Firma",
                                 },
                             ]}
                         />
