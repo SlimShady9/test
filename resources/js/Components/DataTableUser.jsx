@@ -10,6 +10,8 @@ import DataTable from "react-data-table-component";
 import Button from "./FormUtils/Button";
 import { toStringTipoDocumentoEnumShort } from "@/Constants/TipoDocumentoEnum";
 import Container from "./Container";
+import { findOrders } from "@/Utils/FetchOrder";
+import { toStringTipoDeUsuariosEnum } from "@/Constants/TipoDeUsuariosEnum";
 
 const DatatableUser = ({ lUser }) => {
     const [search, setSearch] = useState("");
@@ -58,6 +60,10 @@ const DatatableUser = ({ lUser }) => {
             sortable: true,
         },
         {
+            name: "Tipo de usuario",
+            selector: (row) => toStringTipoDeUsuariosEnum(row.id_t_user),
+        },
+        {
             name: "Correo",
             selector: (row) => (
                 <a href={"http://"+row.email} target="_blank" className="bg-blue">{row.email}</a>
@@ -69,9 +75,14 @@ const DatatableUser = ({ lUser }) => {
                 toStringTipoDocumentoEnumShort(row.id_t_user) + " " + row.doc,
         },
         {
-            name: "Número de contacto",
-            selector: (row) => row.phone || row.cellphone,
+            name: "Celular",
+            selector: (row) => row.cellphone,
         },
+        {
+            name: "Teléfono",
+            selector: (row) => row.phone,
+        },
+        
         {
             name: "Opciones",
             grow: 1.5,

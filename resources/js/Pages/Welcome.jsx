@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Guest from "@/Layouts/Guest";
 import Container from "@/Components/Container";
 import Card from "@/Components/Card";
+import Link from "@inertiajs/inertia-react";
 import Button from "@/Components/FormUtils/Button";
 
 import transportes from "../../imgs/transportes.png";
@@ -12,6 +13,8 @@ import mundo from "../../imgs/mundo.png";
 import documento from "../../imgs/document.png";
 import { GrEdit, GrGoogle, GrDown, GrUp } from "react-icons/gr";
 import { welcome, title, mainText } from "@/Utils/FetchParameters";
+import Header from "@/Components/Header";
+import Footer from "@/Components/Footer";
 
 const associates = [{ name: "", icon: "", url: "" }];
 import Label from "@/Components/FormUtils/Label";
@@ -23,7 +26,11 @@ export default function Welcome(props) {
     const [documental, setDocumental] = useState(false);
 
     return (
-        <Guest className={"grid grid-cols-1 justify-center"}>
+        <>
+        {props.hasHeader && (
+        <Header className="mt-1/2 z-10" />
+        )}
+        <div className={"grid grid-cols-1 justify-center"}>
             <img
                 className="fixed w-full inset-y-3/4 sm:inset-y-2/4 -z-10 scale-125 opacity-50"
                 src={transportes}
@@ -115,9 +122,7 @@ export default function Welcome(props) {
                         className={
                             "text-center hover:scale-110 ease-in duration-200"
                         }
-                    >
-
-                    </Container>
+                    ></Container>
                 </Card>
                 <Card
                     className={
@@ -171,9 +176,7 @@ export default function Welcome(props) {
                         className={
                             "text-center hover:scale-110 ease-in duration-200"
                         }
-                    >
-
-                    </Container>
+                    ></Container>
                 </Card>
                 <Card
                     className={
@@ -231,9 +234,7 @@ export default function Welcome(props) {
                         className={
                             "text-center hover:scale-110 ease-in duration-200"
                         }
-                    >
-
-                    </Container>
+                    ></Container>
                 </Card>
                 <Card
                     className={
@@ -277,9 +278,7 @@ export default function Welcome(props) {
                         className={
                             "text-center hover:scale-110 ease-in duration-200"
                         }
-                    >
-
-                    </Container>
+                    ></Container>
                 </Card>
             </div>
             <Container className={"flex justify-center"}>
@@ -350,6 +349,10 @@ export default function Welcome(props) {
                     Contacto
                 </Label>
             </div>
-        </Guest>
+            </div>
+            {props.hasFooter && (
+                <Footer className="mt-4" />
+            )}
+            </>
     );
 }

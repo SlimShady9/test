@@ -9,6 +9,8 @@ import { Link } from "@inertiajs/inertia-react";
 import Container from "@/Components/Container";
 import Button from "./FormUtils/Button";
 import ButtonGroup from "@/Components/FormUtils/ButtonGroup";
+import { toStringEstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
+import { toStringTipoDeServiciosEnum } from "@/Constants/TipoDeServiciosEnum";
 
 const DataTableService = () => {
     const [search, setSearch] = useState("");
@@ -27,7 +29,7 @@ const DataTableService = () => {
 
     const columns = [
         {
-            name: "No tracking",
+            name: "Tracking ID",
             selector: (row) => row.tracking_id,
         },
         {
@@ -35,12 +37,34 @@ const DataTableService = () => {
             selector: (row) => row.name,
         },
         {
-            name: "Descripción",
-            selector: (row) => row.description,
+            name: "Tipo",
+            selector: (row) => toStringEstadoServiciosEnum(row.id_type_service),
         },
         {
-            name: "Precio",
-            selector: (row) => row.price,
+            name: "Estado",
+            selector: (row) => toStringTipoDeServiciosEnum(row.id_state_service),
+        },
+        {
+            name: "Firmado",
+            selector: (row) => {
+                if (row.signature!=null) {return "SI"}
+                else{
+                    return "NO";
+                }
+            },
+        },
+        {
+            name: "Inicio",
+            selector: (row) => row.start_date,
+        },
+        {
+            name: "Fin",
+            selector: (row) => {
+                if (row.end_date!=null) {return row.end_date}
+                else{
+                    return "No ha Finalizado";
+                }
+            },
         },
         {
             name: "Opciones",
@@ -92,7 +116,6 @@ const DataTableService = () => {
         <DataTable
             columns={columns}
             data={filteredServices}
-            selectableRows
             highlightOnHover
             fixedHeader
             pagination
