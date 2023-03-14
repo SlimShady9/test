@@ -8,7 +8,6 @@ use App\Models\Parameter;
 use App\Models\Address;
 
 
-use Barryvdh\Debugbar\Facade as Debugbar;
 class TaskController extends Controller
 {
     public function index() {
