@@ -1,0 +1,1 @@
+import{a as e,j as s}from"./app.5d84509d.js";import{N as m,F as r}from"./Footer.100555af.js";function c({children:a}){return e("div",{className:"min-h-screen w-full",children:[s(m,{className:"mt-1/2 z-10"}),s("div",{className:"m-auto justify-center",children:a}),s(r,{className:"mt-4"})]})}export{c as G};
