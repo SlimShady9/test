@@ -10,6 +10,14 @@ import nombre from "../../imgs/nombre.png";
 import camion from "../../imgs/camion.png";
 import mundo from "../../imgs/mundo.png";
 import documento from "../../imgs/document.png";
+
+import arrows from "../../imgs/arrows.png";
+import document from "../../imgs/bluedocument.png";
+import dolar from "../../imgs/dolar.png";
+import email from "../../imgs/email.png";
+import location from "../../imgs/location.png";
+import user from "../../imgs/user.png";
+
 import { GrEdit, GrGoogle, GrDown, GrUp } from "react-icons/gr";
 import { welcome, title, mainText } from "@/Utils/FetchParameters";
 
@@ -338,9 +346,15 @@ export default function Welcome(props) {
                 <Label className={"mx-auto text-3xl text-white"}>
                     Proyecto
                 </Label>
-                <div className="grid grid-cols-2 gap-4">
-                    <div className="text-white">Centralice</div>
-                    <div className="text-white">Contará</div>
+                <div className="grid grid-cols-2 gap-4 m-5">
+                    <div className="text-white">
+                        <img src={arrows}/>
+                        Centralice
+                    </div>
+                    <div className="text-white">
+                        <img src={arrows}/>
+                        Contará
+                    </div>
                     <div className="text-white">Constantemente</div>
                     <div className="text-white">Minimice</div>
                 </div>
