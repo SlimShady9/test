@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Head } from "@inertiajs/inertia-react";
-import Fetch from "@/Components/FormUtils/Input";
 import Label from "@/Components/FormUtils/Label";
 import Button from "./FormUtils/Button";
 import { sendEmail } from "@/Utils/FetchEmail";

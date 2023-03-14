@@ -13,7 +13,6 @@ import documento from "../../imgs/document.png";
 import { GrDown, GrUp } from "react-icons/gr";
 import { welcome, title, mainText } from "@/Utils/FetchParameters";
 
-const associates = [{ name: "", icon: "", url: "" }];
 import Label from "@/Components/FormUtils/Label";
 
 export default function Welcome(props) {

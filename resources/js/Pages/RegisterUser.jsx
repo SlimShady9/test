@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Button from "@/Components/FormUtils/Button";
 import Container from "@/Components/Container";
+import { toast } from "react-toastify";
 import Authenticated from "@/Layouts/Authenticated";
 import Card from "@/Components/Card";
 import Input from "@/Components/FormUtils/Input";
@@ -66,16 +67,24 @@ export default function RegisterUser(props) {
     const submitUser = (e) => {
         //Load address on data
         e.preventDefault();
-        axios.post("/api/user", data).then((res) => {
-            // Modal de juabito
-        });
-    };
 
-    useEffect(() => {
-        axios.get("/api/user/create").then((res) => {
-            setUser(res.data.parameters);
-        });
-    }, []);
+        if (data.password !== data.password_confirmation) {
+            toast.error("Las contraseñas no coinciden");
+            return;
+        }
+
+        axios
+            .post("/api/user", data)
+            .then((res) => {
+                toast.success("Usuario registrado correctamente");
+                window.location.href = "/users";
+            })
+            .catch((err) =>
+                toast.error(
+                    "Error al registrar el usuario. Por favor valide los campos"
+                )
+            );
+    };
 
     return (
         <Authenticated {...props}>
@@ -88,186 +97,196 @@ export default function RegisterUser(props) {
                                 Registro de Usuario
                             </h1>
                         </Container>
-                        <div className="grid grid-cols-2 gap-4">
-                            <div>
-                                <Label forInput="name" value="Nombre (s)" />
-                                <Input
-                                    type="text"
-                                    name="name"
-                                    value={data.name}
-                                    className="mt-1 block w-full"
-                                    autoComplete="name"
-                                    isFocused={true}
-                                    handleChange={onHandleChange}
-                                    required
-                                    minLength={3}
-                                    maxLength={50}
-                                    onlyLetters={true}
-                                />
-                            </div>
-                            <div>
-                                <Label
-                                    forInput="surname"
-                                    value="Apellido (s)"
-                                />
-                                <Input
-                                    type="text"
-                                    name="surname"
-                                    value={data.surname}
-                                    className="mt-1 block w-full"
-                                    autoComplete="name"
-                                    handleChange={onHandleChange}
-                                    required
-                                    minLength={3}
-                                    maxLength={50}
-                                    onlyLetters={true}
-                                />
-                            </div>
-                            <div>
-                                <Label
-                                    forInput="username"
-                                    value="Nombre de Usuario"
-                                />
-                                <Input
-                                    type="text"
-                                    name="username"
-                                    value={data.username}
-                                    className="mt-1 block w-full"
-                                    autoComplete="username"
-                                    handleChange={onHandleChange}
-                                    required
-                                    minLength={8}
-                                    maxLength={15}
-                                    alpaNumeric={true}
-                                />
-                            </div>
-                            <div>
-                                <Label
-                                    forInput="id_t_user"
-                                    value="Tipo de Usuario"
-                                />
-                                <SelectInput
-                                    name="id_t_user"
-                                    options={optionsTypeUser}
-                                    className="mt-1 block w-full"
-                                    autoComplete="id_t_user"
-                                    onChange={(e) =>
-                                        onHandleChange(e, "id_t_user")
-                                    }
-                                    required
-                                />
+                        <div className="flex flex-col gap-4">
+                            <div className="flex flex-col md:flex-row gap-4">
+                                <div className="md:w-1/2 w-full">
+                                    <Label forInput="name" value="Nombre (s)" />
+                                    <Input
+                                        type="text"
+                                        name="name"
+                                        value={data.name}
+                                        className="mt-1 block w-full"
+                                        autoComplete="name"
+                                        isFocused={true}
+                                        handleChange={onHandleChange}
+                                        required
+                                        minLength={3}
+                                        maxLength={50}
+                                        onlyLetters={true}
+                                    />
+                                </div>
+                                <div className="md:w-1/2 w-full">
+                                    <Label
+                                        forInput="surname"
+                                        value="Apellido (s)"
+                                    />
+                                    <Input
+                                        type="text"
+                                        name="surname"
+                                        value={data.surname}
+                                        className="mt-1 block w-full"
+                                        autoComplete="name"
+                                        handleChange={onHandleChange}
+                                        required
+                                        minLength={3}
+                                        maxLength={50}
+                                        onlyLetters={true}
+                                    />
+                                </div>
                             </div>
 
-                            <div className="col-span-2">
+                            <div>
                                 <Label forInput="email" value="Email" />
                                 <Input
                                     type="email"
                                     name="email"
                                     value={data.email}
                                     className="mt-1 block w-full"
-                                    autoComplete="username"
+                                    autoComplete="email"
                                     handleChange={onHandleChange}
                                     required
                                     email={true}
                                 />
                             </div>
 
-                            <div>
-                                <Label forInput="phone" value="Teléfono" />
-                                <Input
-                                    type="text"
-                                    name="phone"
-                                    value={data.phone}
-                                    className="mt-1 block w-full"
-                                    autoComplete="phone"
-                                    handleChange={onHandleChange}
-                                    required
-                                    onlyNumbers={true}
-                                    minLength={4}
-                                    maxLength={30}
-                                />
+                            <div className="flex flex-col md:flex-row gap-4">
+                                <div className="md:w-1/2">
+                                    <Label
+                                        forInput="username"
+                                        value="Nombre de Usuario"
+                                    />
+                                    <Input
+                                        type="text"
+                                        name="username"
+                                        value={data.username}
+                                        className="mt-1 block w-full"
+                                        autoComplete="username"
+                                        handleChange={onHandleChange}
+                                        required
+                                        minLength={8}
+                                        maxLength={15}
+                                        alpaNumeric={true}
+                                    />
+                                </div>
+                                <div className="md:w-1/2">
+                                    <Label
+                                        forInput="id_t_user"
+                                        value="Tipo de usuario"
+                                    />
+                                    <SelectInput
+                                        name="id_t_user"
+                                        options={optionsTypeUser}
+                                        required={true}
+                                        onChange={(e) =>
+                                            onHandleChange(e, "id_t_user")
+                                        }
+                                    />
+                                </div>
                             </div>
 
-                            <div>
-                                <Label forInput="cellphone" value="Celular" />
-                                <Input
-                                    type="text"
-                                    name="cellphone"
-                                    value={data.cellphone}
-                                    className="mt-1 block w-full"
-                                    autoComplete="cellphone"
-                                    handleChange={onHandleChange}
-                                    required
-                                    onlyNumbers={true}
-                                    minLength={4}
-                                    maxLength={30}
-                                />
+                            <div className="flex flex-col gap-4 md:flex-row">
+                                <div className="md:w-1/2">
+                                    <Label forInput="phone" value="Teléfono" />
+                                    <Input
+                                        type="text"
+                                        name="phone"
+                                        value={data.phone}
+                                        className="mt-1 block w-full"
+                                        autoComplete="phone"
+                                        handleChange={onHandleChange}
+                                        required
+                                        onlyNumbers={true}
+                                        minLength={4}
+                                        maxLength={30}
+                                    />
+                                </div>
+                                <div className="md:w-1/2">
+                                    <Label
+                                        forInput="cellphone"
+                                        value="Celular"
+                                    />
+                                    <Input
+                                        type="text"
+                                        name="cellphone"
+                                        value={data.cellphone}
+                                        className="mt-1 block w-full"
+                                        autoComplete="cellphone"
+                                        handleChange={onHandleChange}
+                                        required
+                                        onlyNumbers={true}
+                                        minLength={4}
+                                        maxLength={30}
+                                    />
+                                </div>
                             </div>
 
-                            <div>
-                                <Label
-                                    forInput="doc"
-                                    value="Documento de Identidad"
-                                />
-                                <Input
-                                    type="text"
-                                    name="doc"
-                                    value={data.doc}
-                                    className="mt-1 block w-full"
-                                    autoComplete="doc"
-                                    handleChange={onHandleChange}
-                                    required
-                                    onlyNumbers={true}
-                                    minLength={4}
-                                    maxLength={30}
-                                />
+                            <div className="flex flex-col gap-4 md:flex-row">
+                                <div className="md:w-1/2">
+                                    <Label
+                                        forInput="doc"
+                                        value="Documento de Identidad"
+                                    />
+                                    <Input
+                                        type="text"
+                                        name="doc"
+                                        value={data.doc}
+                                        className="mt-1 block w-full"
+                                        autoComplete="doc"
+                                        handleChange={onHandleChange}
+                                        required
+                                        onlyNumbers={true}
+                                        minLength={4}
+                                        maxLength={30}
+                                    />
+                                </div>
+                                <div className="md:w-1/2">
+                                    <Label
+                                        forInput="id_t_doc"
+                                        value="Tipo de Documento"
+                                    />
+                                    <SelectInput
+                                        name="id_t_doc"
+                                        options={optionsTypeDoc}
+                                        className="mt-1 block w-full"
+                                        autoComplete="id_t_doc"
+                                        onChange={(e) =>
+                                            onHandleChange(e, "id_t_doc")
+                                        }
+                                        required
+                                    />
+                                </div>
                             </div>
-
-                            <div>
-                                <Label
-                                    forInput="id_t_doc"
-                                    value="Tipo de Documento"
-                                />
-                                <SelectInput
-                                    name="id_t_doc"
-                                    options={optionsTypeDoc}
-                                    className="mt-1 block w-full"
-                                    autoComplete="id_t_doc"
-                                    onChange={(e) =>
-                                        onHandleChange(e, "id_t_doc")
-                                    }
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <Label forInput="password" value="Contraseña" />
-
-                                <Input
-                                    type="password"
-                                    name="password"
-                                    value={data.password}
-                                    className="mt-1 block w-full"
-                                    autoComplete="new-password"
-                                    handleChange={onHandleChange}
-                                    required
-                                />
-                            </div>
-
-                            <div>
-                                <Label
-                                    forInput="password_confirmation"
-                                    value="Confirmar Constraseña"
-                                />
-
-                                <Input
-                                    type="password"
-                                    name="password_confirmation"
-                                    value={data.password_confirmation}
-                                    className="mt-1 block w-full"
-                                    handleChange={onHandleChange}
-                                    required
-                                    minLength={8}
-                                />
+                            <div className="flex flex-col gap-4 md:flex-row">
+                                <div className="md:w-1/2">
+                                    <Label
+                                        forInput="password"
+                                        value="Contraseña"
+                                    />
+                                    <Input
+                                        type="password"
+                                        name="password"
+                                        value={data.password}
+                                        className="mt-1 block w-full"
+                                        autoComplete="new-password"
+                                        handleChange={onHandleChange}
+                                        required
+                                        minLength={8}
+                                    />
+                                </div>
+                                <div className="md:w-1/2">
+                                    <Label
+                                        forInput="password_confirmation"
+                                        value="Confirmar Constraseña"
+                                    />
+                                    <Input
+                                        type="password"
+                                        name="password_confirmation"
+                                        value={data.password_confirmation}
+                                        className="mt-1 block w-full"
+                                        handleChange={onHandleChange}
+                                        required
+                                    />
+                                </div>
                             </div>
 
                             {/* 
@@ -279,12 +298,7 @@ export default function RegisterUser(props) {
                             </div>
                             */}
 
-                            <div className="flex items-center justify-start mt-4 ">
-                                <Button className="bg-red-light">
-                                    Cancelar
-                                </Button>
-                            </div>
-                            <div className="flex items-center justify-end mt-4 ">
+                            <div className="flex justify-center">
                                 <Button
                                     className="bg-green-light"
                                     type="submit"

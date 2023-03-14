@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { VscThreeBars } from "react-icons/vsc";
-import { AiOutlineLogout } from "react-icons/ai";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import {
     FaAngular,

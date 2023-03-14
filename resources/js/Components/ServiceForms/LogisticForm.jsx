@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { EstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
 ("@/Constants/EstadoServiciosEnum");
 import { Head } from "@inertiajs/inertia-react";
 import Label from "../FormUtils/Label";
@@ -8,7 +7,6 @@ import Button from "../FormUtils/Button";
 import Checkbox from "../FormUtils/Checkbox";
 
 function LogisticForm() {
-
     const [showDetail, setShowDetail] = useState(false);
 
     const addPermisson = (e) => {
@@ -26,7 +24,6 @@ function LogisticForm() {
         setOptionsTypeService(options);
     };
 
-
     const submitForm = (e) => {
         e.preventDefault();
     };
@@ -40,26 +37,15 @@ function LogisticForm() {
             <form className="gap-4" onSubmit={submitForm}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex col-span-1">
-                        
-                        <Checkbox
-                        id="check"
-                        name="check"
-                        />
+                        <Checkbox id="check" name="check" />
                         ¿Tiene personal de mensajería?
-                        <Label 
-                        id="check"
-                        forInput="check"
-                        />
+                        <Label id="check" forInput="check" />
                     </div>
                     <div className="flex col-span-1">
-                        
-                        <Checkbox
-                        name="check2"
-                        />
-                        ¿Actualmente tiene clientes a los que haga envíos de forma recurrente?
-                        <Label 
-                        forInput="check2"
-                        />
+                        <Checkbox name="check2" />
+                        ¿Actualmente tiene clientes a los que haga envíos de
+                        forma recurrente?
+                        <Label forInput="check2" />
                     </div>
                 </div>
                 <div className="flex flex-col w-full gap-4">

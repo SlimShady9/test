@@ -66,7 +66,7 @@ export default function Profile(props) {
                                     setUser={setLoggedUser}
                                 />
                             </Container>
-                            <div className="col-span-1">
+                            <div className="sm:col-span-1 col-span-2">
                                 <Label forInput="username" value="Username" />
                                 <Input
                                     type="text"
@@ -80,7 +80,7 @@ export default function Profile(props) {
                                     minLength={8}
                                 />
                             </div>
-                            <div className="col-span-1">
+                            <div className="sm:col-span-1 col-span-2">
                                 <Label forInput="name" value="Nombre(s)" />
                                 <Input
                                     type="text"
@@ -95,7 +95,7 @@ export default function Profile(props) {
                                     minLength={3}
                                 />
                             </div>
-                            <div className="col-span-1">
+                            <div className="sm:col-span-1 col-span-2">
                                 <Label forInput="name" value="Apellido(s)" />
                                 <Input
                                     type="text"
@@ -110,7 +110,7 @@ export default function Profile(props) {
                                     minLength={3}
                                 />
                             </div>
-                            <div>
+                            <div className="sm:col-span-1 col-span-2">
                                 <Label
                                     forInput="t_user"
                                     value="Tipo de Usuario"
@@ -149,7 +149,7 @@ export default function Profile(props) {
                                     email={true}
                                 />
                             </div>
-                            <div className="col-span-1">
+                            <div className="sm:col-span-1 col-span-2">
                                 <Label forInput="phone" value="Teléfono" />
                                 <Input
                                     type="text"
@@ -164,7 +164,7 @@ export default function Profile(props) {
                                     maxLength={30}
                                 />
                             </div>
-                            <div className="col-span-1">
+                            <div className="sm:col-span-1 col-span-2">
                                 <Label forInput="cellphone" value="Celular" />
                                 <Input
                                     type="text"
@@ -179,7 +179,7 @@ export default function Profile(props) {
                                     maxLength={30}
                                 />
                             </div>
-                            <div className="col-span-1">
+                            <div className="sm:col-span-1 col-span-2">
                                 <Label
                                     forInput="doc"
                                     value="Documento de Identidad"
@@ -198,7 +198,7 @@ export default function Profile(props) {
                                     minLength={4}
                                 />
                             </div>
-                            <div>
+                            <div className="sm:col-span-1 col-span-2">
                                 <Label
                                     forInput="t_document"
                                     value="Tipo de Documento"
@@ -221,12 +221,7 @@ export default function Profile(props) {
                                     }}
                                 />
                             </div>
-                            <div className="flex items-center justify-start mt-4 ">
-                                <Button className="bg-red-light" type="submit">
-                                    Cancelar
-                                </Button>
-                            </div>
-                            <div className="flex items-center justify-end mt-4 ">
+                            <div className="flex items-center justify-center mt-4 col-span-2 ">
                                 <Button
                                     className="bg-green-light"
                                     type="submit"
