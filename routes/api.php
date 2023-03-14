@@ -166,6 +166,22 @@ Route::get('/graph/costXVolumen', [GraphController::class, 'costXVolumen']);
 
 Route::get('/graph/costXWeight', [GraphController::class, 'costXWeight']);
 
+Route::get('/graph/priceXTService', [GraphController::class, 'priceXTService']);
+
+Route::get('/graph/costXTService', [GraphController::class, 'costXTService']);
+
+Route::get('/graph/profitXTService', [GraphController::class, 'profitXTService']);
+
+Route::get('/graph/profitXTContent', [GraphController::class, 'profitXTContent']);
+
+Route::get('/graph/costXTContent', [GraphController::class, 'costXTContent']);
+
+Route::get('/graph/priceXTContent', [GraphController::class, 'priceXTContent']);
+
+Route::get('/graph/ServiceByTService', [GraphController::class, 'ServiceByTService']);
+
+Route::get('/graph/ServiceByStateService', [GraphController::class, 'ServiceByStateService']);
+
 Route::post('order/multiple', [OrderController::class, 'createMultiple']);
 
 Route::resource('file', FileController::class);
