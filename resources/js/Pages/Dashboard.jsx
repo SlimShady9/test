@@ -18,7 +18,7 @@ export default function Dashboard(props) {
                 {(props.auth.user.id_t_user==TipoDeUsuariosEnum.ADMIN) && ( 
                 <div className="grid sm:grid-cols-3 text-center">
                 <Link
-                            href={route("envios")}
+                            href={route("graph")}
                             className="p-3 bg-blue-400"
                         >
                             <div className="p-6 bg-white border-spacing-2 bg-gradient-to-t from-white to-gray-servi
