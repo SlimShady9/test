@@ -28,7 +28,7 @@ export default function Services(props) {
 
     // Initial state of current service
     const [stateService, setStateService] = useState(
-        EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA
+        EstadoServiciosEnum.SERVICIO_INCIADO
     );
 
     // State of the progress of service creation using context api

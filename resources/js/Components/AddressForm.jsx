@@ -112,8 +112,8 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
 
     return (
         <div>
-            <form onSubmit={submit} className="flex flex-col">
-                <div className="col-span-1 my-3">
+            <form onSubmit={submit} className="">
+                <div className="flex flex-col my-3">
                     <Label forInput="name">Nombre del Lugar</Label>
                     <Input
                         name="name"
@@ -124,8 +124,8 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
                         alpaNumeric={true}
                     />
                 </div>
-                <div className="flex flex-row gap-4">
-                    <div className="md:w-1/2">
+                <div className="flex md:flex-row gap-4">
+                    <div className="md:w-1/2 w-full">
                         <Label forInput="addr">Dirección</Label>
                         <Input
                             name="addr"
@@ -135,7 +135,7 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
                             maxLength={50}
                         />
                     </div>
-                    <div className="md:w-1/2">
+                    <div className="md:w-1/2 w-full">
                         <Label forInput="postal_code">Código postal</Label>
                         <Input
                             name="postal_code"
@@ -165,56 +165,54 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
                                 value: c.iso2,
                             }))}
                         />
-                        <div className="md:w-1/2">
-                            <Label forInput="region">Región</Label>
-                            <SelectInput
-                                value={data.region}
-                                required={true}
-                                onChange={(e) =>
-                                    handleChange(e, "region", {
-                                        isoId: "region_iso",
-                                        isoName: e.value,
-                                    })
-                                }
-                                options={regions.map((c) => ({
-                                    label: c.name,
-                                    value: c.iso2,
-                                }))}
-                            />
-                        </div>
                     </div>
                     <div className="md:w-1/2">
-                        <div className="col-span-1">
-                            <Label forInput="city">Ciudad</Label>
-                            <SelectInput
-                                value={data.city}
-                                required={true}
-                                onChange={(e) =>
-                                    handleChange(e, "city", {
-                                        isoId: "city_id",
-                                        isoName: e.value,
-                                    })
-                                }
-                                options={cities.map((c) => ({
-                                    label: c.name,
-                                    value: c.id,
-                                }))}
-                            />
-                        </div>
-                        <div className="w-1/2">
-                            <Label forInput="postal_code">
-                                Localidad / Barrio
-                            </Label>
-                            <Input
-                                name="neighborhood"
-                                handleChange={(e) =>
-                                    handleChange(e, "neighborhood")
-                                }
-                                defaultValue={data.neighborhood}
-                                required={true}
-                                maxLength={30}
-                            />
-                        </div>
+                        <Label forInput="region">Región</Label>
+                        <SelectInput
+                            value={data.region}
+                            required={true}
+                            onChange={(e) =>
+                                handleChange(e, "region", {
+                                    isoId: "region_iso",
+                                    isoName: e.value,
+                                })
+                            }
+                            options={regions.map((c) => ({
+                                label: c.name,
+                                value: c.iso2,
+                            }))}
+                        />
+                    </div>
+                </div>
+                <div className="flex gap-4">
+                    <div className="md:w-1/2">
+                        <Label forInput="city">Ciudad</Label>
+                        <SelectInput
+                            value={data.city}
+                            required={true}
+                            onChange={(e) =>
+                                handleChange(e, "city", {
+                                    isoId: "city_id",
+                                    isoName: e.value,
+                                })
+                            }
+                            options={cities.map((c) => ({
+                                label: c.name,
+                                value: c.id,
+                            }))}
+                        />
+                    </div>
+                    <div className="md:w-1/2">
+                        <Label forInput="postal_code">Localidad / Barrio</Label>
+                        <Input
+                            name="neighborhood"
+                            handleChange={(e) =>
+                                handleChange(e, "neighborhood")
+                            }
+                            defaultValue={data.neighborhood}
+                            required={true}
+                            maxLength={30}
+                        />
                     </div>
                 </div>
                 <div className="w-full">
