@@ -182,6 +182,8 @@ Route::get('/graph/ServiceByTService', [GraphController::class, 'ServiceByTServi
 
 Route::get('/graph/ServiceByStateService', [GraphController::class, 'ServiceByStateService']);
 
+Route::get('/graph/ServiceXTypeServicePerc', [GraphController::class, 'ServiceXTypeServicePerc']);
+
 Route::post('order/multiple', [OrderController::class, 'createMultiple']);
 
 Route::resource('file', FileController::class);

@@ -46,42 +46,47 @@ class GraphController extends Controller {
     }
 
     public function priceXTService() {
-        $costxSellBymonth = DB::select("select s.price, s.id_type_service  from services s group by s.id_type_service");
+        $costxSellBymonth = DB::select("SELECT s.price, s.id_type_service  from services s group by s.id_type_service");
         return $costxSellBymonth;
     }
 
     public function costXTService() {
-        $costxSellBymonth = DB::select("select s.cost, s.id_type_service  from services s group by s.id_type_service");
+        $costxSellBymonth = DB::select("SELECT s.cost, s.id_type_service  from services s group by s.id_type_service");
         return $costxSellBymonth;
     }
 
     public function profitXTService() {
-        $costxSellBymonth = DB::select("select (s.price - s.cost) as ganancia, s.id_type_service  from services s group by s.id_type_service");
+        $costxSellBymonth = DB::select("SELECT (s.price - s.cost) as ganancia, s.id_type_service  from services s group by s.id_type_service");
         return $costxSellBymonth;
     }
 
     public function profitXTContent() {
-        $costxSellBymonth = DB::select("select (s.price - s.cost) as ganancia, t_carga  from services s inner join contents on s.id = service group by t_carga");
+        $costxSellBymonth = DB::select("SELECT (s.price - s.cost) as ganancia, t_carga  from services s inner join contents on s.id = service group by t_carga");
         return $costxSellBymonth;
     }
 
     public function costXTContent() {
-        $costxSellBymonth = DB::select("select s.cost , t_carga  from services s inner join contents on s.id = service group by t_carga");
+        $costxSellBymonth = DB::select("SELECT s.cost , t_carga  from services s inner join contents on s.id = service group by t_carga");
         return $costxSellBymonth;
     }
 
     public function priceXTContent() {
-        $costxSellBymonth = DB::select("select s.price , t_carga  from services s inner join contents on s.id = service group by t_carga");
+        $costxSellBymonth = DB::select("SELECT s.price , t_carga  from services s inner join contents on s.id = service group by t_carga");
         return $costxSellBymonth;
     }
 
     public function ServiceByTService() {
-        $costxSellBymonth = DB::select("select count(s.id), s.id_type_service  from services s group by s.id_type_service");
+        $costxSellBymonth = DB::select("SELECT count(s.id), s.id_type_service  from services s group by s.id_type_service");
         return $costxSellBymonth;
     }
 
     public function ServiceByStateService() {
-        $costxSellBymonth = DB::select("select count(s.id), s.id_state_service  from services s group by s.id_state_service");
+        $costxSellBymonth = DB::select("SELECT count(s.id), s.id_state_service  from services s group by s.id_state_service");
+        return $costxSellBymonth;
+    }
+
+    public function ServiceXTypeServicePerc() {
+        $costxSellBymonth = DB::select("SELECT (count(*) * 100.0 / sum(count(*)) over()) as perc, id_type_service  from services group by id_type_service");
         return $costxSellBymonth;
     }
     

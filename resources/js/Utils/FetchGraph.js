@@ -101,4 +101,13 @@ const ServiceByStateService = async () => {
     }
 };
 
-export { costxSellBymonth, getServicesMonth, costXVolumen, costXWeight, priceXTService, costXTService, profitXTService, profitXTContent, costXTContent, priceXTContent, ServiceByTService, ServiceByStateService};
+const ServiceXTypeServicePerc = async () => {
+    try {
+        const req = await axios.get(`/api/graph/ServiceXTypeServicePerc`);
+        return req.data;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export { costxSellBymonth, getServicesMonth, costXVolumen, costXWeight, priceXTService, costXTService, profitXTService, profitXTContent, costXTContent, priceXTContent, ServiceByTService, ServiceByStateService, ServiceXTypeServicePerc};
