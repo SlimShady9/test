@@ -18,6 +18,8 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
+        'hasHeader' => true,
+        'hasFooter' => true,
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
@@ -58,10 +60,6 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/envios', function () {
-    return Inertia::render('Envios');
-})->middleware(['auth', 'verified'])->name('envios');
-
 Route::get('/services', function () {
     return Inertia::render('Services', [
         'api_token' => env('API_KEY_GEO'),
@@ -88,5 +86,9 @@ Route::get('/editService/{id}', function ($id) {
 Route::get('/envios', function () {
     return Inertia::render('Envios');
 })->middleware(['auth', 'verified'])->name('envios');
+
+Route::get('/graph', function () {
+    return Inertia::render('Graph');
+})->middleware(['auth', 'verified'])->name('graph');
 
 require __DIR__.'/auth.php';

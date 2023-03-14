@@ -26,6 +26,8 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TypeDocumentController;
 use App\Http\Controllers\TypeExceptionController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\Graphs\GraphController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -155,6 +157,32 @@ Route::get('/service/{user_id}/serviceByUser', [ServiceController::class, 'servi
 Route::get('/task/{task}/address', [TaskController::class, 'addressByTask']);
 Route::get('/service/{service}/address', [ServiceController::class, 'addressByService']);
 Route::post('/email', [EmailController::class, 'emailPqrs']);
+
+Route::get('/graph/costxSellBymonth', [GraphController::class, 'costxSellBymonth']);
+
+Route::get('/graph/servicesxTimeRange', [GraphController::class, 'servicesxTimeRange']);
+
+Route::get('/graph/costXVolumen', [GraphController::class, 'costXVolumen']);
+
+Route::get('/graph/costXWeight', [GraphController::class, 'costXWeight']);
+
+Route::get('/graph/priceXTService', [GraphController::class, 'priceXTService']);
+
+Route::get('/graph/costXTService', [GraphController::class, 'costXTService']);
+
+Route::get('/graph/profitXTService', [GraphController::class, 'profitXTService']);
+
+Route::get('/graph/profitXTContent', [GraphController::class, 'profitXTContent']);
+
+Route::get('/graph/costXTContent', [GraphController::class, 'costXTContent']);
+
+Route::get('/graph/priceXTContent', [GraphController::class, 'priceXTContent']);
+
+Route::get('/graph/ServiceByTService', [GraphController::class, 'ServiceByTService']);
+
+Route::get('/graph/ServiceByStateService', [GraphController::class, 'ServiceByStateService']);
+
+Route::get('/graph/ServiceXTypeServicePerc', [GraphController::class, 'ServiceXTypeServicePerc']);
 
 Route::post('order/multiple', [OrderController::class, 'createMultiple']);
 

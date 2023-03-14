@@ -25,7 +25,19 @@ import { fontWeight } from "tailwindcss/defaultTheme";
 import { TipoDeUsuariosEnum } from "@/Constants/TipoDeUsuariosEnum";
 
 const SideBar = ({ user }) => {
-    const menusTodos = [
+    const seccionAdmin = [
+        { title: "Usuarios ", icon: <FaUsers />, url: "users" },
+        { title: "Ventas", icon: <FaStore />, url: "graph" ,
+            gap: true
+        },
+        {
+            title: "Analíticas ",
+            icon: <FaMicroscope />,
+            url: "services",
+        },
+    ];
+
+    const seccionTodos = [
         { title: "Perfil", icon: <BsFillFilePersonFill />, url: "profile" },
         {
             title: "Servicios",
@@ -33,24 +45,18 @@ const SideBar = ({ user }) => {
             icon: <FaBookOpen />,
             url: "services",
         },
-        { title: "Ver envíos", icon: <FaShippingFast />, url: "envios" },
+        //{ title: "Ver envíos", icon: <FaShippingFast />, url: "envios" },
+        
+    ];
+
+    const seccionExtras = [
         {
             title: "Cerrar sesión",
             icon: <FaRegPaperPlane />,
             url: "services",
+            gap: true,
             href: route("logout"),
             method: "post",
-        },
-    ];
-
-    const menusAdmin = [
-        { title: "Usuarios ", icon: <FaUsers />, url: "users" },
-        { title: "Ventas", icon: <FaStore />, url: "services" },
-        {
-            title: "Analíticas ",
-            gap: true,
-            icon: <FaMicroscope />,
-            url: "services",
         },
     ];
 
@@ -69,8 +75,27 @@ const SideBar = ({ user }) => {
                 <ApplicationLogo />
             </div>
             <ul className="pt-6">
+                {seccionTodos.map((Menu, index) => (
+                    <Link
+                    href={route(Menu.url)}
+                    key={index}
+                    className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
+                    ${Menu.gap ? "mt-9" : "mt-2"} ${
+                        index === 0 && "bg-light-white"
+                    } hover:bg-gradient-to-r from-blue-servi to-white opacity-80 hover:text-white transition ease-in-out duration-300 hover:scale-110`}
+                >
+                    {Menu.icon}
+                    <span
+                        className={`${
+                            !open && "hidden"
+                        } origin-left duration-200`}
+                    >
+                        {Menu.title}
+                    </span>
+                </Link>
+                ))}
                 {user.id_t_user === TipoDeUsuariosEnum.ADMIN &&
-                    menusAdmin.map((Menu, index) => (
+                    seccionAdmin.map((Menu, index) => (
                         <Link
                             href={route(Menu.url)}
                             key={index}
@@ -89,28 +114,26 @@ const SideBar = ({ user }) => {
                             </span>
                         </Link>
                     ))}
-
-                {menusTodos.map((Menu, index) => (
-                    <Link
-                        href={Menu.href || route(Menu.url)}
-                        method={Menu.method || "get"}
-                        as={Menu.as || "button"}
-                        key={index}
-                        className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
-              ${Menu.gap ? "mt-9" : "mt-2"} ${
-                            index === 0 && "bg-light-white"
-                        } hover:bg-gradient-to-r from-blue-servi to-white opacity-80 hover:text-white transition ease-in-out duration-300 hover:scale-110`}
-                    >
-                        {Menu.icon}
-                        <span
-                            className={`${
-                                !open && "hidden"
-                            } origin-left duration-200`}
+                {user.id_t_user === TipoDeUsuariosEnum.ADMIN &&
+                    seccionExtras.map((Menu, index) => (
+                        <Link
+                            href={route(Menu.url)}
+                            key={index}
+                            className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
+                            ${Menu.gap ? "mt-9" : "mt-2"} ${
+                                index === 0 && "bg-light-white"
+                            } hover:bg-gradient-to-r from-blue-servi to-white opacity-80 hover:text-white transition ease-in-out duration-300 hover:scale-110`}
                         >
-                            {Menu.title}
-                        </span>
-                    </Link>
-                ))}
+                            {Menu.icon}
+                            <span
+                                className={`${
+                                    !open && "hidden"
+                                } origin-left duration-200`}
+                            >
+                                {Menu.title}
+                            </span>
+                        </Link>
+                    ))}
             </ul>
         </aside>
     );

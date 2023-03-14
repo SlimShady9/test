@@ -58,8 +58,10 @@ module.exports = {
             semitransparent: "rgba(0, 0, 0, 01)",
             black: "#000000",
             "input-border": "hsl(0, 0%, 80%)",
-            transparent: "rgba(255, 255, 255, 0)",
-            semitransparent: "rgba(255, 255, 255, 0.5)",
+
+            transparent: 'rgba(255, 255, 255, 0)',
+            semitransparent: 'rgba(255, 255, 255, 0.5)',
+            semiwhite: 'rgba(255, 255, 255, 0.75)',
         },
         extend: {
             keyframes: {

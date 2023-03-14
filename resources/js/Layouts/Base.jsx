@@ -10,6 +10,7 @@ export default function Base({ children }) {
             <Header className="mb-4 z-10" />
             <Container className="lg:m-auto lg:h-3/4 xl:w-1/2 my-8">
                 <Card className={" m-auto"}>{children}</Card>
+
             </Container>
             <Footer className="md:absolute relative bottom-0 left-0 right-0" />
         </div>
