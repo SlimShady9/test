@@ -39,5 +39,11 @@ class GraphController extends Controller {
         return $costxSellBymonth;
     }
 
+        public function costXWeight() {
+        $costxSellBymonth = DB::select("SELECT DATE_FORMAT(start_date, '%M-%Y', 'es_ES') AS month, (c.units * c.unit_weight) as weigh, AVG(s.cost) AS cost, AVG(s.price) AS price, (AVG(s.price)-AVG(s.cost)) as profits FROM services s
+        inner join contents  c where c.service = s.id GROUP BY weigh ORDER BY start_date");
+        return $costxSellBymonth;
+    }
+
 
 }
