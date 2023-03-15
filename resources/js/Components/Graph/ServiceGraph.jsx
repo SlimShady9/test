@@ -57,8 +57,8 @@ export default function ServiceGraph(props) {
             const labels = [];
             const dataSet1 = [];
             data.map((data) => {
-                labels.push(data.month);
-                dataSet1.push(data.servicios);
+                    labels.push(data.month);
+                    dataSet1.push(data.servicios);
             });
             setData({
                 labels: labels,

@@ -91,4 +91,8 @@ Route::get('/graph', function () {
     return Inertia::render('Graph');
 })->middleware(['auth', 'verified'])->name('graph');
 
+Route::get('/sales', function () {
+    return Inertia::render('Sales');
+})->middleware(['auth', 'verified'])->name('sales');
+
 require __DIR__.'/auth.php';

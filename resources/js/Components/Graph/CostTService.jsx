@@ -35,7 +35,7 @@ const PriceTServicePie = () => {
             const dataSet1 = [];
             const res = await costXTService();
             for (const val of res) {
-                if(val.cost!=null && val.id_type_service){
+                if(val.cost!=null && val.id_type_service!=null){
                 dataSet1.push(val.cost);
                 labelSet.push(toStringTipoDeServiciosEnum(val.id_type_service));
                 }

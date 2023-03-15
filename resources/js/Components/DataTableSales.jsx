@@ -44,13 +44,16 @@ const DataTableService = () => {
             selector: (row) => toStringEstadoServiciosEnum(row.id_state_service),
         },
         {
-            name: "Firmado",
-            selector: (row) => {
-                if (row.signature!=null) {return "SI"}
-                else{
-                    return "NO";
-                }
-            },
+            name: "Costo",
+            selector: (row) => ("$ " + row.cost),
+        },
+        {
+            name: "Price",
+            selector: (row) => ("$ " + row.price),
+        },
+        {
+            name: "Ganancias",
+            selector: (row) => ("$ " + (row.price-row.cost)),
         },
         {
             name: "Inicio",
@@ -65,37 +68,7 @@ const DataTableService = () => {
                 }
             },
         },
-        {
-            name: "Opciones",
-            grow: 2.5,
-            center: true,
-            cell: (row) => (
-                <ButtonGroup
-                    listButtons={[
-                        {
-                            href: `deliveryProof/${row.id}`,
-                            icon: <GrArchive />,
-                            text: "Ver",
-                        },
-                        {
-                            href: `editService/${row.id}`,
-                            icon: <GrEdit />,
-                            text: "Editar",
-                        },
-                        {
-                            href: `pqrs/${row.id}`,
-                            icon: <IoHelp />,
-                            text: "Ayuda",
-                        },
-                        {
-                            onClick: () => console.log("Eliminar"),
-                            icon: <RiDeleteBinLine />,
-                            text: "Archivar",
-                        },
-                    ]}
-                />
-            ),
-        },
+       
     ];
     useEffect(() => {
         getServicios();
@@ -126,11 +99,6 @@ const DataTableService = () => {
             }}
             subHeaderComponent={
                 <Container className="flex">
-                    <Link href={"createService"} className="p-3 bg-blue-400">
-                        <Container className="hover:scale-125 shadow-xl rounded-3xl bg-green-light">
-                            Nuevo Servicio
-                        </Container>
-                    </Link>
 
                     <Container>
                         <input

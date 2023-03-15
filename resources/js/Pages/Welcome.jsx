@@ -11,11 +11,12 @@ import nombre from "../../imgs/nombre.png";
 import camion from "../../imgs/camion.png";
 import mundo from "../../imgs/mundo.png";
 import documento from "../../imgs/document.png";
-import { GrDown, GrUp } from "react-icons/gr";
+import { GrEdit, GrGoogle, GrDown, GrUp } from "react-icons/gr";
 import { welcome, title, mainText } from "@/Utils/FetchParameters";
 import Header from "@/Components/Header";
 import Footer from "@/Components/Footer";
 
+const associates = [{ name: "", icon: "", url: "" }];
 import Label from "@/Components/FormUtils/Label";
 
 export default function Welcome(props) {
