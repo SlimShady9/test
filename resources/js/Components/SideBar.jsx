@@ -26,19 +26,26 @@ import { TipoDeUsuariosEnum } from "@/Constants/TipoDeUsuariosEnum";
 
 const SideBar = ({ user }) => {
     const seccionAdmin = [
-        { title: "Usuarios ", icon: <FaUsers />, url: "users" },
-        { title: "Ventas", icon: <FaStore />, url: "graph" ,
-            gap: true
+        { 
+            title: "Usuarios ", icon: <FaUsers />,
+            url: "users",
+        },
+        { 
+            title: "Contabilidad", icon: <FaStore />,
+            url: "sales" ,
+            gap: true,
         },
         {
             title: "Analíticas ",
             icon: <FaMicroscope />,
-            url: "services",
+            url: "graph",
         },
     ];
 
     const seccionTodos = [
-        { title: "Perfil", icon: <BsFillFilePersonFill />, url: "profile" },
+        { 
+            title: "Perfil", icon: <BsFillFilePersonFill />,
+            url: "profile" },
         {
             title: "Servicios",
             gap: true,

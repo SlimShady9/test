@@ -35,7 +35,7 @@ const PriceTServicePie = () => {
             const dataSet1 = [];
             const res = await priceXTContent();
             for (const val of res) {
-                if(val.price!=null && val.t_carga){
+                if(val.price!=null && val.t_carga!=null){
                 dataSet1.push(val.price);
                 labelSet.push(toStringTipoDeCargaEnum(val.t_carga));
                 }

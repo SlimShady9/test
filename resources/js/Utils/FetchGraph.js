@@ -1,7 +1,11 @@
 import axios from "axios";
 const costxSellBymonth = async () => {
-    const req = await axios.get(`/api/graph/costxSellBymonth`);
-    return req.data;
+    try {
+        const req = await axios.get(`/api/graph/costxSellBymonth`);
+        return req.data;
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 const getServicesMonth = async () => {
