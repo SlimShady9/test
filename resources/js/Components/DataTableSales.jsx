@@ -12,6 +12,14 @@ import { toStringEstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
 import { toStringTipoDeServiciosEnum } from "@/Constants/TipoDeServiciosEnum";
 
 const DataTableService = () => {
+    function currencyFormatter({ currency, value}) {
+        const formatter = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          minimumFractionDigits: 2,
+          currency
+        }) 
+        return formatter.format(value)
+      }
     const [search, setSearch] = useState("");
     const [servicios, setServicios] = useState([]);
     const [filteredServices, setFilteredServices] = useState([]);
@@ -45,15 +53,15 @@ const DataTableService = () => {
         },
         {
             name: "Costo",
-            selector: (row) => ("$ " + row.cost),
+            selector: (row) => currencyFormatter({currency: "USD",value: row.cost}),
         },
         {
             name: "Price",
-            selector: (row) => ("$ " + row.price),
+            selector: (row) => currencyFormatter({currency: "USD",value: row.price}),
         },
         {
             name: "Ganancias",
-            selector: (row) => ("$ " + (row.price-row.cost)),
+            selector: (row) => currencyFormatter({currency: "USD",value: (row.price-row.cost)}),
         },
         {
             name: "Inicio",
