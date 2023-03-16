@@ -124,7 +124,7 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
                         alpaNumeric={true}
                     />
                 </div>
-                <div className="flex md:flex-row gap-4">
+                <div className="flex md:flex-row flex-col gap-4 my-3">
                     <div className="md:w-1/2 w-full">
                         <Label forInput="addr">Dirección</Label>
                         <Input
@@ -148,7 +148,7 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
                     </div>
                 </div>
 
-                <div className="flex flex-row gap-4">
+                <div className="flex md:flex-row flex-col gap-4 my-3">
                     <div className="md:w-1/2">
                         <Label forInput="country">País</Label>
                         <SelectInput
@@ -184,8 +184,8 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
                         />
                     </div>
                 </div>
-                <div className="flex gap-4">
-                    <div className="md:w-1/2">
+                <div className="flex md:flex-row flex-col gap-4 my-3">
+                    <div className="md:w-1/2 w-full">
                         <Label forInput="city">Ciudad</Label>
                         <SelectInput
                             value={data.city}
@@ -202,7 +202,7 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
                             }))}
                         />
                     </div>
-                    <div className="md:w-1/2">
+                    <div className="md:w-1/2 w-full">
                         <Label forInput="postal_code">Localidad / Barrio</Label>
                         <Input
                             name="neighborhood"

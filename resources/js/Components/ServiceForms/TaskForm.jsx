@@ -230,8 +230,8 @@ function TaskForm({
                     Agregar Tareas
                 </h1>
                 <form className="gap-4" onSubmit={submitForm}>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div className="col-span-1">
+                    <div className="flex md:flex-row flex-col gap-4 my-3">
+                        <div className="md:w-1/2 w-full">
                             <Label>Nombre Destinatario</Label>
                             <Input
                                 name="name"
@@ -242,7 +242,7 @@ function TaskForm({
                                 onlyLetters={true}
                             />
                         </div>
-                        <div className="col-span-1">
+                        <div className="md:w-1/2 w-full">
                             <Label>Empresa / Entidad Asociada</Label>
                             <Input
                                 name="entity"
@@ -252,7 +252,9 @@ function TaskForm({
                                 maxLength={50}
                             />
                         </div>
-                        <div className="col-span-1">
+                    </div>
+                    <div className="flex md:flex-row flex-col gap-4 my-3">
+                        <div className="md:w-1/2 w-full">
                             <Label className="">Dependencia</Label>
                             <Input
                                 name="dependency"
@@ -266,7 +268,7 @@ function TaskForm({
                             <SelectInput isMulti={true} />
                         </div>*/}
                         {user.id_t_user === 1 && (
-                            <div className="col-span-1">
+                            <div className="md:w-1/2 w-full">
                                 <Label>Responsable</Label>
                                 <SelectInput
                                     options={usersResponsibleAvailable}
@@ -290,28 +292,25 @@ function TaskForm({
                                 />
                             </div>
                         )}
-                        <div className="grid grid-cols-2 col-span-2 justify-center">
-                            <Label className="col-span-2">
-                                Fecha y Hora Límite
-                            </Label>
-                            <div className="flex gap-4 col-span-2">
-                                <div className="w-2/3">
-                                    <Input
-                                        name="dateLimit"
-                                        type="date"
-                                        handleChange={onChange}
-                                        defaultValue={currentTask.dateLimit}
-                                    />
-                                </div>
-                                <div className="w-1/3">
-                                    <Input
-                                        name="hourLimit"
-                                        type="time"
-                                        handleChange={onChange}
-                                        defaultValue={currentTask.hourLimit}
-                                    />
-                                </div>
-                            </div>
+                    </div>
+                    <div className="flex md:flex-row flex-col gap-4 my-3">
+                        <div className="md:w-1/2 w-full">
+                            <Label className="col-span-2">Fecha Límite</Label>
+                            <Input
+                                name="dateLimit"
+                                type="date"
+                                handleChange={onChange}
+                                defaultValue={currentTask.dateLimit}
+                            />
+                        </div>
+                        <div className="md:w-1/2 w-full">
+                            <Label className="col-span-2">Fecha Límite</Label>
+                            <Input
+                                name="hourLimit"
+                                type="time"
+                                handleChange={onChange}
+                                defaultValue={currentTask.hourLimit}
+                            />
                         </div>
                     </div>
                     <div className="flex flex-col w-full gap-4">

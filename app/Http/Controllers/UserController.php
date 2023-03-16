@@ -285,8 +285,8 @@ class UserController extends Controller
             'doc' => 'required|string|max:30',
             'phone' => 'required|string|max:20',
             'cellphone' => 'required|string|max:30',
-            'notif' => 'max:2',
-            'data' => 'max:255',
+            //'notif' => 'max:2',
+            //'data' => 'max:255',
             'id_t_user' => 'required',
             'id_t_doc' => 'required',
         ]);
@@ -308,8 +308,10 @@ class UserController extends Controller
         $user->doc = $request->doc;
         $user->phone = $request->phone;
         $user->cellphone = $request->cellphone;
-        $user->notif = $request->notif;
-        $user->data = $request->data;
+        //$user->notif = $request->notif;
+        //$user->data = $request->data;
+        $user->picture = $request->picture;
+        $user->signature = $request->signature;
         $user->id_t_user = $request->id_t_user;
         $user->id_t_doc = $request->id_t_doc;
         $user->save();

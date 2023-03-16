@@ -72,11 +72,33 @@ function ServiceDataForm({
         cost: serviceDTO.service.cost,
         archive: serviceDTO.service.archive,
         originalArchive: serviceDTO.service.archive,
+        hasFile:
+            serviceDTO.service.archive !== null &&
+            serviceDTO.service.archive !== undefined,
     });
 
     // Closure fuctions
 
     const handleChangeFile = (event) => {
+        // If the file is bigger than 5MB then it will not be uploaded
+        if (event.target.files[0].size > 5242880) {
+            toast.warning(
+                "El archivo es demasiado grande, por favor seleccione uno más pequeño"
+            );
+            return;
+        }
+        // If the file is not a pdf or an image then it will not be uploaded
+        if (
+            !event.target.files[0].type.includes("pdf") &&
+            !event.target.files[0].type.includes("png") &&
+            !event.target.files[0].type.includes("jpeg") &&
+            !event.target.files[0].type.includes("jpg")
+        ) {
+            toast.warning(
+                "El archivo no es un pdf o una imagen, por favor seleccione uno válido"
+            );
+            return;
+        }
         setFileList(event.target.files);
     };
 
@@ -85,7 +107,6 @@ function ServiceDataForm({
     };
 
     const handleChange = (event) => {
-        console.log(event.target.name + " " + event.target.value);
         setServiceForm({
             ...serviceForm,
             [event.target.name]: event.target.value,
@@ -190,9 +211,17 @@ function ServiceDataForm({
                 ...serviceForm,
                 archive: null,
                 originalArchive: null,
+                hasFile: false,
             });
         }
         setFileList([]);
+    };
+
+    const verArchivo = (e) => {
+        // Donwload file
+        if (serviceForm.archive) {
+            window.open("/api/file/" + serviceForm.archive, "_parent");
+        }
     };
 
     if (currentStep !== id) {
@@ -324,6 +353,7 @@ function ServiceDataForm({
                                     style={{ display: "none" }}
                                     className="mx-auto my-3 w-full"
                                     type="file"
+                                    accept="application/pdf, image/*"
                                 />
                             </div>
 
@@ -333,24 +363,44 @@ function ServiceDataForm({
                                     type="Button"
                                     onClick={handleChangeFileButton}
                                 >
-                                    Selecciona uno o varios Archivos
+                                    Selecciona un archivo
                                 </Button>
                                 <Button
-                                    className="mx-3 w-1/3"
+                                    className={`mx-3 w-1/3`}
                                     type="Button"
                                     onClick={deleteFile}
                                 >
                                     Limpiar
                                 </Button>
                             </div>
-                            <ul>
-                                {files.map((file, i) => (
-                                    <li key={i}>
-                                        {file.name} {file.type && "-"}{" "}
-                                        {file.type}
-                                    </li>
-                                ))}
-                            </ul>
+                            {serviceForm.hasFile && files.length > 0 ? (
+                                <div className="flex flex-col md:flex-row gap-4 w-full mx-3">
+                                    <div className="md:w-8/12">
+                                        <Input
+                                            type="text"
+                                            disabled={true}
+                                            className="text-sm"
+                                            defaultValue={`${files[0].name}`}
+                                        />
+                                    </div>
+                                    <Button
+                                        className="w-full md:w-3/12"
+                                        type="button"
+                                        onClick={verArchivo}
+                                    >
+                                        Ver archivo
+                                    </Button>
+                                </div>
+                            ) : (
+                                <ul>
+                                    {files.map((file, i) => (
+                                        <li key={i}>
+                                            {file.name} {file.type && "-"}{" "}
+                                            {file.type}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
                             <div className="my-3 m-auto">
                                 <Button className="" type="submit">
                                     Guardar y continuar
