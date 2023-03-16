@@ -8,7 +8,6 @@ use App\Models\User;
 use App\Models\T_user;
 use App\Models\T_document;
 use App\Models\Parameter;
-use Barryvdh\Debugbar\Facade as Debugbar;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -142,7 +141,6 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        Debugbar::info($id);
         $parameter = User::findOrFail($id);
         $parameters = [
             [
@@ -226,7 +224,6 @@ class UserController extends Controller
         ];
 
         $typesU = T_user::all();
-        Debugbar::info($typesU);
         foreach ($typesU as $typesU) {
             if($typesU->id == $parameter->id_t_user){
                 array_push($options['value'],[
