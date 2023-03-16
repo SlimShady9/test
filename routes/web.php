@@ -40,7 +40,7 @@ Route::get('/regUser', function () {
     return Inertia::render('RegisterUser', [
     'api_token' => env('API_KEY_GEO'),
     ]);
-})->middleware(['auth', 'verified'])->name('regUser');
+})->middleware(['auth', 'verified','admin'])->name('regUser');
 
 Route::get('/createService', function () {
     return Inertia::render('CreateService', [
@@ -66,7 +66,7 @@ Route::get('/services', function () {
 
 Route::get('/users', function () {
     return Inertia::render('Users');
-})->middleware(['auth', 'verified'])->name('users');
+})->middleware(['auth', 'verified','admin'])->name('users');
 
 Route::get('/pqrs/{id}', function ($id) {
     return Inertia::render('Pqrs', [
@@ -79,7 +79,7 @@ Route::get('/editService/{id}', function ($id) {
         'serviceId' => $id,
         'api_token' => env('API_KEY_GEO'),
     ]);
-})->middleware(['auth', 'verified'])->name('editService');
+})->middleware(['auth', 'verified','admin'])->name('editService');
 
 Route::get('/envios', function () {
     return Inertia::render('Envios');
@@ -87,6 +87,6 @@ Route::get('/envios', function () {
 
 Route::get('/graph', function () {
     return Inertia::render('Graph');
-})->middleware(['auth', 'verified'])->name('graph');
+})->middleware(['auth', 'verified','admin'])->name('graph');
 
 require __DIR__.'/auth.php';
