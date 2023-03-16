@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import axios from "axios";
+import { FaCamera, FaCameraRetro } from "react-icons/fa";
 
 const loadImage = (user) => {
     if (user && user.picture) {
@@ -18,12 +19,10 @@ export default function ImageUploadForm({ user, setUser }) {
             const dataform = new FormData();
             dataform.append("file", acceptedFiles[0]);
             axios.post(`api/user/${user.id}/profileimg`, dataform).then(() => {
-                setUser(
-                    axios.get(`api/user/${user.id}`).then((res) => {
-                        setUser(res.data);
-                        setFiles(loadImage(user));
-                    })
-                );
+                axios.get(`api/user/${user.id}`).then((res) => {
+                    setUser(res.data);
+                    setFiles(loadImage(user));
+                });
             });
         },
     });
@@ -33,7 +32,7 @@ export default function ImageUploadForm({ user, setUser }) {
     }, [user]);
 
     return (
-        <section>
+        <section className="cursor-pointer">
             <div
                 {...getRootProps()}
                 className="max-h-60 max-w-60 m-auto rounded-full flex justify-center"
@@ -50,6 +49,11 @@ export default function ImageUploadForm({ user, setUser }) {
 const Thumbs = ({ files }) => {
     return (
         <>
+            {files.length === 0 && (
+                <div className="rounded-full">
+                    <FaCamera className="fill-white w-40 h-40" />
+                </div>
+            )}
             {files.map((file, index) => (
                 <div
                     className="inline-flex rounded-sm w-full h-full justify-center cursor-pointer"

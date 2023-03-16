@@ -166,6 +166,10 @@ export default function DeliveryProof(props) {
     };
 
     const clear = () => {
+        if (!sigPad) {
+            toast.warn("No se ha cargado la firma");
+            return;
+        }
         sigPad.clear();
     };
 
@@ -664,7 +668,7 @@ export default function DeliveryProof(props) {
                                     {service.signature && (
                                         <img
                                             className="bg-white"
-                                            src={`http://localhost:8000/api/file/${service.signature}`}
+                                            src={`/api/file/${service.signature}`}
                                             alt=""
                                         />
                                     )}
@@ -714,7 +718,7 @@ export default function DeliveryProof(props) {
                                     text: "Guardar Prueba",
                                 },
                                 {
-                                    onClick: () => sigPad.clear(),
+                                    onClick: clear,
                                     icon: <FaEraser />,
                                     text: "Limpiar Firma",
                                 },

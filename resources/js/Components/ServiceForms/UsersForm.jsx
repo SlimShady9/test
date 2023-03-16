@@ -116,10 +116,10 @@ function UsersForm({ currentStep, setNextStep }) {
             })),
         }).then((res) => {
             if (res.error) {
-                alert(res.data);
+                toast.error("Error al agregar usuarios");
                 return;
             }
-            alert("Usuarios agregados");
+            toast.success("Usuarios agregados");
             setServiceDTO((prev) => ({ ...prev, orders: res.data }));
             setNextStep(EstadoServiciosEnum.SERVICIO_CON_CONTENIDO);
         });
