@@ -31,6 +31,7 @@ import {
 } from "@/Constants/EstadoExceptionTaskEnum";
 import ReactLoading from "react-loading";
 import React from "react";
+import { Link } from "@inertiajs/inertia-react";
 
 export default function DeliveryProof(props) {
     const componentRef = useRef();
@@ -109,7 +110,7 @@ export default function DeliveryProof(props) {
                     getAddressByTask(task.id).then(([res, err]) => {
                         const newTask = {
                             ...task,
-                            address: res.addr,
+                            address: res,
                             isLoadingTask: false,
                         };
                         setTasks((oldTasks) => [...oldTasks, newTask]);
@@ -125,7 +126,6 @@ export default function DeliveryProof(props) {
     };
 
     const nextTaskState = (task, index) => {
-        console.log();
         const newTask = {
             ...tasks[index],
             id_state:
@@ -274,12 +274,10 @@ export default function DeliveryProof(props) {
                                 </Label>
                             </div>
                             <div className="col-span-2 sm:col-span-1 border-t">
-                                <div>
-                                    <div className=" bg-gray-dark text-center text-white">
+                                    <div className="bg-gray-dark text-center text-white">
                                         {" "}
                                         Remitente
                                     </div>
-                                </div>
                                 {message && address && (
                                     <>
                                         <div className="mt-3">
@@ -289,13 +287,12 @@ export default function DeliveryProof(props) {
                                             <div className="m-2">
                                                 {message.name}, {message.charge}
                                             </div>
-                                            <div className="m-2">
-                                                {address.country},{" "}
-                                                {address.region}, {address.city}
-                                            </div>
-                                            <div className="m-2">
+                                            <div className="m-2">                                               
+                                            {address.country},{" "}{address.region}, {address.city}
+                                                </div>
+                                            <a className="m-2 text-blue-primary underline font-bold" target="_blank" href={"https://www.google.com/maps/search/"+address.city+","+address.addr}>
                                                 {address.addr}
-                                            </div>
+                                            </a>
                                             <div className="m-2">
                                                 {address.addr_detail}
                                             </div>
@@ -358,11 +355,12 @@ export default function DeliveryProof(props) {
                                     </>
                                 )}
                             </div>
-                            {tasks.map((task, index) => (
-                                <React.Fragment key={index}>
-                                    <div className="col-span-2 bg-gray-dark text-center text-white">
+                            <div className="col-span-2 bg-gray-dark text-center text-white">
                                         Destinatario(s)
                                     </div>
+                            {tasks.map((task, index) => (
+                                <React.Fragment key={index}>
+                                    
                                     <div
                                         className="grid grid-cols-4 col-span-2 text-left m-2  border-b-2 border-gray-dark border-dotted"
                                         key={index}
@@ -373,10 +371,12 @@ export default function DeliveryProof(props) {
                                                 {task.entity}, {task.dependency}
                                             </li>
                                             {task.address && (
-                                                <li className="mt-2 text-center">
-                                                    {task.address} ||{" "}
+                                                <div className="mt-2 text-center">
+                                                <a className="text-blue-primary underline font-bold" target="_blank" href={"https://www.google.com/maps/search/"+task.address.city+",+"+task.address.addr}>
+                                                    {task.address.addr} ||{" "}
                                                     {task.limit_date}
-                                                </li>
+                                                </a>
+                                                </div>
                                             )}
                                             <li className="mt-2 text-sm">
                                                 {task.desc}
@@ -434,7 +434,7 @@ export default function DeliveryProof(props) {
                                     <div className="col-span-2 sm:col-span-1 text-center border-gray-servi border-r-2">
                                         <div className="border-gray-servi border-b-2">
                                             <div className="col-span-3 border-gray-servi border-b-2">
-                                                <Label>VOLUMEN:</Label>
+                                                <Label>VOLUMEN:</Label> {content?.length*content?.width*content?.height} cm³
                                             </div>
                                             <div className="border-gray-servi">
                                                 <div className="row-span-2 grid grid-cols-3  my-3">
