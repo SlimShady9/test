@@ -135,7 +135,7 @@ function TaskForm({
             name: "",
             entity: "",
             dependency: "",
-            id_state: EstadoDeTareaEnum.CREADO,
+            id_state: EstadoDeTareaEnum.PENDIENTE,
             id_address: -1,
             id_service: serviceDTO.service.id,
             desc: "",
@@ -380,9 +380,6 @@ function TaskForm({
 
                 <div className="flex flex-col w-full gap-4">
                     <div className="flex gap-4 my-5 mx-auto">
-                        <Button className="" type="Button" onClick={previous}>
-                            Volver
-                        </Button>
                         <Button className="" onClick={finalizar}>
                             Guardar y Continuar
                         </Button>
@@ -398,7 +395,6 @@ function TaskForm({
                         onSubmit={storeAddress}
                     />
                 </Modal>
-                <Head title="Datos del servicio" />
             </div>
         </>
     );
