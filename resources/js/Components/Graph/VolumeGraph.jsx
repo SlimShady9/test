@@ -41,7 +41,7 @@ const VolumeGraph = () => {
             const dataSet3 = [];
             const res = await costXVolumen();
             for (const val of res) {
-                if(val.volumen!=null && val.cost!=null && val.price!=null && val.profits!=null){
+                if(val.volumen!=null && val.cost && val.price && val.profits){
                 dataSet1.push(val.cost);
                 dataSet2.push(val.price);
                 dataSet3.push(val.profits);

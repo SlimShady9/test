@@ -41,13 +41,11 @@ const SalesGraph = () => {
             const dataSet3 = [];
             const res = await costxSellBymonth();
             for (const val of res) {
-                if(val.month!=null && val.cost!=null && val.price!=null && val.profits!=null){
-                    dataSet1.push(val.cost);
-                    dataSet2.push(val.price);
-                    dataSet3.push(val.profits);
-                    labelSet.push(val.month);
-                    // labelSet.push(val.name)
-                }
+                dataSet1.push(val.cost);
+                dataSet2.push(val.price);
+                dataSet3.push(val.profits);
+                labelSet.push(val.month);
+                // labelSet.push(val.name)
             }
             setData({
                 labels: labelSet,

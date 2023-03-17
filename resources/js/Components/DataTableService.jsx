@@ -37,11 +37,11 @@ const DataTableService = () => {
         },
         {
             name: "Tipo",
-            selector: (row) => toStringTipoDeServiciosEnum(row.id_type_service),
+            selector: (row) => toStringEstadoServiciosEnum(row.id_type_service),
         },
         {
             name: "Estado",
-            selector: (row) => toStringEstadoServiciosEnum(row.id_state_service),
+            selector: (row) => toStringTipoDeServiciosEnum(row.id_state_service),
         },
         {
             name: "Firmado",

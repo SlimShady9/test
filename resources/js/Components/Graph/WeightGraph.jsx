@@ -41,7 +41,7 @@ const WeightGraph = () => {
             const dataSet3 = [];
             const res = await costXWeight();
             for (const val of res) {
-                if(val.weigh!=null && val.cost!=null && val.price!=null && val.profits!=null){
+                if(val.weigh!=null && val.cost && val.price && val.profits){
                 dataSet1.push(val.cost);
                 dataSet2.push(val.price);
                 dataSet3.push(val.profits);
