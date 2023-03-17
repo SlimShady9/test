@@ -314,6 +314,9 @@ class UserController extends Controller
         $user->signature = $request->signature;
         $user->id_t_user = $request->id_t_user;
         $user->id_t_doc = $request->id_t_doc;
+        if ($request->state != null) {
+            $user->state = $request->state;
+        }
         $user->save();
         return $user;
     }

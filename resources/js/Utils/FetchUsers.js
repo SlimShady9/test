@@ -21,9 +21,19 @@ const updateUsers = async (user) => {
 };
 
 const loadImageUser = (user) => {
-
-        return 'api/user/'+user+'/profileimg';
-
+    return "api/user/" + user + "/profileimg";
 };
 
-export { getUsers, loadImageUser , updateUsers, getUser};
+const inactivateUser = async (user) => {
+    try {
+        const req = await axios.put(`/api/user/${user.id}`, {
+            ...user,
+            state: false,
+        });
+        return [await req.data, null];
+    } catch (error) {
+        return [null, error];
+    }
+};
+
+export { getUsers, loadImageUser, updateUsers, getUser, inactivateUser };

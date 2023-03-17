@@ -53,11 +53,5 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function save(array $options = [])
-    {
-        if($this->state == null){
-            $this->state = 1;
-        }
-        parent::save(state);
-    }
+
 }

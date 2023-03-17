@@ -9,10 +9,9 @@ import { Link } from "@inertiajs/inertia-react";
 import DataTable from "react-data-table-component";
 import Button from "./FormUtils/Button";
 import { toStringTipoDocumentoEnumShort } from "@/Constants/TipoDocumentoEnum";
-
-import Container from "./Container";
-import { findOrders } from "@/Utils/FetchOrder";
 import { toStringTipoDeUsuariosEnum } from "@/Constants/TipoDeUsuariosEnum";
+import { inactivateUser } from "@/Utils/FetchUsers";
+import { toast } from "react-toastify";
 
 const DatatableUser = ({ lUser }) => {
     const [search, setSearch] = useState("");
@@ -48,6 +47,22 @@ const DatatableUser = ({ lUser }) => {
         } catch (error) {
             console.log(error);
         }
+    };
+
+    const deactiveUser = (user) => {
+        inactivateUser(user).then((res) => {
+            toast.success("Usuario inactivado correctamente");
+            setUser((prevState) =>
+                prevState.map((item) =>
+                    item.id === res.data.id ? res.data : item
+                )
+            );
+            setFilteredUser((prevState) =>
+                prevState.map((item) =>
+                    item.id === res.data.id ? res.data : item
+                )
+            );
+        });
     };
 
     const columns = [
@@ -89,7 +104,7 @@ const DatatableUser = ({ lUser }) => {
             name: "Teléfono",
             selector: (row) => row.phone,
         },
-        
+
         {
             name: "Opciones",
             grow: 1.5,
@@ -104,9 +119,9 @@ const DatatableUser = ({ lUser }) => {
                             className: "bg-blue-400",
                         },
                         {
-                            onClick: () => console.log("Eliminar"),
+                            onClick: () => deactiveUser(row),
                             icon: <RiDeleteBinLine />,
-                            text: "Eliminar",
+                            text: "Inactivar",
                         },
                     ]}
                 />
