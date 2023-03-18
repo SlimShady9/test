@@ -17,21 +17,19 @@ const DataTableService = (auth) => {
     const [filteredServices, setFilteredServices] = useState([]);
 
     const getServicios = async () => {
-
         try {
-            console.log(auth);
-            const id_user = auth.auth.user.id
-            if(auth.auth.user.id_t_user == 1){
+            const id_user = auth.auth.user.id;
+            if (auth.auth.user.id_t_user == 1) {
                 const res = await axios.get("/api/service");
                 setServicios(res.data);
                 setFilteredServices(res.data);
-            }else{
-                const res = await axios.get(`/api/service/${id_user}/serviceByUser`);
+            } else {
+                const res = await axios.get(
+                    `/api/service/${id_user}/serviceByUser`
+                );
                 setServicios(res.data);
                 setFilteredServices(res.data);
             }
-            console.log(res.data);
-
         } catch (error) {
             console.log(error);
         }
@@ -56,15 +54,16 @@ const DataTableService = (auth) => {
         {
             name: "Estado",
             sortable: true,
-            selector: (row) => toStringEstadoServiciosEnum(row.id_state_service),
-
+            selector: (row) =>
+                toStringEstadoServiciosEnum(row.id_state_service),
         },
         {
             name: "Firmado",
             sortable: true,
             selector: (row) => {
-                if (row.signature!=null) {return "SI"}
-                else{
+                if (row.signature != null) {
+                    return "SI";
+                } else {
                     return "NO";
                 }
             },
@@ -78,8 +77,9 @@ const DataTableService = (auth) => {
             name: "Fin",
             sortable: true,
             selector: (row) => {
-                if (row.end_date!=null) {return row.end_date}
-                else{
+                if (row.end_date != null) {
+                    return row.end_date;
+                } else {
                     return "No ha Finalizado";
                 }
             },
