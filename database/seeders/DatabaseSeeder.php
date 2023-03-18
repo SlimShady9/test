@@ -20,16 +20,22 @@ class DatabaseSeeder extends Seeder
     {
         // Tipos de servicios
         \App\Models\TypeService::create([
-            'name' => 'Envío',
-        ]);
-        \App\Models\TypeService::create([
             'name' => 'Correspondencia',
         ]);
         \App\Models\TypeService::create([
-            'name' => 'Coordinación de mensajería',
+            'name' => 'Mensajería especializada',
         ]);
         \App\Models\TypeService::create([
-            'name' => 'Mandado',
+            'name' => 'Mensajería masiva',
+        ]);
+        \App\Models\TypeService::create([
+            'name' => 'Mensajería internacional',
+        ]);
+        \App\Models\TypeService::create([
+            'name' => 'Logística de mensajería',
+        ]);
+        \App\Models\TypeService::create([
+            'name' => 'Gestión documental',
         ]);
         // Estados de los servicios
         \App\Models\StateService::create([
@@ -49,13 +55,16 @@ class DatabaseSeeder extends Seeder
         ]);
         //Tipo de usuario
         \App\Models\T_user::create([
-            'name' => 'Admin',
+            'name' => 'Administrador',
         ]);
         \App\Models\T_user::create([
-            'name' => 'Cliente juridico',
+            'name' => 'Cliente Jurídico',
         ]);
         \App\Models\T_user::create([
-            'name' => 'Cliente natural',
+            'name' => 'Cliente Natural',
+        ]);
+        \App\Models\T_user::create([
+            'name' => 'Courier',
         ]);
         //Tipo de documento
         \App\Models\T_document::create([
@@ -70,6 +79,48 @@ class DatabaseSeeder extends Seeder
             'name' => 'Cédula de extranjeria',
             'length' => '11'
         ]);
+
+        \App\Models\State_task::create([
+            'name' => 'Creado',
+        ]);
+        \App\Models\State_task::create([
+            'name' => 'Hecho',
+        ]);
+        \App\Models\State_task::create([
+            'name' => 'Pendiente',
+        ]);
+        \App\Models\State_task::create([
+            'name' => 'Aplazado',
+        ]);
+        // Tipos de contenido
+        \App\Models\Type_exception::create([
+            'name' => 'Riesgo biológico',
+        ]);
+        \App\Models\Type_exception::create([
+            'name' => 'Contenido frágil',
+        ]);
+        \App\Models\Type_exception::create([
+            'name' => 'Documento privado',
+        ]);
+        \App\Models\Type_exception::create([
+            'name' => 'Trámite personal',
+        ]);
+        \App\Models\Type_exception::create([
+            'name' => 'Documento privado',
+        ]);
+        \App\Models\Type_exception::create([
+            'name' => 'Valores',
+        ]);
+        \App\Models\Type_exception::create([
+            'name' => 'Contenido vacío',
+        ]);
+        // Type_content
+        \App\Models\Type_content::create([
+            'name' => 'Paquete',
+        ]);
+        \App\Models\Type_content::create([
+            'name' => 'Caja',
+        ]);
         
         // Seeder para crear servicios
         $addr = new AddressSeeder();
@@ -78,7 +129,5 @@ class DatabaseSeeder extends Seeder
         $service->run();
         $user = new UserSeeder();
         $user->run();
-        
-
     }
 }

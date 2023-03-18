@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import Button from "@/Components/Button";
-import Checkbox from "@/Components/Checkbox";
-import Input from "@/Components/Input";
-import Label from "@/Components/Label";
+import Button from "@/Components/FormUtils/Button";
+import Checkbox from "@/Components/FormUtils/Checkbox";
+import Input from "@/Components/FormUtils/Input";
+import Label from "@/Components/FormUtils/Label";
 import Container from "@/Components/Container";
 import ValidationErrors from "@/Components/ValidationErrors";
 import { Head, Link, useForm } from "@inertiajs/inertia-react";
@@ -49,15 +49,15 @@ export default function Login({ status, canResetPassword }) {
             <ValidationErrors errors={errors} />
 
             <form onSubmit={submit}>
-            <Container className={"justify-center"}>
-            <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
-                Ingreso de Usuario
-                </h1>
-            </Container>
+                <Container className={"justify-center"}>
+                    <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                        Ingreso de Usuario
+                    </h1>
+                </Container>
                 <div>
                     <Label forInput="email" value="Nombre de Usuario" />
                     <Input
-                        type="text"
+                        type="email"
                         name="email"
                         value={data.email}
                         className="mt-1 block w-full"

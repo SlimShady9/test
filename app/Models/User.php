@@ -27,9 +27,11 @@ class User extends Authenticatable
         'signature',
         'phone',
         'cellphone',
-        'notif',
         'data',
         'id_address',
+        'id_t_user',
+        'id_t_doc',
+        'state',
     ];
 
     /**
@@ -50,4 +52,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
 }

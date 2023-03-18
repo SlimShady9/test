@@ -18,6 +18,8 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
+        'hasHeader' => true,
+        'hasFooter' => true,
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
@@ -40,7 +42,7 @@ Route::get('/regUser', function () {
     return Inertia::render('RegisterUser', [
     'api_token' => env('API_KEY_GEO'),
     ]);
-})->middleware(['auth', 'verified'])->name('regUser');
+})->middleware(['auth', 'verified','admin'])->name('regUser');
 
 Route::get('/createService', function () {
     return Inertia::render('CreateService', [
@@ -48,13 +50,15 @@ Route::get('/createService', function () {
     ]);
 })->middleware(['auth', 'verified'])->name('createService');
 
+Route::get('/deliveryProof/{id}', function ($id) {
+    return Inertia::render('DeliveryProof', [
+        'serviceId' => $id,
+    ]);
+})->middleware(['auth', 'verified'])->name('deliveryProof');
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::get('/envios', function () {
-    return Inertia::render('Envios');
-})->middleware(['auth', 'verified'])->name('envios');
 
 Route::get('/services', function () {
     return Inertia::render('Services', [
@@ -64,6 +68,35 @@ Route::get('/services', function () {
 
 Route::get('/users', function () {
     return Inertia::render('Users');
-})->middleware(['auth', 'verified'])->name('users');
+})->middleware(['auth', 'verified','admin'])->name('users');
+
+Route::get('/pqrs/{id}', function ($id) {
+    return Inertia::render('Pqrs', [
+        'serviceId' => $id,
+    ]);
+})->middleware(['auth', 'verified'])->name('pqrs');
+
+Route::get('/editService/{id}', function ($id) {
+    return Inertia::render('EditService', [
+        'serviceId' => $id,
+        'api_token' => env('API_KEY_GEO'),
+    ]);
+})->middleware(['auth', 'verified','admin'])->name('editService');
+
+Route::get('/envios', function () {
+    return Inertia::render('Envios');
+})->middleware(['auth', 'verified'])->name('envios');
+
+Route::get('/graph', function () {
+    return Inertia::render('Graph');
+})->middleware(['auth', 'verified','admin'])->name('graph');
+
+Route::get('/inactiveUsers', function () {
+    return Inertia::render('InactiveUsers');
+})->middleware(['auth', 'verified'])->name('inactiveUsers');
+
+Route::get('/archivedServices', function () {
+    return Inertia::render('ArchivedServices');
+})->middleware(['auth', 'verified'])->name('archivedServices');
 
 require __DIR__.'/auth.php';

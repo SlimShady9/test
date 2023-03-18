@@ -6,12 +6,13 @@ import Container from "@/Components/Container";
 
 export default function Base({ children }) {
     return (
-        <div className="">
+        <div className="min-h-screen relative left-0 right-0">
             <Header className="mb-4 z-10" />
-            <Container className="m-5 relative align-center">
-            <Card className="m-auto">{children}</Card>
+            <Container className="lg:m-auto lg:h-3/4 xl:w-1/2 my-8">
+                <Card className={" m-auto"}>{children}</Card>
+
             </Container>
-            <Footer />
+            <Footer className="md:absolute relative bottom-0 left-0 right-0" />
         </div>
     );
 }

@@ -1,93 +1,133 @@
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { GrEdit } from "react-icons/gr";
 import { RiDeleteBinLine } from "react-icons/ri";
-import react, { useEffect, useState } from "react";
+import ButtonGroup from "@/Components/FormUtils/ButtonGroup";
+import Modal from "./Modal";
+import DataForm from "./FormUtils/DataForm";
+import { Link } from "@inertiajs/inertia-react";
 import DataTable from "react-data-table-component";
-import Modal from "@/Components/Modal";
-import Container from "@/Components/Container";
-import DataForm from "@/Components/DataForm";
-import { Link } from '@inertiajs/inertia-react';
+import Button from "./FormUtils/Button";
+import { toStringTipoDocumentoEnumShort } from "@/Constants/TipoDocumentoEnum";
+import { toStringTipoDeUsuariosEnum } from "@/Constants/TipoDeUsuariosEnum";
+import { getUsers, inactivateUser } from "@/Utils/FetchUsers";
+import { toast } from "react-toastify";
 
-const Datatable = () => {
+const DatatableUser = ({ lUser }) => {
     const [search, setSearch] = useState("");
     const [user, setUser] = useState([]);
     const [filteredUser, setFilteredUser] = useState([]);
     const [idselected, setIdselected] = useState(null);
-
     const [userParams, setUserParams] = useState([]);
     const [showModal, setShowModal] = useState("");
     const onHide = () => setShowModal(false);
 
     const submitUser = (data) => {
-        console.log(data);
         axios.put(`/api/user/${idselected}`, data).then((res) => {
             setUser((prevState) =>
                 prevState.map((item) =>
-                    item.email === res.data.email ? res.data : item
+                    item.id === res.data.id ? res.data : item
+                )
+            );
+            setFilteredUser((prevState) =>
+                prevState.map((item) =>
+                    item.id === res.data.id ? res.data : item
                 )
             );
             setIdselected(null);
-            console.log(user);
-            setFilteredUser(user);
             setShowModal(false);
         });
     };
 
     const getUser = async () => {
         try {
-            const res = await axios.get("/api/user");
-            setUser(res.data);
-            setFilteredUser(res.data);
+            const res = await getUsers({ state: 1 });
+            setUser(res.data.filter((u) => lUser.id !== u.id));
+            setFilteredUser(res.data.filter((u) => lUser.id !== u.id));
         } catch (error) {
             console.log(error);
         }
     };
 
+    const deactiveUser = (user) => {
+        inactivateUser(user).then((res) => {
+            const [data, error] = res;
+            if (error) {
+                toast.error(
+                    "No se pudo inactivar el usuario. Contacte al administrador"
+                );
+                return;
+            }
+            toast.success("Usuario inactivado correctamente");
+            setUser((prevState) =>
+                prevState.filter((item) => item.id !== data.id)
+            );
+            setFilteredUser((prevState) =>
+                prevState.filter((item) => item.id !== data.id)
+            );
+        });
+    };
+
     const columns = [
-        {
-            name: "Nombre",
-            selector: (row) => row.name,
-            sortable: true,
-        },
-        {
-            name: "Apellido",
-            selector: (row) => row.surname,
-            sortable: true,
-        },
         {
             name: "Nombre de usuario",
             selector: (row) => row.username,
         },
         {
+            name: "Nombres",
+            selector: (row) => row.name + " " + row.surname,
+            sortable: true,
+        },
+        {
+            name: "Tipo de usuario",
+            selector: (row) => toStringTipoDeUsuariosEnum(row.id_t_user),
+        },
+        {
             name: "Correo",
-            selector: (row) => row.email,
+            selector: (row) => (
+                <a
+                    href={"http://" + row.email}
+                    target="_blank"
+                    className="bg-blue"
+                >
+                    {row.email}
+                </a>
+            ),
         },
         {
             name: "Documento",
-            selector: (row) => row.doc,
-        },
-        {
-            name: "Telefono",
-            selector: (row) => row.phone,
+            selector: (row) =>
+                toStringTipoDocumentoEnumShort(row.id_t_user) + " " + row.doc,
         },
         {
             name: "Celular",
             selector: (row) => row.cellphone,
         },
         {
-            name: "Editar",
-            cell: (row) => (
-                <button onClick={() => loadUser(row.id)} className="bg-blue">
-                    <GrEdit />
-                </button>
-            ),
+            name: "Teléfono",
+            selector: (row) => row.phone,
         },
+
         {
-            name: "Eliminar",
+            name: "Opciones",
+            grow: 1.5,
+            center: true,
             cell: (row) => (
-                <button className="bg-red py-4 px-3">
-                    <RiDeleteBinLine />
-                </button>
+                <ButtonGroup
+                    listButtons={[
+                        {
+                            onClick: () => loadUser(row.id),
+                            icon: <GrEdit />,
+                            text: "Editar",
+                            className: "bg-blue-400",
+                        },
+                        {
+                            onClick: () => deactiveUser(row),
+                            icon: <RiDeleteBinLine />,
+                            text: "Inactivar",
+                        },
+                    ]}
+                />
             ),
         },
     ];
@@ -126,15 +166,15 @@ const Datatable = () => {
             fixedHeader
             pagination
             subHeader
+            noDataComponent="No se encontraron resultados"
+            paginationComponentOptions={{
+                rowsPerPageText: "Filas por página",
+                rangeSeparatorText: "de",
+            }}
             subHeaderComponent={
                 <>
-                    <Link
-                    href={"regUser"}
-                    className="p-3 bg-blue-400"
-                    >
-                    <Container className="hover:scale-125 shadow-xl rounded-3xl bg-green-light">
-                        Nuevo Usuario
-                    </Container>
+                    <Link href={"regUser"} className="p-3 bg-blue-400">
+                        <Button>Nuevo Usuario</Button>
                     </Link>
                     <input
                         type="text"
@@ -143,7 +183,7 @@ const Datatable = () => {
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                     />
-                    
+
                     <Modal
                         onHide={onHide}
                         show={showModal}
@@ -161,4 +201,4 @@ const Datatable = () => {
     );
 };
 
-export default Datatable;
+export default DatatableUser;

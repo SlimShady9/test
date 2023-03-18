@@ -4,19 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Service;
+use App\Models\Address;
 use App\Models\Parameter;
 use App\Models\TypeService;
+use App\Models\StateService;
+use Illuminate\Support\Facades\DB;
 
-use Barryvdh\Debugbar\Facade as Debugbar;
 
 class ServiceController extends Controller {
+
+    private $path = 'profileimg/';
 
     public function index() {
         return Service::all();
     }
 
     public function show($id) {
-
         return Service::find($id);
     }
 
@@ -25,30 +28,31 @@ class ServiceController extends Controller {
         try {
 
             $request->validate([
-                'name' => 'required|string|max:30',
+                'name' => 'required|string|max:50',
                 'id_state_service' => 'Exists:state_services,id',
-                'id_type_service' => 'required|Exists:type_services,id',
-                'description' => 'required|string|max:255',
-                'price' => 'required|numeric|Between:0,9999999999',
-                'id_address' => 'required|Exists:addresses,id',
-                'data' => 'json',
-                'date' => 'required|date',
+                'id_type_service' => 'Exists:type_services,id',
+                'description' => 'max:255',
+                'start_date' => 'required|date',
+                'price' => 'Between:0,9999999999',
+                'cost' => 'Between:0,9999999999',
+                'archive' => 'max:255',
+                'signature' => 'max:255',
             ]);
             
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json(['error' => $e->getMessage()], 403);
         }
-
-        Debugbar::info($request->id_type_service);
         
         $newService = Service::create([
             'name' => $request->name,
-            'id_state_service' => 1, // 1 = 'En proceso'
+            'id_state_service' => $request->id_state_service,
             'id_type_service' => $request->id_type_service,
+            'start_date' => $request->start_date,
             'description' => $request->description,
             'price' => $request->price,
-            'id_address' => $request->id_address,
-            'data' => $request->data,
+            'cost' => $request->cost,
+            'archive' => $request->archive,
+            'signature' => $request->signature,
         ]);
         return $newService;
     }
@@ -116,13 +120,17 @@ class ServiceController extends Controller {
         try {
 
             $request->validate([
-                'name_service' => 'string|max:30',
-                'price_service' => 'numeric|Between:0,9999999999',
-                'id_type_service' => 'Exists:t_services,id',
-                'state_service_id' => 'Exists:state_services,id',
-                'description_service' => 'string|max:255',
-                'id_address' => 'Exists:addresses,id',
-                'data' => 'json',
+                'name' => 'required|string|max:50',
+                'id_state_service' => 'Exists:state_services,id',
+                'id_type_service' => 'Exists:type_services,id',
+                'description' => 'max:255',
+                'start_date' => 'required|date',
+                'price' => 'Between:0,9999999999',
+                'cost' => 'Between:0,9999999999',
+                'address' => 'Exists:addresses,id',
+                'archive' => 'max:255',
+                'id_exception' => 'max:2',
+                'signature' => 'max:255',
             ]);
             
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -133,10 +141,18 @@ class ServiceController extends Controller {
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json(['error' => 'Service not found'], 404);
         }
-        $service->name = $request->name_service;
-        $service->price = $request->price_service;
+        $service->name = $request->name;
+        $service->id_state_service = $request->id_state_service;
         $service->id_type_service = $request->id_type_service;
-        $service->id_state_service = 5; // 5 = 'Pendiente'
+        $service->description = $request->description;
+        $service->start_date = $request->start_date;
+        $service->end_date = null;
+        $service->price = $request->price;
+        $service->cost = $request->cost;
+        $service->address = $request->address ? $request->address : $service->address;
+        $service->archive = $request->archive;
+        $service->signature = $request->signature;
+        $service->id_exception = $request->id_exception;
         $service->save();
         return $service;
     }
@@ -174,5 +190,32 @@ class ServiceController extends Controller {
         return response()->json([
             'parameters' => $parameters,
             ], 200)->header('Content-Type', 'application/json');
+    }
+
+    public function addressByService($id_service) {
+        return Address::find($id_service);
+    }
+
+    public function serviceByUser($id_user)
+    {
+        $sql = 'SELECT s.* FROM services s 
+        inner join orders o on s.id = o.id_service 
+        inner join users u on u.id = o.id_user 
+        where u.id = ' . $id_user;
+        $products = DB::select($sql);
+        return $products;
+    }
+    /**
+     * Generate a random string
+     * Of 30 characters
+     */
+    private function generateRandomString() {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < 30; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 }

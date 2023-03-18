@@ -21,38 +21,47 @@ module.exports = {
             // Para la customizacion  de un color de agrega diferentes variantes de este mismo
             // Ejemplo para aplicar una de las variantes a un color seria de la siguiente forma:
             // green-primary, y como prefijo bg, o text, o border, etc
-            
+
             green: {
                 // Color con identificador y valor hexadecimal de este
                 primary: "#1EE300",
                 light: "#8eff80",
                 dark: "#139f00",
-                servi:"#1EE300"
+                servi: "#1EE300",
             },
             gray: {
                 light: "#dcdcdc",
                 dark: "#9a9a9a",
-                servi:"#dcdcdc"
+                servi: "#dcdcdc",
+                border: "hsl(0, 0%, 80%)",
             },
             blue: {
                 light: "#9CBEFF",
                 primary: "#231A49",
                 dark: "#000022",
-                servi:"#0a0231"
+                servi: "#0a0231",
+                border: "#2684FF",
+                clear: "#00638d",
+                turquose: "#004f74",
+                clearer: "#0090bf",
             },
             red: {
                 light: "#ffb3b3",
                 primary: "#ff0000",
                 dark: "#b30000",
             },
-            yellow:
-            {
+            yellow: {
                 light: "#ffffeo",
                 cream: "#fceea7",
             },
             white: "#ffffff",
+            semitransparent: "rgba(0, 0, 0, 01)",
             black: "#000000",
             "input-border": "hsl(0, 0%, 80%)",
+
+            transparent: 'rgba(255, 255, 255, 0)',
+            semitransparent: 'rgba(255, 255, 255, 0.5)',
+            semiwhite: 'rgba(255, 255, 255, 0.75)',
         },
         extend: {
             keyframes: {
@@ -82,7 +91,7 @@ module.exports = {
                         opacity: 0,
                     },
                     "100%": {
-                        opacity: 0.4,
+                        opacity: 1,
                     },
                 },
                 "opacity-out-modal": {

@@ -1,12 +1,13 @@
-import React from 'react';
+import React from "react";
+import logo from "../../imgs/logo.png";
 
 function ApplicationLogo({ className }) {
     return (
         <div
-            className="font-bold text-2xl cursor-pointer flex items-center font-[Poppins] 
-            text-gray-800 transition ease-in-out duration-300 hover:scale-125 animate-pulse"
+            className={`m-2 font-bold text-2xl cursor-pointer flex items-center font-[Poppins] 
+            text-gray-800 transition ease-in-out duration-300 animate-pulse` + className} 
         >
-            SERVICURRIER S.A.S
+            <img height={150} width={150} src={logo} />
         </div>
     );
 }

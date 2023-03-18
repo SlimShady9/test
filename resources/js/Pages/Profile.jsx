@@ -1,198 +1,238 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import Card from "@/Components/Card";
-import Modal from "@/Components/Modal";
-import Button from "@/Components/Button";
-import ImageUploadForm from "@/Components/ImageUploadForm";
-import axios from "axios";
-import DataForm from "@/Components/DataForm";
+import Button from "@/Components/FormUtils/Button";
+import ImageUploadForm from "@/Components/FormUtils/ImageUploadForm";
 import Container from "@/Components/Container";
-import Input from "@/Components/Input";
-import Label from "@/Components/Label";
-import Checkbox from "@/Components/Checkbox";
-import Select from "react-select";
-import AddressForm from "@/Components/AddressForm";
+import Input from "@/Components/FormUtils/Input";
+import SelectInput from "@/Components/FormUtils/SelectInput";
+import Label from "@/Components/FormUtils/Label";
+import {
+    toStringTipoDocumentoEnum,
+    TipoDocumentoEnum,
+} from "@/Constants/TipoDocumentoEnum";
+import {
+    toStringTipoDeUsuariosEnum,
+    TipoDeUsuariosEnum,
+} from "@/Constants/TipoDeUsuariosEnum";
+import { updateUsers } from "@/Utils/FetchUsers";
 
 export default function Profile(props) {
-
-    const options = [
-        { value: "particular", label: "Particular" },
-        { value: "empresa", label: "Empresa" },
-        { value: "proveedor", label: "Proveedor" },
-    ];
-
-    const [profileParams, setProfileParams] = useState([]);
-    const [showModal, setShowModal] = useState("");
-    const [idAddress, setIdAddress] = useState(null);
-
-    const onHide = () => setShowModal(false);
+    const [data, setData] = useState({});
+    const optionsTU = Object.keys(TipoDeUsuariosEnum).map((key) => ({
+        label: toStringTipoDeUsuariosEnum(TipoDeUsuariosEnum[key]),
+        value: TipoDeUsuariosEnum[key],
+    }));
+    const optionsTD = Object.keys(TipoDocumentoEnum).map((key) => ({
+        label: toStringTipoDocumentoEnum(TipoDocumentoEnum[key]),
+        value: TipoDocumentoEnum[key],
+    }));
 
     const [loggedUser, setLoggedUser] = useState(props.auth.user);
 
-    const succesAddressLoad = (data) => {
-        setIdAddress(data.id);
-        setShowModal(false);
+    const onChange = (e) => {
+        setLoggedUser({ ...loggedUser, [e.target.name]: e.target.value });
     };
 
-    const onHandleChange = (event) => {
-    setData(
-        event.target.name,
-        event.target.type === "checkbox"
-            ? event.target.checked
-            : event.target.value
-    );
+    const submitForm = async (e) => {
+        e.preventDefault();
+        const [response, error] = await updateUsers(loggedUser);
+
+        if (error) {
+            toast.error("Error al actualizar el usuario");
+            return;
+        }
+        const userN = await response;
+        setLoggedUser((prev) => {
+            return { ...prev, loggedUser: userN };
+        });
     };
 
     return (
         <>
-            <Authenticated {...props}>
-                <Container>
-                    <Card className={"justify-center tracking-widest m-auto"} col={2}>
-                    <Container className={"col-span-2 justify-center"}>
-                    <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">Perfil de Usuario</h1>
-                    <ImageUploadForm user={loggedUser} setUser={setLoggedUser} />
+            <form className="gap-4" onSubmit={submitForm}>
+                <Authenticated {...props}>
+                    <Container>
+                        <Card
+                            className={"justify-center tracking-widest m-auto"}
+                            col={2}
+                        >
+                            <Container className={"col-span-2 justify-center"}>
+                                <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center ease-in duration-200">
+                                    Perfil de Usuario
+                                </h1>
+                                <ImageUploadForm
+                                    user={loggedUser}
+                                    setUser={setLoggedUser}
+                                />
+                            </Container>
+                            <div className="sm:col-span-1 col-span-2">
+                                <Label forInput="username" value="Username" />
+                                <Input
+                                    type="text"
+                                    name="username"
+                                    defaultValue={loggedUser.username}
+                                    className="mt-1 block w-full"
+                                    isFocused={true}
+                                    handleChange={onChange}
+                                    required
+                                    maxLength={15}
+                                    minLength={8}
+                                />
+                            </div>
+                            <div className="sm:col-span-1 col-span-2">
+                                <Label forInput="name" value="Nombre(s)" />
+                                <Input
+                                    type="text"
+                                    name="name"
+                                    defaultValue={loggedUser.name}
+                                    className="mt-1 block w-full"
+                                    autoComplete="title"
+                                    isFocused={true}
+                                    handleChange={onChange}
+                                    required
+                                    maxLength={50}
+                                    minLength={3}
+                                />
+                            </div>
+                            <div className="sm:col-span-1 col-span-2">
+                                <Label forInput="name" value="Apellido(s)" />
+                                <Input
+                                    type="text"
+                                    name="surname"
+                                    defaultValue={loggedUser.surname}
+                                    className="mt-1 block w-full"
+                                    autoComplete="title"
+                                    isFocused={true}
+                                    handleChange={onChange}
+                                    required
+                                    maxLength={50}
+                                    minLength={3}
+                                />
+                            </div>
+                            <div className="sm:col-span-1 col-span-2">
+                                <Label
+                                    forInput="t_user"
+                                    value="Tipo de Usuario"
+                                />
+                                <SelectInput
+                                    disabled={true}
+                                    options={optionsTU}
+                                    value={{
+                                        value: loggedUser.id_t_user,
+                                        label: toStringTipoDeUsuariosEnum(
+                                            loggedUser.id_t_user
+                                        ),
+                                    }}
+                                    onChange={(e) => {
+                                        onChange({
+                                            target: {
+                                                name: "id_t_user",
+                                                value: e.value,
+                                            },
+                                        });
+                                    }}
+                                />
+                            </div>
+
+                            <div className="col-span-2">
+                                <Label forInput="email" value="Correo" />
+                                <Input
+                                    type="text"
+                                    name="email"
+                                    defaultValue={loggedUser.email}
+                                    className="mt-1 block w-full"
+                                    autoComplete="email"
+                                    isFocused={true}
+                                    handleChange={onChange}
+                                    required
+                                    email={true}
+                                />
+                            </div>
+                            <div className="sm:col-span-1 col-span-2">
+                                <Label forInput="phone" value="Teléfono" />
+                                <Input
+                                    type="text"
+                                    name="phone"
+                                    defaultValue={loggedUser.phone}
+                                    className="mt-1 block w-full"
+                                    autoComplete="phone"
+                                    isFocused={true}
+                                    handleChange={onChange}
+                                    required
+                                    onlyNumbers={true}
+                                    maxLength={30}
+                                />
+                            </div>
+                            <div className="sm:col-span-1 col-span-2">
+                                <Label forInput="cellphone" value="Celular" />
+                                <Input
+                                    type="text"
+                                    name="cellphone"
+                                    defaultValue={loggedUser.cellphone}
+                                    className="mt-1 block w-full"
+                                    autoComplete="cellphone"
+                                    isFocused={true}
+                                    handleChange={onChange}
+                                    required
+                                    onlyNumbers={true}
+                                    maxLength={30}
+                                />
+                            </div>
+                            <div className="sm:col-span-1 col-span-2">
+                                <Label
+                                    forInput="doc"
+                                    value="Documento de Identidad"
+                                />
+                                <Input
+                                    type="text"
+                                    name="doc"
+                                    defaultValue={loggedUser.doc}
+                                    className="mt-1 block w-full"
+                                    autoComplete="doc"
+                                    isFocused={true}
+                                    handleChange={onChange}
+                                    required
+                                    onlyNumbers={true}
+                                    maxLength={30}
+                                    minLength={4}
+                                />
+                            </div>
+                            <div className="sm:col-span-1 col-span-2">
+                                <Label
+                                    forInput="t_document"
+                                    value="Tipo de Documento"
+                                />
+                                <SelectInput
+                                    options={optionsTD}
+                                    value={{
+                                        value: loggedUser.id_t_doc,
+                                        label: toStringTipoDocumentoEnum(
+                                            loggedUser.id_t_doc
+                                        ),
+                                    }}
+                                    onChange={(e) => {
+                                        onChange({
+                                            target: {
+                                                name: "id_t_doc",
+                                                value: e.value,
+                                            },
+                                        });
+                                    }}
+                                />
+                            </div>
+                            <div className="flex items-center justify-center mt-4 col-span-2 ">
+                                <Button
+                                    className="bg-green-light"
+                                    type="submit"
+                                >
+                                    Guardar
+                                </Button>
+                            </div>
+                        </Card>
                     </Container>
-                        <div className="col-span-1">
-                            <Label forInput="name" value="Username" />
-                            <Input
-                                type="text"
-                                name="title"
-                                value={""}
-                                className="mt-1 block w-full"
-                                autoComplete="title"
-                                isFocused={true}
-                                handleChange={onHandleChange}
-                                required
-                            />
-                        </div>
-                        <div className="col-span-1">
-                            <Label forInput="name" value="Nombre(s)" />
-                            <Input
-                                type="text"
-                                name="title"
-                                value={""}
-                                className="mt-1 block w-full"
-                                autoComplete="title"
-                                isFocused={true}
-                                handleChange={onHandleChange}
-                                required
-                            />
-                        </div>
-                        <div className="col-span-1">
-                            <Label forInput="name" value="Apellido(s)" />
-                            <Input
-                                type="text"
-                                name="title"
-                                value={""}
-                                className="mt-1 block w-full"
-                                autoComplete="title"
-                                isFocused={true}
-                                handleChange={onHandleChange}
-                                required
-                            />
-                        </div>
-                        <div>
-                        <Label forInput="t_user" value="Tipo de Usuario" />
-                        <Select
-                            name="country"
-                            options={options}
-                            className="mt-1 block w-full"
-                            autoComplete="country"
-                            required
-                        ></Select>
-                    </div>
-                    <Button className="bg-gray-servi col-span-2" onClick={() => setShowModal(true)}>
-                        Cambiar Dirección
-                    </Button>
-
-                    <div className="col-span-2">
-                        <Label forInput="email" value="Correo" />
-                        <Input
-                            type="text"
-                            name="email"
-                            value={""}
-                            className="mt-1 block w-full"
-                            autoComplete="email"
-                            isFocused={true}
-                            handleChange={onHandleChange}
-                            required
-                        />
-                    </div>
-                    <div className="col-span-1">
-                        <Label forInput="phone" value="Teléfono" />
-                        <Input
-                            type="number"
-                            name="phone"
-                            value={""}
-                            className="mt-1 block w-full"
-                            autoComplete="phone"
-                            isFocused={true}
-                            handleChange={onHandleChange}
-                            required
-                        />
-                    </div>
-                    <div className="col-span-1">
-                        <Label forInput="cellphone" value="Celular" />
-                        <Input
-                            type="number"
-                            name="cellphone"
-                            value={""}
-                            className="mt-1 block w-full"
-                            autoComplete="cellphone"
-                            isFocused={true}
-                            handleChange={onHandleChange}
-                            required
-                        />
-                    </div>
-                    <div className="col-span-1">
-                        <Label forInput="doc" value="Documento de Identidad" />
-                        <Input
-                            type="number"
-                            name="doc"
-                            value={""}
-                            className="mt-1 block w-full"
-                            autoComplete="doc"
-                            isFocused={true}
-                            handleChange={onHandleChange}
-                            required
-                        />
-                    </div>
-                    <div>
-                        <Label forInput="t_document" value="Tipo de Documento" />
-                        <Select
-                            name="t_document"
-                            options={options}
-                            className="mt-1 block w-full"
-                            autoComplete="t_document"
-                            required
-                        ></Select>
-                    </div>
-                    <div className="flex items-center justify-start mt-4 ">
-                    <Button className="bg-red-light" type="submit">
-                        Cancelar
-                    </Button>
-                    </div>
-                    <div className="flex items-center justify-end mt-4 ">
-                    <Button className="bg-green-light" type="submit">
-                        Generar
-                    </Button>
-                    </div>
-
-
-
-                    <Modal
-                        onHide={onHide}
-                        show={showModal}
-                        title={"Ingrese una nueva dirección"}
-                    >
-                        <AddressForm
-                            api_token={props.api_token}
-                            onSubmit={succesAddressLoad}
-                        />
-                    </Modal>
-                    </Card>
-                </Container>
-            </Authenticated>
+                </Authenticated>
+            </form>
         </>
     );
 }

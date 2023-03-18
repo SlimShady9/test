@@ -1,79 +1,94 @@
-import React, { useState, useEffect } from "react";
-import { useForm } from "@inertiajs/inertia-react";
-import Input from "@/Components/Input";
-import Select from "react-select";
-import Label from "@/Components/Label";
-import axios from "axios";
-import Button from "./Button";
+import React, { useState, useEffect, useContext } from "react";
+import Label from "./FormUtils/Label";
+import SelectInput from "./FormUtils/SelectInput";
+import Input from "./FormUtils/Input";
+import Button from "./FormUtils/Button";
+import {
+    getCities,
+    getCountries,
+    getRegions,
+    saveAddress,
+    updateAddress,
+} from "@/Utils/FetchAddress";
+import { toast } from "react-toastify";
+import ServiceContext from "./ServiceForms/useServiceContext";
 
-function AddressForm({ api_token, onSubmit }) {
-    const axiosConfig = {
-        headers: {
-            "X-CSCAPI-KEY": api_token,
+function AddressForm({ api_token, onSubmit, isEdit = false }) {
+    const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
+    const [data, setData] = useState({
+        id: serviceDTO.address.id,
+        name: serviceDTO.address.name,
+        addr: serviceDTO.address.addr,
+        country: {
+            label: serviceDTO.address.country,
+            value: serviceDTO.address.country_iso,
         },
-    };
-
-    const { data, setData, processing, errors, reset } = useForm({
-        name: "",
-        country: { label: "", value: "" },
-        region: { label: "", value: "" },
-        city: { label: "", value: "" },
-        addr: "",
-        addr_detail: "",
-        postal_code: "",
+        country_iso: serviceDTO.address.country_iso,
+        region: {
+            label: serviceDTO.address.region,
+            value: serviceDTO.address.region_iso,
+        },
+        region_iso: serviceDTO.address.region_iso,
+        city: {
+            label: serviceDTO.address.city,
+            value: serviceDTO.address.city_id,
+        },
+        city_id: serviceDTO.address.city_id,
+        postal_code: serviceDTO.address.postal_code,
+        addr_detail: serviceDTO.address.addr_detail,
+        neighborhood: serviceDTO.address.neighborhood,
     });
 
     const [countries, setCountries] = useState([]);
     const [regions, setRegions] = useState([]);
     const [cities, setCities] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        axios
-            .get("https://api.countrystatecity.in/v1/countries", axiosConfig)
-            .then((res) => {
-                setCountries(res.data);
-            });
+        getCountries(api_token).then((res) => setCountries(res));
     }, []);
 
     useEffect(() => {
-        setData({
-            ...data,
-            region: { label: "", value: "" },
-            city: { label: "", value: "" },
-        });
-        if (data.country.value != "") {
-            axios
-                .get(
-                    `https://api.countrystatecity.in/v1/countries/${data.country.value}/states`,
-                    axiosConfig
-                )
-                .then((res) => {
-                    setRegions(res.data);
-                });
+        if (!loading) {
+            setData({
+                ...data,
+                region: { label: "", value: "" },
+                city: { label: "", value: "" },
+            });
+        }
+        if (data.country?.value && data.country.value != "") {
+            getRegions(api_token, data.country.value).then((res) =>
+                setRegions(res)
+            );
         }
     }, [data.country]);
 
     useEffect(() => {
-        setData({
-            ...data,
-            city: { label: "", value: "" },
-        });
-        if (!(data.country.value == "" || data.region.value == "")) {
-            axios
-                .get(
-                    `https://api.countrystatecity.in/v1/countries/${data.country.value}/states/${data.region.value}/cities`,
-                    axiosConfig
-                )
-                .then((res) => {
-                    setCities(res.data);
-                });
+        if (!loading) {
+            setData({
+                ...data,
+                city: { label: "", value: "" },
+            });
         }
+        if (
+            data.country?.value &&
+            data.region?.value &&
+            !(data.country.value == "" || data.region.value == "")
+        ) {
+            getCities(api_token, data.country.value, data.region.value).then(
+                (res) => setCities(res)
+            );
+        }
+        setLoading(false);
     }, [data.region]);
 
-    const handleChange = (e, propName) => {
+    const handleChange = (e, propName, args) => {
         let newData = { ...data };
         if (e.label) {
             newData[propName] = e;
+            if (args) {
+                newData[args.isoId] = args.isoName;
+            }
             setData(newData);
         } else {
             setData({ ...data, [e.target.name]: e.target.value });
@@ -82,78 +97,144 @@ function AddressForm({ api_token, onSubmit }) {
 
     const submit = (e) => {
         e.preventDefault();
-        const parsedData = {
-            ...data,
-            country: data.country.label,
-            region: data.region.label,
-            city: data.city.label,
-        };
-        axios
-            .post("/api/address", parsedData)
-            .then((res) => res.data)
-            .then((res) => {
+        if (!isEdit) {
+            toast.success("Dirección guardada correctamente");
+            saveAddress(data).then((res) => {
                 onSubmit(res);
-            })
-            .catch((err) => {
-                //Alerta de juanito
             });
+        } else {
+            toast.success("Dirección actualizada correctamente");
+            updateAddress(data).then((res) => {
+                onSubmit(res);
+            });
+        }
     };
 
     return (
-        <form onSubmit={submit}>
-            <Label forInput="country">País</Label>
-            <Select
-                name="country"
-                type="select"
-                value={data.country}
-                onChange={(e) => handleChange(e, "country")}
-                options={countries.map((c) => ({
-                    label: c.name,
-                    value: c.iso2,
-                }))}
-            />
-            <Label forInput="region">Región</Label>
-            <Select
-                name="region"
-                type="select"
-                value={data.region}
-                onChange={(e) => handleChange(e, "region")}
-                options={regions.map((c) => ({
-                    label: c.name,
-                    value: c.iso2,
-                }))}
-            />
-            <Label forInput="city">Ciudad</Label>
-            <Select
-                name="city"
-                type="select"
-                value={data.city}
-                onChange={(e) => handleChange(e, "city")}
-                options={cities.map((c) => ({
-                    label: c.name,
-                    value: c.id,
-                }))}
-            />
-            <Label forInput="name">Nombre</Label>
-            <Input name="name" handleChange={(e) => handleChange(e, "name")} />
-            <Label forInput="addr">Dirección</Label>
-            <Input name="addr" handleChange={(e) => handleChange(e, "addr")} />
-            <Label forInput="addr_detail">Detalles</Label>
-            <Input
-                name="addr_detail"
-                handleChange={(e) => handleChange(e, "addr_detail")}
-            />
-            <Label forInput="postal_code">Código postal</Label>
-            <Input
-                name="postal_code"
-                handleChange={(e) => handleChange(e, "postal_code")}
-            />
-            <div className="flex justify-center">
-                <Button processing={processing} type="submit" className="mt-3">
-                    Agregar dirección
-                </Button>
-            </div>
-        </form>
+        <div>
+            <form onSubmit={submit} className="">
+                <div className="flex flex-col my-3">
+                    <Label forInput="name">Nombre del Lugar</Label>
+                    <Input
+                        name="name"
+                        handleChange={(e) => handleChange(e, "name")}
+                        defaultValue={data.name}
+                        required={true}
+                        maxLength={50}
+                        alpaNumeric={true}
+                    />
+                </div>
+                <div className="flex md:flex-row flex-col gap-4 my-3">
+                    <div className="md:w-1/2 w-full">
+                        <Label forInput="addr">Dirección</Label>
+                        <Input
+                            name="addr"
+                            handleChange={(e) => handleChange(e, "addr")}
+                            defaultValue={data.addr}
+                            required={true}
+                            maxLength={50}
+                        />
+                    </div>
+                    <div className="md:w-1/2 w-full">
+                        <Label forInput="postal_code">Código postal</Label>
+                        <Input
+                            name="postal_code"
+                            handleChange={(e) => handleChange(e, "postal_code")}
+                            defaultValue={data.postal_code}
+                            required={true}
+                            maxLength={10}
+                            onlyNumbers={true}
+                        />
+                    </div>
+                </div>
+
+                <div className="flex md:flex-row flex-col gap-4 my-3">
+                    <div className="md:w-1/2">
+                        <Label forInput="country">País</Label>
+                        <SelectInput
+                            value={data.country}
+                            required={true}
+                            onChange={(e) =>
+                                handleChange(e, "country", {
+                                    isoId: "country_iso",
+                                    isoName: e.value,
+                                })
+                            }
+                            options={countries.map((c) => ({
+                                label: c.name,
+                                value: c.iso2,
+                            }))}
+                        />
+                    </div>
+                    <div className="md:w-1/2">
+                        <Label forInput="region">Región</Label>
+                        <SelectInput
+                            value={data.region}
+                            required={true}
+                            onChange={(e) =>
+                                handleChange(e, "region", {
+                                    isoId: "region_iso",
+                                    isoName: e.value,
+                                })
+                            }
+                            options={regions.map((c) => ({
+                                label: c.name,
+                                value: c.iso2,
+                            }))}
+                        />
+                    </div>
+                </div>
+                <div className="flex md:flex-row flex-col gap-4 my-3">
+                    <div className="md:w-1/2 w-full">
+                        <Label forInput="city">Ciudad</Label>
+                        <SelectInput
+                            value={data.city}
+                            required={true}
+                            onChange={(e) =>
+                                handleChange(e, "city", {
+                                    isoId: "city_id",
+                                    isoName: e.value,
+                                })
+                            }
+                            options={cities.map((c) => ({
+                                label: c.name,
+                                value: c.id,
+                            }))}
+                        />
+                    </div>
+                    <div className="md:w-1/2 w-full">
+                        <Label forInput="postal_code">Localidad / Barrio</Label>
+                        <Input
+                            name="neighborhood"
+                            handleChange={(e) =>
+                                handleChange(e, "neighborhood")
+                            }
+                            defaultValue={data.neighborhood}
+                            required={true}
+                            maxLength={30}
+                        />
+                    </div>
+                </div>
+                <div className="w-full">
+                    <Label forInput="addr_detail">Detalles Dirección</Label>
+                    <Input
+                        name="addr_detail"
+                        handleChange={(e) => handleChange(e, "addr_detail")}
+                        defaultValue={data.addr_detail}
+                        maxLength={255}
+                        onlyLetters={true}
+                    />
+                </div>
+
+                <div className="flex flex-col w-full gap-4">
+                    <div className="flex gap-4 my-5 mx-auto">
+                        <Button className="" type="submit">
+                            Guardar y continuar
+                        </Button>
+                    </div>
+                </div>
+            </form>
+        </div>
     );
 }
 

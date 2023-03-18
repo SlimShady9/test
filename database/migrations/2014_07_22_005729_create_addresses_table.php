@@ -18,11 +18,15 @@ return new class extends Migration
             $table->timestamps();
             $table->string('name');
             $table->string('country');
+            $table->string('country_iso');
             $table->string('region');
+            $table->string('region_iso');
             $table->string('city');
+            $table->string('city_id');
             $table->string('addr');
-            $table->string('addr_detail');
+            $table->string('addr_detail')->nullable();
             $table->string('postal_code');
+            $table->string('neighborhood');
         });
     }
 

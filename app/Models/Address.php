@@ -14,10 +14,14 @@ class Address extends Model
         'country',
         'region',
         'city',
+        'country_iso',
+        'region_iso',
+        'city_id',
         'street',
         'addr',
         'addr_detail',
         'postal_code',
+        'neighborhood',
     ];
 
     protected $hidden = [

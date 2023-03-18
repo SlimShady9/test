@@ -10,15 +10,20 @@ class Service extends Model
     use HasFactory;
 
     protected $fillable = [
-        'tracking_id',
         'name',
+        'tracking_id',
         'id_state_service',
         'id_type_service',
-        'date',
+        'created_date',
+        'start_date',
+        'end_date',
         'description',
         'price',
-        'id_address',
-        'data',
+        'cost',
+        'archive',
+        'address',
+        'id_exception',
+        'signature',
     ];
 
     protected $hidden = [
@@ -28,14 +33,16 @@ class Service extends Model
 
     public function save(array $options = [])
     {
-        $this->tracking_id = $this->generateTrackingId();
+        if($this->tracking_id == null){
+            $this->tracking_id = $this->generateTrackingId();
+        }
         parent::save($options);
     }
 
     public function generateTrackingId()
     {
         $trackingId = '';
-        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $charactersLength = strlen($characters);
         for ($i = 0; $i < 12; $i++) {
             $trackingId .= $characters[rand(0, $charactersLength - 1)];
