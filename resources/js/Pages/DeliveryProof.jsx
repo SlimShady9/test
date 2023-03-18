@@ -189,7 +189,6 @@ export default function DeliveryProof(props) {
     const handleException = (e) => {
         e.preventDefault();
         setService((prev) => ({ ...prev, id_exception: e.target.value }));
-        console.log(service);
     };
 
     useEffect(() => {
@@ -274,10 +273,10 @@ export default function DeliveryProof(props) {
                                 </Label>
                             </div>
                             <div className="col-span-2 sm:col-span-1 border-t">
-                                    <div className="bg-gray-dark text-center text-white">
-                                        {" "}
-                                        Remitente
-                                    </div>
+                                <div className="bg-gray-dark text-center text-white">
+                                    {" "}
+                                    Remitente
+                                </div>
                                 {message && address && (
                                     <>
                                         <div className="mt-3">
@@ -287,10 +286,20 @@ export default function DeliveryProof(props) {
                                             <div className="m-2">
                                                 {message.name}, {message.charge}
                                             </div>
-                                            <div className="m-2">                                               
-                                            {address.country},{" "}{address.region}, {address.city}
-                                                </div>
-                                            <a className="m-2 text-blue-primary underline font-bold" target="_blank" href={"https://www.google.com/maps/search/"+address.city+","+address.addr}>
+                                            <div className="m-2">
+                                                {address.country},{" "}
+                                                {address.region}, {address.city}
+                                            </div>
+                                            <a
+                                                className="m-2 text-blue-primary underline font-bold"
+                                                target="_blank"
+                                                href={
+                                                    "https://www.google.com/maps/search/" +
+                                                    address.city +
+                                                    "," +
+                                                    address.addr
+                                                }
+                                            >
                                                 {address.addr}
                                             </a>
                                             <div className="m-2">
@@ -356,11 +365,10 @@ export default function DeliveryProof(props) {
                                 )}
                             </div>
                             <div className="col-span-2 bg-gray-dark text-center text-white">
-                                        Destinatario(s)
-                                    </div>
+                                Destinatario(s)
+                            </div>
                             {tasks.map((task, index) => (
                                 <React.Fragment key={index}>
-                                    
                                     <div
                                         className="grid grid-cols-4 col-span-2 text-left m-2  border-b-2 border-gray-dark border-dotted"
                                         key={index}
@@ -372,10 +380,19 @@ export default function DeliveryProof(props) {
                                             </li>
                                             {task.address && (
                                                 <div className="mt-2 text-center">
-                                                <a className="text-blue-primary underline font-bold" target="_blank" href={"https://www.google.com/maps/search/"+task.address.city+",+"+task.address.addr}>
-                                                    {task.address.addr} ||{" "}
-                                                    {task.limit_date}
-                                                </a>
+                                                    <a
+                                                        className="text-blue-primary underline font-bold"
+                                                        target="_blank"
+                                                        href={
+                                                            "https://www.google.com/maps/search/" +
+                                                            task.address.city +
+                                                            ",+" +
+                                                            task.address.addr
+                                                        }
+                                                    >
+                                                        {task.address.addr} ||{" "}
+                                                        {task.limit_date}
+                                                    </a>
                                                 </div>
                                             )}
                                             <li className="mt-2 text-sm">
@@ -434,7 +451,11 @@ export default function DeliveryProof(props) {
                                     <div className="col-span-2 sm:col-span-1 text-center border-gray-servi border-r-2">
                                         <div className="border-gray-servi border-b-2">
                                             <div className="col-span-3 border-gray-servi border-b-2">
-                                                <Label>VOLUMEN:</Label> {content?.length*content?.width*content?.height} cm³
+                                                <Label>VOLUMEN:</Label>{" "}
+                                                {content?.length *
+                                                    content?.width *
+                                                    content?.height}{" "}
+                                                cm³
                                             </div>
                                             <div className="border-gray-servi">
                                                 <div className="row-span-2 grid grid-cols-3  my-3">
