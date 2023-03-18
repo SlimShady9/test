@@ -1,13 +1,13 @@
 import react, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
 import Container from "@/Components/Container";
-import { toStringTipoDeServiciosEnum } from "@/Constants/TipoDeServiciosEnum";
-import { getUsers } from "@/Utils/FetchUsers";
+import { getUsers, reactivateUser } from "@/Utils/FetchUsers";
 import { GrUserAdd } from "react-icons/gr";
 import { toStringTipoDeUsuariosEnum } from "@/Constants/TipoDeUsuariosEnum";
 import Authenticated from "@/Layouts/Authenticated";
 import ButtonGroup from "@/Components/FormUtils/ButtonGroup";
 import { toStringTipoDocumentoEnumShort } from "@/Constants/TipoDocumentoEnum";
+import { toast } from "react-toastify";
 
 const InactiveUsers = (props) => {
     const [search, setSearch] = useState("");
@@ -18,6 +18,21 @@ const InactiveUsers = (props) => {
         getUsers({ state: 0 }).then((res) => {
             setUsuarios(res.data);
             setFilteredUsers(res.data);
+        });
+    };
+
+    const activate = async (user) => {
+        reactivateUser(user).then((res) => {
+            const [data, error] = res;
+            if (error) {
+                toast.error(
+                    "Error al reactivar el usuario. Contacte al administrador"
+                );
+                return;
+            }
+            toast.success(`Usuario ${data.username} reactivado`);
+            setUsuarios(usuarios.filter((u) => u.id !== user.id));
+            setFilteredUsers(filteredUsers.filter((u) => u.id !== user.id));
         });
     };
 
@@ -72,7 +87,7 @@ const InactiveUsers = (props) => {
                 <ButtonGroup
                     listButtons={[
                         {
-                            onClick: () => console.log("Activar"),
+                            onClick: () => activate(row),
                             text: "Activar",
                             icon: <GrUserAdd />,
                         },

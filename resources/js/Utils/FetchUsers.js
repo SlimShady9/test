@@ -36,4 +36,23 @@ const inactivateUser = async (user) => {
     }
 };
 
-export { getUsers, loadImageUser, updateUsers, getUser, inactivateUser };
+const reactivateUser = async (user) => {
+    try {
+        const req = await axios.put(`/api/user/${user.id}`, {
+            ...user,
+            state: true,
+        });
+        return [await req.data, null];
+    } catch (error) {
+        return [null, error];
+    }
+};
+
+export {
+    getUsers,
+    loadImageUser,
+    updateUsers,
+    getUser,
+    inactivateUser,
+    reactivateUser,
+};

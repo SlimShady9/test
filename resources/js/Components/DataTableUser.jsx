@@ -10,7 +10,7 @@ import DataTable from "react-data-table-component";
 import Button from "./FormUtils/Button";
 import { toStringTipoDocumentoEnumShort } from "@/Constants/TipoDocumentoEnum";
 import { toStringTipoDeUsuariosEnum } from "@/Constants/TipoDeUsuariosEnum";
-import { inactivateUser } from "@/Utils/FetchUsers";
+import { getUsers, inactivateUser } from "@/Utils/FetchUsers";
 import { toast } from "react-toastify";
 
 const DatatableUser = ({ lUser }) => {
@@ -41,9 +41,9 @@ const DatatableUser = ({ lUser }) => {
 
     const getUser = async () => {
         try {
-            const res = await axios.get("/api/user");
-            setUser(res.data.data.filter((u) => lUser.id !== u.id));
-            setFilteredUser(res.data.data.filter((u) => lUser.id !== u.id));
+            const res = await getUsers({ state: 1 });
+            setUser(res.data.filter((u) => lUser.id !== u.id));
+            setFilteredUser(res.data.filter((u) => lUser.id !== u.id));
         } catch (error) {
             console.log(error);
         }
@@ -51,16 +51,19 @@ const DatatableUser = ({ lUser }) => {
 
     const deactiveUser = (user) => {
         inactivateUser(user).then((res) => {
+            const [data, error] = res;
+            if (error) {
+                toast.error(
+                    "No se pudo inactivar el usuario. Contacte al administrador"
+                );
+                return;
+            }
             toast.success("Usuario inactivado correctamente");
             setUser((prevState) =>
-                prevState.map((item) =>
-                    item.id === res.data.id ? res.data : item
-                )
+                prevState.filter((item) => item.id !== data.id)
             );
             setFilteredUser((prevState) =>
-                prevState.map((item) =>
-                    item.id === res.data.id ? res.data : item
-                )
+                prevState.filter((item) => item.id !== data.id)
             );
         });
     };

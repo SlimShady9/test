@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('state')->unsigned()->nullable();
+            $table->boolean('state')->unsigned()->default(1);
 
         });
     }
