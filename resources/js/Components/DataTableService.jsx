@@ -11,16 +11,27 @@ import ButtonGroup from "@/Components/FormUtils/ButtonGroup";
 import { toStringEstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
 import { toStringTipoDeServiciosEnum } from "@/Constants/TipoDeServiciosEnum";
 
-const DataTableService = () => {
+const DataTableService = (auth) => {
     const [search, setSearch] = useState("");
     const [servicios, setServicios] = useState([]);
     const [filteredServices, setFilteredServices] = useState([]);
 
     const getServicios = async () => {
+
         try {
-            const res = await axios.get("/api/service");
-            setServicios(res.data);
-            setFilteredServices(res.data);
+            console.log(auth);
+            const id_user = auth.auth.user.id
+            if(auth.auth.user.id_t_user == 1){
+                const res = await axios.get("/api/service");
+                setServicios(res.data);
+                setFilteredServices(res.data);
+            }else{
+                const res = await axios.get(`/api/service/${id_user}/serviceByUser`);
+                setServicios(res.data);
+                setFilteredServices(res.data);
+            }
+            console.log(res.data);
+
         } catch (error) {
             console.log(error);
         }
@@ -29,22 +40,27 @@ const DataTableService = () => {
     const columns = [
         {
             name: "Tracking ID",
+            sortable: true,
             selector: (row) => row.tracking_id,
         },
         {
             name: "Nombre",
+            sortable: true,
             selector: (row) => row.name,
         },
         {
             name: "Tipo",
+            sortable: true,
             selector: (row) => toStringTipoDeServiciosEnum(row.id_type_service),
         },
         {
             name: "Estado",
+            sortable: true,
             selector: (row) => toStringEstadoServiciosEnum(row.id_state_service),
         },
         {
             name: "Firmado",
+            sortable: true,
             selector: (row) => {
                 if (row.signature!=null) {return "SI"}
                 else{
@@ -54,10 +70,12 @@ const DataTableService = () => {
         },
         {
             name: "Inicio",
+            sortable: true,
             selector: (row) => row.start_date,
         },
         {
             name: "Fin",
+            sortable: true,
             selector: (row) => {
                 if (row.end_date!=null) {return row.end_date}
                 else{
@@ -86,11 +104,6 @@ const DataTableService = () => {
                             href: `pqrs/${row.id}`,
                             icon: <IoHelp />,
                             text: "Ayuda",
-                        },
-                        {
-                            onClick: () => console.log("Eliminar"),
-                            icon: <RiDeleteBinLine />,
-                            text: "Archivar",
                         },
                     ]}
                 />

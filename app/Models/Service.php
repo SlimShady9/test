@@ -24,7 +24,6 @@ class Service extends Model
         'address',
         'id_exception',
         'signature',
-        'state'
     ];
 
     protected $hidden = [
@@ -37,11 +36,7 @@ class Service extends Model
         if($this->tracking_id == null){
             $this->tracking_id = $this->generateTrackingId();
         }
-        if($this->state == null){
-            $this->state = 1;
-        }
         parent::save($options);
-        parent::save(state);
     }
 
     public function generateTrackingId()
