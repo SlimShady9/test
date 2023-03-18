@@ -91,4 +91,12 @@ Route::get('/graph', function () {
     return Inertia::render('Graph');
 })->middleware(['auth', 'verified','admin'])->name('graph');
 
+Route::get('/inactiveUsers', function () {
+    return Inertia::render('InactiveUsers');
+})->middleware(['auth', 'verified'])->name('inactiveUsers');
+
+Route::get('/archivedServices', function () {
+    return Inertia::render('ArchivedServices');
+})->middleware(['auth', 'verified'])->name('archivedServices');
+
 require __DIR__.'/auth.php';

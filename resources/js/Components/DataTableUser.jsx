@@ -9,10 +9,9 @@ import { Link } from "@inertiajs/inertia-react";
 import DataTable from "react-data-table-component";
 import Button from "./FormUtils/Button";
 import { toStringTipoDocumentoEnumShort } from "@/Constants/TipoDocumentoEnum";
-
-import Container from "./Container";
-import { findOrders } from "@/Utils/FetchOrder";
 import { toStringTipoDeUsuariosEnum } from "@/Constants/TipoDeUsuariosEnum";
+import { getUsers, inactivateUser } from "@/Utils/FetchUsers";
+import { toast } from "react-toastify";
 
 const DatatableUser = ({ lUser }) => {
     const [search, setSearch] = useState("");
@@ -42,12 +41,31 @@ const DatatableUser = ({ lUser }) => {
 
     const getUser = async () => {
         try {
-            const res = await axios.get("/api/user");
-            setUser(res.data.data.filter((u) => lUser.id !== u.id));
-            setFilteredUser(res.data.data.filter((u) => lUser.id !== u.id));
+            const res = await getUsers({ state: 1 });
+            setUser(res.data.filter((u) => lUser.id !== u.id));
+            setFilteredUser(res.data.filter((u) => lUser.id !== u.id));
         } catch (error) {
             console.log(error);
         }
+    };
+
+    const deactiveUser = (user) => {
+        inactivateUser(user).then((res) => {
+            const [data, error] = res;
+            if (error) {
+                toast.error(
+                    "No se pudo inactivar el usuario. Contacte al administrador"
+                );
+                return;
+            }
+            toast.success("Usuario inactivado correctamente");
+            setUser((prevState) =>
+                prevState.filter((item) => item.id !== data.id)
+            );
+            setFilteredUser((prevState) =>
+                prevState.filter((item) => item.id !== data.id)
+            );
+        });
     };
 
     const columns = [
@@ -89,7 +107,7 @@ const DatatableUser = ({ lUser }) => {
             name: "Teléfono",
             selector: (row) => row.phone,
         },
-        
+
         {
             name: "Opciones",
             grow: 1.5,
@@ -104,9 +122,9 @@ const DatatableUser = ({ lUser }) => {
                             className: "bg-blue-400",
                         },
                         {
-                            onClick: () => console.log("Eliminar"),
+                            onClick: () => deactiveUser(row),
                             icon: <RiDeleteBinLine />,
-                            text: "Eliminar",
+                            text: "Inactivar",
                         },
                     ]}
                 />

@@ -21,10 +21,12 @@ class UserController extends Controller
     {
         $id_t_user = $request->query('id_t_user');
         $name = $request->query('name');
+        $state = $request->query('state');
 
         return User::query()
             ->whereIn('id_t_user', $id_t_user == '' ? T_user::all()->pluck('id') : [$id_t_user])
             ->where('name', 'like', '%' . $name . '%')
+            ->where('state', '=', $state)
             ->paginate();
         
     }
@@ -300,6 +302,7 @@ class UserController extends Controller
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json(['error' => 'User not found'], 404);
         }
+
        
         $user->name = $request->name;
         $user->email = $request->email;
@@ -314,6 +317,11 @@ class UserController extends Controller
         $user->signature = $request->signature;
         $user->id_t_user = $request->id_t_user;
         $user->id_t_doc = $request->id_t_doc;
+        if ($request->state != null) {
+            $user->state = true;
+        } else {
+            $user->state = false;
+        }
         $user->save();
         return $user;
     }

@@ -198,7 +198,7 @@ class ServiceController extends Controller {
 
     public function serviceByUser($id_user)
     {
-        $sql = 'SELECT s.tracking_id FROM services s 
+        $sql = 'SELECT s.* FROM services s 
         inner join orders o on s.id = o.id_service 
         inner join users u on u.id = o.id_user 
         where u.id = ' . $id_user;

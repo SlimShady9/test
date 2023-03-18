@@ -45,7 +45,7 @@ export default function Services(props) {
                             Tabla de Servicios
                         </h1>
                     </Container>
-                    <DataTableService />
+                    <DataTableService auth={props.auth}/>
                 </Container>
             </Authenticated>
         </>
