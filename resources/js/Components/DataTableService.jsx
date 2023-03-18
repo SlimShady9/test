@@ -57,6 +57,7 @@ const DataTableService = (auth) => {
             name: "Estado",
             sortable: true,
             selector: (row) => toStringEstadoServiciosEnum(row.id_state_service),
+
         },
         {
             name: "Firmado",

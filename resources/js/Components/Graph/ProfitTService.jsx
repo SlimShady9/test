@@ -35,7 +35,7 @@ const PriceTServicePie = () => {
             const dataSet1 = [];
             const res = await ServiceByTService();
             for (const val of res) {
-                if(val.ganancia!=null && val.id_type_service!=null){
+                if(val.ganancia!=null && val.id_type_service){
                 dataSet1.push(val.ganancia);
                 labelSet.push(toStringTipoDeServiciosEnum(val.id_type_service));
                 }

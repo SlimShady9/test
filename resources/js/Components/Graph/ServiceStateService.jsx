@@ -35,7 +35,7 @@ const PriceTServicePie = () => {
             const dataSet1 = [];
             const res = await ServiceByStateService();
             for (const val of res) {
-                if(val.id!=null && val.id_state_service!=null){
+                if(val.id!=null && val.id_state_service){
                 dataSet1.push(val.id);
                 labelSet.push(toStringEstadoServiciosEnum(val.id_state_service));
                 }
