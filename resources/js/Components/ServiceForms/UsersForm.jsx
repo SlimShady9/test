@@ -27,7 +27,6 @@ function UsersForm({ currentStep, setNextStep }) {
         if (serviceDTO.orders.length > 0) {
             serviceDTO.orders.forEach((order) => {
                 getUser(order.id_user).then((res) => {
-                    console.log(res);
                     setUsuariosSeleccionados((prev) => [...prev, res]);
                 });
             });
