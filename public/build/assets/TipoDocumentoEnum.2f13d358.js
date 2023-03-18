@@ -1,0 +1,1 @@
+const e=Object.freeze({CEDULA:1,PASAPORTE:2,CEDULA_EXTRANJERIA:3}),r=t=>{switch(t){case e.CEDULA:return"C\xE9dula";case e.PASAPORTE:return"Pasaporte";case e.CEDULA_EXTRANJERIA:return"C\xE9dula de extranjeria";default:return""}},n=t=>{switch(t){case e.CEDULA:return"CC";case e.PASAPORTE:return"PA";case e.CEDULA_EXTRANJERIA:return"CE";default:return""}};export{e as T,r as a,n as t};
