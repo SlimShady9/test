@@ -23,7 +23,10 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+                return redirect(RouteServiceProvider::HOME)->with('error', 'Srry crack tas blokeado');
             }
         }
 
