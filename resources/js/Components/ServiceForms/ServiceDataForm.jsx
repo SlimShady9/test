@@ -26,6 +26,7 @@ function ServiceDataForm({
     setServicesAvailable,
     isEdit = false,
     typeUser,
+    idUser,
 }) {
     const id = EstadoServiciosEnum.SERVICIO_INCIADO;
 
@@ -160,7 +161,7 @@ function ServiceDataForm({
             serviceForm.archive = await addAddress();
         }
         if (!isEdit) {
-            const response = await uploadService(serviceForm);
+            const response = await uploadService(serviceForm, idUser, typeUser);
             if (response.error) {
                 toast.error("Error al subir el servicio");
                 return;

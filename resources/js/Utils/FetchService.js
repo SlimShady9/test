@@ -1,8 +1,20 @@
+import { TipoDeUsuariosEnum } from "@/Constants/TipoDeUsuariosEnum";
 import axios from "axios";
+import { createOrder } from "./FetchOrder";
 
-const uploadService = async (service) => {
+const uploadService = async (service, idUser, typeUser) => {
     try {
-        return await axios.post("/api/service", service);
+        const req = await axios.post("/api/service", service);
+        if (
+            typeUser === TipoDeUsuariosEnum.CLIENTE_JURIDICO ||
+            typeUser === TipoDeUsuariosEnum.CLIENTE_NATURAL
+        ) {
+            createOrder({
+                id_service: req.data.id,
+                id_user: idUser,
+            });
+        }
+        return req;
     } catch (error) {
         return { error, data: null };
     }

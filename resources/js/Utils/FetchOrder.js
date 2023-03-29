@@ -8,6 +8,14 @@ const createOrders = async (orders) => {
     }
 };
 
+const createOrder = async (order) => {
+    try {
+        return await axios.post("/api/order", order);
+    } catch (error) {
+        return { error, data: null };
+    }
+};
+
 const findOrders = async (orders) => {
     try {
         const req = await axios.get("/api/order", orders);
@@ -35,4 +43,4 @@ const getOrder = async (idService) => {
     }
 };
 
-export { createOrders, getOrder,findOrders, deleteOrder };
+export { createOrders, getOrder, findOrders, deleteOrder, createOrder };

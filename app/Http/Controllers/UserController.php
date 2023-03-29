@@ -26,7 +26,7 @@ class UserController extends Controller
         return User::query()
             ->whereIn('id_t_user', $id_t_user == '' ? T_user::all()->pluck('id') : [$id_t_user])
             ->where('name', 'like', '%' . $name . '%')
-            ->where('state', '=', $state)
+            ->where('state', '=', $state == '' ? 1 : $state)
             ->paginate();
         
     }

@@ -70,8 +70,6 @@ class OrderController extends Controller
             $request->validate([
                 'id_user' => 'Exists:users,id',
                 'id_service' => 'Exists:services,id',
-                'rol' => 'string|max:30',
-                'status' => 'required|string|max:30',
             ]);
             
         } catch (\Illuminate\Validation\ValidationException $e) {
