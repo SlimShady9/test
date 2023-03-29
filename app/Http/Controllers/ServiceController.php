@@ -8,8 +8,8 @@ use App\Models\Address;
 use App\Models\Parameter;
 use App\Models\TypeService;
 use App\Models\StateService;
+use App\Models\Order; 
 use Illuminate\Support\Facades\DB;
-
 
 class ServiceController extends Controller {
 
@@ -37,11 +37,13 @@ class ServiceController extends Controller {
                 'cost' => 'Between:0,9999999999',
                 'archive' => 'max:255',
                 'signature' => 'max:255',
+                
             ]);
             
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json(['error' => $e->getMessage()], 403);
         }
+        
         
         $newService = Service::create([
             'name' => $request->name,
@@ -54,6 +56,7 @@ class ServiceController extends Controller {
             'archive' => $request->archive,
             'signature' => $request->signature,
         ]);
+        
         return $newService;
     }
 

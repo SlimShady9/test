@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ServiceContext from "@/Components/ServiceForms/useServiceContext";
 import Authenticated from "@/Layouts/Authenticated";
 import Card from "@/Components/Card";
@@ -69,6 +69,7 @@ export default function Services(props) {
                                     setNextStep={setStateService}
                                     setServicesAvailable={setServicesAvailable}
                                     typeUser={props.auth.user.id_t_user}
+                                    idUser={props.auth.user.id}
                                 />
                             )}
                             {stateService ===
