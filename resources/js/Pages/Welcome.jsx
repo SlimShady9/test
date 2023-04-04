@@ -11,6 +11,19 @@ import nombre from "../../imgs/nombre.png";
 import camion from "../../imgs/camion.png";
 import mundo from "../../imgs/mundo.png";
 import documento from "../../imgs/document.png";
+
+import env472 from "../../imgs/472.png";
+import dhl from "../../imgs/DHL.png";
+import interrapidisimo from "../../imgs/Inter-Rapidisimo.png";
+import servientrega from "../../imgs/Servientrega.jpeg";
+
+import arrows from "../../icons/arrows.png";
+import bluedocument from "../../icons/bluedocument.png";
+import dolar from "../../icons/dolar.png";
+import email from "../../icons/email.png";
+import location from "../../icons/location.png";
+import user from "../../icons/user.png";
+
 import { GrDown, GrUp } from "react-icons/gr";
 import { welcome, title, mainText } from "@/Utils/FetchParameters";
 import Header from "@/Components/Header";
@@ -280,7 +293,7 @@ export default function Welcome(props) {
                     ></Container>
                 </Card>
             </div>
-            <Container className={"flex justify-center"}>
+            <Container className={"mx-auto grid grid-cols-2 sm:grid-cols-4 gap-16"}>
                 <Container
                     className={
                         "flex lg:m-10 lg:w-28 lg:h-28 sm:w-20 sm:h-20 shadow-xl overflow-hidden shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
@@ -288,7 +301,7 @@ export default function Welcome(props) {
                 >
                     <img
                         className="sm:scale-150 scale-125 hover:scale-150 ease-in duration-200"
-                        src="https://static.wixstatic.com/media/d991ba_a9ae7991896e44f4a2388d9a9b2149cf~mv2.png/v1/fill/w_320,h_320,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/Logo-Inter-Rapidisimo-Vh-400x122-1.png"
+                        src={env472}
                     />
                 </Container>
                 <Container
@@ -298,7 +311,7 @@ export default function Welcome(props) {
                 >
                     <img
                         className="sm:scale-150 scale-125 hover:scale-150 ease-in duration-200"
-                        src="https://static.wixstatic.com/media/d991ba_a9ae7991896e44f4a2388d9a9b2149cf~mv2.png/v1/fill/w_320,h_320,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/Logo-Inter-Rapidisimo-Vh-400x122-1.png"
+                        src={dhl}
                     />
                 </Container>
                 <Container
@@ -308,7 +321,7 @@ export default function Welcome(props) {
                 >
                     <img
                         className="sm:scale-150 scale-125 hover:scale-150 ease-in duration-200"
-                        src="https://static.wixstatic.com/media/d991ba_a9ae7991896e44f4a2388d9a9b2149cf~mv2.png/v1/fill/w_320,h_320,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/Logo-Inter-Rapidisimo-Vh-400x122-1.png"
+                        src={interrapidisimo}
                     />
                 </Container>
                 <Container
@@ -318,29 +331,31 @@ export default function Welcome(props) {
                 >
                     <img
                         className="sm:scale-150 scale-125 hover:scale-150 ease-in duration-200"
-                        src="https://static.wixstatic.com/media/d991ba_a9ae7991896e44f4a2388d9a9b2149cf~mv2.png/v1/fill/w_320,h_320,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/Logo-Inter-Rapidisimo-Vh-400x122-1.png"
-                    />
-                </Container>
-                <Container
-                    className={
-                        "flex lg:m-10 lg:w-28 lg:h-28 sm:w-20 sm:h-20 shadow-xl overflow-hidden shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
-                    }
-                >
-                    <img
-                        className="sm:scale-150 scale-125 hover:scale-150 ease-in duration-200"
-                        src="https://static.wixstatic.com/media/d991ba_a9ae7991896e44f4a2388d9a9b2149cf~mv2.png/v1/fill/w_320,h_320,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/Logo-Inter-Rapidisimo-Vh-400x122-1.png"
+                        src={servientrega}
                     />
                 </Container>
             </Container>
             <div className="grid grid-cols-1 w-full bg-blue-clear">
-                <Label className={"mx-auto text-3xl text-white"}>
+                <Label className={"mx-auto my-5 text-3xl text-white"}>
                     Proyecto
                 </Label>
-                <div className="grid grid-cols-2 gap-4">
-                    <div className="text-white">Centralice</div>
-                    <div className="text-white">Contará</div>
-                    <div className="text-white">Constantemente</div>
-                    <div className="text-white">Minimice</div>
+                <div className="mx-16 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="flex text-white">
+                        <img className={"scale-50"} src={bluedocument}/>
+                        <div className="m-5">Centralice su operación de correspondencia y mensajería en una sola solución inmediata.</div>
+                    </div>
+                    <div className="flex text-white">
+                        <img className={"scale-50"} src={user}/>
+                        <div className="m-5">Contará con apoyo y comunicación de un comercial en toda la ruta del servicio.</div>
+                    </div>
+                    <div className="flex text-white">
+                        <img className={"scale-50"} src={arrows}/>
+                        <div className="m-5">Constante comunicación y control de sus requerimientos, puede utilizar todas las modalidades de servicio en una sola solicitud de servicio.</div>
+                    </div>
+                    <div className="flex text-white">
+                        <img className={"scale-50"} src={dolar}/>
+                        <div className="m-5">Minimice costos en empaque, embalaje, inventario, seguimiento de sus paquetes y/o trámites.</div>
+                    </div>
                 </div>
             </div>
             <div className="flex w-full bg-blue-clearer">
