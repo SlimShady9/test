@@ -11,15 +11,15 @@ import ButtonGroup from "@/Components/FormUtils/ButtonGroup";
 import { toStringEstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
 import { toStringTipoDeServiciosEnum } from "@/Constants/TipoDeServiciosEnum";
 
-function DataTableService() {
-    function currencyFormatter({ currency, value }) {
+const DataTableService = () => {
+    function currencyFormatter({ currency, value}) {
         const formatter = new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            minimumFractionDigits: 2,
-            currency
-        });
-        return formatter.format(value);
-    }
+          style: 'currency',
+          minimumFractionDigits: 2,
+          currency
+        }) 
+        return formatter.format(value)
+      }
     const [search, setSearch] = useState("");
     const [servicios, setServicios] = useState([]);
     const [filteredServices, setFilteredServices] = useState([]);
@@ -53,15 +53,15 @@ function DataTableService() {
         },
         {
             name: "Costo",
-            selector: (row) => currencyFormatter({ currency: "USD", value: row.cost }),
+            selector: (row) => currencyFormatter({currency: "USD",value: row.cost}),
         },
         {
             name: "Price",
-            selector: (row) => currencyFormatter({ currency: "USD", value: row.price }),
+            selector: (row) => currencyFormatter({currency: "USD",value: row.price}),
         },
         {
             name: "Ganancias",
-            selector: (row) => currencyFormatter({ currency: "USD", value: (row.price - row.cost) }),
+            selector: (row) => currencyFormatter({currency: "USD",value: (row.price-row.cost)}),
         },
         {
             name: "Inicio",
@@ -70,12 +70,13 @@ function DataTableService() {
         {
             name: "Fin",
             selector: (row) => {
-                if (row.end_date != null) { return row.end_date; }
-                else {
+                if (row.end_date!=null) {return row.end_date}
+                else{
                     return "No ha Finalizado";
                 }
             },
         },
+       
     ];
     useEffect(() => {
         getServicios();
@@ -92,6 +93,18 @@ function DataTableService() {
         setFilteredServices(result);
     }, [search]);
     return (
+        <>
+        <div className="grid grid-cols-1 gap-4">
+            <div className="m-auto sm:ml-5">
+                <input
+                    type="text"
+                    placeholder="Buscar"
+                    className="form-control rounded-3xl"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+            </div>
+        </div>
         <DataTable
             columns={columns}
             data={filteredServices}
@@ -104,18 +117,10 @@ function DataTableService() {
                 rowsPerPageText: "Filas por página",
                 rangeSeparatorText: "de",
             }}
-            subHeaderComponent={<Container className="flex">
-
-                <Container>
-                    <input
-                        type="text"
-                        placeholder="Buscar"
-                        className="w-25 form-control rounded-3xl"
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)} />
-                </Container>
-            </Container>} />
+            
+        />
+        </>
     );
-}
+};
 
 export default DataTableService;

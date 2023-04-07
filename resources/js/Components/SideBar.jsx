@@ -87,7 +87,7 @@ const SideBar = ({ user }) => {
     const [loggedUser, setLoggedUser] = useState(user);
 
     return (
-        <aside
+        <div
 
             className={` ${
                 open ? "w-72" : "w-20 "
@@ -95,10 +95,10 @@ const SideBar = ({ user }) => {
             onMouseOver={() => setOpen(!open)}
             onMouseOut={() => setOpen(!open)}
         >
-            <div className="flex gap-x-4 items-center ">
+            <div className="flex mx-auto items-center ">
                 <ApplicationLogo />
             </div>
-            <ul className="pt-6">
+            <ul className="pt-10">
                 {seccionTodos.map((Menu, index) => (
                     <Link
                         href={route(Menu.url)}
@@ -162,7 +162,7 @@ const SideBar = ({ user }) => {
                         </Link>
                     ))}
             </ul>
-        </aside>
+        </div>
     );
 };
 export default SideBar;

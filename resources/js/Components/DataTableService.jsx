@@ -38,12 +38,41 @@ const DataTableService = (auth) => {
 
     const columns = [
         {
-            name: "Tracking ID",
-            sortable: true,
-            selector: (row) => row.tracking_id,
+            name: "No. de Guía / Opciones",
+            grow: 2.5,
+            center: true,
+            cell: (row) => (
+                <>
+                <div className="grid gap-2 m-1">
+                <div className="text-center text-lg font-bold">{row.tracking_id}</div>
+                <div className="mx-auto">
+                <ButtonGroup
+                    listButtons={[
+                        {
+                            href: `deliveryProof/${row.id}`,
+                            icon: <GrArchive />,
+                            text: "Ver",
+                        },
+                        {
+                            href: `editService/${row.id}`,
+                            icon: <GrEdit />,
+                            text: "Editar",
+                        },
+                        {
+                            href: `pqrs/${row.id}`,
+                            icon: <IoHelp />,
+                            text: "Ayuda",
+                        },
+                    ]}
+                />
+                </div>
+                </div>
+                </>
+            ),
         },
         {
             name: "Nombre",
+            grow: 2.0,
             sortable: true,
             selector: (row) => row.name,
         },
@@ -85,32 +114,7 @@ const DataTableService = (auth) => {
                 }
             },
         },
-        {
-            name: "Opciones",
-            grow: 2.5,
-            center: true,
-            cell: (row) => (
-                <ButtonGroup
-                    listButtons={[
-                        {
-                            href: `deliveryProof/${row.id}`,
-                            icon: <GrArchive />,
-                            text: "Ver",
-                        },
-                        {
-                            href: `editService/${row.id}`,
-                            icon: <GrEdit />,
-                            text: "Editar",
-                        },
-                        {
-                            href: `pqrs/${row.id}`,
-                            icon: <IoHelp />,
-                            text: "Ayuda",
-                        },
-                    ]}
-                />
-            ),
-        },
+        
     ];
     useEffect(() => {
         getServicios();
@@ -128,7 +132,7 @@ const DataTableService = (auth) => {
     }, [search]);
     return (
         <>
-        <div className="grid grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 gap-4 w-full">
             <div className="m-auto">
             <Link href={"createService"} className="bg-blue-400">
                 <Button className=" text-3xl">Nuevo Servicio</Button>

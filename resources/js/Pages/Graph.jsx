@@ -21,7 +21,7 @@ export default function Graph(props) {
         <>
             <Authenticated {...props}>
                 <div className="">
-                    <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3  mx-5 gap-5">
+                    <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3  sm:mx-5 gap-5">
                         <CostTContent/>
                         <CostTService/>
                         <PriceTContent/>
@@ -31,8 +31,7 @@ export default function Graph(props) {
                         <ServiceTService/>
                     </div>
             
-                    <div className="grid sm:grid-cols-2  mx-5 gap-5">
-                        
+                    <div className="grid sm:grid-cols-2  sm:mx-5 gap-5">
                         <WeightGraph/>
                         <VolumeGraph/>
                         <SalesGraph/>
