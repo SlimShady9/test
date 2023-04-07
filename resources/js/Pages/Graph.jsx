@@ -20,8 +20,11 @@ export default function Graph(props) {
     return (
         <>
             <Authenticated {...props}>
+                <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                    Gráficas Analíticas
+                </h1>
                 <div className="">
-                    <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3  mx-5 gap-5">
+                    <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3  sm:mx-5 gap-5">
                         <CostTContent/>
                         <CostTService/>
                         <PriceTContent/>
@@ -31,8 +34,7 @@ export default function Graph(props) {
                         <ServiceTService/>
                     </div>
             
-                    <div className="grid sm:grid-cols-2  mx-5 gap-5">
-                        
+                    <div className="grid sm:grid-cols-2  sm:mx-5 gap-5">
                         <WeightGraph/>
                         <VolumeGraph/>
                         <SalesGraph/>

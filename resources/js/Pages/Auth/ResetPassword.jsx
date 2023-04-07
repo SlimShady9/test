@@ -3,6 +3,7 @@ import Button from "@/Components/FormUtils/Button";
 import Guest from "@/Layouts/Guest";
 import Input from "@/Components/FormUtils/Input";
 import Label from "@/Components/FormUtils/Label";
+import Card from "@/Components/Card";
 import ValidationErrors from "@/Components/ValidationErrors";
 import { Head, useForm } from "@inertiajs/inertia-react";
 
@@ -32,6 +33,7 @@ export default function ResetPassword({ token, email }) {
 
     return (
         <Guest>
+            <Card className="mx-auto w-1/2">
             <Head title="Reset Password" />
 
             <ValidationErrors errors={errors} />
@@ -86,6 +88,7 @@ export default function ResetPassword({ token, email }) {
                     </Button>
                 </div>
             </form>
+            </Card>
         </Guest>
     );
 }

@@ -250,7 +250,7 @@ export default function DeliveryProof(props) {
         <>
             <Authenticated {...props}>
                 <form className="gap-4" onSubmit={storeSignature}>
-                    <div className="">
+                    <div className="grid">
                         <div className="mt-5 w-1000 text-center text-3xl grid grid-rows-2">
                             <Label>Prueba de Entrega de: </Label>
                             {service.name}
@@ -725,6 +725,7 @@ export default function DeliveryProof(props) {
                                 </div>
                             </div>
                         </div>
+                        <div className="mx-auto">
                         <ButtonGroup
                             listButtons={[
                                 {
@@ -750,6 +751,7 @@ export default function DeliveryProof(props) {
                                 },
                             ]}
                         />
+                        </div>
                     </div>
                     <div id="ifmcontentstoprint"></div>
                     <iframe id="ifmcontentstoprint"></iframe>

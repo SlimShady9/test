@@ -1,6 +1,8 @@
 import React from "react";
 import Button from "@/Components/FormUtils/Button";
+import Card from "@/Components/Card";
 import Guest from "@/Layouts/Guest";
+import Label from "@/Components/FormUtils/Label";
 import Input from "@/Components/FormUtils/Input";
 import ValidationErrors from "@/Components/ValidationErrors";
 import { Head, useForm } from "@inertiajs/inertia-react";
@@ -22,12 +24,13 @@ export default function ForgotPassword({ status }) {
 
     return (
         <Guest>
+            <Card className="mx-auto w-1/2">
             <Head title="Forgot Password" />
-
+            <Label>¿Olvidaste tu contraseña? </Label>
             <div className="mb-4 text-sm text-gray-500 leading-normal">
-                Forgot your password? No problem. Just let us know your email
-                address and we will email you a password reset link that will
-                allow you to choose a new one.
+                No hay problema,
+                ingresa tu correo electrónico asociado y te enviaremos
+                un link para que cambies tu contraseña por una nueva.
             </div>
 
             {status && (
@@ -54,6 +57,7 @@ export default function ForgotPassword({ status }) {
                     </Button>
                 </div>
             </form>
+            </Card>
         </Guest>
     );
 }

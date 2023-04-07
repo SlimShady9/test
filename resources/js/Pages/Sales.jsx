@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import Container from "@/Components/Container";
 import axios from "axios";
-import DataTableService from "@/Components/DataTableService";
+import DataTableSales from "@/Components/DataTableSales";
 export default function Services(props) {
     const [serviceParams, setServiceParams] = useState([]);
     const [showModal, setShowModal] = useState("");
     const [idAddress, setIdAddress] = useState(null);
-
+    //I'm here
     const onHide = () => setShowModal(false);
 
     const submitService = (data) => {
@@ -40,10 +40,12 @@ export default function Services(props) {
         <>
             <Authenticated {...props}>
                 <Container className="sm:m-6 justify-center bg-opacity-30 shadow-xl">
+                    <Container className={"justify-center"}>
                         <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
-                            Tabla de Servicios
+                            Contabilidad
                         </h1>
-                        <DataTableService auth={props.auth}/>
+                    </Container>
+                    <DataTableSales />
                 </Container>
             </Authenticated>
         </>
