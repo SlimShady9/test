@@ -10,8 +10,13 @@ function NavBar({ className }) {
     let Links = [
         { name: "Inicio", link: "/", icon: <GrHome className="mr-0" /> },
         {
+            name: "Proyecto",
+            link: "/#project",
+            icon: <GrContact className="mr-0" />,
+        },
+        {
             name: "Contáctenos",
-            link: "/",
+            link: "/#contact",
             icon: <GrContact className="mr-0" />,
         },
         {
@@ -23,7 +28,7 @@ function NavBar({ className }) {
     ];
     let [open, setOpen] = useState(false);
     return (
-        <div className="shadow-md bg-gradient-to-r from-white to-blue-light w-full top-0 left-0 z-10">
+        <div className="shadow-md bg-gradient-to-r from-white to-blue-light top-0 w-full z-10">
             <div className="md:flex justify-center">
                 <div className="flex m-5">
                     <ApplicationLogo />

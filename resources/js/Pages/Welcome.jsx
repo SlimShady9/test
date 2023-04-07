@@ -15,7 +15,7 @@ import documento from "../../imgs/document.png";
 import env472 from "../../imgs/472.png";
 import dhl from "../../imgs/DHL.png";
 import interrapidisimo from "../../imgs/Inter-Rapidisimo.png";
-import servientrega from "../../imgs/Servientrega.jpeg";
+import servientrega from "../../imgs/servientrega.png";
 
 import arrows from "../../icons/arrows.png";
 import bluedocument from "../../icons/bluedocument.png";
@@ -24,7 +24,7 @@ import email from "../../icons/email.png";
 import location from "../../icons/location.png";
 import user from "../../icons/user.png";
 
-import { GrDown, GrUp } from "react-icons/gr";
+import { GrDown, GrUp, GrSelect } from "react-icons/gr";
 import { welcome, title, mainText } from "@/Utils/FetchParameters";
 import Header from "@/Components/Header";
 import Footer from "@/Components/Footer";
@@ -39,15 +39,16 @@ export default function Welcome(props) {
 
     return (
         <>
+        <div>
         {props.hasHeader && (
         <Header className="mt-1/2 z-10" />
         )}
-        <div className={"grid grid-cols-1 justify-center"}>
+        <div className={"grid grid-cols-1 w-full"}>
             <img
                 className="fixed w-full inset-y-3/4 sm:inset-y-2/4 -z-10 scale-125 opacity-50"
                 src={transportes}
             />
-            <div className="w-full">
+            <div className="w-full m-5">
                 <img className="mx-auto" src={nombre} />
             </div>
             <div className="my-10">
@@ -82,7 +83,7 @@ export default function Welcome(props) {
                     title={"Mensajería"}
                     subtitle={"Especializada"}
                 >
-                    <div className="">
+                    <div className="flex">
                         <div className="flex h-52 w-52 bg-gradient-to-t from-blue-turquose to-white shadow-xl shadow-gray-dark rounded-full m-auto">
                             <img
                                 height={100}
@@ -127,14 +128,17 @@ export default function Welcome(props) {
                                 <li className="text-sm">
                                     Entrega y recaudo por venta de productos
                                 </li>
+                                <div className="mt-8 flex">
+                                    <a
+                                    className="grid m-auto text-center text-blue-dark underline"
+                                    href="createService"
+                                    >
+                                    Solicita el Servicio Aquí <GrSelect className="m-auto"/>
+                                    </a>
+                                </div>
                             </div>
                         )}
                     </div>
-                    <Container
-                        className={
-                            "text-center hover:scale-110 ease-in duration-200"
-                        }
-                    ></Container>
                 </Card>
                 <Card
                     className={
@@ -144,7 +148,7 @@ export default function Welcome(props) {
                     title={"Mensajería"}
                     subtitle={"Masiva"}
                 >
-                    <div className="">
+                    <div className="flex">
                         <div className="flex h-52 w-52 bg-gradient-to-t from-blue-turquose to-white shadow-xl shadow-gray-dark rounded-full m-auto">
                             <img
                                 height={100}
@@ -181,14 +185,17 @@ export default function Welcome(props) {
                                 <li className="text-sm">
                                     Facturación electrónica corporativa
                                 </li>
+                                <div className="mt-8 flex">
+                                    <a
+                                    className="grid m-auto text-center text-blue-dark underline"
+                                    href="createService"
+                                    >
+                                    Solicita el Servicio Aquí <GrSelect className="m-auto"/>
+                                    </a>
+                                </div>
                             </div>
                         )}
                     </div>
-                    <Container
-                        className={
-                            "text-center hover:scale-110 ease-in duration-200"
-                        }
-                    ></Container>
                 </Card>
                 <Card
                     className={
@@ -198,7 +205,7 @@ export default function Welcome(props) {
                     title={"Mensajería"}
                     subtitle={"Internacional"}
                 >
-                    <div className="">
+                    <div className="flex">
                         <div className="flex h-52 w-52 bg-gradient-to-t from-blue-turquose to-white shadow-xl shadow-gray-dark rounded-full m-auto">
                             <img
                                 height={100}
@@ -208,7 +215,7 @@ export default function Welcome(props) {
                             />
                         </div>
                     </div>
-                    <div className="">
+                    <div className="grid">
                         <div className="flex mt-3">
                             <Button
                                 className="mx-auto gap-2 bg-gradient-to-t hover:text-blue-clear from-white to-gray-light shadow-xl"
@@ -239,14 +246,17 @@ export default function Welcome(props) {
                                     Traemos tus paquetes desde cualquier lugar
                                     del mundo
                                 </li>
+                                <div className="mt-8 flex">
+                                    <a
+                                    className="grid m-auto text-center text-blue-dark underline"
+                                    href="createService"
+                                    >
+                                    Solicita el Servicio Aquí <GrSelect className="m-auto"/>
+                                    </a>
+                                </div>
                             </div>
                         )}
                     </div>
-                    <Container
-                        className={
-                            "text-center hover:scale-110 ease-in duration-200"
-                        }
-                    ></Container>
                 </Card>
                 <Card
                     className={
@@ -256,7 +266,7 @@ export default function Welcome(props) {
                     title={"Gestión"}
                     subtitle={"Documental"}
                 >
-                    <div className="">
+                    <div className="flex">
                         <div className="flex h-52 w-52 bg-gradient-to-t from-blue-turquose to-white shadow-xl shadow-gray-dark rounded-full m-auto">
                             <img
                                 height={100}
@@ -279,18 +289,22 @@ export default function Welcome(props) {
                         </div>
                         {documental && (
                             <div className="animate-fade-in-modal">
-                                <li className="text-sm mt-3"></li>
-                                <li className="text-sm"></li>
-                                <li className="text-sm"></li>
-                                <li className="text-sm"></li>
+                                <li className="text-sm mt-3">Almacenamiento seguro de documentos</li>
+                                <li className="text-sm">Automatización de procesos</li>
+                                <li className="text-sm">Control de versiones</li>
+                                <li className="text-sm">Colaboración en tiempo real</li>
+                                <li className="text-sm">Seguridad y cumplimiento normativo</li>
+                                <div className="mt-8 flex">
+                                    <a
+                                    className="grid m-auto text-center text-blue-dark underline"
+                                    href="createService"
+                                    >
+                                    Solicita el Servicio Aquí <GrSelect className="m-auto"/>
+                                    </a>
+                                </div>
                             </div>
                         )}
                     </div>
-                    <Container
-                        className={
-                            "text-center hover:scale-110 ease-in duration-200"
-                        }
-                    ></Container>
                 </Card>
             </div>
             <Container className={"mx-auto grid grid-cols-2 sm:grid-cols-4 gap-16"}>
@@ -335,38 +349,64 @@ export default function Welcome(props) {
                     />
                 </Container>
             </Container>
-            <div className="grid grid-cols-1 w-full bg-blue-clear">
-                <Label className={"mx-auto my-5 text-3xl text-white"}>
+            <div className="grid gap-4">
+            <div 
+            id = "project"
+            className="rounded-xl mx-auto w-11/12 grid grid-cols-1 bg-blue-clear">
+                <Label className={"m-auto sm:ml-20 my-5 text-5xl text-white"}>
                     Proyecto
                 </Label>
-                <div className="mx-16 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="mx-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex text-white">
-                        <img className={"scale-50"} src={bluedocument}/>
-                        <div className="m-5">Centralice su operación de correspondencia y mensajería en una sola solución inmediata.</div>
+                        <img className={"w-10 h-10 m-auto"} src={bluedocument}/>
+                        <div className="m-2">Centralice su operación de correspondencia y mensajería en una sola solución inmediata.</div>
                     </div>
                     <div className="flex text-white">
-                        <img className={"scale-50"} src={user}/>
-                        <div className="m-5">Contará con apoyo y comunicación de un comercial en toda la ruta del servicio.</div>
+                        <img className={"w-10 h-10 m-auto"} src={user}/>
+                        <div className="m-2">Contará con apoyo y comunicación de un comercial en toda la ruta del servicio.</div>
                     </div>
                     <div className="flex text-white">
-                        <img className={"scale-50"} src={arrows}/>
-                        <div className="m-5">Constante comunicación y control de sus requerimientos, puede utilizar todas las modalidades de servicio en una sola solicitud de servicio.</div>
+                        <img className={"w-10 h-10 m-auto"} src={arrows}/>
+                        <div className="m-2">Constante comunicación y control de sus requerimientos, puede utilizar todas las modalidades de servicio en una sola solicitud de servicio.</div>
                     </div>
                     <div className="flex text-white">
-                        <img className={"scale-50"} src={dolar}/>
-                        <div className="m-5">Minimice costos en empaque, embalaje, inventario, seguimiento de sus paquetes y/o trámites.</div>
+                        <img className={"w-10 h-10 m-auto"} src={dolar}/>
+                        <div className="m-2">Minimice costos en empaque, embalaje, inventario, seguimiento de sus paquetes y/o trámites.</div>
                     </div>
                 </div>
             </div>
-            <div className="flex w-full bg-blue-clearer">
-                <Label className={"mx-auto text-3xl text-white"}>
+            <div 
+            id = "contact"
+            className="rounded-xl mx-auto w-11/12 grid grid-cols-1 bg-blue-clearer">
+                <Label className={"m-auto sm:ml-20 my-5 text-5xl text-white"}>
                     Contacto
                 </Label>
+                <div className="m-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="flex text-white">
+                        <div className="m-auto sm:ml-5 text-3xl">+57 300 5981817</div>
+                    </div>
+                    <div className="flex text-white">
+                        <img className={"scale-50"} src={location}/>
+                        <div className="m-auto ml-2 text-2xl">Carrera 75 # 9-52 OFC 301,</div>
+                    </div>
+                    <div className="flex text-white">
+                        <img className={"scale-50"} src={email}/>
+                        <div className="my-auto sm:text-2xl overflow-cip">comercial@servicurrier.com</div>
+                    </div>
+                    <div className="flex text-white">
+                    <div className="grid gap-4">
+                        <div className="m-auto text-3xl">Bogotá, Colombia</div>
+                        <div className="m-auto sm:ml-2 text-2xl">110821</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             </div>
             </div>
             {props.hasFooter && (
                 <Footer className="mt-4" />
             )}
+            </div>
             </>
     );
 }

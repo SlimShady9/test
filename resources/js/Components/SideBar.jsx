@@ -28,19 +28,30 @@ import { TipoDeUsuariosEnum } from "@/Constants/TipoDeUsuariosEnum";
 const SideBar = ({ user }) => {
     const seccionAdmin = [
 
-        { title: "Usuarios ", icon: <FaUsers />, url: "users" },
-        { title: "Ventas", icon: <FaStore />, url: "graph" ,
-            gap: true
+        { 
+            title: "Usuarios ", 
+            icon: <FaUsers />, 
+            url: "users",
+            method: "get",
+        },
+        {   
+            title: "Ventas", 
+            icon: <FaStore />, 
+            url: "services" ,
+            gap: true,
+            method: "get",
         },
         {
             title: "Analíticas ",
             icon: <FaMicroscope />,
-            url: "services",
+            url: "graph",
+            method: "get",
         },
         {
             title: "Usuarios Inactivos",
             icon: <FaUserLock />,
             url: "inactiveUsers",
+            method: "get",
         },
     ];
 
@@ -49,6 +60,7 @@ const SideBar = ({ user }) => {
             title: "Perfil",
             icon: <BsFillFilePersonFill />,
             url: "profile",
+            method: "get",
         },
 
         {
@@ -56,6 +68,7 @@ const SideBar = ({ user }) => {
             gap: true,
             icon: <FaBookOpen />,
             url: "services",
+            method: "get",
         },
         //{ title: "Ver envíos", icon: <FaShippingFast />, url: "envios" },
     ];
@@ -64,10 +77,9 @@ const SideBar = ({ user }) => {
         {
             title: "Cerrar sesión",
             icon: <FaRegPaperPlane />,
-            url: "services",
-            gap: true,
-            href: route("logout"),
+            url: "logout",
             method: "post",
+            gap: true,
         },
     ];
 
@@ -76,9 +88,10 @@ const SideBar = ({ user }) => {
 
     return (
         <aside
+
             className={` ${
                 open ? "w-72" : "w-20 "
-            } bg-gradient-to-l from-white to-blue-light h-auto p-5 pt-8 relative duration-300 `}
+            } bg-gradient-to-l from-white to-blue-light sm:h-auto p-5 pt-8 relative duration-300 `}
             onMouseOver={() => setOpen(!open)}
             onMouseOut={() => setOpen(!open)}
         >
@@ -90,6 +103,7 @@ const SideBar = ({ user }) => {
                     <Link
                         href={route(Menu.url)}
                         key={index}
+                        method={Menu.method}
                         className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
                     ${Menu.gap ? "mt-9" : "mt-2"} ${
                             index === 0 && "bg-light-white"
@@ -110,6 +124,7 @@ const SideBar = ({ user }) => {
                         <Link
                             href={route(Menu.url)}
                             key={index}
+                            method={Menu.method}
                             className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
                             ${Menu.gap ? "mt-9" : "mt-2"} ${
                                 index === 0 && "bg-light-white"
@@ -130,6 +145,7 @@ const SideBar = ({ user }) => {
                         <Link
                             href={route(Menu.url)}
                             key={index}
+                            method={Menu.method}
                             className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
                             ${Menu.gap ? "mt-9" : "mt-2"} ${
                                 index === 0 && "bg-light-white"

@@ -8,11 +8,9 @@ export default function Base({ children }) {
     return (
         <div className="min-h-screen relative left-0 right-0">
             <Header className="mb-4 z-10" />
-            <Container className="lg:m-auto lg:h-3/4 xl:w-1/2 my-8">
-                <Card className={" m-auto"}>{children}</Card>
-
+            <Container className="m-auto lg:h-1/2 xl:w-1/4 md:w-1/2 sm:w-11/12 sm:mt-20">
+                <Card className={"m-auto"}>{children}</Card>
             </Container>
-            <Footer className="md:absolute relative bottom-0 left-0 right-0" />
         </div>
     );
 }

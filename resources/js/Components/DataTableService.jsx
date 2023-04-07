@@ -6,6 +6,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import DataTable from "react-data-table-component";
 import { IoHelp } from "react-icons/io5";
 import { Link } from "@inertiajs/inertia-react";
+import Button from "./FormUtils/Button";
 import Container from "@/Components/Container";
 import ButtonGroup from "@/Components/FormUtils/ButtonGroup";
 import { toStringEstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
@@ -126,6 +127,23 @@ const DataTableService = (auth) => {
         setFilteredServices(result);
     }, [search]);
     return (
+        <>
+        <div className="grid grid-cols-1 gap-4">
+            <div className="m-auto">
+            <Link href={"createService"} className="bg-blue-400">
+                <Button className=" text-3xl">Nuevo Servicio</Button>
+            </Link>
+            </div>
+            <div className="m-auto sm:ml-5">
+                <input
+                    type="text"
+                    placeholder="Buscar"
+                    className="w-25 form-control rounded-3xl"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+            </div>
+        </div>
         <DataTable
             columns={columns}
             data={filteredServices}
@@ -138,26 +156,9 @@ const DataTableService = (auth) => {
                 rowsPerPageText: "Filas por página",
                 rangeSeparatorText: "de",
             }}
-            subHeaderComponent={
-                <Container className="flex">
-                    <Link href={"createService"} className="p-3 bg-blue-400">
-                        <Container className="hover:scale-125 shadow-xl rounded-3xl bg-green-light">
-                            Nuevo Servicio
-                        </Container>
-                    </Link>
-
-                    <Container>
-                        <input
-                            type="text"
-                            placeholder="Buscar"
-                            className="w-25 form-control rounded-3xl"
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                        />
-                    </Container>
-                </Container>
-            }
+            
         />
+        </>
     );
 };
 
