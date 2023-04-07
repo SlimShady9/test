@@ -21,10 +21,10 @@ export default function Register() {
         }))
     );
     //Constantes de la página
-    const [data, setData] = useState({
-        username: "",
-        name: "",
-        surname: "",
+    const { data, setData, post, processing, errors, reset } = useForm({
+        username: "pedro123",
+        name: "Pedro",
+        surname: "Alcachofa",
         id_t_user: TipoDeUsuariosEnum.CLIENTE_NATURAL,
         picture: "",
         country: "",
@@ -33,14 +33,13 @@ export default function Register() {
         address: "",
         address_detail: "",
         postal_code: "",
-        cellphone: "",
-        phone: "",
-        doc: "",
-        id_t_doc: "",
-        email: "",
-        password: "",
-        password_confirmation: "",
-        notifications: "",
+        cellphone: "3178874957",
+        phone: "3178874957",
+        doc: "1019152187",
+        id_t_doc: 1,
+        email: "jdquinterog@unbosque.edu.co",
+        password: "Juancho9",
+        password_confirmation: "Juancho9",
     });
 
     const onHandleChange = (e, param) => {
@@ -54,8 +53,7 @@ export default function Register() {
 
     const submitUser = (e) => {
         e.preventDefault();
-        axios.post("/api/user", data).then((res) => {});
-        window.location.href = "/login";
+        post(route("register"));
     };
 
     return (

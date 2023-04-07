@@ -7,8 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Notifications\PasswordReset;
+use App\Notifications\EmailConfirmation;
 
-class User extends Authenticatable
+
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -27,11 +30,12 @@ class User extends Authenticatable
         'signature',
         'phone',
         'cellphone',
-        'data',
+        //'data',
         'id_address',
         'id_t_user',
         'id_t_doc',
         'state',
+        'confirmation_token'
     ];
 
     /**
@@ -52,6 +56,24 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new PasswordReset($token, $this->username));
+    }
+
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new EmailConfirmation($this));
+    }
 
 
 }

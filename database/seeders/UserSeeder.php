@@ -109,5 +109,6 @@ class UserSeeder extends Seeder
             'phone' => '321155587',
             'cellphone' => '321155587',
         ]);
+
     }
 }

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Link } from "@inertiajs/inertia-react";
 import ApplicationLogo from "./ApplicationLogo";
 import Label from "./FormUtils/Label";
-import barras from "../../imgs/barras.png";
+import barras from "../../imgs/Barras.png";
 import { GrHome, GrContact, GrLogin, GrEdit } from "react-icons/gr";
 
 function NavBar({ className }) {
