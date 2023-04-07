@@ -1,6 +1,8 @@
 import React from "react";
 import Button from "@/Components/FormUtils/Button";
 import Guest from "@/Layouts/Guest";
+import { GrLogout, GrMail } from "react-icons/gr";
+import Card from "@/Components/Card";
 import { Head, Link, useForm } from "@inertiajs/inertia-react";
 
 export default function VerifyEmail({ status }) {
@@ -14,38 +16,45 @@ export default function VerifyEmail({ status }) {
 
     return (
         <Guest>
+            <Card className="mt-20 mx-auto w-11/12 sm:w-1/2">
             <Head title="Email Verification" />
-
+            <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                Verificación 
+            </h1>
             <div className="mb-4 text-sm text-gray-600">
-                Thanks for signing up! Before getting started, could you verify
-                your email address by clicking on the link we just emailed to
-                you? If you didn't receive the email, we will gladly send you
-                another.
+                ¡Bienvenido al Sistema! Antes de ingresar, verifica tu buzón
+                de correo, encontrarás un link de acceso enviado por Servicurrier 
+                para entrar al sistema.
+            </div>
+            <div className="mb-4 text-sm text-gray-600">
+                Si no recibes el correo puedes presionar el botón de abajo para volverlo a enviar.
             </div>
 
             {status === "verification-link-sent" && (
                 <div className="mb-4 font-medium text-sm text-green-600">
-                    A new verification link has been sent to the email address
-                    you provided during registration.
+                    Un nuevo link de verificación ha sido enviado a tu correo.
                 </div>
             )}
 
             <form onSubmit={submit}>
                 <div className="mt-4 flex items-center justify-between">
-                    <Button processing={processing}>
-                        Resend Verification Email
+                    <Button processing={processing}
+                    className="flex gap-4">
+                        Reenviar Correo
+                        <GrMail/>
                     </Button>
 
                     <Link
                         href={route("logout")}
                         method="post"
                         as="button"
-                        className="underline text-sm text-gray-600 hover:text-gray-900"
+                        className="flex gap-4 underline text-sm text-gray-600 hover:text-gray-900"
                     >
-                        Cerrar Sesión
+                        Cerrar Sesión <GrLogout/>
                     </Link>
                 </div>
             </form>
+            </Card>
         </Guest>
     );
 }
