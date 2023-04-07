@@ -131,7 +131,7 @@ export default function Welcome(props) {
                                 <div className="mt-8 flex">
                                     <a
                                     className="grid m-auto text-center text-blue-dark underline"
-                                    href="createService"
+                                    href="/createService"
                                     >
                                     Solicita el Servicio Aquí <GrSelect className="m-auto"/>
                                     </a>
@@ -188,7 +188,7 @@ export default function Welcome(props) {
                                 <div className="mt-8 flex">
                                     <a
                                     className="grid m-auto text-center text-blue-dark underline"
-                                    href="createService"
+                                    href="/createService"
                                     >
                                     Solicita el Servicio Aquí <GrSelect className="m-auto"/>
                                     </a>
@@ -249,7 +249,7 @@ export default function Welcome(props) {
                                 <div className="mt-8 flex">
                                     <a
                                     className="grid m-auto text-center text-blue-dark underline"
-                                    href="createService"
+                                    href="/createService"
                                     >
                                     Solicita el Servicio Aquí <GrSelect className="m-auto"/>
                                     </a>
@@ -297,7 +297,7 @@ export default function Welcome(props) {
                                 <div className="mt-8 flex">
                                     <a
                                     className="grid m-auto text-center text-blue-dark underline"
-                                    href="createService"
+                                    href="/createService"
                                     >
                                     Solicita el Servicio Aquí <GrSelect className="m-auto"/>
                                     </a>

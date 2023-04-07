@@ -10,10 +10,10 @@ export default function Dashboard(props) {
             <Head title="Dashboard" />
 
             <div className="py-5 px-5">
-                <div className="text-center">
-                <Label className="text-5xl text-blue-servi">
-                    DASHBOARD
-                </Label>
+                <div className="w-full text-center">
+                <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                            DASHBOARD
+                        </h1>
                 </div>
                 <div className="mt-5 grid grid-cols-3 gap-4 max-w-7xl mx-auto sm:px-6 lg:px-8"></div>
                 {props.auth.user.id_t_user == TipoDeUsuariosEnum.ADMIN && (
