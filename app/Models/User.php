@@ -35,6 +35,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'id_t_user',
         'id_t_doc',
         'state',
+        'confirmation_token'
     ];
 
     /**

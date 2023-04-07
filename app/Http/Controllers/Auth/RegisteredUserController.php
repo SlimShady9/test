@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Registered;
+use App\Notifications\EmailConfirmation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -60,7 +60,7 @@ class RegisteredUserController extends Controller
             'cellphone' => $request->cellphone
         ]);
 
-        event(new Registered($user));
+        event(new Verified($request->user()));
 
         Auth::login($user);
 

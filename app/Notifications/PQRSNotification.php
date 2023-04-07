@@ -5,25 +5,23 @@ namespace App\Notifications;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use App\Models\User;
-use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Notifications\Notification;
 
-class EmailConfirmation extends VerifyEmail
+class PQRSNotification extends Notification
 {
     use Queueable;
 
-
-    public $user;
-    
+    public $data;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($data)
     {
-        $this->user = $user;
+        //
+        $this->data = $data;
     }
 
     /**
@@ -45,14 +43,13 @@ class EmailConfirmation extends VerifyEmail
      */
     public function toMail($notifiable)
     {
-
         return (new MailMessage)
-            //->logo($logoUrl, 200)
-            ->subject('Solicitud de validación correo electronico')
-            ->greeting('Querido usuario ' . $this->user->username)
-            ->line('Para validar su cuenta por favor haga click en el siguiente boton') // Here are the lines you can safely override
-            ->action('Validar cuenta', $this->verificationUrl($notifiable))
-            ->line('Si no solicito un reinicio de contraseña ignore este correo');
+                    ->greeting('Administración')
+                    ->subject('Se ha recibido un PQRS - Servicourrier')
+                    ->line('El usuario ' . $this->data['usuario'] . ' ha dejado un comentario.')
+                    ->line('El servicio con id '. $this->data['idServicio'] . ':')
+                    ->line($this->data['comentario'])
+                    ->salutation('Fin del comunicado.');
     }
 
     /**

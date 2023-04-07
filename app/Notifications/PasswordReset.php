@@ -50,11 +50,13 @@ class PasswordReset extends Notification
      */
     public function toMail($notifiable)
     {
+
         return (new MailMessage)
+            //->logo($logoUrl, 200)
             ->subject('Solicitud de reinicio de contraseña')
-            ->greeting('Querido usuario ' . $nombreUsuario)
-            ->line('Hemos recibido tu solicitud de reinicion de contraseña') // Here are the lines you can safely override
-            ->action('Reiniciar Contraseña', url('auth/forgot-password', $this->token))
+            ->greeting('Querido usuario ' . $this->nombreUsuario)
+            ->line('Hemos recibido tu solicitud de reinicio de contraseña') // Here are the lines you can safely override
+            ->action('Reiniciar Contraseña', url('reset-password', $this->token))
             ->line('Si no solicito un reinicio de contraseña ignore este correo');
     }
 
