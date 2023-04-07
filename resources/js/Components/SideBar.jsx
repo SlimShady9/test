@@ -35,9 +35,9 @@ const SideBar = ({ user }) => {
             method: "get",
         },
         {   
-            title: "Ventas", 
+            title: "Contabilidad", 
             icon: <FaStore />, 
-            url: "services" ,
+            url: "sales" ,
             gap: true,
             method: "get",
         },
