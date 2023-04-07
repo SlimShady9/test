@@ -20,6 +20,9 @@ export default function Graph(props) {
     return (
         <>
             <Authenticated {...props}>
+                <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                    Gráficas Analíticas
+                </h1>
                 <div className="">
                     <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3  sm:mx-5 gap-5">
                         <CostTContent/>
