@@ -21,21 +21,32 @@ class AuthenticationTest extends TestCase
     public function test_users_can_authenticate_using_the_login_screen()
     {
 
-
-        $response = $this->post('/login', [
-            'email' => 'jdquinterog@unbosque.edu.co',
-            'password' => 'Yasuo123',
+        $user = User::factory()->create([
+            'password' => bcrypt('password123'),
         ]);
-
-        $this->assertAuthenticated();
+        
+        $response = $this->post('/login', [
+            'email' => $user->email,
+            'password' => 'password123',
+        ]);
+        
         $response->assertRedirect(RouteServiceProvider::HOME);
+        
+        // Check if the user is authenticated
+        if (is_string(config('auth.defaults.guard'))) {
+            $this->assertAuthenticated(config('auth.defaults.guard'));
+        } else {
+            $this->assertAuthenticated();
+        }
     }
 
     public function test_users_can_not_authenticate_with_invalid_password()
     {
 
+        $user = User::factory()->create();
+
         $this->post('/login', [
-            'email' => 'jdquinterog@unbosque.edu.co',
+            'email' => $user->email,
             'password' => 'wrong-password',
         ]);
 
