@@ -39,7 +39,7 @@ const DataTableService = (auth) => {
     const columns = [
         {
             name: "No. de Guía / Opciones",
-            grow: 2.5,
+            grow: 2.7,
             center: true,
             cell: (row) => (
                 <>
@@ -72,7 +72,7 @@ const DataTableService = (auth) => {
         },
         {
             name: "Nombre",
-            grow: 2.0,
+            grow: 1.7,
             sortable: true,
             selector: (row) => row.name,
         },

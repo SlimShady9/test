@@ -11,10 +11,6 @@ const PriceTServicePie = () => {
             legend: {
                 position: "bottom",
             },
-            title: {
-                display: true,
-                text: "Ingresos totales por tipo de servicio",
-            },
         },
     };
     
@@ -66,9 +62,9 @@ const PriceTServicePie = () => {
     if (loading) return <p>Loading...</p>;
     return (
     <>
-    <div>
+    <div className="grid">
     <h1 className="text-blue-primary text-2xl mb-1 font-bold  text-center ease-in duration-200">
-        Precio x Tipo de Servicio
+        Costo por Tipo de Contenido
     </h1>
     <Pie 
     className="bg-semiwhite rounded-xl shadow-xl m-5"

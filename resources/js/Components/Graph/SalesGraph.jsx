@@ -80,7 +80,7 @@ const SalesGraph = () => {
     <>
     <div>
     <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center ease-in duration-200">
-        Ventas x Mes
+        Ventas por Mes
     </h1>
     <Bar 
     className="bg-semiwhite rounded-xl shadow-xl"
