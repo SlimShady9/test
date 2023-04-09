@@ -67,7 +67,7 @@ const PriceTServicePie = () => {
     return (
     <>
     <div>
-    <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center ease-in duration-200">
+    <h1 className="text-blue-primary text-2xl mb-1 font-bold  text-center ease-in duration-200">
         Precio x Tipo de Servicio
     </h1>
     <Pie 

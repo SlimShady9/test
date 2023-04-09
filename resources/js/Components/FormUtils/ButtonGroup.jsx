@@ -5,7 +5,7 @@ export default function ButtonGroup({ listButtons, className }) {
     return (
         <div
             className={
-                "inline-flex rounded-md shadow-sm w-full justify-center " +
+                "inline-flex rounded-md shadow-sm " +
                 (className || "")
             }
             role="group"
@@ -24,7 +24,7 @@ export default function ButtonGroup({ listButtons, className }) {
                             href={button.href}
                         >
                             <span>{button.icon}</span>
-                            <span className="hidden lg:block w-16">
+                            <span className="hidden lg:block lg:w-16">
                                 {button.text}
                             </span>
                         </Link>
@@ -42,7 +42,7 @@ export default function ButtonGroup({ listButtons, className }) {
                             } hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700  transition ease-in-out duration-150 hover:bg-blue-dark hover:text-gray-light`}
                         >
                             <span>{button.icon}</span>
-                            <span className="hidden lg:block w-16">
+                            <span className="hidden lg:block lg:w-16">
                                 {button.text}
                             </span>
                         </button>

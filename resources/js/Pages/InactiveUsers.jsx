@@ -42,6 +42,27 @@ const InactiveUsers = (props) => {
 
     const columns = [
         {
+            name: "Opciones",
+            grow: 2.5,
+            center: true,
+            cell: (row) => (
+                <div className="grid">
+                <div className="text-center text-lg font-bold">{row.username}</div>
+                <div className="mx-auto">
+                    <ButtonGroup
+                        listButtons={[
+                        {
+                            onClick: () => activate(row),
+                            text: "Activar",
+                            icon: <GrUserAdd />,
+                        },
+                    ]}
+                    />
+                </div>
+            </div>
+        ),
+        },
+        {
             name: "Nombre de usuario",
             selector: (row) => row.username,
         },
@@ -79,22 +100,7 @@ const InactiveUsers = (props) => {
             name: "Teléfono",
             selector: (row) => row.phone,
         },
-        {
-            name: "Opciones",
-            grow: 1.5,
-            center: true,
-            cell: (row) => (
-                <ButtonGroup
-                    listButtons={[
-                        {
-                            onClick: () => activate(row),
-                            text: "Activar",
-                            icon: <GrUserAdd />,
-                        },
-                    ]}
-                />
-            ),
-        },
+        
     ];
 
     useEffect(() => {
@@ -109,32 +115,31 @@ const InactiveUsers = (props) => {
     }, [search]);
     return (
         <Authenticated {...props}>
+            <div className="grid m-6 gap-4">
+            <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                Usuarios Inactivos
+            </h1>
+            <div className="">
+            <input
+                type="text"
+                placeholder="Buscar"
+                className="w-25 form-control rounded-3xl"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+            />
+            </div>
             <DataTable
                 columns={columns}
                 data={filteredUsers}
                 highlightOnHover
-                fixedHeader
                 pagination
-                subHeader
                 noDataComponent="No se encontraron resultados"
                 paginationComponentOptions={{
                     rowsPerPageText: "Filas por página",
                     rangeSeparatorText: "de",
                 }}
-                subHeaderComponent={
-                    <Container className="flex">
-                        <Container>
-                            <input
-                                type="text"
-                                placeholder="Buscar"
-                                className="w-25 form-control rounded-3xl"
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                            />
-                        </Container>
-                    </Container>
-                }
             />
+            </div>
         </Authenticated>
     );
 };
