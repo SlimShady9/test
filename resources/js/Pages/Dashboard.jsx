@@ -34,6 +34,7 @@ export default function Dashboard(props) {
                             >
                                 <div className="flex mx-auto gap-4">
                                     <Label className={"text-2xl text-center"}>Servicios</Label>
+                                    <img src="" alt="" />
                                     <span className="grid self-center">
                                         <FaBookOpen className="scale-150"/>
                                     </span>
