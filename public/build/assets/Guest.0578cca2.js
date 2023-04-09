@@ -1,0 +1,1 @@
+import{a as e,j as s}from"./app.4d6b7aa4.js";import{N as r}from"./Header.868ab999.js";function i({children:a}){return e("div",{className:"min-h-screen w-full",children:[s(r,{className:"mt-1/2 z-10"}),s("div",{className:"m-auto justify-center",children:a})]})}export{i as G};

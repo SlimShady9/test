@@ -77,7 +77,7 @@ const WeightGraph = () => {
     <>
     <div>
     <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center ease-in duration-200">
-        Peso Total x Ventas
+        Peso Total por Ventas
     </h1>
     <Bar 
     className="bg-semiwhite rounded-xl shadow-xl"
