@@ -43,6 +43,12 @@ function ServiceDataForm({
     const inputRef = React.useRef(null);
     // States
     const [optionsTypeService, setOptionsTypeService] = useState([]);
+    const [hadFile, setHadFile] = useState(
+        isEdit
+            ? serviceDTO.service.archive !== null &&
+                  serviceDTO.service.archive !== undefined
+            : false
+    );
     const [fileList, setFileList] = useState([]);
     const files = fileList ? [...fileList] : [];
     const [showDetail, setShowDetail] = useState(true);
@@ -157,7 +163,11 @@ function ServiceDataForm({
         const date =
             serviceForm.start_date + " " + serviceForm.start_date_hours;
         serviceForm.start_date = date;
-        if (files.length !== 0) {
+        // hadFile is true
+        console.log("hadFile", hadFile);
+        console.log("files.length !== 0 ", files.length !== 0);
+
+        if (files.length !== 0 && !hadFile) {
             serviceForm.archive = await addAddress();
         }
         if (!isEdit) {
@@ -221,7 +231,7 @@ function ServiceDataForm({
     const verArchivo = (e) => {
         // Donwload file
         if (serviceForm.archive) {
-            window.open("/api/file/" + serviceForm.archive, "_parent");
+            window.open("/api/file/" + serviceForm.archive, "_blank");
         }
     };
 
