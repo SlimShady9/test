@@ -85,15 +85,36 @@ const SideBar = ({ user }) => {
 
     const [open, setOpen] = useState(false);
     const [loggedUser, setLoggedUser] = useState(user);
+    const [touchStart, setTouchStart] = useState(null)
+    const [touchEnd, setTouchEnd] = useState(null);
+    const minSwipeDistance = 50;
+
+    const onTouchStart = (e) => {
+        setTouchEnd(null) // otherwise the swipe is fired even with usual touch events
+        setTouchStart(e.targetTouches[0].clientX)
+      }
+      
+      const onTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX)
+      
+      const onTouchEnd = () => {
+        if (!touchStart || !touchEnd) return
+        const distance = touchStart - touchEnd
+        const isLeftSwipe = distance > minSwipeDistance
+        const isRightSwipe = distance < -minSwipeDistance
+        if (isLeftSwipe || isRightSwipe) console.log('swipe', isLeftSwipe ? setOpen(false) : setOpen(true))
+        // add your conditional logic here
+      }
 
     return (
         <div
-
             className={` ${
-                open ? "w-72" : "w-20 "
+                open ? "visible w-72" : "relative w-14"
             } bg-gradient-to-l from-white to-blue-light sm:h-auto p-5 pt-8 relative duration-300 `}
             onMouseOver={() => setOpen(!open)}
             onMouseOut={() => setOpen(!open)}
+            onTouchStart={onTouchStart} 
+            onTouchMove={onTouchMove} 
+            onTouchEnd={onTouchEnd}
         >
             <div className="flex mx-auto items-center ">
                 <ApplicationLogo />
@@ -104,8 +125,7 @@ const SideBar = ({ user }) => {
                         href={route(Menu.url)}
                         key={index}
                         method={Menu.method}
-                        className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
-                    ${Menu.gap ? "mt-9" : "mt-2"} ${
+                        className={`flex rounded-md pt-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4                     ${Menu.gap ? "mt-9" : "mt-2"} ${
                             index === 0 && "bg-light-white"
                         } hover:bg-gradient-to-r from-blue-servi to-white opacity-80 hover:text-white transition ease-in-out duration-300 hover:scale-110`}
                     >
@@ -125,8 +145,7 @@ const SideBar = ({ user }) => {
                             href={route(Menu.url)}
                             key={index}
                             method={Menu.method}
-                            className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
-                            ${Menu.gap ? "mt-9" : "mt-2"} ${
+className={`flex rounded-md pt-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4                             ${Menu.gap ? "mt-9" : "mt-2"} ${
                                 index === 0 && "bg-light-white"
                             } hover:bg-gradient-to-r from-blue-servi to-white opacity-80 hover:text-white transition ease-in-out duration-300 hover:scale-110`}
                         >
@@ -146,7 +165,7 @@ const SideBar = ({ user }) => {
                             href={route(Menu.url)}
                             key={index}
                             method={Menu.method}
-                            className={`flex rounded-md p-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
+                            className={`flex rounded-md pt-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4 
                             ${Menu.gap ? "mt-9" : "mt-2"} ${
                                 index === 0 && "bg-light-white"
                             } hover:bg-gradient-to-r from-blue-servi to-white opacity-80 hover:text-white transition ease-in-out duration-300 hover:scale-110`}

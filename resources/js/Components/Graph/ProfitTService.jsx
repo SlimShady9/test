@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
-import { ServiceByTService } from "@/Utils/FetchGraph";
+import { profitXTService } from "@/Utils/FetchGraph";
 import { toStringTipoDeServiciosEnum } from "@/Constants/TipoDeServiciosEnum";
 
 const PriceTServicePie = () => {
@@ -11,10 +11,7 @@ const PriceTServicePie = () => {
             legend: {
                 position: "bottom",
             },
-            title: {
-                display: true,
-                text: "Ingresos totales por tipo de servicio",
-            },
+
         },
     };
     
@@ -33,7 +30,7 @@ const PriceTServicePie = () => {
         const fetchData = async () => {
             const labelSet = [];
             const dataSet1 = [];
-            const res = await ServiceByTService();
+            const res = await profitXTService();
             for (const val of res) {
                 if(val.ganancia!=null && val.id_type_service){
                 dataSet1.push(val.ganancia);
@@ -45,7 +42,7 @@ const PriceTServicePie = () => {
                 labels: labelSet,
                 datasets: [
                     {
-                        label: "Precio",
+                        label: "Total",
                         data: dataSet1,
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.5)',
@@ -67,8 +64,8 @@ const PriceTServicePie = () => {
     return (
     <>
     <div>
-    <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center ease-in duration-200">
-        Precio x Tipo de Servicio
+    <h1 className="text-blue-primary text-2xl mb-1 font-bold  text-center ease-in duration-200">
+        Ganancias por Tipo de Servicio
     </h1>
     <Pie 
     className="bg-semiwhite rounded-xl shadow-xl m-5"

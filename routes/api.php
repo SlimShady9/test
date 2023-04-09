@@ -26,6 +26,7 @@ use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TypeDocumentController;
 use App\Http\Controllers\TypeExceptionController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\TiempoLogsController;
 use App\Http\Controllers\Graphs\GraphController;
 
 
@@ -61,6 +62,9 @@ Route::resource('t_action', TActionController::class);
 
 Route::resource('permission', PermissionController::class);
 
+Route::resource('tiempoLog', TiempoLogsController::class);
+
+Route::get('/tiempoLog/lastTime', [TiempoLogsController::class, 'lastTime']);
 
 Route::resource('order', OrderController::class);
 
@@ -147,6 +151,7 @@ Route::resource('typeException', TypeExceptionController::class)->names([
     'destroy' => 'typeException.destroy',
     'edit' => 'typeException.edit',
 ]);
+
 
 // Tal vez con resource no se deba hacer el get, put, post, delete. Pero no sé
 Route::get('/user/{user_id}/profileimg', [PhotoUserController::class, 'profileimg']);

@@ -10,6 +10,7 @@ import CostTService from "@/Components/Graph/CostTService";
 import PriceTContent from "@/Components/Graph/PriceTContent";
 import PriceTService from "@/Components/Graph/PriceTService";
 import ProfitTContent from "@/Components/Graph/ProfitTContent";
+import ProfitTService from "@/Components/Graph/ProfitTService";
 import ServiceStateService from "@/Components/Graph/ServiceStateService";
 import ServiceTService from "@/Components/Graph/ServiceTService";
 
@@ -20,18 +21,17 @@ export default function Graph(props) {
     return (
         <>
             <Authenticated {...props}>
-                <h1 className="text-blue-primary text-3xl mb-1 font-bold  text-center hover:scale-110 ease-in duration-200">
+                <h1 className="text-blue-primary text-3xl mb-10 font-bold  text-center hover:scale-110 ease-in duration-200">
                     Gráficas Analíticas
                 </h1>
                 <div className="">
-                    <div className="grid grid-cols-1 lg:grid-cols-4 md:grid-cols-3  sm:mx-5 gap-5">
+                    <div className="grid grid-cols-1 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3  sm:mx-5 gap-5">
                         <CostTContent/>
-                        <CostTService/>
                         <PriceTContent/>
-                        <PriceTService/>
                         <ProfitTContent/>
-                        <ServiceStateService/>
-                        <ServiceTService/>
+                        <CostTService/>
+                        <PriceTService/>
+                        <ProfitTService/>
                     </div>
             
                     <div className="grid sm:grid-cols-2  sm:mx-5 gap-5">

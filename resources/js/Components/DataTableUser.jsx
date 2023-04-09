@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo  } from "react";
 import axios from "axios";
 import { GrEdit } from "react-icons/gr";
 import { RiDeleteBinLine } from "react-icons/ri";
@@ -67,6 +67,49 @@ const DatatableUser = ({ lUser }) => {
             );
         });
     };
+    function convertArrayOfObjectsToCSV(array) {
+    	let result;
+        console.log(filteredUser);
+        	const columnDelimiter = ',';
+        	const lineDelimiter = '\n';
+        	const keys = Object.keys(filteredUser[0]);
+        
+        	result = '';
+        	result += keys.join(columnDelimiter);
+        	result += lineDelimiter;
+        
+        	array.forEach(item => {
+        		let ctr = 0;
+        		keys.forEach(key => {
+        			if (ctr > 0) result += columnDelimiter;
+        
+        			result += item[key];
+        			
+        			ctr++;
+        		});
+        		result += lineDelimiter;
+        	});
+        
+        	return result;
+        }
+        
+        // Blatant "inspiration" from https://codepen.io/Jacqueline34/pen/pyVoWr
+        function downloadCSV(array) {
+        	const link = document.createElement('a');
+        	let csv = convertArrayOfObjectsToCSV(array);
+        	if (csv == null) return;
+        
+        	const filename = 'export.csv';
+        
+        	if (!csv.match(/^data:text\/csv/i)) {
+        		csv = `data:text/csv;charset=utf-8,${csv}`;
+        	}
+        
+        	link.setAttribute('href', encodeURI(csv));
+        	link.setAttribute('download', filename);
+        	link.click();
+        }
+    const Export = ({ onExport }) => <Button onClick={e => onExport(e.target.value)}>Export</Button>;
 
     const columns = [
         {
@@ -157,11 +200,13 @@ const DatatableUser = ({ lUser }) => {
 
         setFilteredUser(result);
     }, [search]);
+    const actionsMemo = useMemo(() => <Export onExport={() => downloadCSV(filteredUser)} />, []);
 
     return (
         <DataTable
             columns={columns}
             data={filteredUser}
+            actions={actionsMemo}
             highlightOnHover
             fixedHeader
             pagination

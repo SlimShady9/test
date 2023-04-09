@@ -18,6 +18,8 @@ import moment from "moment/moment";
 import TaskBox from "../FormUtils/TaskBox";
 import { toast } from "react-toastify";
 import { storeTask, deleteTask as dTaks, updateTask } from "@/Utils/FetchTask";
+import { updateTiempo } from "@/Utils/FetchTiempoLog";
+
 
 function TaskForm({
     setNextStep,
@@ -29,6 +31,7 @@ function TaskForm({
     const [showDetail, setShowDetail] = useState(false);
     const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
     const [tasks, setTasks] = useState(pTasks);
+    const [tiempo, setTiempo] = useState([]);
     const [currentTask, setCurrentTask] = useState({
         name: "",
         entity: "",
@@ -58,6 +61,15 @@ function TaskForm({
         fetchData();
         setServiceDTO((prev) => ({ ...prev, address: {} }));
     }, []);
+
+    const guardarTiempo = () => {
+        console.log("guardar tiempo");
+        setTiempo({
+            end_date: new Date(),
+        });
+        console.log(tiempo);
+        updateTiempo(tiempo);
+    };
 
     const fetchData = async () => {
         const options = await getOptionsTypeService();
