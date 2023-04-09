@@ -1,0 +1,1 @@
+import{j as r}from"./app.63c72a0b.js";function o({forInput:t,value:e,className:m,children:l}){return r("label",{htmlFor:t,className:"font-medium text-md "+m,children:r("b",{children:e||l})})}export{o as L};
