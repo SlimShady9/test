@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Registered;
+use App\Notifications\EmailConfirmation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -35,20 +35,17 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:50',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'surname' => 'required|string|max:255',
-            'username' => 'required|string|max:255',
-            'doc' => 'required|string|max:255',
-            'signature' => 'string|max:255',
-            'phone' => 'required|string|max:20',
-            'cellphone' => 'required|string|max:25',
-            'notif' => 'string|max:2',
-            'id_t_user' => 'integer',
-            'data' => 'string|max:255',
-
-        ]);
+            'password' => 'required', 'confirmed',
+            'surname' => 'required|string|max:50 ',
+            'username' => 'required|string|max:15',
+            'doc' => 'required|string|max:30',
+            'phone' => 'required|string|max:30',
+            'id_t_user' => 'required',
+            'id_t_doc' => 'required',
+            'cellphone' => 'required|string|max:30'
+            ]);
 
         $user = User::create([
             'name' => $request->name,
@@ -57,16 +54,13 @@ class RegisteredUserController extends Controller
             'surname' => $request->surname,
             'username' => $request->username,
             'doc' => $request->doc,
-            'signature' => $request->signature,
-            'phone' => $request->phone,
-            'cellphone' => $request->cellphone,
-            'notif' => $request->notif,
+            'id_t_doc' => $request->id_t_doc,
             'id_t_user' => $request->id_t_user,
-            'data' => $request->data,
+            'phone' => $request->phone,
+            'cellphone' => $request->cellphone
         ]);
 
-
-        event(new Registered($user));
+        event(new Verified($request->user()));
 
         Auth::login($user);
 

@@ -3,15 +3,20 @@ import React, { useState } from "react";
 import { Link } from "@inertiajs/inertia-react";
 import ApplicationLogo from "./ApplicationLogo";
 import Label from "./FormUtils/Label";
-import barras from "../../imgs/barras.png";
+import barras from "../../imgs/Barras.png";
 import { GrHome, GrContact, GrLogin, GrEdit } from "react-icons/gr";
 
 function NavBar({ className }) {
     let Links = [
         { name: "Inicio", link: "/", icon: <GrHome className="mr-0" /> },
         {
+            name: "Proyecto",
+            link: "/#project",
+            icon: <GrContact className="mr-0" />,
+        },
+        {
             name: "Contáctenos",
-            link: "/",
+            link: "/#contact",
             icon: <GrContact className="mr-0" />,
         },
         {
@@ -23,7 +28,7 @@ function NavBar({ className }) {
     ];
     let [open, setOpen] = useState(false);
     return (
-        <div className="shadow-md bg-gradient-to-r from-white to-blue-light w-full top-0 left-0 z-10">
+        <div className="shadow-md bg-gradient-to-r from-white to-blue-light top-0 w-full z-10">
             <div className="md:flex justify-center">
                 <div className="flex m-5">
                     <ApplicationLogo />
@@ -41,9 +46,7 @@ function NavBar({ className }) {
                     src={barras}
                 />
                 <ul
-                    className={`grid grid-cols-${
-                        Links.length
-                    } mx-10 bg-white bg-opacity-95 rounded-xl lg:bg-opacity-0 md:bg-opacity-0 md:flex md:items-center md:pb-0 pb-12 absolute md:static md:z-auto z-[10] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${
+                    className={`grid grid-cols-1 mx-10 bg-white bg-opacity-95 rounded-xl lg:bg-opacity-0 md:bg-opacity-0 md:flex md:items-center md:pb-0 pb-12 absolute md:static md:z-auto z-[10] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${
                         open ? "top-20 " : "top-[-490px]"
                     }`}
                 >

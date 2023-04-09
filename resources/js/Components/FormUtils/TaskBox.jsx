@@ -21,7 +21,7 @@ function TaskBox({ task, onDelete, editTask }) {
                     <div className="justify-center mx-auto text-center grid col-span-3 mt-2 aling-center">
                         <Label className="text-lg font-bold text-left mb-3 overflow-hidden"></Label>
                         <div className="text-xs mb-3 overflow-hidden">
-                            {task.addr} -{" "}
+                            {task.desc} -{" "}
                             {moment(task.limit_date).format("DD/MM/YYYY")}
                         </div>
                     </div>

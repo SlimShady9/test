@@ -8,8 +8,9 @@ use Illuminate\Mail\Message;
 use App\Models\Email;
 use App\Models\Service;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
- 
+use Illuminate\Notifications\AnonymousNotifiable;
+use App\Notifications\PQRSNotification;
+
 class EmailController extends Controller
 {
     /**
@@ -19,15 +20,23 @@ class EmailController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function emailPqrs(Request  $request = null)
-    {   
-        Mail::send([], [], function (Message $message) {
-            $servicio = Service::find(request()->servicio);
-            $message
-            ->to('gortega2001@gmail.com')
-            ->subject('PQRs servicio '.$servicio->tracking_id)
-            ->html('<h1>El usuario '. request()->tUsuario. ' '.request()->usuario.' tiene el siguiente comentario sobre el servicio en estado '.request()->stateService .' con el identificador de rastreo:
-                    '.$servicio->tracking_id.'</h1>
-                    <h1>'.request()->comentario.'</h1>');
-        });
+    {
+        $notifiable = new AnonymousNotifiable;
+        $idServicio = Service::find(request()->servicio)->pluck('tracking_id');
+
+        
+        $data = [
+            'comentario' => request()->comentario,
+            'usuario' => request()->tUsuario . ' '.request()->usuario,
+            'estado' => request()->stateService,
+            'idServicio' => $idServicio,
+            'comentario' => request()->comentario,
+        ];
+
+        
+
+        $notifiable->route('mail', 'slim.shady99q@gmail.com')
+            ->notify(new PQRSNotification($data));
+        
     }
 }

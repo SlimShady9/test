@@ -113,8 +113,31 @@ const DatatableUser = ({ lUser }) => {
 
     const columns = [
         {
-            name: "Nombre de usuario",
-            selector: (row) => row.username,
+            name: "Usuario / Opciones",
+            grow: 2.5,
+            center: true,
+            cell: (row) => (
+                <div className="grid">
+                    <div className="text-center text-lg font-bold">{row.username}</div>
+                    <div className="mx-auto">
+                        <ButtonGroup
+                            listButtons={[
+                                {
+                                    onClick: () => loadUser(row.id),
+                                    icon: <GrEdit />,
+                                    text: "Editar",
+                                    className: "bg-blue-400",
+                                },
+                                {
+                                    onClick: () => deactiveUser(row),
+                                    icon: <RiDeleteBinLine />,
+                                    text: "Inactivar",
+                                },
+                            ]}
+                        />
+                    </div>
+                </div>
+            ),
         },
         {
             name: "Nombres",
@@ -149,29 +172,6 @@ const DatatableUser = ({ lUser }) => {
         {
             name: "Teléfono",
             selector: (row) => row.phone,
-        },
-
-        {
-            name: "Opciones",
-            grow: 1.5,
-            center: true,
-            cell: (row) => (
-                <ButtonGroup
-                    listButtons={[
-                        {
-                            onClick: () => loadUser(row.id),
-                            icon: <GrEdit />,
-                            text: "Editar",
-                            className: "bg-blue-400",
-                        },
-                        {
-                            onClick: () => deactiveUser(row),
-                            icon: <RiDeleteBinLine />,
-                            text: "Inactivar",
-                        },
-                    ]}
-                />
-            ),
         },
     ];
     useEffect(() => {
@@ -218,7 +218,7 @@ const DatatableUser = ({ lUser }) => {
             }}
             subHeaderComponent={
                 <>
-                    <Link href={"regUser"} className="p-3 bg-blue-400">
+                    <Link href={"regUser"} className="mx-auto p-3 bg-blue-400">
                         <Button>Nuevo Usuario</Button>
                     </Link>
                     <input

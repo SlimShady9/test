@@ -54,7 +54,7 @@ export default function Profile(props) {
                 <Authenticated {...props}>
                     <Container>
                         <Card
-                            className={"justify-center tracking-widest m-auto"}
+                            className={"justify-center tracking-widest m-auto w-full sm:w-3/4"}
                             col={2}
                         >
                             <Container className={"col-span-2 justify-center"}>

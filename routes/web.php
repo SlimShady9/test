@@ -91,6 +91,10 @@ Route::get('/graph', function () {
     return Inertia::render('Graph');
 })->middleware(['auth', 'verified','admin', 'isActive'])->name('graph');
 
+Route::get('/sales', function () {
+    return Inertia::render('Sales');
+})->middleware(['auth', 'verified','admin', 'isActive'])->name('sales');
+
 Route::get('/inactiveUsers', function () {
     return Inertia::render('InactiveUsers');
 })->middleware(['auth', 'verified', 'admin', 'isActive'])->name('inactiveUsers');
