@@ -11,7 +11,7 @@ import ButtonGroup from "@/Components/FormUtils/ButtonGroup";
 import { toStringEstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
 import { toStringTipoDeServiciosEnum } from "@/Constants/TipoDeServiciosEnum";
 
-const DataTableService = () => {
+const DataTableSales = () => {
     function currencyFormatter({ currency, value}) {
         const formatter = new Intl.NumberFormat('en-US', {
           style: 'currency',
@@ -123,4 +123,4 @@ const DataTableService = () => {
     );
 };
 
-export default DataTableService;
+export default DataTableSales;

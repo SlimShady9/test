@@ -222,7 +222,7 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
                         handleChange={(e) => handleChange(e, "addr_detail")}
                         defaultValue={data.addr_detail}
                         maxLength={255}
-                        onlyLetters={true}
+                        lettersAndSymbols={true}
                     />
                 </div>
 

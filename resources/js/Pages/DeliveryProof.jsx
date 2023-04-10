@@ -157,7 +157,7 @@ export default function DeliveryProof(props) {
             setTasks((prev) =>
                 prev.map((task) =>
                     task.id == nTask.id
-                        ? { ...nTask, isLoading: false }
+                        ? { ...nTask, isLoading: false, address: task.address }
                         : { ...task, isLoading: false }
                 )
             );
@@ -273,9 +273,10 @@ export default function DeliveryProof(props) {
                                 </Label>
                             </div>
                             <div className="col-span-2 sm:col-span-1 border-t">
-                                <div className="bg-gray-dark text-center text-white">
-                                    {" "}
-                                    Remitente
+                                <div className="bg-gray-dark text-center text-white h-12 flex justify-center">
+                                    <span className="align-middle my-auto">
+                                        Remitente
+                                    </span>
                                 </div>
                                 {message && address && (
                                     <>
@@ -726,31 +727,31 @@ export default function DeliveryProof(props) {
                             </div>
                         </div>
                         <div className="mx-auto">
-                        <ButtonGroup
-                            listButtons={[
-                                {
-                                    onClick: handlePrint,
-                                    icon: <FaPrint />,
-                                    text: "Imprimir Prueba",
-                                },
-                                {
-                                    onClick: () => {},
-                                    icon: <FaSave />,
-                                    type: "submit",
-                                    text: "Guardar Prueba",
-                                },
-                                {
-                                    onClick: clear,
-                                    icon: <FaEraser />,
-                                    text: "Limpiar Firma",
-                                },
-                                {
-                                    onClick: deleteSignature,
-                                    icon: <FaTrash />,
-                                    text: "Borrar Firma",
-                                },
-                            ]}
-                        />
+                            <ButtonGroup
+                                listButtons={[
+                                    {
+                                        onClick: handlePrint,
+                                        icon: <FaPrint />,
+                                        text: "Imprimir Prueba",
+                                    },
+                                    {
+                                        onClick: () => {},
+                                        icon: <FaSave />,
+                                        type: "submit",
+                                        text: "Guardar Prueba",
+                                    },
+                                    {
+                                        onClick: clear,
+                                        icon: <FaEraser />,
+                                        text: "Limpiar Firma",
+                                    },
+                                    {
+                                        onClick: deleteSignature,
+                                        icon: <FaTrash />,
+                                        text: "Borrar Firma",
+                                    },
+                                ]}
+                            />
                         </div>
                     </div>
                     <div id="ifmcontentstoprint"></div>

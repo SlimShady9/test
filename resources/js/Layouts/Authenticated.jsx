@@ -17,8 +17,9 @@ import {
     Filler,
     Legend,
     BarElement,
-    ArcElement, 
+    ArcElement,
 } from "chart.js";
+import { getOpciones } from "@/Utils/NavigationOptions";
 
 ChartJS.register(
     CategoryScale,
@@ -29,14 +30,13 @@ ChartJS.register(
     Tooltip,
     Filler,
     Legend,
-    ArcElement, 
+    ArcElement,
     BarElement
 );
 
 export default function Authenticated({ auth, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
-
     return (
         <div className="flex min-h-screen bg-">
             <img
@@ -152,15 +152,6 @@ export default function Authenticated({ auth, header, children }) {
                             " sm:hidden"
                         }
                     >
-                        <div className="pt-2 pb-3 space-y-1">
-                            <ResponsiveNavLink
-                                href={route("dashboard")}
-                                active={route().current("dashboard")}
-                            >
-                                Dashboard
-                            </ResponsiveNavLink>
-                        </div>
-
                         <div className="pt-4 pb-1 border-t border-gray-200">
                             <div className="px-4">
                                 <div className="font-medium text-base text-gray-800">
@@ -171,14 +162,26 @@ export default function Authenticated({ auth, header, children }) {
                                 </div>
                             </div>
 
-                            <div className="mt-3 space-y-1">
-                                <ResponsiveNavLink
-                                    method="post"
-                                    href={route("logout")}
-                                    as="button"
-                                >
-                                    Cerrar Sesión
-                                </ResponsiveNavLink>
+                            <div className="mt-3  space-y-1">
+                                {getOpciones(auth.user.id_t_user).map(
+                                    (Nav, index) => (
+                                        <div className="shadow-lg">
+                                            <ResponsiveNavLink
+                                                key={index}
+                                                method={Nav.method}
+                                                href={route(Nav.url)}
+                                                as="button"
+                                            >
+                                                <div className="flex gap-2 align-middle m-1">
+                                                    <span className="grid self-center">
+                                                        {Nav.icon}
+                                                    </span>
+                                                    {Nav.title}
+                                                </div>
+                                            </ResponsiveNavLink>
+                                        </div>
+                                    )
+                                )}
                             </div>
                         </div>
                     </div>
