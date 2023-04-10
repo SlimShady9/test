@@ -71,7 +71,7 @@ const SideBar = ({ user }) => {
                         href={route(Menu.url)}
                         key={index}
                         method={Menu.method}
-                        className={`flex rounded-md pt-2 cursor-pointer hover:bg-light-white text-gray-300 text-sm items-center gap-x-4                     ${
+                        className={`flex rounded-md cursor-pointer pl-1 hover:bg-light-white text-gray-300 text-sm items-center gap-x-4                     ${
                             Menu.gap ? "mt-9" : "mt-2"
                         } ${
                             index === 0 && "bg-light-white"
@@ -81,7 +81,7 @@ const SideBar = ({ user }) => {
                         <span
                             className={`${
                                 !open && "hidden"
-                            } origin-left duration-200`}
+                            } origin-left duration-200 p-2`}
                         >
                             {Menu.title}
                         </span>
