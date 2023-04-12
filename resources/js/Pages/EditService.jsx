@@ -155,6 +155,7 @@ function EditService(props) {
                                 {stateService ===
                                     EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA && (
                                     <AddressForm
+                                        title="Dirección de origen"
                                         api_token={props.api_token}
                                         address={serviceDTO.address}
                                         onSubmit={(res) => {

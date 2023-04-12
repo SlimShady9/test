@@ -94,12 +94,18 @@ function ServiceDataForm({
             );
             return;
         }
-        // If the file is not a pdf or an image then it will not be uploaded
+        // If the file is not a pdf or an image or excel then it will not be uploaded
         if (
             !event.target.files[0].type.includes("pdf") &&
             !event.target.files[0].type.includes("png") &&
             !event.target.files[0].type.includes("jpeg") &&
-            !event.target.files[0].type.includes("jpg")
+            !event.target.files[0].type.includes("jpg") &&
+            !event.target.files[0].type.includes("excel") &&
+            !event.target.files[0].type.includes("spreadsheetml") &&
+            !event.target.files[0].type.includes("xlsx") &&
+            !event.target.files[0].type.includes("csv") &&
+            !event.target.files[0].type.includes("xls") &&
+            !event.target.files[0].type.includes("xlsm")
         ) {
             toast.warning(
                 "El archivo no es un pdf o una imagen, por favor seleccione uno válido"

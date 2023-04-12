@@ -66,7 +66,6 @@ export default function Authenticated({ auth, header, children }) {
 
                             <div className="hidden sm:flex sm:items-center sm:ml-6">
                                 <div className="flex ml-3 relative">
-                                    
                                     <Dropdown>
                                         <Dropdown.Trigger>
                                             <span className="inline-flex rounded-md">
@@ -75,7 +74,7 @@ export default function Authenticated({ auth, header, children }) {
                                                     className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                                                 >
                                                     {auth.user.name}
-                                                    
+
                                                     <svg
                                                         className="ml-2 -mr-0.5 h-4 w-4"
                                                         xmlns="http://www.w3.org/2000/svg"
@@ -115,10 +114,7 @@ export default function Authenticated({ auth, header, children }) {
                                     className="inline-flex gap-4  items-center justify-center p-2 rounded-md hover:bg-gray-dark focus:outline-none focus:bg-gray-light focus:text-gray-500 transition duration-150 ease-in-out"
                                 >
                                     <div className="my-auto justify-start">
-                                    <img 
-                                    src={nombre}
-                                    className="h-10"
-                                    />
+                                        <img src={nombre} className="h-10" />
                                     </div>
                                     <svg
                                         className="h-6 w-6 justify-end"

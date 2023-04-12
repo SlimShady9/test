@@ -55,13 +55,13 @@ export default function Login({ status, canResetPassword }) {
                     </h1>
                 </Container>
                 <div>
-                    <Label forInput="email" value="Nombre de Usuario" />
+                    <Label forInput="email" value="Correo de usuario" />
                     <Input
                         type="email"
                         name="email"
                         value={data.email}
                         className="mt-1 block w-full"
-                        autoComplete="username"
+                        autoComplete="email"
                         isFocused={true}
                         handleChange={onHandleChange}
                     />

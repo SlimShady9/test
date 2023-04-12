@@ -13,7 +13,7 @@ import {
 import { toast } from "react-toastify";
 import ServiceContext from "./ServiceForms/useServiceContext";
 
-function AddressForm({ api_token, onSubmit, isEdit = false }) {
+function AddressForm({ api_token, onSubmit, isEdit = false, title = "" }) {
     const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
     const [data, setData] = useState({
         id: serviceDTO.address.id,
@@ -113,6 +113,7 @@ function AddressForm({ api_token, onSubmit, isEdit = false }) {
     return (
         <div>
             <form onSubmit={submit} className="">
+                <h1 className="text-xl font-bold text-left mb-3">{title}</h1>
                 <div className="flex flex-col my-3">
                     <Label forInput="name">Nombre del Lugar</Label>
                     <Input
