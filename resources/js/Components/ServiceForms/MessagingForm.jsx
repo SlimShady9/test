@@ -23,6 +23,7 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
             value: TransportadoraEnum[key],
         })
     );
+    
     const submitForm = async (e) => {
         e.preventDefault();
         if (isEdit) {
