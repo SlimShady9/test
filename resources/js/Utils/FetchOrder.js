@@ -37,6 +37,9 @@ const deleteOrder = async (id) => {
 const getOrder = async (idService) => {
     try {
         const req = await axios.get(`/api/order/${idService}`);
+        if (req.data.length === 0) {
+            return [[], null];
+        }
         return [req.data, null];
     } catch (error) {
         return [null, error];

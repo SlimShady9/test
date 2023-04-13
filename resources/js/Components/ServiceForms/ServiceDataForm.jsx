@@ -170,8 +170,6 @@ function ServiceDataForm({
             serviceForm.start_date + " " + serviceForm.start_date_hours;
         serviceForm.start_date = date;
         // hadFile is true
-        console.log("hadFile", hadFile);
-        console.log("files.length !== 0 ", files.length !== 0);
 
         if (files.length !== 0 && !hadFile) {
             serviceForm.archive = await addAddress();

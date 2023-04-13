@@ -20,7 +20,6 @@ import { toast } from "react-toastify";
 import { storeTask, deleteTask as dTaks, updateTask } from "@/Utils/FetchTask";
 import { updateTiempo } from "@/Utils/FetchTiempoLog";
 
-
 function TaskForm({
     setNextStep,
     api_token,
@@ -366,6 +365,7 @@ function TaskForm({
                             onChange={onChange}
                             value={currentTask.desc}
                             maxLength={255}
+                            required={true}
                         ></textarea>
                     </div>
                     <div className="flex flex-col w-full gap-4">
