@@ -94,12 +94,18 @@ function ServiceDataForm({
             );
             return;
         }
-        // If the file is not a pdf or an image then it will not be uploaded
+        // If the file is not a pdf or an image or excel then it will not be uploaded
         if (
             !event.target.files[0].type.includes("pdf") &&
             !event.target.files[0].type.includes("png") &&
             !event.target.files[0].type.includes("jpeg") &&
-            !event.target.files[0].type.includes("jpg")
+            !event.target.files[0].type.includes("jpg") &&
+            !event.target.files[0].type.includes("excel") &&
+            !event.target.files[0].type.includes("spreadsheetml") &&
+            !event.target.files[0].type.includes("xlsx") &&
+            !event.target.files[0].type.includes("csv") &&
+            !event.target.files[0].type.includes("xls") &&
+            !event.target.files[0].type.includes("xlsm")
         ) {
             toast.warning(
                 "El archivo no es un pdf o una imagen, por favor seleccione uno válido"
@@ -164,8 +170,6 @@ function ServiceDataForm({
             serviceForm.start_date + " " + serviceForm.start_date_hours;
         serviceForm.start_date = date;
         // hadFile is true
-        console.log("hadFile", hadFile);
-        console.log("files.length !== 0 ", files.length !== 0);
 
         if (files.length !== 0 && !hadFile) {
             serviceForm.archive = await addAddress();

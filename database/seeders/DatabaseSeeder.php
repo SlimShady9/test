@@ -79,6 +79,10 @@ class DatabaseSeeder extends Seeder
             'name' => 'Cédula de extranjeria',
             'length' => '11'
         ]);
+        \App\Models\T_document::create([
+            'name' => 'NIT',
+            'length' => '11'
+        ]);
 
         \App\Models\State_task::create([
             'name' => 'Creado',

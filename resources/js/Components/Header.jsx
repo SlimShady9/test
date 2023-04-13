@@ -4,7 +4,7 @@ import { Link } from "@inertiajs/inertia-react";
 import ApplicationLogo from "./ApplicationLogo";
 import Label from "./FormUtils/Label";
 import barras from "../../imgs/Barras.png";
-import { GrHome, GrContact, GrLogin, GrEdit } from "react-icons/gr";
+import { GrHome, GrContact, GrLogin, GrEdit, GrHelp } from "react-icons/gr";
 
 function NavBar({ className }) {
     let Links = [
@@ -23,6 +23,11 @@ function NavBar({ className }) {
             name: "Registrarse",
             link: "register",
             icon: <GrEdit className="mr-0" />,
+        },
+        {
+            name: "PQR",
+            link: "pqr",
+            icon: <GrHelp className="mr-0" />,
         },
         { name: "Ingresar", link: "login", icon: <GrLogin className="mr-0" /> },
     ];

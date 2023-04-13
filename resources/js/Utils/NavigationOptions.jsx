@@ -8,6 +8,7 @@ import {
     FaUsers,
     FaHome,
     FaRegPaperPlane,
+    FaQuestion,
 } from "react-icons/fa";
 
 const seccionAdmin = [
@@ -57,6 +58,12 @@ const seccionTodos = [
         gap: true,
         icon: <FaBookOpen />,
         url: "services",
+        method: "get",
+    },
+    {
+        title: "PQR",
+        icon: <FaQuestion />,
+        url: "pqrauth",
         method: "get",
     },
     //{ title: "Ver envíos", icon: <FaShippingFast />, url: "envios" },
