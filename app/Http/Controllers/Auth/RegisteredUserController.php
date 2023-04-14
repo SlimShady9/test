@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
+use Illuminate\Auth\Events\Verified;
 
 class RegisteredUserController extends Controller
 {
@@ -60,7 +61,7 @@ class RegisteredUserController extends Controller
             'cellphone' => $request->cellphone
         ]);
 
-        event(new Verified($request->user()));
+        $user->sendEmailVerificationNotification();
 
         Auth::login($user);
 

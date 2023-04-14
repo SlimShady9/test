@@ -26,6 +26,15 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/pqr', function () {
+    return Inertia::render('Pqr', [
+        'hasHeader' => true,
+        'hasFooter' => true,
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+});
+
 Route::get('/profile', function () {
     return Inertia::render('Profile', [
     'api_token' => env('API_KEY_GEO'),
@@ -98,5 +107,16 @@ Route::get('/sales', function () {
 Route::get('/inactiveUsers', function () {
     return Inertia::render('InactiveUsers');
 })->middleware(['auth', 'verified', 'admin', 'isActive'])->name('inactiveUsers');
+
+Route::get('/pqrauth', function () {
+    return Inertia::render('PqrAuth', [
+        'hasHeader' => true,
+        'hasFooter' => true,
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+})->middleware(['auth', 'verified', 'isActive'])->name('pqrauth');
+
+
 
 require __DIR__.'/auth.php';

@@ -162,6 +162,8 @@ Route::get('/service/{user_id}/serviceByUser', [ServiceController::class, 'servi
 Route::get('/task/{task}/address', [TaskController::class, 'addressByTask']);
 Route::get('/service/{service}/address', [ServiceController::class, 'addressByService']);
 Route::post('/email', [EmailController::class, 'emailPqrs']);
+Route::post('/emailMainPage', [EmailController::class, 'emailMainPage'])->middleware('throttle:3,1');
+
 
 Route::get('/graph/costxSellBymonth', [GraphController::class, 'costxSellBymonth']);
 

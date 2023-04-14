@@ -43,6 +43,12 @@ function ServiceDataForm({
     const inputRef = React.useRef(null);
     // States
     const [optionsTypeService, setOptionsTypeService] = useState([]);
+    const [hadFile, setHadFile] = useState(
+        isEdit
+            ? serviceDTO.service.archive !== null &&
+                  serviceDTO.service.archive !== undefined
+            : false
+    );
     const [fileList, setFileList] = useState([]);
     const files = fileList ? [...fileList] : [];
     const [showDetail, setShowDetail] = useState(true);
@@ -88,12 +94,18 @@ function ServiceDataForm({
             );
             return;
         }
-        // If the file is not a pdf or an image then it will not be uploaded
+        // If the file is not a pdf or an image or excel then it will not be uploaded
         if (
             !event.target.files[0].type.includes("pdf") &&
             !event.target.files[0].type.includes("png") &&
             !event.target.files[0].type.includes("jpeg") &&
-            !event.target.files[0].type.includes("jpg")
+            !event.target.files[0].type.includes("jpg") &&
+            !event.target.files[0].type.includes("excel") &&
+            !event.target.files[0].type.includes("spreadsheetml") &&
+            !event.target.files[0].type.includes("xlsx") &&
+            !event.target.files[0].type.includes("csv") &&
+            !event.target.files[0].type.includes("xls") &&
+            !event.target.files[0].type.includes("xlsm")
         ) {
             toast.warning(
                 "El archivo no es un pdf o una imagen, por favor seleccione uno válido"
@@ -157,7 +169,9 @@ function ServiceDataForm({
         const date =
             serviceForm.start_date + " " + serviceForm.start_date_hours;
         serviceForm.start_date = date;
-        if (files.length !== 0) {
+        // hadFile is true
+
+        if (files.length !== 0 && !hadFile) {
             serviceForm.archive = await addAddress();
         }
         if (!isEdit) {
@@ -221,7 +235,7 @@ function ServiceDataForm({
     const verArchivo = (e) => {
         // Donwload file
         if (serviceForm.archive) {
-            window.open("/api/file/" + serviceForm.archive, "_parent");
+            window.open("/api/file/" + serviceForm.archive, "_blank");
         }
     };
 

@@ -18,17 +18,21 @@ export default function Input({
     onlyLetters = false, // including spaces
     alpaNumeric = false, // ecxluding spaces
     onlyNumbers = false,
+    lettersAndSymbols = false,
     email = false,
 }) {
     var pattern = null;
     if (alpaNumeric) {
-        pattern = "[a-zA-Z0-9 ]*";
+        pattern = "^[a-zA-ZñÑáéíóúüÁÉÍÓÚÜ0-9 ]+$";
     } else if (onlyLetters) {
-        pattern = "[a-zA-Z ]*";
+        pattern = "^[a-zA-ZñÑáéíóúüÁÉÍÓÚÜ ]+$";
     } else if (email) {
         pattern = "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{1,63}$";
     } else if (onlyNumbers) {
         pattern = "[0-9]*";
+    } else if (lettersAndSymbols) {
+        pattern =
+            "^[a-zA-ZñÑáéíóúüÁÉÍÓÚÜ0-9!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/? ]+$";
     }
     return (
         <div>

@@ -4,6 +4,7 @@ import NavLink from "@/Components/NavLink";
 import Sidebar from "@/Components/SideBar";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { ToastContainer } from "react-toastify";
+import nombre from "../../imgs/nombre.png";
 import "react-toastify/dist/ReactToastify.css";
 import trasnportes from "../../imgs/transportes.png";
 import {
@@ -17,8 +18,9 @@ import {
     Filler,
     Legend,
     BarElement,
-    ArcElement, 
+    ArcElement,
 } from "chart.js";
+import { getOpciones } from "@/Utils/NavigationOptions";
 
 ChartJS.register(
     CategoryScale,
@@ -29,14 +31,13 @@ ChartJS.register(
     Tooltip,
     Filler,
     Legend,
-    ArcElement, 
+    ArcElement,
     BarElement
 );
 
 export default function Authenticated({ auth, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
-
     return (
         <div className="flex min-h-screen bg-">
             <img
@@ -64,7 +65,7 @@ export default function Authenticated({ auth, header, children }) {
                             </div>
 
                             <div className="hidden sm:flex sm:items-center sm:ml-6">
-                                <div className="ml-3 relative">
+                                <div className="flex ml-3 relative">
                                     <Dropdown>
                                         <Dropdown.Trigger>
                                             <span className="inline-flex rounded-md">
@@ -110,10 +111,13 @@ export default function Authenticated({ auth, header, children }) {
                                             (previousState) => !previousState
                                         )
                                     }
-                                    className="inline-flex items-center justify-center p-2 rounded-md hover:bg-gray-dark focus:outline-none focus:bg-gray-light focus:text-gray-500 transition duration-150 ease-in-out"
+                                    className="inline-flex gap-4  items-center justify-center p-2 rounded-md hover:bg-gray-dark focus:outline-none focus:bg-gray-light focus:text-gray-500 transition duration-150 ease-in-out"
                                 >
+                                    <div className="my-auto justify-start">
+                                        <img src={nombre} className="h-10" />
+                                    </div>
                                     <svg
-                                        className="h-6 w-6"
+                                        className="h-6 w-6 justify-end"
                                         stroke="currentColor"
                                         fill="none"
                                         viewBox="0 0 24 24"
@@ -152,15 +156,6 @@ export default function Authenticated({ auth, header, children }) {
                             " sm:hidden"
                         }
                     >
-                        <div className="pt-2 pb-3 space-y-1">
-                            <ResponsiveNavLink
-                                href={route("dashboard")}
-                                active={route().current("dashboard")}
-                            >
-                                Dashboard
-                            </ResponsiveNavLink>
-                        </div>
-
                         <div className="pt-4 pb-1 border-t border-gray-200">
                             <div className="px-4">
                                 <div className="font-medium text-base text-gray-800">
@@ -171,14 +166,26 @@ export default function Authenticated({ auth, header, children }) {
                                 </div>
                             </div>
 
-                            <div className="mt-3 space-y-1">
-                                <ResponsiveNavLink
-                                    method="post"
-                                    href={route("logout")}
-                                    as="button"
-                                >
-                                    Cerrar Sesión
-                                </ResponsiveNavLink>
+                            <div className="mt-3  space-y-1">
+                                {getOpciones(auth.user.id_t_user).map(
+                                    (Nav, index) => (
+                                        <div className="shadow-lg">
+                                            <ResponsiveNavLink
+                                                key={index}
+                                                method={Nav.method}
+                                                href={route(Nav.url)}
+                                                as="button"
+                                            >
+                                                <div className="flex gap-2 align-middle m-1">
+                                                    <span className="grid self-center">
+                                                        {Nav.icon}
+                                                    </span>
+                                                    {Nav.title}
+                                                </div>
+                                            </ResponsiveNavLink>
+                                        </div>
+                                    )
+                                )}
                             </div>
                         </div>
                     </div>

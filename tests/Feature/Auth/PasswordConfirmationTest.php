@@ -12,7 +12,7 @@ class PasswordConfirmationTest extends TestCase
 
     public function test_confirm_password_screen_can_be_rendered()
     {
-        $user = User::where('email', 'jdquinterog@unbosque.edu.co')->get();
+        $user = User::factory()->create();
 
         $response = $this->actingAs($user)->get('/confirm-password');
 
@@ -21,10 +21,12 @@ class PasswordConfirmationTest extends TestCase
 
     public function test_password_can_be_confirmed()
     {
-        $user = User::where('email', 'jdquinterog@unbosque.edu.co')->get();
+        $user = User::factory()->create([
+            'password' => bcrypt('password123'),
+        ]);
 
         $response = $this->actingAs($user)->post('/confirm-password', [
-            'password' => 'Yasuo123',
+            'password' => 'password123',
         ]);
 
         $response->assertRedirect();
@@ -33,7 +35,7 @@ class PasswordConfirmationTest extends TestCase
 
     public function test_password_is_not_confirmed_with_invalid_password()
     {
-        $user = User::where('email', 'jdquinterog@unbosque.edu.co')->get();
+        $user = User::factory()->create();
 
         $response = $this->actingAs($user)->post('/confirm-password', [
             'password' => 'wrong-password',

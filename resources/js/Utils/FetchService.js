@@ -47,6 +47,9 @@ const updateService = async (service) => {
 };
 
 const getAddressByService = async (idService) => {
+    if (!idService) {
+        return [{}, null];
+    }
     try {
         return [
             (await axios.get(`/api/service/${idService}/address`)).data,

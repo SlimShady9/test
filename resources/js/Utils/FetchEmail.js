@@ -8,5 +8,13 @@ const sendEmail = async (content) => {
     }
 };
 
+const sendEmailNoAuth = async (content) => {
+    try {
+        const req = axios.post(`/api/emailMainPage`, content);
+        return { data: (await req).data.success, error: null };
+    } catch (error) {
+        return { data: null, error: error };
+    }
+};
 
-export { sendEmail };
+export { sendEmail, sendEmailNoAuth };

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import Container from "@/Components/Container";
 import axios from "axios";
-import DataTableSales from "@/Components/DataTableSales";
+import DataTableSales from "@/Components/DatatableSales";
 export default function Services(props) {
     const [serviceParams, setServiceParams] = useState([]);
     const [showModal, setShowModal] = useState("");

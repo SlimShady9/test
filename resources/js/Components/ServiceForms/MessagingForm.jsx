@@ -48,6 +48,9 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
                     toast.error(res.error);
                     return;
                 }
+                setServiceDTO((prev) => {
+                    return { ...prev, messaging: res.data };
+                });
                 if (user.id_t_user == 1) {
                     setNextStep(
                         EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS

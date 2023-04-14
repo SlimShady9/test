@@ -15,7 +15,11 @@ import Authenticated from "@/Layouts/Authenticated";
 import { getContent } from "@/Utils/FetchContent";
 import { getMessaging } from "@/Utils/FetchMessaging";
 import { getOrder } from "@/Utils/FetchOrder";
-import { getAddressByService, getService } from "@/Utils/FetchService";
+import {
+    getAddressByService,
+    getService,
+    updateService,
+} from "@/Utils/FetchService";
 import { getTask } from "@/Utils/FetchTask";
 import ReactLoading from "react-loading";
 
@@ -149,18 +153,29 @@ function EditService(props) {
                                         setNextStep={setStateService}
                                         user={props.auth.user}
                                         messaging={serviceDTO.messaging}
-                                        isEdit={true}
+                                        isEdit={
+                                            serviceDTO.messaging.id
+                                                ? true
+                                                : false
+                                        }
                                     />
                                 )}
                                 {stateService ===
                                     EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA && (
                                     <AddressForm
+                                        title="Dirección de origen"
                                         api_token={props.api_token}
                                         address={serviceDTO.address}
                                         onSubmit={(res) => {
+                                            const newServiceDTO = {
+                                                ...serviceDTO.service,
+                                                address: res.id,
+                                            };
+                                            updateService(newServiceDTO);
                                             setServiceDTO(function (prev) {
                                                 return {
                                                     ...prev,
+                                                    service: newServiceDTO,
                                                     address: res,
                                                 };
                                             });
@@ -168,7 +183,9 @@ function EditService(props) {
                                                 EstadoServiciosEnum.SERVICIO_MENSAJERIA
                                             );
                                         }}
-                                        isEdit={true}
+                                        isEdit={
+                                            serviceDTO.address.id ? true : false
+                                        }
                                     />
                                 )}
                                 {stateService ===
@@ -185,7 +202,9 @@ function EditService(props) {
                                         currentStep={stateService}
                                         setNextStep={setStateService}
                                         content={serviceDTO.content}
-                                        isEdit={true}
+                                        isEdit={
+                                            serviceDTO.content.id ? true : false
+                                        }
                                     />
                                 )}
                                 {stateService ===
