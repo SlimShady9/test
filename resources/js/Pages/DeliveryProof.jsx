@@ -253,7 +253,7 @@ export default function DeliveryProof(props) {
                     <div className="grid">
                         <div className="mt-5 w-1000 text-center text-3xl grid grid-rows-2">
                             <Label>Prueba de Entrega de: </Label>
-                            {service.name}
+                            {service.name} - {service.id}
                         </div>
                         <div
                             ref={componentRef}
@@ -452,10 +452,11 @@ export default function DeliveryProof(props) {
                                     <div className="col-span-2 sm:col-span-1 text-center border-gray-servi border-r-2">
                                         <div className="border-gray-servi border-b-2">
                                             <div className="col-span-3 border-gray-servi border-b-2">
-                                                <Label>VOLUMEN:</Label>{" "}
-                                                {content?.length *
+                                                <Label>PESO VOL.</Label>{" "}
+                                                {(content?.length *
                                                     content?.width *
-                                                    content?.height}{" "}
+                                                    content?.height) /
+                                                    5000}{" "}
                                                 cm³
                                             </div>
                                             <div className="border-gray-servi">

@@ -21,6 +21,7 @@ function UsersForm({ currentStep, setNextStep }) {
     const [visitedUsers, setVisitedUsers] = useState([]);
     const [usersFiltered, setUsersFiltered] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
+    const [exit, setExit] = useState(false);
     const [usuariosSeleccionados, setUsuariosSeleccionados] = useState([]);
 
     useEffect(() => {
@@ -105,6 +106,10 @@ function UsersForm({ currentStep, setNextStep }) {
             }
         });
         if (nUsuariosSeleccionados.length === 0) {
+            if (exit) {
+                window.location.href = "/services";
+                return;
+            }
             setNextStep(EstadoServiciosEnum.SERVICIO_CON_CONTENIDO);
             return;
         }
@@ -116,6 +121,10 @@ function UsersForm({ currentStep, setNextStep }) {
         }).then((res) => {
             if (res.error) {
                 toast.error("Error al agregar usuarios");
+                return;
+            }
+            if (exit) {
+                window.location.href = "/services";
                 return;
             }
             toast.success("Usuarios agregados");
@@ -133,14 +142,14 @@ function UsersForm({ currentStep, setNextStep }) {
                 </h1>
                 <div className="md:flex flex-row gap-4">
                     <div className="md:w-1/2">
-                        <Label>Selecciona el tipo de usuario a agregar</Label>
+                        <Label>Selecciona el tipo de usuario</Label>
                         <SelectInput
                             options={tipoUsuarios}
                             onChange={onTypeUserChange}
                         />
                     </div>
                     <div className="md:w-1/2">
-                        <Label>Selecciona el usuario a agregar</Label>
+                        <Label>Selecciona un usuario</Label>
                         <SelectInput
                             options={usersFiltered}
                             value={selectedUser}
@@ -191,9 +200,12 @@ function UsersForm({ currentStep, setNextStep }) {
                     ))}
                 </div>
 
-                <div className="my-3 m-auto">
-                    <Button className="" type="submit">
+                <div className="my-3 m-auto flex gap-4">
+                    <Button type="submit" onClick={() => setExit(false)}>
                         Guardar y continuar
+                    </Button>
+                    <Button type="submit" onClick={() => setExit(true)}>
+                        Guardar y salir
                     </Button>
                 </div>
             </form>

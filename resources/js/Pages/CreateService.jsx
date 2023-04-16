@@ -87,7 +87,7 @@ export default function Services(props) {
                                 <AddressForm
                                     title="Dirección de origen"
                                     api_token={props.api_token}
-                                    onSubmit={async (res) => {
+                                    onSubmit={async (res, exit) => {
                                         const newServiceDTO = {
                                             ...serviceDTO.service,
                                             address: res.id,
@@ -97,6 +97,10 @@ export default function Services(props) {
                                             ...serviceDTO,
                                             service: newServiceDTO,
                                         });
+                                        if (exit) {
+                                            window.history.back();
+                                            return;
+                                        }
                                         setStateService(
                                             EstadoServiciosEnum.SERVICIO_MENSAJERIA
                                         );
@@ -127,8 +131,8 @@ export default function Services(props) {
                                     user={props.auth.user}
                                 />
                             )}
-                            <Label>
-                                Llene los espacios olbigatorios con marca *
+                            <Label className={"text-right"}>
+                                Llene los espacios obligatorios con marca *
                             </Label>
                         </ServiceContext.Provider>
                     </Card>

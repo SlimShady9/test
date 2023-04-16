@@ -31,7 +31,13 @@ const saveAddress = async (address) => {
     address["country"] = address["country"]["label"];
     address["region"] = address["region"]["label"];
     address["city"] = address["city"]["label"];
-    const req = await axios.post("/api/address", address);
+    const newAddress = {};
+    for (var key in address) {
+        if (address[key] != null) {
+            newAddress[key] = address[key];
+        }
+    }
+    const req = await axios.post("/api/address", newAddress);
     return req.data;
 };
 
@@ -39,7 +45,13 @@ const updateAddress = async (address) => {
     address["country"] = address["country"]["label"];
     address["region"] = address["region"]["label"];
     address["city"] = address["city"]["label"];
-    const req = await axios.put(`/api/address/${address.id}`, address);
+    const newAddress = {};
+    for (var key in address) {
+        if (address[key] != null) {
+            newAddress[key] = address[key];
+        }
+    }
+    const req = await axios.put(`/api/address/${address.id}`, newAddress);
     return req.data;
 };
 

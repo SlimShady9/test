@@ -255,7 +255,7 @@ function ServiceDataForm({
                     <form className="gap-4" onSubmit={submitForm}>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="col-span-1">
-                                <Label>Asunto de la Solicitud</Label>
+                                <Label>Asunto de la Solicitud *</Label>
                                 <Input
                                     name="name"
                                     autoComplete="nameService"
@@ -267,7 +267,7 @@ function ServiceDataForm({
                                 />
                             </div>
                             <div className="col-span-1">
-                                <Label className="">Tipo de servicio</Label>
+                                <Label className="">Tipo de servicio *</Label>
                                 <SelectInput
                                     options={typeServices}
                                     name="id_type_service"
@@ -290,7 +290,7 @@ function ServiceDataForm({
                             </div>
 
                             <div className="col-span-1">
-                                <Label>Fecha de inicio del Servicio</Label>
+                                <Label>Fecha de inicio del Servicio *</Label>
                                 <Input
                                     type="date"
                                     name="start_date"
@@ -305,7 +305,7 @@ function ServiceDataForm({
                                 />
                             </div>
                             <div className="col-span-1">
-                                <Label>Hora de inicio del Servicio</Label>
+                                <Label>Hora de inicio del Servicio *</Label>
                                 <Input
                                     type="time"
                                     name="start_date_hours"

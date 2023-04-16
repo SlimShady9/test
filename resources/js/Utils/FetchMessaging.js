@@ -1,9 +1,15 @@
 import axios from "axios";
 
 const updateMessaging = async (messaging) => {
+    const newMessaging = {};
+    for (var key in messaging) {
+        if (messaging[key] != null) {
+            newMessaging[key] = messaging[key];
+        }
+    }
     try {
         const req = (
-            await axios.put(`/api/messaging/${messaging.id}`, messaging)
+            await axios.put(`/api/messaging/${messaging.id}`, newMessaging)
         ).data;
         return [req, null];
     } catch (error) {

@@ -22,6 +22,7 @@ import {
 } from "@/Utils/FetchService";
 import { getTask } from "@/Utils/FetchTask";
 import ReactLoading from "react-loading";
+import Label from "@/Components/FormUtils/Label";
 
 function EditService(props) {
     const { auth, serviceId } = props;
@@ -44,7 +45,6 @@ function EditService(props) {
     );
 
     const [dataLoaded, setDataLoaded] = useState(false);
-
     // State of the progress of service creation using context api
     const [serviceDTO, setServiceDTO] = useState({
         service: {},
@@ -130,6 +130,7 @@ function EditService(props) {
                                 steps={servicesAvailable}
                             ></StepProgressCircles>
                             <></>
+
                             <ServiceContext.Provider
                                 value={{ serviceDTO, setServiceDTO }}
                             >
@@ -166,7 +167,7 @@ function EditService(props) {
                                         title="Dirección de origen"
                                         api_token={props.api_token}
                                         address={serviceDTO.address}
-                                        onSubmit={(res) => {
+                                        onSubmit={(res, exit) => {
                                             const newServiceDTO = {
                                                 ...serviceDTO.service,
                                                 address: res.id,
@@ -179,6 +180,9 @@ function EditService(props) {
                                                     address: res,
                                                 };
                                             });
+                                            if (exit) {
+                                                window.history.back();
+                                            }
                                             setStateService(
                                                 EstadoServiciosEnum.SERVICIO_MENSAJERIA
                                             );
@@ -218,6 +222,9 @@ function EditService(props) {
                                         user={props.auth.user}
                                     />
                                 )}
+                                <Label className={"text-right"}>
+                                    Llene los espacios obligatorios con marca *
+                                </Label>
                             </ServiceContext.Provider>
                         </Card>
                     </Container>

@@ -35,6 +35,10 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
             setServiceDTO((prev) => {
                 return { ...prev, messaging: messaging2 };
             });
+            if (exit) {
+                window.location.href = "/services";
+                return;
+            }
             if (user.id_t_user == 1) {
                 setNextStep(EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS);
             } else {
@@ -51,6 +55,10 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
                 setServiceDTO((prev) => {
                     return { ...prev, messaging: res.data };
                 });
+                if (exit) {
+                    window.location.href = "/services";
+                    return;
+                }
                 if (user.id_t_user == 1) {
                     setNextStep(
                         EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS
@@ -62,6 +70,7 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
         }
     };
     const [showDetail, setShowDetail] = useState(true);
+    const [exit, setExit] = useState(false);
 
     const [messaging, setMessaging] = useState({
         name: serviceDTO.messaging.name,
@@ -108,7 +117,7 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
             <form className="gap-4" onSubmit={submitForm}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="col-span-1">
-                        <Label>Nombre Remitente</Label>
+                        <Label>Nombre Remitente *</Label>
                         <Input
                             name="name"
                             defaultValue={messaging.name}
@@ -119,7 +128,7 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
                         />
                     </div>
                     <div className="col-span-1">
-                        <Label>Empresa / Entidad Asociada</Label>
+                        <Label>Empresa / Entidad Asociada *</Label>
                         <Input
                             name="entity"
                             defaultValue={messaging.entity}
@@ -130,7 +139,7 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
                         ></Input>
                     </div>
                     <div className="col-span-1">
-                        <Label className="">Cargo del Remitente</Label>
+                        <Label className="">Cargo del Remitente *</Label>
                         <Input
                             name="charge"
                             defaultValue={messaging.charge}
@@ -141,7 +150,7 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
                         />
                     </div>
                     <div className="col-span-1">
-                        <Label>Centro de Costos</Label>
+                        <Label>Centro de Costos *</Label>
                         <Input
                             name="cost_center"
                             defaultValue={messaging.cost_center}
@@ -151,7 +160,7 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
                         />
                     </div>
                     <div className="col-span-1">
-                        <Label>Dependencia</Label>
+                        <Label>Dependencia *</Label>
                         <Input
                             name="dependency"
                             defaultValue={messaging.dependency}
@@ -212,8 +221,19 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
                 </div>
                 <div className="flex flex-col w-full gap-4">
                     <div className="flex gap-4 my-5 mx-auto">
-                        <Button className="" type="submit">
+                        <Button
+                            className=""
+                            type="submit"
+                            onClick={() => setExit(false)}
+                        >
                             Guardar y continuar
+                        </Button>
+                        <Button
+                            className=""
+                            type="submit"
+                            onClick={() => setExit(true)}
+                        >
+                            Guardar y salir
                         </Button>
                     </div>
                 </div>
