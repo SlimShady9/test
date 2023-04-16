@@ -234,7 +234,7 @@ function TaskForm({
         <>
             <div className="mt-0">
                 <h1 className="text-xl font-bold text-left mb-3">
-                    Agregar Tareas
+                    Información de Destino
                 </h1>
                 <form className="gap-4" onSubmit={submitForm}>
                     <div className="flex md:flex-row flex-col gap-4 my-3">
@@ -276,7 +276,7 @@ function TaskForm({
                         </div>*/}
                         {user.id_t_user === 1 && (
                             <div className="md:w-1/2 w-full">
-                                <Label>Responsable</Label>
+                                <Label>Responsable Servicurrier</Label>
                                 <SelectInput
                                     options={usersResponsibleAvailable}
                                     onChange={(e) =>

@@ -114,7 +114,9 @@ function AddressForm({ api_token, onSubmit, isEdit = false, title = "" }) {
     return (
         <div>
             <form onSubmit={submit} className="">
-                <h1 className="text-xl font-bold text-left mb-3">{title}</h1>
+                <h1 className="text-xl font-bold text-left mb-3">
+                    {title}
+                </h1>
                 <div className="flex flex-col my-3">
                     <Label forInput="name">Nombre del Lugar</Label>
                     <Input

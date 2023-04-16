@@ -85,7 +85,7 @@ export default function Services(props) {
                             {stateService ===
                                 EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA && (
                                 <AddressForm
-                                    title="Dirección de origen"
+                                    title="Dirección de Origen"
                                     api_token={props.api_token}
                                     onSubmit={async (res, exit) => {
                                         const newServiceDTO = {
