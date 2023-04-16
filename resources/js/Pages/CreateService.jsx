@@ -12,6 +12,8 @@ import MessagingForm from "@/Components/ServiceForms/MessagingForm";
 import TaskForm from "@/Components/ServiceForms/TaskForm";
 import ContentForm from "@/Components/ServiceForms/ContentForm";
 import { updateService } from "@/Utils/FetchService";
+import Button from "@/Components/FormUtils/Button";
+import Label from "@/Components/FormUtils/Label";
 
 export default function Services(props) {
     const initialStateServicesAvailable = [
@@ -125,6 +127,9 @@ export default function Services(props) {
                                     user={props.auth.user}
                                 />
                             )}
+                            <Label>
+                                Llene los espacios olbigatorios con marca *
+                            </Label>
                         </ServiceContext.Provider>
                     </Card>
                 </Container>
