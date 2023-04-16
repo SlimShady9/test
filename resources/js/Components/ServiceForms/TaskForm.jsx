@@ -62,11 +62,9 @@ function TaskForm({
     }, []);
 
     const guardarTiempo = () => {
-        console.log("guardar tiempo");
         setTiempo({
             end_date: new Date(),
         });
-        console.log(tiempo);
         updateTiempo(tiempo);
     };
 
@@ -391,7 +389,7 @@ function TaskForm({
                 <div className="flex flex-col w-full gap-4">
                     <div className="flex gap-4 my-5 mx-auto">
                         <Button className="" onClick={finalizar}>
-                            Guardar y Continuar
+                            Guardar y salir
                         </Button>
                     </div>
                 </div>

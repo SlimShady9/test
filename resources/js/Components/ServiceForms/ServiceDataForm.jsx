@@ -43,6 +43,7 @@ function ServiceDataForm({
     const inputRef = React.useRef(null);
     // States
     const [optionsTypeService, setOptionsTypeService] = useState([]);
+    const [exit, setExit] = useState(false);
     const [hadFile, setHadFile] = useState(
         isEdit
             ? serviceDTO.service.archive !== null &&
@@ -154,8 +155,6 @@ function ServiceDataForm({
 
     const submitForm = async (e) => {
         e.preventDefault();
-        /*finalizeServiceForm();
-        return;*/
 
         if (serviceForm.start_date === "") {
             toast.warning("La fecha de inicio no puede estar vacía");
@@ -185,7 +184,6 @@ function ServiceDataForm({
             setServiceDTO((prev) => {
                 return { ...prev, service: service };
             });
-            finalizeServiceForm();
         } else {
             const data = await updateService(serviceForm);
             if (data.error) {
@@ -196,8 +194,12 @@ function ServiceDataForm({
             setServiceDTO((prev) => {
                 return { ...prev, service: data[0] };
             });
-            finalizeServiceForm();
         }
+        if (exit) {
+            window.history.back();
+            return;
+        }
+        finalizeServiceForm();
     };
     // Sync data
     useEffect(() => {
@@ -253,7 +255,7 @@ function ServiceDataForm({
                     <form className="gap-4" onSubmit={submitForm}>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="col-span-1">
-                                <Label>Asunto de la Solicitud</Label>
+                                <Label>Asunto de la Solicitud *</Label>
                                 <Input
                                     name="name"
                                     autoComplete="nameService"
@@ -265,7 +267,7 @@ function ServiceDataForm({
                                 />
                             </div>
                             <div className="col-span-1">
-                                <Label className="">Tipo de servicio</Label>
+                                <Label className="">Tipo de servicio *</Label>
                                 <SelectInput
                                     options={typeServices}
                                     name="id_type_service"
@@ -288,7 +290,7 @@ function ServiceDataForm({
                             </div>
 
                             <div className="col-span-1">
-                                <Label>Fecha de inicio del Servicio</Label>
+                                <Label>Fecha de inicio del Servicio *</Label>
                                 <Input
                                     type="date"
                                     name="start_date"
@@ -303,7 +305,7 @@ function ServiceDataForm({
                                 />
                             </div>
                             <div className="col-span-1">
-                                <Label>Hora de inicio del Servicio</Label>
+                                <Label>Hora de inicio del Servicio *</Label>
                                 <Input
                                     type="time"
                                     name="start_date_hours"
@@ -416,9 +418,18 @@ function ServiceDataForm({
                                     ))}
                                 </ul>
                             )}
-                            <div className="my-3 m-auto">
-                                <Button className="" type="submit">
+                            <div className="my-3 flex justify-center gap-4">
+                                <Button
+                                    type="submit"
+                                    onClick={() => setExit(false)}
+                                >
                                     Guardar y continuar
+                                </Button>
+                                <Button
+                                    type="submit"
+                                    onClick={() => setExit(true)}
+                                >
+                                    Guardar y salir
                                 </Button>
                             </div>
                         </div>

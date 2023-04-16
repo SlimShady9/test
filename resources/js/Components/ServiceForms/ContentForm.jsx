@@ -24,6 +24,8 @@ import ServiceContext from "./useServiceContext";
 function ContentForm({ setNextStep, isEdit }) {
     const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
 
+    const [exit, setExit] = useState(false);
+
     const tiposDeCargaSelect = Object.keys(TipoDeCargaEnum).map((key) => ({
         label: toStringTipoDeCargaEnum(TipoDeCargaEnum[key]),
         value: TipoDeCargaEnum[key],
@@ -81,6 +83,10 @@ function ContentForm({ setNextStep, isEdit }) {
             setServiceDTO((prev) => {
                 return { ...prev, content: content2 };
             });
+            if (exit) {
+                window.location.href = "/services";
+                return;
+            }
             setNextStep(EstadoServiciosEnum.SERVICIO_CON_TAREAS);
         } else {
             storeContent({
@@ -90,6 +96,10 @@ function ContentForm({ setNextStep, isEdit }) {
             }).then((res) => {
                 if (res.error) {
                     toast.error(res.error);
+                    return;
+                }
+                if (exit) {
+                    window.location.href = "/services";
                     return;
                 }
                 setNextStep(EstadoServiciosEnum.SERVICIO_CON_TAREAS);
@@ -110,17 +120,18 @@ function ContentForm({ setNextStep, isEdit }) {
             <form className="gap-4" onSubmit={submitForm}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="col-span-1">
-                        <Label>Contenido Declarado</Label>
+                        <Label>Contenido Declarado *</Label>
                         <Input
                             name="content"
                             defaultValue={content.content}
                             handleChange={onChange}
                             onlyLetters={true}
                             maxLength={60}
+                            required={true}
                         />
                     </div>
                     <div className="col-span-1">
-                        <Label>Tipo de Carga</Label>
+                        <Label>Tipo de Carga *</Label>
                         <SelectInput
                             options={tiposDeCargaSelect}
                             required={true}
@@ -136,66 +147,72 @@ function ContentForm({ setNextStep, isEdit }) {
                         />
                     </div>
                     <div className="col-span-1">
-                        <Label className="">Unidades Declaradas</Label>
+                        <Label className="">Unidades Declaradas *</Label>
                         <Input
                             type="number"
                             min={0}
                             name="units"
                             defaultValue={content.units}
                             handleChange={onChange}
+                            required={true}
                         />
                     </div>
                     <div className="col-span-1">
-                        <Label>Peso Unitario (Kg)</Label>
+                        <Label>Peso Unitario (Kg) *</Label>
                         <Input
                             type="number"
                             min={0}
                             name="unit_weight"
                             defaultValue={content.unit_weight}
                             handleChange={onChange}
+                            required={true}
                         />
                     </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-3 col-span-1 gap-4 my-3">
                     <div className="col-span-1">
-                        <Label>Largo (m)</Label>
+                        <Label>Largo (cm) *</Label>
                         <Input
                             type="number"
                             min={0}
                             name="length"
                             defaultValue={content.length}
                             handleChange={onChange}
+                            required={true}
                         />
                     </div>
                     <div className="col-span-1">
-                        <Label>Ancho (m)</Label>
+                        <Label>Ancho (cm) *</Label>
                         <Input
                             type="number"
                             min={0}
                             name="width"
                             defaultValue={content.width}
                             handleChange={onChange}
+                            required={true}
                         />
                     </div>
                     <div className="col-span-1">
-                        <Label>Alto (m)</Label>
+                        <Label>Alto (cm) *</Label>
                         <Input
                             type="number"
                             min={0}
                             name="height"
                             defaultValue={content.height}
                             handleChange={onChange}
+                            required={true}
                         />
                     </div>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="col-span-1">
                         <Label>
-                            Valor Comercial del Contenido (Por Unidad)
+                            Valor Comercial del Contenido (Por Unidad) *
                         </Label>
                         <CurrencyFormInput
                             name="commercial_value"
                             defaultValue={content.commercial_value}
+                            required={true}
                             onValueChange={(e) =>
                                 onChange({
                                     target: {
@@ -207,10 +224,11 @@ function ContentForm({ setNextStep, isEdit }) {
                         />
                     </div>
                     <div className="col-span-1">
-                        <Label>Excepciones (condiciones especiales)</Label>
+                        <Label>Excepciones (condiciones especiales) *</Label>
                         <SelectInput
                             isMulti={true}
                             options={condicionesEspecialesSelect}
+                            required={true}
                             value={
                                 content.id_exception
                                     ? content.id_exception
@@ -238,8 +256,11 @@ function ContentForm({ setNextStep, isEdit }) {
                 </div>
                 <div className="flex flex-col w-full gap-4">
                     <div className="flex gap-4 my-5 mx-auto">
-                        <Button className="" type="submit">
+                        <Button type="submit" onClick={() => setExit(false)}>
                             Guardar y continuar
+                        </Button>
+                        <Button type="submit" onClick={() => setExit(true)}>
+                            Guardar y salir
                         </Button>
                     </div>
                 </div>

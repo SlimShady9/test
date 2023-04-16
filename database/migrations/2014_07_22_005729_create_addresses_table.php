@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('addresses', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->string('country');
             $table->string('country_iso');
             $table->string('region');
@@ -25,8 +25,8 @@ return new class extends Migration
             $table->string('city_id');
             $table->string('addr');
             $table->string('addr_detail')->nullable();
-            $table->string('postal_code');
-            $table->string('neighborhood');
+            $table->string('postal_code')->nullable();
+            $table->string('neighborhood')->nullable();
         });
     }
 

@@ -43,6 +43,7 @@ function AddressForm({ api_token, onSubmit, isEdit = false, title = "" }) {
     const [regions, setRegions] = useState([]);
     const [cities, setCities] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [exit, setExit] = useState(false);
 
     useEffect(() => {
         getCountries(api_token).then((res) => setCountries(res));
@@ -100,12 +101,12 @@ function AddressForm({ api_token, onSubmit, isEdit = false, title = "" }) {
         if (!isEdit) {
             toast.success("Dirección guardada correctamente");
             saveAddress(data).then((res) => {
-                onSubmit(res);
+                onSubmit(res, exit);
             });
         } else {
             toast.success("Dirección actualizada correctamente");
             updateAddress(data).then((res) => {
-                onSubmit(res);
+                onSubmit(res, exit);
             });
         }
     };
@@ -120,14 +121,13 @@ function AddressForm({ api_token, onSubmit, isEdit = false, title = "" }) {
                         name="name"
                         handleChange={(e) => handleChange(e, "name")}
                         defaultValue={data.name}
-                        required={true}
                         maxLength={50}
                         alpaNumeric={true}
                     />
                 </div>
                 <div className="flex md:flex-row flex-col gap-4 my-3">
                     <div className="md:w-1/2 w-full">
-                        <Label forInput="addr">Dirección</Label>
+                        <Label forInput="addr">Dirección *</Label>
                         <Input
                             name="addr"
                             handleChange={(e) => handleChange(e, "addr")}
@@ -142,7 +142,6 @@ function AddressForm({ api_token, onSubmit, isEdit = false, title = "" }) {
                             name="postal_code"
                             handleChange={(e) => handleChange(e, "postal_code")}
                             defaultValue={data.postal_code}
-                            required={true}
                             maxLength={10}
                             onlyNumbers={true}
                         />
@@ -151,7 +150,7 @@ function AddressForm({ api_token, onSubmit, isEdit = false, title = "" }) {
 
                 <div className="flex md:flex-row flex-col gap-4 my-3">
                     <div className="md:w-1/2">
-                        <Label forInput="country">País</Label>
+                        <Label forInput="country">País *</Label>
                         <SelectInput
                             value={data.country}
                             required={true}
@@ -168,7 +167,7 @@ function AddressForm({ api_token, onSubmit, isEdit = false, title = "" }) {
                         />
                     </div>
                     <div className="md:w-1/2">
-                        <Label forInput="region">Región</Label>
+                        <Label forInput="region">Región *</Label>
                         <SelectInput
                             value={data.region}
                             required={true}
@@ -187,7 +186,7 @@ function AddressForm({ api_token, onSubmit, isEdit = false, title = "" }) {
                 </div>
                 <div className="flex md:flex-row flex-col gap-4 my-3">
                     <div className="md:w-1/2 w-full">
-                        <Label forInput="city">Ciudad</Label>
+                        <Label forInput="city">Ciudad *</Label>
                         <SelectInput
                             value={data.city}
                             required={true}
@@ -211,7 +210,6 @@ function AddressForm({ api_token, onSubmit, isEdit = false, title = "" }) {
                                 handleChange(e, "neighborhood")
                             }
                             defaultValue={data.neighborhood}
-                            required={true}
                             maxLength={30}
                         />
                     </div>
@@ -229,8 +227,15 @@ function AddressForm({ api_token, onSubmit, isEdit = false, title = "" }) {
 
                 <div className="flex flex-col w-full gap-4">
                     <div className="flex gap-4 my-5 mx-auto">
-                        <Button className="" type="submit">
+                        <Button
+                            className=""
+                            type="submit"
+                            onClick={() => setExit(false)}
+                        >
                             Guardar y continuar
+                        </Button>
+                        <Button type="submit" onClick={() => setExit(true)}>
+                            Guardar y salir
                         </Button>
                     </div>
                 </div>
