@@ -17,6 +17,7 @@ import {
 
 function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
     const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
+    console.log(serviceDTO);
     const transportadorasSelect = Object.keys(TransportadoraEnum).map(
         (key) => ({
             label: toStringTransportadorasEnum(TransportadoraEnum[key]),
