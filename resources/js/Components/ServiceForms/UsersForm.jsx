@@ -13,6 +13,7 @@ import Button from "../FormUtils/Button";
 import SelectInput from "../FormUtils/SelectInput";
 import { createOrders, findOrders, deleteOrder } from "@/Utils/FetchOrder";
 import { toast } from "react-toastify";
+import { TipoDeServiciosEnum } from "@/Constants/TipoDeServiciosEnum";
 
 function UsersForm({ currentStep, setNextStep }) {
     const id = EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS;
@@ -110,7 +111,21 @@ function UsersForm({ currentStep, setNextStep }) {
                 window.location.href = "/services";
                 return;
             }
-            setNextStep(EstadoServiciosEnum.SERVICIO_CON_CONTENIDO);
+            if (
+                serviceDTO.service.id_type_service ===
+                    TipoDeServiciosEnum.LOGISTICA_DE_MENSJERIA ||
+                    serviceDTO.service.id_type_service ===
+                    TipoDeServiciosEnum.GESTION_DOCUMENTAL
+            ) {
+                setNextStep(
+                    EstadoServiciosEnum.SERVICIO_CON_TAREAS
+                );
+            } else {
+
+                setNextStep(
+                    EstadoServiciosEnum.SERVICIO_CON_CONTENIDO
+                );
+            }
             return;
         }
         createOrders({
@@ -129,7 +144,21 @@ function UsersForm({ currentStep, setNextStep }) {
             }
             toast.success("Usuarios agregados");
             setServiceDTO((prev) => ({ ...prev, orders: res.data }));
-            setNextStep(EstadoServiciosEnum.SERVICIO_CON_CONTENIDO);
+            if (
+                serviceDTO.service.id_type_service ===
+                    TipoDeServiciosEnum.LOGISTICA_DE_MENSJERIA ||
+                    serviceDTO.service.id_type_service ===
+                    TipoDeServiciosEnum.GESTION_DOCUMENTAL
+            ) {
+                setNextStep(
+                    EstadoServiciosEnum.SERVICIO_CON_TAREAS
+                );
+            } else {
+
+                setNextStep(
+                    EstadoServiciosEnum.SERVICIO_CON_CONTENIDO
+                );
+            }
         });
     };
 

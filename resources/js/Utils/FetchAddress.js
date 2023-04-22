@@ -33,7 +33,7 @@ const saveAddress = async (address) => {
     address["city"] = address["city"]["label"];
     const newAddress = {};
     for (var key in address) {
-        if (address[key] != null) {
+        if (address[key] != null && address[key] != "") {
             newAddress[key] = address[key];
         }
     }
@@ -47,7 +47,7 @@ const updateAddress = async (address) => {
     address["city"] = address["city"]["label"];
     const newAddress = {};
     for (var key in address) {
-        if (address[key] != null) {
+        if (address[key] != null && address[key] != "") {
             newAddress[key] = address[key];
         }
     }

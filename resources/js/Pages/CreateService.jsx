@@ -52,7 +52,7 @@ export default function Services(props) {
         <>
             <Authenticated {...props}>
                 <Container className="flex justify-center">
-                    <Card className="sm:w-3/5">
+                    <Card className="">
                         <h1 className="text-2xl font-bold text-center">
                             Crear Servicio
                         </h1>
@@ -101,9 +101,21 @@ export default function Services(props) {
                                             window.history.back();
                                             return;
                                         }
-                                        setStateService(
-                                            EstadoServiciosEnum.SERVICIO_MENSAJERIA
-                                        );
+                                        if (
+                                            serviceDTO.service.id_type_service ===
+                                                TipoDeServiciosEnum.LOGISTICA_DE_MENSJERIA ||
+                                                serviceDTO.service.id_type_service ===
+                                                TipoDeServiciosEnum.GESTION_DOCUMENTAL
+                                        ) {
+                                            setStateService(
+                                                EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS
+                                            );
+                                        } else {
+
+                                            setStateService(
+                                                EstadoServiciosEnum.SERVICIO_MENSAJERIA
+                                            );
+                                        }
                                     }}
                                 />
                             )}

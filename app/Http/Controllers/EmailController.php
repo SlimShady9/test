@@ -36,7 +36,7 @@ class EmailController extends Controller
 
         
 
-        $notifiable->route('mail', 'slim.shady99q@gmail.com')
+        $notifiable->route('mail', 'comercial@servicurrier.com')
             ->notify(new PQRSNotification($data));
         
     }
@@ -51,7 +51,7 @@ class EmailController extends Controller
         ];
 
 
-        $notifiable->route('mail', 'slim.shady99q@gmail.com')
+        $notifiable->route('mail', 'comercial@servicurrier.com')
             ->notify(new MainPageNotification($data));
         // return json response
         return response()->json(['success'=>'Mensaje enviado exitosamente.']);
