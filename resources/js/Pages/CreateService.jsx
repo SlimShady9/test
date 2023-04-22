@@ -14,6 +14,7 @@ import ContentForm from "@/Components/ServiceForms/ContentForm";
 import { updateService } from "@/Utils/FetchService";
 import Button from "@/Components/FormUtils/Button";
 import Label from "@/Components/FormUtils/Label";
+import { TipoDeServiciosEnum } from "@/Constants/TipoDeServiciosEnum";
 
 export default function Services(props) {
     const initialStateServicesAvailable = [
