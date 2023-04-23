@@ -61,8 +61,6 @@ class RegisteredUserController extends Controller
             'cellphone' => $request->cellphone
         ]);
 
-        $user->sendEmailVerificationNotification();
-
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);

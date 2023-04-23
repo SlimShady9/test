@@ -48,8 +48,8 @@ class AddressController extends Controller
                 'city_id' => 'required|integer',
                 'addr' => 'required|string|max:50',
                 'addr_detail' => 'string|max:255',
-                'postal_code' => 'required|string|max:10',
-                'neighborhood' => 'required|string|max:30',
+                'postal_code' => 'string|max:10',
+                'neighborhood' => 'string|max:30',
             ]);
             
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -119,8 +119,8 @@ class AddressController extends Controller
                 'city_id' => 'required|integer',
                 'addr' => 'required|string|max:50',
                 'addr_detail' => 'max:255',
-                'postal_code' => 'required|string|max:10',
-                'neighborhood' => 'required|string|max:30',
+                'postal_code' => 'string|max:10',
+                'neighborhood' => 'string|max:30',
             ]);
         $address = Address::find($id);
             

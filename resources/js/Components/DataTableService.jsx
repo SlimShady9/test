@@ -12,6 +12,7 @@ import ButtonGroup from "@/Components/FormUtils/ButtonGroup";
 import { toStringEstadoServiciosEnum } from "@/Constants/EstadoServiciosEnum";
 import { toStringTipoDeServiciosEnum } from "@/Constants/TipoDeServiciosEnum";
 import { storeTiempo } from "@/Utils/FetchTiempoLog";
+import Export from "react-data-table-component";
 
 const DataTableService = (auth) => {
     const [search, setSearch] = useState("");
@@ -20,17 +21,14 @@ const DataTableService = (auth) => {
     const [tiempo, setTiempo] = useState([]);
 
     const guardarTiempo = () => {
-        console.log("guardar tiempo");
         setTiempo({
             start_date: new Date(),
         });
-        console.log(tiempo);
         storeTiempo(tiempo);
     };
 
     function convertArrayOfObjectsToCSV(array) {
         let result;
-        console.log(filteredServices);
         const columnDelimiter = ",";
         const lineDelimiter = "\n";
         const keys = Object.keys(filteredServices[0]);
@@ -60,7 +58,7 @@ const DataTableService = (auth) => {
         let csv = convertArrayOfObjectsToCSV(array);
         if (csv == null) return;
 
-        const filename = "export.csv";
+        const filename = "export.xml";
 
         if (!csv.match(/^data:text\/csv/i)) {
             csv = `data:text/csv;charset=utf-8,${csv}`;
@@ -90,7 +88,7 @@ const DataTableService = (auth) => {
         }
     };
     const Export = ({ onExport }) => (
-        <Button onClick={(e) => onExport(e.target.value)}>Export</Button>
+        <Button onClick={(e) => onExport(e.target.value)}>Exportar</Button>
     );
     const columns = [
         {
@@ -189,7 +187,7 @@ const DataTableService = (auth) => {
     }, [search]);
     const actionsMemo = useMemo(
         () => <Export onExport={() => downloadCSV(filteredServices)} />,
-        []
+        [filteredServices]
     );
     return (
         <>

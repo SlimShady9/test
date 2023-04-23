@@ -19,10 +19,10 @@ return new class extends Migration
             $table->bigInteger('id_state')->unsigned();
             $table->bigInteger('id_address')->unsigned()->nullable();
             $table->bigInteger('id_service')->unsigned();
-            $table->bigInteger('responsible')->unsigned();
-            $table->string('entity');
+            $table->bigInteger('responsible')->unsigned()->nullable();
+            $table->string('entity')->nullable();
             $table->string('name');
-            $table->string('dependency');
+            $table->string('dependency')->nullable();
             $table->string('desc')->nullable();
             $table->dateTime('limit_date');
             $table->dateTime('last_state_date');

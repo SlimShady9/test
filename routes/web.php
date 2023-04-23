@@ -90,7 +90,7 @@ Route::get('/editService/{id}', function ($id) {
         'serviceId' => $id,
         'api_token' => env('API_KEY_GEO'),
     ]);
-})->middleware(['auth', 'verified','admin', 'isActive'])->name('editService');
+})->middleware(['auth', 'verified', 'isActive'])->name('editService');
 
 Route::get('/envios', function () {
     return Inertia::render('Envios');

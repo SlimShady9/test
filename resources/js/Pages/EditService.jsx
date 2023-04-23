@@ -22,6 +22,8 @@ import {
 } from "@/Utils/FetchService";
 import { getTask } from "@/Utils/FetchTask";
 import ReactLoading from "react-loading";
+import Label from "@/Components/FormUtils/Label";
+import { TipoDeUsuariosEnum } from "@/Constants/TipoDeUsuariosEnum";
 
 function EditService(props) {
     const { auth, serviceId } = props;
@@ -44,7 +46,6 @@ function EditService(props) {
     );
 
     const [dataLoaded, setDataLoaded] = useState(false);
-
     // State of the progress of service creation using context api
     const [serviceDTO, setServiceDTO] = useState({
         service: {},
@@ -121,7 +122,7 @@ function EditService(props) {
                 )}
                 {dataLoaded && (
                     <Container className="flex justify-center">
-                        <Card className="sm:w-3/5">
+                        <Card className="">
                             <h1 className="text-2xl font-bold text-center">
                                 Crear Servicio
                             </h1>
@@ -130,6 +131,7 @@ function EditService(props) {
                                 steps={servicesAvailable}
                             ></StepProgressCircles>
                             <></>
+
                             <ServiceContext.Provider
                                 value={{ serviceDTO, setServiceDTO }}
                             >
@@ -166,7 +168,7 @@ function EditService(props) {
                                         title="Dirección de origen"
                                         api_token={props.api_token}
                                         address={serviceDTO.address}
-                                        onSubmit={(res) => {
+                                        onSubmit={(res, exit) => {
                                             const newServiceDTO = {
                                                 ...serviceDTO.service,
                                                 address: res.id,
@@ -179,9 +181,40 @@ function EditService(props) {
                                                     address: res,
                                                 };
                                             });
-                                            setStateService(
-                                                EstadoServiciosEnum.SERVICIO_MENSAJERIA
-                                            );
+                                            if (exit) {
+                                                window.history.back();
+                                            }
+                                            if (
+                                                (props.auth.user.id_t_user ===
+                                                    TipoDeUsuariosEnum.ADMIN &&
+                                                    serviceDTO.service
+                                                        .id_type_service ===
+                                                        TipoDeServiciosEnum.LOGISTICA_DE_MENSJERIA) ||
+                                                serviceDTO.service
+                                                    .id_type_service ===
+                                                    TipoDeServiciosEnum.GESTION_DOCUMENTAL
+                                            ) {
+                                                setStateService(
+                                                    EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS
+                                                );
+                                                return;
+                                            }
+                                            if (
+                                                serviceDTO.service
+                                                    .id_type_service ===
+                                                    TipoDeServiciosEnum.LOGISTICA_DE_MENSJERIA ||
+                                                serviceDTO.service
+                                                    .id_type_service ===
+                                                    TipoDeServiciosEnum.GESTION_DOCUMENTAL
+                                            ) {
+                                                setStateService(
+                                                    EstadoServiciosEnum.SERVICIO_CON_TAREAS
+                                                );
+                                            } else {
+                                                setStateService(
+                                                    EstadoServiciosEnum.SERVICIO_MENSAJERIA
+                                                );
+                                            }
                                         }}
                                         isEdit={
                                             serviceDTO.address.id ? true : false
@@ -218,6 +251,9 @@ function EditService(props) {
                                         user={props.auth.user}
                                     />
                                 )}
+                                <Label className={"text-right"}>
+                                    Llene los espacios obligatorios con marca *
+                                </Label>
                             </ServiceContext.Provider>
                         </Card>
                     </Container>

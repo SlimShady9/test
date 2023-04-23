@@ -35,7 +35,7 @@ function NavBar({ className }) {
     return (
         <div className="shadow-md bg-gradient-to-r from-white to-blue-light top-0 w-full z-10">
             <div className="md:flex justify-center">
-                <div className="flex m-5">
+                <div className="flex ">
                     <ApplicationLogo />
                 </div>
                 <div
@@ -51,7 +51,7 @@ function NavBar({ className }) {
                     src={barras}
                 />
                 <ul
-                    className={`grid grid-cols-1 mx-10 bg-white bg-opacity-95 rounded-xl lg:bg-opacity-0 md:bg-opacity-0 md:flex md:items-center md:pb-0 pb-12 absolute md:static md:z-auto z-[10] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${
+                    className={`grid grid-cols-1 bg-white bg-opacity-95 rounded-xl lg:bg-opacity-0 md:bg-opacity-0 md:flex md:items-center md:pb-0 pb-12 absolute md:static md:z-auto z-[10] left-0 w-full md:w-auto md:pl-0 pl-9 transition-all duration-500 ease-in ${
                         open ? "top-20 " : "top-[-490px]"
                     }`}
                 >
@@ -64,9 +64,11 @@ function NavBar({ className }) {
                                 href={link.link}
                                 className="text-gray-800 hover:text-gray-400 duration-500"
                             >
-                                <div className="flex m-4 gap-2">
-                                    {link.icon}
-                                    <Label>{link.name}</Label>
+                                <div className="flex place-items-center mx-2 gap-1">
+                                    <div className="flex my-4">
+                                        {link.icon}
+                                    </div>
+                                    <Label className={""}>{link.name}</Label>
                                 </div>
                             </Link>
                         </li>

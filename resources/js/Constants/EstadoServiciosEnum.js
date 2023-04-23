@@ -44,4 +44,8 @@ const toStringEstadoServiciosEnum2 = (value) => {
     }
 };
 
-export { EstadoServiciosEnum, toStringEstadoServiciosEnum,toStringEstadoServiciosEnum2 };
+export {
+    EstadoServiciosEnum,
+    toStringEstadoServiciosEnum,
+    toStringEstadoServiciosEnum2,
+};

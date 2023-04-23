@@ -169,7 +169,7 @@ export default function Authenticated({ auth, header, children }) {
                             <div className="mt-3  space-y-1">
                                 {getOpciones(auth.user.id_t_user).map(
                                     (Nav, index) => (
-                                        <div className="shadow-lg">
+                                        <div className="shadow-lg" key={index}>
                                             <ResponsiveNavLink
                                                 key={index}
                                                 method={Nav.method}

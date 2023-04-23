@@ -1,9 +1,15 @@
 import axios from "axios";
 
 const updateMessaging = async (messaging) => {
+    const newMessaging = {};
+    for (var key in messaging) {
+        if (messaging[key] != null) {
+            newMessaging[key] = messaging[key];
+        }
+    }
     try {
         const req = (
-            await axios.put(`/api/messaging/${messaging.id}`, messaging)
+            await axios.put(`/api/messaging/${messaging.id}`, newMessaging)
         ).data;
         return [req, null];
     } catch (error) {
@@ -13,7 +19,7 @@ const updateMessaging = async (messaging) => {
 
 const storeMessaging = async (messaging) => {
     try {
-        const req = axios.post("/api/messaging", messaging);
+        const req = await axios.post("/api/messaging", messaging);
         return { data: req.data, error: null };
     } catch (error) {
         return { data: null, error: error };
@@ -22,7 +28,7 @@ const storeMessaging = async (messaging) => {
 
 const deleteMessaging = async (id) => {
     try {
-        const req = axios.delete(`/api/messaging/${id}`);
+        const req = await axios.delete(`/api/messaging/${id}`);
         return { data: req.data, error: null };
     } catch (error) {
         return { data: null, error: error };

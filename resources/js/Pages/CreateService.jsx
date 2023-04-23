@@ -12,6 +12,10 @@ import MessagingForm from "@/Components/ServiceForms/MessagingForm";
 import TaskForm from "@/Components/ServiceForms/TaskForm";
 import ContentForm from "@/Components/ServiceForms/ContentForm";
 import { updateService } from "@/Utils/FetchService";
+import Button from "@/Components/FormUtils/Button";
+import Label from "@/Components/FormUtils/Label";
+import { TipoDeServiciosEnum } from "@/Constants/TipoDeServiciosEnum";
+import { TipoDeUsuariosEnum } from "@/Constants/TipoDeUsuariosEnum";
 
 export default function Services(props) {
     const initialStateServicesAvailable = [
@@ -50,7 +54,7 @@ export default function Services(props) {
         <>
             <Authenticated {...props}>
                 <Container className="flex justify-center">
-                    <Card className="sm:w-3/5">
+                    <Card className="">
                         <h1 className="text-2xl font-bold text-center">
                             Crear Servicio
                         </h1>
@@ -83,9 +87,9 @@ export default function Services(props) {
                             {stateService ===
                                 EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA && (
                                 <AddressForm
-                                    title="Dirección de origen"
+                                    title="Dirección de Origen"
                                     api_token={props.api_token}
-                                    onSubmit={async (res) => {
+                                    onSubmit={async (res, exit) => {
                                         const newServiceDTO = {
                                             ...serviceDTO.service,
                                             address: res.id,
@@ -95,9 +99,41 @@ export default function Services(props) {
                                             ...serviceDTO,
                                             service: newServiceDTO,
                                         });
-                                        setStateService(
-                                            EstadoServiciosEnum.SERVICIO_MENSAJERIA
-                                        );
+                                        if (exit) {
+                                            window.history.back();
+                                            return;
+                                        }
+                                        if (
+                                            (props.auth.user.id_t_user ===
+                                                TipoDeUsuariosEnum.ADMIN &&
+                                                serviceDTO.service
+                                                    .id_type_service ===
+                                                    TipoDeServiciosEnum.LOGISTICA_DE_MENSJERIA) ||
+                                            serviceDTO.service
+                                                .id_type_service ===
+                                                TipoDeServiciosEnum.GESTION_DOCUMENTAL
+                                        ) {
+                                            setStateService(
+                                                EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS
+                                            );
+                                            return;
+                                        }
+                                        if (
+                                            serviceDTO.service
+                                                .id_type_service ===
+                                                TipoDeServiciosEnum.LOGISTICA_DE_MENSJERIA ||
+                                            serviceDTO.service
+                                                .id_type_service ===
+                                                TipoDeServiciosEnum.GESTION_DOCUMENTAL
+                                        ) {
+                                            setStateService(
+                                                EstadoServiciosEnum.SERVICIO_CON_TAREAS
+                                            );
+                                        } else {
+                                            setStateService(
+                                                EstadoServiciosEnum.SERVICIO_MENSAJERIA
+                                            );
+                                        }
                                     }}
                                 />
                             )}
@@ -125,6 +161,9 @@ export default function Services(props) {
                                     user={props.auth.user}
                                 />
                             )}
+                            <Label className={"text-right"}>
+                                Llene los espacios obligatorios con marca *
+                            </Label>
                         </ServiceContext.Provider>
                     </Card>
                 </Container>
