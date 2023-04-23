@@ -28,13 +28,13 @@ class TaskController extends Controller
 
             $request->validate([
                 'name' => 'required|string|max:50',
-                'entity' => 'required|string|max:50',
-                'dependency' => 'required|string|max:255',
+                'entity' => 'string|max:50',
+                'dependency' => 'string|max:255',
                 'id_state' => 'required|Exists:state_tasks,id',
                 'id_address' => 'Exists:addresses,id',
                 'id_service' => 'required|Exists:services,id',
                 'desc' => 'string|max:255',
-                'responsible' => 'required|Exists:users,id',
+                'responsible' => 'Exists:users,id',
                 'limit_date' => 'required|date',
                 'last_state_date' => 'required|date',
             ]);

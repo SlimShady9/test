@@ -239,7 +239,7 @@ function TaskForm({
                 <form className="gap-4" onSubmit={submitForm}>
                     <div className="flex md:flex-row flex-col gap-4 my-3">
                         <div className="md:w-1/2 w-full">
-                            <Label>Nombre Destinatario</Label>
+                            <Label>Nombre Destinatario *</Label>
                             <Input
                                 name="name"
                                 max={50}
@@ -255,7 +255,6 @@ function TaskForm({
                                 name="entity"
                                 handleChange={onChange}
                                 defaultValue={currentTask.entity}
-                                required={true}
                                 maxLength={50}
                             />
                         </div>
@@ -302,7 +301,7 @@ function TaskForm({
                     </div>
                     <div className="flex md:flex-row flex-col gap-4 my-3">
                         <div className="md:w-1/2 w-full">
-                            <Label className="col-span-2">Fecha Límite</Label>
+                            <Label className="col-span-2">Fecha Límite *</Label>
                             <Input
                                 name="dateLimit"
                                 type="date"
@@ -311,7 +310,7 @@ function TaskForm({
                             />
                         </div>
                         <div className="md:w-1/2 w-full">
-                            <Label className="col-span-2">Fecha Límite</Label>
+                            <Label className="col-span-2">Hora Límite *</Label>
                             <Input
                                 name="hourLimit"
                                 type="time"
@@ -363,7 +362,6 @@ function TaskForm({
                             onChange={onChange}
                             value={currentTask.desc}
                             maxLength={255}
-                            required={true}
                         ></textarea>
                     </div>
                     <div className="flex flex-col w-full gap-4">
@@ -389,7 +387,7 @@ function TaskForm({
                 <div className="flex flex-col w-full gap-4">
                     <div className="flex gap-4 my-5 mx-auto">
                         <Button className="" onClick={finalizar}>
-                            Guardar y salir
+                            Finalizar
                         </Button>
                     </div>
                 </div>

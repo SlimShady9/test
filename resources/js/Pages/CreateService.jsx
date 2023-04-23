@@ -15,6 +15,7 @@ import { updateService } from "@/Utils/FetchService";
 import Button from "@/Components/FormUtils/Button";
 import Label from "@/Components/FormUtils/Label";
 import { TipoDeServiciosEnum } from "@/Constants/TipoDeServiciosEnum";
+import { TipoDeUsuariosEnum } from "@/Constants/TipoDeUsuariosEnum";
 
 export default function Services(props) {
     const initialStateServicesAvailable = [
@@ -103,16 +104,32 @@ export default function Services(props) {
                                             return;
                                         }
                                         if (
-                                            serviceDTO.service.id_type_service ===
-                                                TipoDeServiciosEnum.LOGISTICA_DE_MENSJERIA ||
-                                                serviceDTO.service.id_type_service ===
+                                            (props.auth.user.id_t_user ===
+                                                TipoDeUsuariosEnum.ADMIN &&
+                                                serviceDTO.service
+                                                    .id_type_service ===
+                                                    TipoDeServiciosEnum.LOGISTICA_DE_MENSJERIA) ||
+                                            serviceDTO.service
+                                                .id_type_service ===
                                                 TipoDeServiciosEnum.GESTION_DOCUMENTAL
                                         ) {
                                             setStateService(
                                                 EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS
                                             );
+                                            return;
+                                        }
+                                        if (
+                                            serviceDTO.service
+                                                .id_type_service ===
+                                                TipoDeServiciosEnum.LOGISTICA_DE_MENSJERIA ||
+                                            serviceDTO.service
+                                                .id_type_service ===
+                                                TipoDeServiciosEnum.GESTION_DOCUMENTAL
+                                        ) {
+                                            setStateService(
+                                                EstadoServiciosEnum.SERVICIO_CON_TAREAS
+                                            );
                                         } else {
-
                                             setStateService(
                                                 EstadoServiciosEnum.SERVICIO_MENSAJERIA
                                             );

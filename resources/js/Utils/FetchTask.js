@@ -1,8 +1,14 @@
 import axios from "axios";
 
 const storeTask = async (task) => {
+    const newTask = {};
+    for (var key in task) {
+        if (task[key] != null && task[key] != "") {
+            newTask[key] = task[key];
+        }
+    }
     try {
-        const req = await axios.post("/api/task", task);
+        const req = await axios.post("/api/task", newTask);
         return { data: req.data, error: null };
     } catch (error) {
         return { data: null, error };
@@ -29,7 +35,13 @@ const getTask = async (serviceId) => {
 
 const updateTask = async (task) => {
     try {
-        const req = await axios.put(`/api/task/${task.id}`, task);
+        const newTask = {};
+        for (var key in task) {
+            if (task[key] != null && task[key] != "") {
+                newTask[key] = task[key];
+            }
+        }
+        const req = await axios.put(`/api/task/${task.id}`, newTask);
         return [await req.data, null];
     } catch (error) {
         return [null, error];

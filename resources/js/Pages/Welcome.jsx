@@ -12,10 +12,7 @@ import camion from "../../imgs/camion.png";
 import mundo from "../../imgs/mundo.png";
 import documento from "../../imgs/document.png";
 
-import env472 from "../../imgs/472.png";
-import dhl from "../../imgs/DHL.png";
-import interrapidisimo from "../../imgs/Inter-Rapidisimo.png";
-import servientrega from "../../imgs/servientrega.png";
+
 
 import arrows from "../../icons/arrows.png";
 import bluedocument from "../../icons/bluedocument.png";
@@ -48,7 +45,7 @@ export default function Welcome(props) {
                 className="fixed w-full inset-y-3/4 sm:inset-y-2/4 -z-10 scale-125 opacity-50"
                 src={transportes}
             />
-            <div className="w-full m-5">
+            <div className="m-5">
                 <img className="mx-auto" src={nombre} />
             </div>
             <div className="my-10">
@@ -307,80 +304,38 @@ export default function Welcome(props) {
                     </div>
                 </Card>
             </div>
-            <Container className={"mx-auto grid grid-cols-2 sm:grid-cols-4 gap-16"}>
-                <Container
-                    className={
-                        "flex lg:m-10 lg:w-28 lg:h-28 sm:w-20 sm:h-20 shadow-xl overflow-hidden shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
-                    }
-                >
-                    <img
-                        className="sm:scale-150 scale-125 hover:scale-150 ease-in duration-200"
-                        src={env472}
-                    />
-                </Container>
-                <Container
-                    className={
-                        "flex lg:m-10 lg:w-28 lg:h-28 sm:w-20 sm:h-20 shadow-xl overflow-hidden shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
-                    }
-                >
-                    <img
-                        className="sm:scale-150 scale-125 hover:scale-150 ease-in duration-200"
-                        src={dhl}
-                    />
-                </Container>
-                <Container
-                    className={
-                        "flex lg:m-10 lg:w-28 lg:h-28 sm:w-20 sm:h-20 shadow-xl overflow-hidden shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
-                    }
-                >
-                    <img
-                        className="sm:scale-150 scale-125 hover:scale-150 ease-in duration-200"
-                        src={interrapidisimo}
-                    />
-                </Container>
-                <Container
-                    className={
-                        "flex lg:m-10 lg:w-28 lg:h-28 sm:w-20 sm:h-20 shadow-xl overflow-hidden shadow-gray-dark bg-gradient-to-t from-gray-servi to-gray-dark rounded-full hover:opacity-30"
-                    }
-                >
-                    <img
-                        className="sm:scale-150 scale-125 hover:scale-150 ease-in duration-200"
-                        src={servientrega}
-                    />
-                </Container>
-            </Container>
             <div className="grid gap-4">
             <div 
             id = "project"
-            className="rounded-xl mx-auto w-11/12 grid grid-cols-1 bg-blue-clear">
-                <Label className={"m-auto sm:ml-20 my-5 text-5xl text-white"}>
+            className="rounded-xl mx-auto w-11/12 grid grid-cols-1 bg-gradient-to-br from-blue-clear to-blue-light my-4 pb-8">
+                <h1 className={"m-auto sm:ml-20 my-5 text-3xl text-white font-extrabold"}>
                     Proyecto
-                </Label>
+                </h1>
                 <div className="mx-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex text-white">
-                        <img className={"w-10 h-10 m-auto"} src={bluedocument}/>
+                        <img className={"w-10 h-10 m-auto mx-3"} src={bluedocument}/>
                         <div className="m-2">Centralice su operación de correspondencia y mensajería en una sola solución inmediata.</div>
                     </div>
-                    <div className="flex text-white">
-                        <img className={"w-10 h-10 m-auto"} src={user}/>
+                    <div className="flex text-white ">
+                        <img className={"w-10 h-10 m-auto mx-3"} src={user}/>
                         <div className="m-2">Contará con apoyo y comunicación de un comercial en toda la ruta del servicio.</div>
                     </div>
                     <div className="flex text-white">
-                        <img className={"w-10 h-10 m-auto"} src={arrows}/>
+                        <img className={"w-10 h-10 m-auto mx-3"} src={arrows}/>
                         <div className="m-2">Constante comunicación y control de sus requerimientos, puede utilizar todas las modalidades de servicio en una sola solicitud de servicio.</div>
                     </div>
                     <div className="flex text-white">
-                        <img className={"w-10 h-10 m-auto"} src={dolar}/>
-                        <div className="m-2">Minimice costos en empaque, embalaje, inventario, seguimiento de sus paquetes y/o trámites.</div>
+                        <img className={"w-10 h-10 m-auto mx-3"} src={dolar}/>
+                        <div className="m-2 grid self-center">Minimice costos en empaque, embalaje, inventario, seguimiento de sus paquetes y/o trámites.</div>
                     </div>
                 </div>
             </div>
             <div 
             id = "contact"
-            className="rounded-xl mx-auto w-11/12 grid grid-cols-1 bg-blue-clearer">
-                <Label className={"m-auto sm:ml-20 my-5 text-5xl text-white"}>
+            className="rounded-xl mx-auto w-11/12 grid grid-cols-1 bg-gradient-to-br from-blue-clear to-blue-light px">
+                <h1 className={"m-auto sm:ml-20 my-5 text-3xl text-white"}>
                     Contacto
-                </Label>
+                </h1>
                 <div className="m-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="flex text-white">
                         <div className="m-auto sm:ml-5 text-3xl">+57 300 5981817</div>
@@ -403,9 +358,6 @@ export default function Welcome(props) {
             </div>
             </div>
             </div>
-            {props.hasFooter && (
-                <Footer className="mt-4" />
-            )}
             </div>
             </>
     );
