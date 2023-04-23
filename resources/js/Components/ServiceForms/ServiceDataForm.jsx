@@ -19,6 +19,7 @@ import {
 import moment from "moment";
 import { toast } from "react-toastify";
 import { uploadFile, deleteFile as dFile } from "@/Utils/FetchFile";
+import { TipoDeUsuariosEnum } from "@/Constants/TipoDeUsuariosEnum";
 
 function ServiceDataForm({
     currentStep,
@@ -128,6 +129,15 @@ function ServiceDataForm({
     };
 
     const finalizeServiceForm = () => {
+        if (typeUser === TipoDeUsuariosEnum.CLIENTE_JURIDICO || typeUser === TipoDeUsuariosEnum.CLIENTE_NATURAL || typeUser === TipoDeUsuariosEnum.COURIER) {
+            setServicesAvailable((prev) => {
+                prev.splice(
+                    prev.indexOf(EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS),
+                    1
+                );
+                return prev;
+            });
+        }
         if (
             serviceForm.id_type_service ===
                 TipoDeServiciosEnum.LOGISTICA_DE_MENSJERIA ||
@@ -149,6 +159,7 @@ function ServiceDataForm({
                 );
                 return prev;
             });
+            
         }
         setNextStep(EstadoServiciosEnum.SERVICIO_DIRECCION_CONFIRMADA);
     };

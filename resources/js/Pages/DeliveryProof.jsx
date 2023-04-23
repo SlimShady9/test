@@ -32,6 +32,7 @@ import {
 import ReactLoading from "react-loading";
 import React from "react";
 import { Link } from "@inertiajs/inertia-react";
+import { TipoDeUsuariosEnum } from "@/Constants/TipoDeUsuariosEnum";
 
 export default function DeliveryProof(props) {
     const componentRef = useRef();
@@ -402,6 +403,14 @@ export default function DeliveryProof(props) {
                                         </ul>
                                         <div className="col-span-4 sm:col-span-1 flex ">
                                             <Button
+                                                processing={
+                                                    props.auth.user
+                                                        .id_t_user ===
+                                                        TipoDeUsuariosEnum.CLIENTE_JURIDICO ||
+                                                    props.auth.user
+                                                        .id_t_user ===
+                                                        TipoDeUsuariosEnum.CLIENTE_NATURAL
+                                                }
                                                 type="button"
                                                 onClick={() =>
                                                     nextTaskState(task, index)
