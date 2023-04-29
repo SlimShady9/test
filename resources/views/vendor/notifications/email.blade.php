@@ -2,7 +2,7 @@
 
 <header class="header">
     <img src="http://3.12.36.98/build/assets/logo.3591af50.png"
-        alt="Servicourrier"
+        alt="Servicurrier"
         style="width:100px;height=100px;">
 </header>
 
