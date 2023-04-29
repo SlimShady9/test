@@ -45,7 +45,7 @@ class PQRSNotification extends Notification
     {
         return (new MailMessage)
                     ->greeting('Administración')
-                    ->subject('Se ha recibido un PQRS - Servicourrier')
+                    ->subject('Se ha recibido un PQRS - Servicurrier')
                     ->line('El usuario ' . $this->data['usuario'] . ' ha dejado un comentario.')
                     ->line('El servicio con id '. $this->data['idServicio'] . ':')
                     ->line($this->data['comentario'])

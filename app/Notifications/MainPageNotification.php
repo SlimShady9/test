@@ -44,7 +44,7 @@ class MainPageNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject('Se ha recibido un PQRS - Servicourrier')
+                    ->subject('Se ha recibido un PQRS - Servicurrier')
                     ->greeting('Administración')
                     ->line('Se ha solicitado una petición desde la página principal:')
                     ->line('Contacto: '.$this->data['contacto'])
