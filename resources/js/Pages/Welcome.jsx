@@ -12,8 +12,6 @@ import camion from "../../imgs/camion.png";
 import mundo from "../../imgs/mundo.png";
 import documento from "../../imgs/document.png";
 
-
-
 import arrows from "../../icons/arrows.png";
 import bluedocument from "../../icons/bluedocument.png";
 import dolar from "../../icons/dolar.png";
@@ -111,9 +109,6 @@ export default function Welcome(props) {
                                 </li>
                                 <li className="text-sm">
                                     Notificaciones con copia cotejo
-                                </li>
-                                <li className="text-sm">
-                                    Servicio Mensajero ServiHoy
                                 </li>
                                 <li className="text-sm">
                                     Servicio Mensajero ServiHoy
@@ -286,11 +281,10 @@ export default function Welcome(props) {
                         </div>
                         {documental && (
                             <div className="animate-fade-in-modal">
-                                <li className="text-sm mt-3">Almacenamiento seguro de documentos</li>
-                                <li className="text-sm">Automatización de procesos</li>
-                                <li className="text-sm">Control de versiones</li>
-                                <li className="text-sm">Colaboración en tiempo real</li>
-                                <li className="text-sm">Seguridad y cumplimiento normativo</li>
+                                <li className="text-sm mt-3">Apoyo en Procesos de Gestión Documental (digitalización y destrucción de archivo)</li>
+                                <li className="text-sm">Implementación PGD</li>
+                                <li className="text-sm">Implementación SGDEA</li>
+                                <li className="text-sm">In House en gestión documental</li>
                                 <div className="mt-8 flex">
                                     <a
                                     className="grid m-auto text-center text-blue-dark underline"

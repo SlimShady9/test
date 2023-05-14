@@ -73,6 +73,20 @@ class UserSeeder extends Seeder
         ]);
         User::create([
             'name' => 'Admin',
+            'email' => 'skipperfox025@gmail.com',
+            'password' => bcrypt('Ronditas11'),
+            'email_verified_at' => now(),
+            'id_t_user' => 1,
+            'id_t_doc' => 1,
+            'username' => 'admin',
+            'surname' => 'admin',
+            'doc' => '1019152187',
+            'phone' => '3178874957',
+            'cellphone' => '3178874957',
+        ]);
+
+        User::create([
+            'name' => 'Admin',
             'email' => 'slim.shady99q@gmail.com',
             'password' => bcrypt('Plumitas122302'),
             'email_verified_at' => now(),
