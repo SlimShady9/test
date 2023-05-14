@@ -170,6 +170,20 @@ export default function Register() {
                     <div className="flex flex-col gap-4 md:flex-row">
                         <div className="md:w-1/2">
                             <Label
+                                forInput="id_t_doc"
+                                value="Tipo de Documento"
+                            />
+                            <SelectInput
+                                name="id_t_doc"
+                                options={optionsTD}
+                                className="mt-1 block w-full"
+                                autoComplete="id_t_doc"
+                                onChange={(e) => onHandleChange(e, "id_t_doc")}
+                                required
+                            ></SelectInput>
+                        </div>
+                        <div className="md:w-1/2">
+                            <Label
                                 forInput="doc"
                                 value="Documento de Identidad"
                             />
@@ -185,20 +199,6 @@ export default function Register() {
                                 minLength={4}
                                 maxLength={30}
                             />
-                        </div>
-                        <div className="md:w-1/2">
-                            <Label
-                                forInput="id_t_doc"
-                                value="Tipo de Documento"
-                            />
-                            <SelectInput
-                                name="id_t_doc"
-                                options={optionsTD}
-                                className="mt-1 block w-full"
-                                autoComplete="id_t_doc"
-                                onChange={(e) => onHandleChange(e, "id_t_doc")}
-                                required
-                            ></SelectInput>
                         </div>
                     </div>
 
@@ -219,7 +219,7 @@ export default function Register() {
                         <div className="md:w-1/2">
                             <Label
                                 forInput="password_confirmation"
-                                value="Confirmar Constraseña"
+                                value="Confirmar Contraseña"
                             />
                             <Input
                                 type="password"

@@ -34,7 +34,7 @@ class TaskController extends Controller
                 'id_address' => 'Exists:addresses,id',
                 'id_service' => 'required|Exists:services,id',
                 'desc' => 'string|max:255',
-                'responsible' => 'Exists:users,id',
+                //'responsible' => 'Exists:users,id',
                 'limit_date' => 'required|date',
                 'last_state_date' => 'required|date',
             ]);
@@ -42,7 +42,6 @@ class TaskController extends Controller
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json(['error' => $e->getMessage()], 403);
         }
-        
         $newTask = Task::create([
             'name' => $request->name,
             'entity' => $request->entity,
@@ -51,7 +50,7 @@ class TaskController extends Controller
             'id_address' => $request->id_address,
             'id_service' =>  $request->id_service,
             'desc' => $request->desc,
-            'responsible' => $request->responsible,
+            'responsible' => $request->responsible == -1 ? null : $request->responsible,
             'limit_date' => $request->limit_date,
             'last_state_date' => $request->last_state_date,
         ]);
@@ -71,7 +70,7 @@ class TaskController extends Controller
                 //'id_address' => 'Exists:addresses,id',
                 'id_service' => 'Exists:services,id',
                 'desc' => 'string|max:255',
-                'responsible' => 'Exists:users,id',
+                //'responsible' => 'Exists:users,id',
                 'limit_date' => 'date',
                 'last_state_date' => 'date',
             ]);
@@ -91,7 +90,9 @@ class TaskController extends Controller
         $Task->id_service = $request->id_service;
         $Task->desc = $request->desc;
         $Task->id_address = $request->id_address;
-        $Task->responsible = $request->responsible; 
+        if ($request->responsible != null && $request->responsible != -1) {
+            $Task->responsible = $request->responsible;
+        }
         $Task->limit_date = $request->limit_date;
         $Task->last_state_date = $request->last_state_date;
         $Task->save();

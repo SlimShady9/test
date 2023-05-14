@@ -20,11 +20,10 @@ class EmailController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function emailPqrs(Request  $request = null)
+    public function emailPqrs(Request  $request)
     {
         $notifiable = new AnonymousNotifiable;
-        $idServicio = Service::find(request()->servicio)->pluck('tracking_id');
-
+        $idServicio = Service::where('id',$request->servicio)->first()->tracking_id;
         
         $data = [
             'comentario' => request()->comentario,
