@@ -185,14 +185,14 @@ function EditService(props) {
                                                 window.history.back();
                                             }
                                             if (
-                                                (props.auth.user.id_t_user ===
+                                                props.auth.user.id_t_user ===
                                                     TipoDeUsuariosEnum.ADMIN &&
-                                                    serviceDTO.service
+                                                    (serviceDTO.service
                                                         .id_type_service ===
-                                                        TipoDeServiciosEnum.LOGISTICA_DE_MENSJERIA) ||
+                                                        TipoDeServiciosEnum.LOGISTICA_DE_MENSJERIA ||
                                                 serviceDTO.service
                                                     .id_type_service ===
-                                                    TipoDeServiciosEnum.GESTION_DOCUMENTAL
+                                                    TipoDeServiciosEnum.GESTION_DOCUMENTAL)
                                             ) {
                                                 setStateService(
                                                     EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS
