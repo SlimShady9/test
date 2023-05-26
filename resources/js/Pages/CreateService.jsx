@@ -103,6 +103,8 @@ export default function Services(props) {
                                             window.history.back();
                                             return;
                                         }
+                                        console.log(serviceDTO.service.id_type_service);
+                                        console.log(props.auth.user.id_t_user);
                                         if (
                                             (props.auth.user.id_t_user ===
                                                 TipoDeUsuariosEnum.ADMIN &&
@@ -113,11 +115,13 @@ export default function Services(props) {
                                                 .id_type_service ===
                                                 TipoDeServiciosEnum.GESTION_DOCUMENTAL
                                         ) {
+                                            console.log("Entre aqui! admin");
                                             setStateService(
                                                 EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS
                                             );
                                             return;
                                         }
+                                        console.log("Else!");
                                         if (
                                             serviceDTO.service
                                                 .id_type_service ===
@@ -126,10 +130,12 @@ export default function Services(props) {
                                                 .id_type_service ===
                                                 TipoDeServiciosEnum.GESTION_DOCUMENTAL
                                         ) {
+                                            console.log("Entre aqui!");
                                             setStateService(
                                                 EstadoServiciosEnum.SERVICIO_CON_TAREAS
                                             );
                                         } else {
+                                            console.log("Else!");
                                             setStateService(
                                                 EstadoServiciosEnum.SERVICIO_MENSAJERIA
                                             );
