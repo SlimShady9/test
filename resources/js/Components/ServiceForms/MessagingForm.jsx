@@ -14,6 +14,7 @@ import {
     TransportadoraEnum,
     toStringTransportadorasEnum,
 } from "@/Constants/TransportadorEnum";
+import { TipoDeUsuariosEnum } from "@/Constants/TipoDeUsuariosEnum";
 
 function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
     const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
@@ -41,7 +42,7 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
                 window.location.href = "/services";
                 return;
             }
-            if (user.id_t_user == 1) {
+            if (user.id_t_user == TipoDeUsuariosEnum.ADMIN) {
                 setNextStep(EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS);
             } else {
                 setNextStep(EstadoServiciosEnum.SERVICIO_CON_CONTENIDO);
@@ -61,7 +62,7 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
                     window.location.href = "/services";
                     return;
                 }
-                if (user.id_t_user == 1) {
+                if (user.id_t_user == TipoDeUsuariosEnum.ADMIN) {
                     setNextStep(
                         EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS
                     );
