@@ -21,7 +21,7 @@ const updateUsers = async (user) => {
 };
 
 const loadImageUser = (user) => {
-    return "api/user/" + user + "/profileimg";
+    return "/api/user/" + user + "/profileimg";
 };
 
 const inactivateUser = async (user) => {

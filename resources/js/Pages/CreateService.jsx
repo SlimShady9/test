@@ -106,14 +106,14 @@ export default function Services(props) {
                                         console.log(serviceDTO.service.id_type_service);
                                         console.log(props.auth.user.id_t_user);
                                         if (
-                                            (props.auth.user.id_t_user ===
+                                            props.auth.user.id_t_user ===
                                                 TipoDeUsuariosEnum.ADMIN &&
-                                                serviceDTO.service
+                                                (serviceDTO.service
                                                     .id_type_service ===
-                                                    TipoDeServiciosEnum.LOGISTICA_DE_MENSJERIA) ||
+                                                    TipoDeServiciosEnum.LOGISTICA_DE_MENSJERIA ||
                                             serviceDTO.service
                                                 .id_type_service ===
-                                                TipoDeServiciosEnum.GESTION_DOCUMENTAL
+                                                TipoDeServiciosEnum.GESTION_DOCUMENTAL)
                                         ) {
                                             console.log("Entre aqui! admin");
                                             setStateService(
