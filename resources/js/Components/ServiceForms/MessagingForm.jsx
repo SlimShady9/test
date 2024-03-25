@@ -43,13 +43,12 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit, isBigForm = fal
             }
             if (user.id_t_user == TipoDeUsuariosEnum.ADMIN) {
                 setNextStep(EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS);
-            } else {
+            } else{
                 setNextStep(EstadoServiciosEnum.SERVICIO_CON_CONTENIDO);
             }
         } else {
-            storeMessaging({
-                ...messaging,
-            }).then((res) => {
+            const messagingForm = {...messaging,id_service:serviceDTO.service.id }
+            storeMessaging(messagingForm).then((res) => {
                 if (res.error) {
                     toast.error(res.error);
                     return;
@@ -65,7 +64,7 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit, isBigForm = fal
                     setNextStep(
                         EstadoServiciosEnum.SERVICIO_USUARIOS_ASIGNADOS
                     );
-                } else {
+                } else{
                     setNextStep(EstadoServiciosEnum.SERVICIO_CON_CONTENIDO);
                 }
             });
@@ -73,7 +72,6 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit, isBigForm = fal
     };
     const [showDetail, setShowDetail] = useState(true);
     const [exit, setExit] = useState(false);
-
     const [messaging, setMessaging] = useState({
         name: serviceDTO.messaging.name,
         id_user: serviceDTO.messaging.id_user

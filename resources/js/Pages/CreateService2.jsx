@@ -9,10 +9,14 @@ import UsersForm from "@/Components/ServiceForms/UsersForm";
 import ContentForm from "@/Components/ServiceForms/ContentForm";
 import TaskForm from "@/Components/ServiceForms/TaskForm";
 import { TipoDeServiciosEnum } from "@/Constants/TipoDeServiciosEnum";
+import { updateService } from "@/Utils/FetchService";
 
 function CreateService2(props) {
 
     const isBigForm = true;
+
+    const setNextStep = (id) => {};
+
 
 
     const [showMensajeria, setShowMensajeria] = useState(true);
@@ -43,12 +47,24 @@ function CreateService2(props) {
             <div className="h-full grid place-items-center">
                 <Card>
                     <ServiceContext.Provider value={{ serviceDTO, setServiceDTO }}>
-                        <ServiceDataForm isBigForm={isBigForm}></ServiceDataForm>
-                        {showMensajeria && <MessagingForm isBigForm={isBigForm} user={props.auth.user}></MessagingForm>}
-                        <AddressForm isBigForm={isBigForm}></AddressForm>
-                        <UsersForm ></UsersForm>
-                        {showConContenido && <ContentForm></ContentForm>}
-                        <TaskForm user={props.auth.user}></TaskForm>
+                        <ServiceDataForm isBigForm={isBigForm} setNextStep={setNextStep}></ServiceDataForm>
+                        {showMensajeria && <MessagingForm isBigForm={isBigForm} user={props.auth.user} setNextStep={setNextStep}></MessagingForm>}
+                        <AddressForm isBigForm={isBigForm} api_token={props.api_token}
+                        onSubmit={async (res, exit) => {
+                            const newServiceDTO = {
+                                ...serviceDTO.service,
+                                address: res.id,
+                            };
+                            updateService(newServiceDTO);
+                            setServiceDTO({
+                                ...serviceDTO,
+                                service: newServiceDTO,
+                            });
+                        }}
+                        ></AddressForm>
+                        <UsersForm setNextStep={setNextStep} ></UsersForm>
+                        {showConContenido && <ContentForm setNextStep={setNextStep}></ContentForm>}
+                        <TaskForm user={props.auth.user} setNextStep={setNextStep}></TaskForm>
                     </ServiceContext.Provider>
                 </Card>
             </div>
