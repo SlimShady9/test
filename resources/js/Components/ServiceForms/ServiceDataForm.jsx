@@ -28,6 +28,7 @@ function ServiceDataForm({
     isEdit = false,
     typeUser,
     idUser,
+    isBigForm = false
 }) {
     const id = EstadoServiciosEnum.SERVICIO_INCIADO;
 
@@ -122,6 +123,16 @@ function ServiceDataForm({
     };
 
     const handleChange = (event) => {
+        if (isBigForm) {
+            setServiceDTO((prev) => (
+                {...prev,
+                    service: {
+                    ...serviceForm,
+                    [event.target.name]: event.target.value,
+                }
+            }
+            ));
+        }
         setServiceForm({
             ...serviceForm,
             [event.target.name]: event.target.value,
@@ -252,13 +263,11 @@ function ServiceDataForm({
         }
     };
 
-    if (currentStep !== id) {
+    if (currentStep !== id && !isBigForm) {
         return <></>;
     }
     return (
         <>
-            {serviceForm != undefined && currentStep === id && (
-                <>
                     <Head title="Datos del servicio" />
                     <h1 className="text-xl font-bold text-left mb-3">
                         Datos iniciales
@@ -446,8 +455,6 @@ function ServiceDataForm({
                         </div>
                     </form>
                 </>
-            )}
-        </>
     );
 }
 

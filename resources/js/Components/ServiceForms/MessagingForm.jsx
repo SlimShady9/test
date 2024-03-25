@@ -16,9 +16,8 @@ import {
 } from "@/Constants/TransportadorEnum";
 import { TipoDeUsuariosEnum } from "@/Constants/TipoDeUsuariosEnum";
 
-function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
+function MessagingForm({ currentStep, setNextStep, user, isEdit, isBigForm = false }) {
     const { serviceDTO, setServiceDTO } = useContext(ServiceContext);
-    console.log(serviceDTO);
     const transportadorasSelect = Object.keys(TransportadoraEnum).map(
         (key) => ({
             label: toStringTransportadorasEnum(TransportadoraEnum[key]),
@@ -108,7 +107,7 @@ function MessagingForm({ currentStep, setNextStep, user, isEdit }) {
         setMessaging({ ...messaging, [e.target.name]: e.target.value });
     };
 
-    if (currentStep !== id) {
+    if (currentStep !== id && !isBigForm) {
         return <></>;
     }
     return (

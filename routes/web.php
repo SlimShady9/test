@@ -59,6 +59,13 @@ Route::get('/createService', function () {
     ]);
 })->middleware(['auth', 'verified'])->name('createService');
 
+
+Route::get('/createService2', function () {
+    return Inertia::render('CreateService2', [
+    'api_token' => env('API_KEY_GEO'),
+    ]);
+})->middleware(['auth', 'verified'])->name('createService2');
+
 Route::get('/deliveryProof/{id}', function ($id) {
     return Inertia::render('DeliveryProof', [
         'serviceId' => $id,

@@ -121,7 +121,6 @@ export default function Services(props) {
                                             );
                                             return;
                                         }
-                                        console.log("Else!");
                                         if (
                                             serviceDTO.service
                                                 .id_type_service ===
